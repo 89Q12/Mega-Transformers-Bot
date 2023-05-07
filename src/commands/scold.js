@@ -1,6 +1,6 @@
 const scold = require('../data/scoldImages.json');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (!msg.mentions.users.size) {
 		return msg.channel.send('Who do you want me to scold?');
 	}

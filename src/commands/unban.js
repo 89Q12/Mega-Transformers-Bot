@@ -8,7 +8,7 @@ let EmbedCmdResponse = require('../lib/EmbedCmdResponse');
 
 const {GuildMember, MessageMentions} = require('discord.js');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	args = args.join(' ');
 
 	let reason = '',

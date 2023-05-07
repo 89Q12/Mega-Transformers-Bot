@@ -1,19 +1,19 @@
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (args.length === 0)
 		return msg.channel.send(':negative_squared_cross_mark: Not enough arguments.');
 
-	if (!yuno.UTIL.checkIfUrl(args[0]))
+	if (!BOT.UTIL.checkIfUrl(args[0]))
 		return msg.channel.send(':negative_squared_cross_mark: The first argument provided isn\'t a URL as required.');
     
 	let user = msg.member;
 
 	if (msg.mentions.users.size) {
 		let target = msg.mentions.users.first();
-		if (yuno.commandMan._isUserMaster(msg.author.id) || msg.member.roles.highest.comparePositionTo(msg.guild.members.get(target.id).roles.highest) > 0)
+		if (BOT.commandMan._isUserMaster(msg.author.id) || msg.member.roles.highest.comparePositionTo(msg.guild.members.get(target.id).roles.highest) > 0)
 			user = target;
 	}
 
-	let r = await yuno.dbCommands.setBanImage(yuno.database, msg.guild.id, user.id, args[0]);
+	let r = await BOT.dbCommands.setBanImage(BOT.database, msg.guild.id, user.id, args[0]);
 
 	if (r[0] === 'creating')
 		return msg.channel.send(':white_check_mark: Ban image set!');

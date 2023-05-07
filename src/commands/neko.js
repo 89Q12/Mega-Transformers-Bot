@@ -1,7 +1,7 @@
 const {MessageEmbed} = require('discord.js');
 const snekfetch = require('snekfetch');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	let url = 'https://nekos.life/api';
 
 	if (args[0] === 'lewd') {

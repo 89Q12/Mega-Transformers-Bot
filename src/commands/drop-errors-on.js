@@ -1,13 +1,13 @@
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (!msg.mentions.channels.size)
 		return msg.channel.send('Please mention a channel.');
 
-	yuno.config.set('errors.dropon', {
+	BOT.config.set('errors.dropon', {
 		'guild': msg.guild.id,
 		'channel': msg.mentions.channels.first().name
 	});
 
-	await yuno._refreshMod('bot-errors');
+	await BOT._refreshMod('bot-errors');
 };
 
 module.exports.about = {

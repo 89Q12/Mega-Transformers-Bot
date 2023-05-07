@@ -1,4 +1,4 @@
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (args.length === 0)
 		return msg.channel.send(':negative_squared_cross_mark: Not enough arguments.');
 
@@ -10,8 +10,8 @@ module.exports.run = async function(yuno, author, args, msg) {
 		return msg.channel.send(':negative_squared_cross_mark: Not a valid json object.\nRemember, they should have as key the level and as value the role id!');
 	}
 
-	await yuno.dbCommands.setLevelRoleMap(yuno.database, msg.guild.id, thing);
-	yuno._refreshMod('message-processors');
+	await BOT.dbCommands.setLevelRoleMap(BOT.database, msg.guild.id, thing);
+	BOT._refreshMod('message-processors');
 	msg.channel.send('Updated!');
 };
 

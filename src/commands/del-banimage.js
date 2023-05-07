@@ -1,13 +1,13 @@
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	let user = msg.member;
 
 	if (msg.mentions.users.size) {
 		let target = msg.mentions.users.first();
-		if (yuno.commandMan._isUserMaster(msg.author.id) || msg.member.roles.highest.comparePositionTo(msg.guild.members.get(target.id).roles.highest) > 0)
+		if (BOT.commandMan._isUserMaster(msg.author.id) || msg.member.roles.highest.comparePositionTo(msg.guild.members.get(target.id).roles.highest) > 0)
 			user = target;
 	}
 
-	let r = await yuno.dbCommands.delBanImage(yuno.database, msg.guild.id, user.id);
+	let r = await BOT.dbCommands.delBanImage(BOT.database, msg.guild.id, user.id);
 
 	if (user.id === msg.author.id)
 		return msg.channel.send(':white_check_mark: Your ban image has been deleted!');

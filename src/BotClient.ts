@@ -21,7 +21,7 @@ import { MessageProcessorType } from './interfaces/messageProcessor';
 // Used for importing commands and events asyncly
 const globPromise = promisify(glob);
 
-export class Yuno extends Client implements ExtendedClient {
+export class BOT extends Client implements ExtendedClient {
 	// properties
 	public commands: Collection<string, CommandType>;
 	public slashCommands: Array<ApplicationCommandDataResolvable>;

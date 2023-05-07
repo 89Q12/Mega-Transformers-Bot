@@ -1,10 +1,10 @@
-import { Yuno } from './src/Yuno';
+import { BOT } from './src/BotClient';
 import * as DEFAULT_CONFIG from './DEFAULT_CONFIG.json';
 import { BotConfig } from './src/interfaces/Client';
 
 (async () => {
 	try {
-		console.log('Starting Yuno-Gasai-2');
+		console.log('Starting ');
 		// Creates a new Yuno instance, a guild ID must be passed
 		const instance = new Yuno();
 		await instance.start(DEFAULT_CONFIG as BotConfig);

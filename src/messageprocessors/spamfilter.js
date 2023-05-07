@@ -61,8 +61,8 @@ module.exports.message = async function(content, msg) {
 		msg.member = await msg.guild.members.fetch(msg.author);
 	}
 	// Obtain the member for the ClientUser if it doesn't already exist
-	if(msg.guild && !msg.guild.members.cache.has(Yuno.dC.user.id)) {
-		await msg.guild.members.fetch(Yuno.dC.user.id);
+	if(msg.guild && !msg.guild.members.cache.has(BOT.dC.user.id)) {
+		await msg.guild.members.fetch(BOT.dC.user.id);
 	}
 
 
@@ -93,19 +93,19 @@ module.exports.message = async function(content, msg) {
     
 };
 
-module.exports.discordConnected = async function(Yuno) {
-	spamfilt = await Yuno.dbCommands.getSpamFilterEnabled(Yuno.database);
+module.exports.discordConnected = async function(BOT) {
+	spamfilt = await BOT.dbCommands.getSpamFilterEnabled(BOT.database);
 
-	Object.values(customspamrules).forEach(el => typeof el.discordConnected === 'function' ? el.discordConnected(Yuno) : null);
+	Object.values(customspamrules).forEach(el => typeof el.discordConnected === 'function' ? el.discordConnected(BOT) : null);
 };
 
-module.exports.configLoaded = async function(Yuno, config) {
-	Object.values(customspamrules).forEach(el => typeof el.configLoaded === 'function' ? el.configLoaded(Yuno, config) : null);
+module.exports.configLoaded = async function(BOT, config) {
+	Object.values(customspamrules).forEach(el => typeof el.configLoaded === 'function' ? el.configLoaded(BOT, config) : null);
 
 	let spamWarnings = config.get('spam.max-warnings');
 
 	if (typeof spamWarnings === 'number')
 		maxWarnings = spamWarnings;
 	else
-		Yuno.prompt.warning('The value spam.max-warnings was expected to be a number, but it\'s a ' + typeof maxWarnings + '. Using default max-warnings value: ' + maxWarnings);
+		BOT.prompt.warning('The value spam.max-warnings was expected to be a number, but it\'s a ' + typeof maxWarnings + '. Using default max-warnings value: ' + maxWarnings);
 };

@@ -6,8 +6,8 @@ let getAvatarURL = function(user) {
 	return user.avatarURL ? user.avatarURL : user.defaultAvatarURL;
 };
 
-module.exports.run = async function(yuno, author, args, msg) {
-	await fetchWhereExpIsEnabled(yuno);
+module.exports.run = async function(BOT, author, args, msg) {
+	await fetchWhereExpIsEnabled(BOT);
 
     
 	// Obtain the member if we don't have it
@@ -15,8 +15,8 @@ module.exports.run = async function(yuno, author, args, msg) {
 		msg.member = await msg.guild.members.fetch(msg.author);
 	}
 	// Obtain the member for the ClientUser if it doesn't already exist
-	if(msg.guild && !msg.guild.members.cache.has(Yuno.dC.user.id)) {
-		await msg.guild.members.fetch(Yuno.dC.user.id);
+	if(msg.guild && !msg.guild.members.cache.has(BOT.dC.user.id)) {
+		await msg.guild.members.fetch(BOT.dC.user.id);
 	}
     
 	if (!whereExpIsEnabled.includes(msg.guild.id))
@@ -53,11 +53,11 @@ module.exports.run = async function(yuno, author, args, msg) {
 	if (user.id === msg.author.id && args.length > 0 && fromid)
 		return msg.channel.send(':negative_squared_cross_mark: Cannot find the asked user. He\'s maybe not on the server :thinking: ?');
 
-	let xpdata = await yuno.dbCommands.getXPData(yuno.database, msg.guild.id, user.id),
+	let xpdata = await BOT.dbCommands.getXPData(BOT.database, msg.guild.id, user.id),
 		neededExp = 5 * Math.pow(xpdata.level, 2) + 50 * xpdata.level + 100;
 
 	msg.channel.send(new MessageEmbed()
-		.setAuthor(user.displayName + '\'s experience card' , yuno.UTIL.getAvatarURL(user.user))
+		.setAuthor(user.displayName + '\'s experience card' , BOT.UTIL.getAvatarURL(user.user))
 		.setColor('#ff51ff')
 		.addField('Current level', xpdata.level, true)
 		.addField('Current exp', xpdata.xp, true)
@@ -65,11 +65,11 @@ module.exports.run = async function(yuno, author, args, msg) {
 };
 
 
-let fetchWhereExpIsEnabled = async function(yuno) {
+let fetchWhereExpIsEnabled = async function(BOT) {
 	if (whereExpIsEnabled.length > 0)
 		return;
 
-	whereExpIsEnabled = await yuno.dbCommands.getGuildsWhereExpIsEnabled(yuno.database);
+	whereExpIsEnabled = await BOT.dbCommands.getGuildsWhereExpIsEnabled(BOT.database);
 };
 
 

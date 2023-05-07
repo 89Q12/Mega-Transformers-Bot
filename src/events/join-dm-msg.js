@@ -1,5 +1,5 @@
 /*
-    Yuno Gasai. A Discord.JS based bot, with multiple features.
+    BOT Gasai. A Discord.JS based bot, with multiple features.
     Copyright (C) 2018 Maeeen <maeeennn@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -27,11 +27,11 @@ let DISCORD_EVENTED = false,
 
 module.exports.modulename = 'join-dm-msg';
 
-let discordConnected = async function(Yuno) {
-	DBCmds = Yuno.dbCommands,
-	discord = Yuno.dC;
-	jdmmsg = await DBCmds.getJoinDMMessages(Yuno.database),
-	jdmmsgt = await DBCmds.getJoinDMMessagesTitles(Yuno.database);
+let discordConnected = async function(BOT) {
+	DBCmds = BOT.dbCommands,
+	discord = BOT.dC;
+	jdmmsg = await DBCmds.getJoinDMMessages(BOT.database),
+	jdmmsgt = await DBCmds.getJoinDMMessagesTitles(BOT.database);
 
 	eventDiscord();
 };
@@ -69,11 +69,11 @@ let eventDiscord = function() {
 	});
 };
 
-module.exports.init = function(Yuno, hotReloaded) {
+module.exports.init = function(BOT, hotReloaded) {
 	if (hotReloaded)
-		discordConnected(Yuno);
+		discordConnected(BOT);
 	else
-		Yuno.on('discord-connected', discordConnected);
+		BOT.on('discord-connected', discordConnected);
 };
 
 module.exports.configLoaded = function() {};

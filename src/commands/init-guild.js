@@ -1,13 +1,13 @@
-module.exports.runTerminal = async function(yuno, args) {
+module.exports.runTerminal = async function(BOT, args) {
 	if (args.length === 0 || isNaN(parseInt(args[0])))
-		return yuno.prompt.error('Please give the id of the guild in argument.');
+		return BOT.prompt.error('Please give the id of the guild in argument.');
 
-	await yuno.dbCommands.initGuild(yuno.database, args[0]);
-	return yuno.prompt.info('Guild successfully inited.');
+	await BOT.dbCommands.initGuild(BOT.database, args[0]);
+	return BOT.prompt.info('Guild successfully inited.');
 };
 
-module.exports.run = async function(yuno, author, args, msg) {
-	await yuno.dbCommands.initGuild(yuno.database, msg.guild.id);
+module.exports.run = async function(BOT, author, args, msg) {
+	await BOT.dbCommands.initGuild(BOT.database, msg.guild.id);
 	msg.channel.send('Guild inited in the database.');
 };
 

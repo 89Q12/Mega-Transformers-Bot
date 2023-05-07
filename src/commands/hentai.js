@@ -16,7 +16,7 @@ const snekfetch = require('snekfetch');
 
 var bannedSearch = ['loli', 'gore', 'guro', 'scat', 'small_breast', 'vore', 'underage', 'shota'];
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (!msg.channel.nsfw) {
 		return msg.channel.send('I don\'t think I\'m allowed to post those here... Maybe try a NSFW marked channel?');
 	}

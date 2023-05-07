@@ -1,5 +1,5 @@
 /*
-    Yuno Gasai. A Discord.JS based bot, with multiple features.
+    BOT Gasai. A Discord.JS based bot, with multiple features.
     Copyright (C) 2018 Maeeen <maeeennn@gmail.com>
 
     This program is free software: you can redistribute it and/or modify

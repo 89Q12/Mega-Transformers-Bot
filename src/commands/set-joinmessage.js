@@ -1,6 +1,6 @@
 const {MessageEmbed} = require('discord.js');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (args.length === 0)
 		return msg.channel.send(':negative_squared_cross_mark: Not enough arguments.');
 
@@ -16,16 +16,16 @@ module.exports.run = async function(yuno, author, args, msg) {
 	}
 
 	if (typeof desc === 'string')
-		await yuno.dbCommands.setJoinDMMessage(yuno.database, guildid, desc);
+		await BOT.dbCommands.setJoinDMMessage(BOT.database, guildid, desc);
 	else
-		desc = await yuno.dbCommands.getJoinDMMessages(yuno.database)[guildid];
+		desc = await BOT.dbCommands.getJoinDMMessages(BOT.database)[guildid];
 
 	if (typeof title === 'string')
-		await yuno.dbCommands.setJoinDMMessageTitle(yuno.database, guildid, title);
+		await BOT.dbCommands.setJoinDMMessageTitle(BOT.database, guildid, title);
 	else
-		title = await yuno.dbCommands.getJoinDMMessagesTitles(yuno.database)[guildid];
+		title = await BOT.dbCommands.getJoinDMMessagesTitles(BOT.database)[guildid];
 
-	yuno._refreshMod('join-dm-msg');
+	BOT._refreshMod('join-dm-msg');
 
 	msg.channel.send(new MessageEmbed()
 		.setTitle(':white_check_mark:')

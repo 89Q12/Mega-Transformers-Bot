@@ -5,7 +5,7 @@ let workOnlyOnGuild = null,
 	dmMessage = null,
 
 	discClient,
-	Yuno,
+	BOT,
 
 	ONE_TIME_EVENT = false;
 
@@ -19,8 +19,8 @@ let msgEvent = (function(msg) {
 	if (!msg.guild) {
 		let command = msg.content.substring(defaultPrefix.length);
 
-		if (Yuno.commandMan.isDMCommand(command))
-			return Yuno.commandMan.executeDM(Yuno, msg.author, command, msg);
+		if (BOT.commandMan.isDMCommand(command))
+			return BOT.commandMan.executeDM(BOT, msg.author, command, msg);
 		else
 			return msg.reply((dmMessage !== null ? dmMessage : 'I\'m just a bot :\'(. I can\'t answer to you.') + '\nYou can also send !source(s) to get the sources of the bot.');
 	}
@@ -37,15 +37,15 @@ let msgEvent = (function(msg) {
 
 	if (msgCnt.indexOf(guildPrefix) === 0) {
 		let command = msgCnt.substring(guildPrefix.length);
-		Yuno.commandMan.execute(Yuno, msg.member, command, msg);
+		BOT.commandMan.execute(BOT, msg.member, command, msg);
 	}
 });
 
-let discordConnected = async function(yuno) {
-	discClient = yuno.dC;
-	Yuno = yuno;
+let discordConnected = async function(BOT) {
+	discClient = BOT.dC;
+	BOT = BOT;
 
-	prefixes = await Yuno.dbCommands.getPrefixes(Yuno.database);
+	prefixes = await BOT.dbCommands.getPrefixes(BOT.database);
 
 	// the workOnlyOnGuild future value (if the bot has joined the guild)
 	let workOnlyOnGuild_ = discClient.guilds.cache.get(workOnlyOnGuild);
@@ -59,14 +59,14 @@ let discordConnected = async function(yuno) {
 	ONE_TIME_EVENT = true;
 };
 
-module.exports.init = function(Yuno, hotReloaded) {
+module.exports.init = function(BOT, hotReloaded) {
 	if (hotReloaded)
-		discordConnected(Yuno);
+		discordConnected(BOT);
 	else
-		Yuno.on('discord-connected', discordConnected);
+		BOT.on('discord-connected', discordConnected);
 };
 
-module.exports.configLoaded = function(Yuno, config) {
+module.exports.configLoaded = function(BOT, config) {
 	let workOnlyOnGuild_ = config.get('debug.work-only-on-guild'),
 		defaultPrefix_ = config.get('commands.default-prefix'),
 		dmMessage_ = config.get('chat.dm');

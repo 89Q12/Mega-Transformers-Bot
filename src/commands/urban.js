@@ -1,7 +1,7 @@
 const {MessageEmbed} = require('discord.js');
 const urban = require('urban');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (!args[0]) {
 		return msg.channel.send(':negative_squared_cross_mark: Input a search term');
 	}

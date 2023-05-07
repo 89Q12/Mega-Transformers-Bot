@@ -1,5 +1,5 @@
 /*
-    Yuno Gasai. A Discord.JS based bot, with multiple features.
+    BOT Gasai. A Discord.JS based bot, with multiple features.
     Copyright (C) 2018 Maeeen <maeeennn@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ module.exports.modulename = 'invite-deletor';
 
 let DISCORD_EVENTED = false;
 
-let discordConnected = async function(Yuno) {
+let discordConnected = async function(BOT) {
 	if (!DISCORD_EVENTED)
-		Yuno.dC.on('guildMemberRemove', async function(member) {
+		BOT.dC.on('guildMemberRemove', async function(member) {
 			(await member.guild.fetchInvites()).filter(invite => {
 				if (!invite.inviter)
 					return [];
@@ -33,14 +33,14 @@ let discordConnected = async function(Yuno) {
 	DISCORD_EVENTED = true;
 };
 
-module.exports.init = function(Yuno, hotReloaded) {
+module.exports.init = function(BOT, hotReloaded) {
 	if (hotReloaded)
-		discordConnected(Yuno);
+		discordConnected(BOT);
 	else
-		Yuno.on('discord-connected', discordConnected);
+		BOT.on('discord-connected', discordConnected);
 };
 
-module.exports.configLoaded = async function(Yuno, config) {
+module.exports.configLoaded = async function(BOT, config) {
 	let presenceData_ = await config.get('discord.presence');
 
 	if (typeof presenceData_ === 'object')

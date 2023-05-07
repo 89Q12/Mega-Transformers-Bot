@@ -1,9 +1,9 @@
 const {MessageEmbed} = require('discord.js');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	let toSay = [];
 
-	(await yuno.dbCommands.getMentionResponses(yuno.database)).forEach(el => {
+	(await BOT.dbCommands.getMentionResponses(BOT.database)).forEach(el => {
 		if (el.guildId === msg.guild.id)
 			toSay.push('trigger: ' + el.trigger + ', response: ' + el.response + (el.image !== 'null' ? ', image: ' + el.image : ''));
 	});

@@ -2,8 +2,8 @@ const { ReactionCollector } = require('discord.js');
 const {MessageEmbed} = require('discord.js');
 const he = require('he');
 
-module.exports.run = async function(yuno, author, args, msg) {
-	let res = Yuno.animeClient.searchMangas(args.join(' '));
+module.exports.run = async function(BOT, author, args, msg) {
+	let res = BOT.animeClient.searchMangas(args.join(' '));
 
 	if (!res[0]) {
 		return msg.channel.send(`No manga result found for \`${args.join(' ')}\`. Did you perhaps mean the \`anime\` command?`);
@@ -24,7 +24,7 @@ module.exports.run = async function(yuno, author, args, msg) {
 				{ name: 'Volumes', value: item.episodes === 0 ? 'TBD' : item.volumes, inline: true },
 				{ name: 'Score', value: `${item.score}`, inline: true }
 			],
-			description: Yuno.Util.cleanSynopsis(he.decode(item.synopsis), item.id, 'manga'),
+			description: BOT.Util.cleanSynopsis(he.decode(item.synopsis), item.id, 'manga'),
 			thumbnail: { url: item.image },
 			footer: { text: `Use the reaction to browse | Page1${res.length}`}
 		}

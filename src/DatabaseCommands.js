@@ -9,14 +9,14 @@ let zeroPadding = function(num, places) {
 
 module.exports = self = {
 	/**
-     * Upgrades the Yuno's first version database to this version
-     * @param {Yuno} Yuno The Yuno instance
+     * Upgrades the BOT's first version database to this version
+     * @param {BOT} BOT The BOT instance
      * @param {Prompt} prompt The Prompt
      * @param {String} file
      * @param {String} destination The filename of the destination file.
      * @return {Promise}
      */
-	'upgrade': function(Yuno, prompt, file, to) {
+	'upgrade': function(BOT, prompt, file, to) {
 		return new Promise((async function(resolve, reject) {
 			// still check if the extension is here and remove it
 			if (to.indexOf('.db') === -1)
@@ -30,13 +30,13 @@ module.exports = self = {
 			newdb = await (new Database).open(to);
 
 			if (!isItReallyFromV1) {
-				return yuno.prompt.error('Database isn\'t from Yuno Gasai v1. If it\'s really from v1, why is then a user_version PRAGMA ? :thinking:');
+				return BOT.prompt.error('Database isn\'t from BOT Gasai v1. If it\'s really from v1, why is then a user_version PRAGMA ? :thinking:');
 			}
 
 			let experiences = await olddb.allPromise('SELECT * FROM exp'),
 				guilds = await olddb.allPromise('SELECT * FROM guilds');
 
-			await self.initDB(newdb, Yuno, true);
+			await self.initDB(newdb, BOT, true);
 
 			prompt.info('Exporting experiences... 1/2');
 
@@ -67,23 +67,23 @@ module.exports = self = {
 	/**
      * Inits the tables of a new database.
      * @param {Database} database
-     * @param {Yuno} Yuno Yuno's instance.
+     * @param {BOT} BOT BOT's instance.
      * @param {boolean} newDb Representing if the DB was just created.
      * @async
      */
-	'initDB': async function(database, Yuno, newDb) {
+	'initDB': async function(database, BOT, newDb) {
 		let version = await database.allPromise('PRAGMA user_version;'),
 			dbVer = version[0]['user_version'];
 
-		if (dbVer < Yuno.intVersion && !newDb) {
-			Yuno.prompt.info('The database isn\'t at the good version for the bot. (Yuno\'s version: ' + Yuno.intVersion + '; dbvers: ' + dbVer + '). Expect errors, and report them.');
+		if (dbVer < BOT.intVersion && !newDb) {
+			BOT.prompt.info('The database isn\'t at the good version for the bot. (BOT\'s version: ' + BOT.intVersion + '; dbvers: ' + dbVer + '). Expect errors, and report them.');
 			if (dbVer === 0) {
-				Yuno.prompt.error('The database isn\'t for the Yuno\'s v2 version. Please update the db, see node index -h to upgrade it.');
-				return Yuno.shutdown(-1);
+				BOT.prompt.error('The database isn\'t for the BOT\'s v2 version. Please update the db, see node index -h to upgrade it.');
+				return BOT.shutdown(-1);
 			}
 		}
 
-		await database.runPromise('PRAGMA user_version = ' + Yuno.intVersion);
+		await database.runPromise('PRAGMA user_version = ' + BOT.intVersion);
 
 		await database.runPromise(`CREATE TABLE IF NOT EXISTS experiences (
             level INTEGER,

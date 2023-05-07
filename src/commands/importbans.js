@@ -1,6 +1,6 @@
 let fs = require('fs');
 
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (!args[0])
 		return msg.channel.send('Give the guild-id please.');
 

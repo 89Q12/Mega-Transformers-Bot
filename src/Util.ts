@@ -19,7 +19,7 @@ async function clean(channel: TextChannel) {
 
 	const n = await channel.clone({
 		nsfw: nsfw,
-		reason: 'Cleaning by Yuno.',
+		reason: 'Cleaning by BOT.',
 	});
 
 	await channel.delete();
@@ -30,7 +30,7 @@ async function clean(channel: TextChannel) {
 		)
 		.setColor('#ff51ff');
 	embed.author = {
-		name: 'Yuno is done cleaning.',
+		name: 'BOT is done cleaning.',
 		iconURL: n.client.user?.avatarURL() ?? '',
 	};
 	await n.send({ embeds: [embed] });
@@ -47,7 +47,7 @@ async function warnChannel(
 		.setColor('#ff51ff');
 	embed.author = {
 		name:
-			'Yuno is going to clean this channel in ' +
+			'BOT is going to clean this channel in ' +
 			minutes +
 			' minutes. Speak now or forever hold your peace.',
 	};

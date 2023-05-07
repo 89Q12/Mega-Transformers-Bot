@@ -1,8 +1,8 @@
 const EmbedCmdResponse = require('../lib/EmbedCmdResponse'),
 	{MessageEmbed} = require('discord.js');
 
-let listMainCommands = function(yuno, isTerminal, member) {
-	let cmdman = yuno.commandMan,
+let listMainCommands = function(BOT, isTerminal, member) {
+	let cmdman = BOT.commandMan,
 		commands = Object.values(cmdman.commands),
 		keys = Object.keys(cmdman.commands);
 
@@ -21,12 +21,12 @@ let listMainCommands = function(yuno, isTerminal, member) {
 			return;
 
 		if (isTerminal === false) {
-			let isUM = yuno.commandMan._isUserMaster(member.id);
+			let isUM = BOT.commandMan._isUserMaster(member.id);
 
 			if (!isUM && el.onlyMasterUsers === true)
 				return;
 
-			if (!isUM && !yuno.commandMan._hasPermissions(member, el.requiredPermissions))
+			if (!isUM && !BOT.commandMan._hasPermissions(member, el.requiredPermissions))
 				return;
 		}
 
@@ -36,13 +36,13 @@ let listMainCommands = function(yuno, isTerminal, member) {
 	return ret.join(', ');
 };
 
-let helpOnACommand = function(command, yuno, msg) {
-	let cmdman = yuno.commandMan,
+let helpOnACommand = function(command, BOT, msg) {
+	let cmdman = BOT.commandMan,
 		isTerminal = !msg;
 
 	if (!cmdman._commandExists(command))
 		if (isTerminal)
-			return yuno.prompt.error('The command ' + command + ' doesn\'t exists.');
+			return BOT.prompt.error('The command ' + command + ' doesn\'t exists.');
 		else
 			return msg.channel.send('The command ' + command + ' doesn\'t exists.');
 
@@ -70,11 +70,11 @@ let helpOnACommand = function(command, yuno, msg) {
 		return msg.channel.send('The command ' + commandName + ' doesn\'t exists.'); // brain
     
 	if (listedOnTerminal === false && usableOnTerminal === false && isTerminal)
-		yuno.prompt.warn('Command ' + commandName + ' is not usable & not listed in terminal.');
+		BOT.prompt.warn('Command ' + commandName + ' is not usable & not listed in terminal.');
 	else if (listedOnTerminal === false && isTerminal)
-		yuno.prompt.warn('Command ' + commandName + ' not listed in terminal.');
+		BOT.prompt.warn('Command ' + commandName + ' not listed in terminal.');
 	else if (usableOnTerminal === false && isTerminal)
-		yuno.prompt.warn('Command ' + commandName + ' is not usable in terminal');
+		BOT.prompt.warn('Command ' + commandName + ' is not usable in terminal');
 
 	if (isTerminal) {
 		let lines = [
@@ -130,7 +130,7 @@ let helpOnACommand = function(command, yuno, msg) {
 		lines.push('Listed on terminal: ' + defaulter(listedOnTerminal));
 		lines.push('Usable only by master users: ' + defaulter(onlyMasterUsers, false));
 
-		lines.forEach(el => yuno.prompt.info(el));
+		lines.forEach(el => BOT.prompt.info(el));
 		return;
 	} else {
 		let response = new MessageEmbed()
@@ -169,19 +169,19 @@ let helpOnACommand = function(command, yuno, msg) {
 /*
     List commands
 */
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (args.length === 0 || args[0].trim() === '')
 		if (author !== 0) {
 			let response = new EmbedCmdResponse();
 			response.setColor('#ff51ff')
 				.setTitle('Little help about the commands.')
-				.setDescription('`' + listMainCommands(yuno, false, msg.member) + '`')
+				.setDescription('`' + listMainCommands(BOT, false, msg.member) + '`')
 				.setCMDRequester(msg.member);
 			msg.channel.send(response);
 		} else
-			return yuno.prompt.info('The available commands are :\n    ' + listMainCommands(yuno, true));
+			return BOT.prompt.info('The available commands are :\n    ' + listMainCommands(BOT, true));
 	else
-		helpOnACommand(args[0].trim().toLowerCase(), yuno, msg);
+		helpOnACommand(args[0].trim().toLowerCase(), BOT, msg);
 
 };
 

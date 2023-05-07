@@ -1,4 +1,4 @@
-module.exports.run = async function(yuno, author, args, msg) {
+module.exports.run = async function(BOT, author, args, msg) {
 	if (args.length === 0)
 		return msg.channel.send(':negative_squared_cross_mark: Not enough arguments.');
 
@@ -20,8 +20,8 @@ module.exports.run = async function(yuno, author, args, msg) {
 	if (to === null)
 		return msg.channel.send('Couldn\'t determine whether you wanted to enable or disable the spamfilter. Some examples: ```'  + ['enable', 'disable', 'true', 'false', 'enab', 'disab', 'tru', 'fa'].join('\n') + ' ```');
 
-	await yuno.dbCommands.setSpamFilterEnabled(yuno.database, msg.guild.id, thing);
-	yuno._refreshMod('message-processors');
+	await BOT.dbCommands.setSpamFilterEnabled(BOT.database, msg.guild.id, thing);
+	BOT._refreshMod('message-processors');
 	msg.channel.send('Spamfilter is now ' + (to ? 'enabled': 'disabled') + ' on this guild.\nEffects will appear in a few seconds.');
 };
 

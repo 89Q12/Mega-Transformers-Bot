@@ -2,8 +2,8 @@ const {MessageEmbed} = require('discord.js');
 
 let whereExpIsEnabled = [];
 
-module.exports.run = async function(yuno, author, args, msg) {
-	await fetchWhereExpIsEnabled(yuno);
+module.exports.run = async function(BOT, author, args, msg) {
+	await fetchWhereExpIsEnabled(BOT);
 
 	if (!whereExpIsEnabled.includes(msg.guild.id))
 		return msg.channel.send('Experience counting is __disabled__ on the server.');
@@ -29,14 +29,14 @@ module.exports.run = async function(yuno, author, args, msg) {
 		if (user.user.bot)
 			return msg.channel.send(':robot: Bots doesn\'t have xp!');
 
-		await yuno.dbCommands.setXPData(yuno.database, g, user.id, 0, givenLvl);
+		await BOT.dbCommands.setXPData(BOT.database, g, user.id, 0, givenLvl);
 
 
-		let xpdata = await yuno.dbCommands.getXPData(yuno.database, msg.guild.id, user.id),
+		let xpdata = await BOT.dbCommands.getXPData(BOT.database, msg.guild.id, user.id),
 			neededExp = 5 * Math.pow(xpdata.level, 2) + 50 * xpdata.level + 100;
 
 		return msg.channel.send(new MessageEmbed()
-			.setAuthor(user.displayName + '\'s experience card' , yuno.UTIL.getAvatarURL(user.user))
+			.setAuthor(user.displayName + '\'s experience card' , BOT.UTIL.getAvatarURL(user.user))
 			.setTitle('Level has been changed.')
 			.setColor('#ff51ff')
 			.addField('Current level', xpdata.level, true)
@@ -46,11 +46,11 @@ module.exports.run = async function(yuno, author, args, msg) {
 	}, 350);
 };
 
-let fetchWhereExpIsEnabled = async function(yuno) {
+let fetchWhereExpIsEnabled = async function(BOT) {
 	if (whereExpIsEnabled.length > 0)
 		return;
 
-	whereExpIsEnabled = await yuno.dbCommands.getGuildsWhereExpIsEnabled(yuno.database);
+	whereExpIsEnabled = await BOT.dbCommands.getGuildsWhereExpIsEnabled(BOT.database);
 };
 
 
