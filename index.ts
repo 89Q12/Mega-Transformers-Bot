@@ -1,12 +1,12 @@
-import { BOT } from './src/BotClient';
+import { BOT } from './src/bot/BotClient';
 import * as DEFAULT_CONFIG from './DEFAULT_CONFIG.json';
-import { BotConfig } from './src/interfaces/Client';
+import { BotConfig } from './src/bot/interfaces/Client';
 
 (async () => {
 	try {
 		console.log('Starting ');
 		// Creates a new Yuno instance, a guild ID must be passed
-		const instance = new Yuno();
+		const instance = new BOT();
 		await instance.start(DEFAULT_CONFIG as BotConfig);
 		// Sets a listeners for easier debugging
 		if (process.env.NODE_ENV !== 'production') {

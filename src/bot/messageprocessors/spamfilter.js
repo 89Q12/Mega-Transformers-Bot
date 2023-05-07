@@ -14,7 +14,7 @@ let maxWarnings = 3,
 
 // reading custom spam rules files
 try {
-	fs.readdirSync('./src/message-processors/custom-spam-rules', 'utf8').forEach(el => {
+	fs.readdirSync('./src/bot/message-processors/custom-spam-rules', 'utf8').forEach(el => {
 		el = './custom-spam-rules/' + el;
 		let test = require.resolve(el);
 		delete require.cache[require.resolve(el)];
