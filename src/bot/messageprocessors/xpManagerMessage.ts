@@ -19,8 +19,8 @@ export default new MessageProcessor({
 			return xpRepository.persistAndFlush(
 				xpRepository.create({
 					exp: xpPerMsg,
-					guildID: message.guildId,
-					level: 0,
+					guildID: message.guildId!,
+					level: "0",
 					userID: message.author.id,
 				}),
 			);

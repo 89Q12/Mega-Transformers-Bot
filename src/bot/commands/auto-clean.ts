@@ -1,24 +1,6 @@
-/*
-    BOT Gasai. A Discord.JS based bot, with multiple features.
-    Copyright (C) 2018 Maeeen <maeeennn@gmail.com>
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see https://www.gnu.org/licenses/.
-*/
-
 import { EntityRepository } from '@mikro-orm/core';
-import { TextChannel, MessageEmbed } from 'discord.js';
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { TextChannel, EmbedBuilder } from 'discord.js';
+import { ApplicationCommandType } from 'discord.js';
 import { Channelcleans } from '../entities/Channelcleans';
 import { Command } from '../lib/Command';
 import { ExtendedClient } from '../interfaces/Client';
@@ -48,11 +30,11 @@ class AutoClean extends Command {
 		if (msg) return await options.message?.reply(msg);
 		ChannelRepository.persist(
 			ChannelRepository.create({
-				gid: options.message?.guildId,
+				gid: options.message?.guildId!,
 				cname: (mentionedChannel as TextChannel).name,
 				cleantime: timeBetweenCleaning.toString(),
 				warningtime: warningTime.toString(),
-				remainingtime: 0,
+				remainingtime: "0",
 			}),
 		);
 		await ChannelRepository.flush().then(async () => {
@@ -109,7 +91,7 @@ class AutoClean extends Command {
 				cname: dbChannel.cname,
 				cleantime: timeBetweenCleaning.toString(),
 				warningtime: warningTime.toString(),
-				remainingtime: 0,
+				remainingtime: "0",
 			}),
 		);
 		return await options.message?.channel.send(
@@ -129,19 +111,25 @@ class AutoClean extends Command {
 				); // Can't be null would have been caught above before executing this function
 			await (options.message?.channel as TextChannel).send({
 				embeds: [
-					new MessageEmbed()
+					new EmbedBuilder()
 						.setColor('#ff51ff')
 						.setTitle(
 							'#' +
 								(options.message?.channel as TextChannel).name +
 								' auto-clean configuration.',
 						)
-						.addField('Cleaned at hour:', dbChannel.cleantime, true)
-						.addField(
-							'Warning thrown',
-							dbChannel.warningtime + ' minutes before clean',
-							true,
-						),
+						.addFields([
+							{
+								name: 'Cleaned at hour:', 
+								value: dbChannel.cleantime,
+								inline: true
+							},
+							{
+								name: 'Warning thrown',
+								value: dbChannel.warningtime + ' minutes before clean',
+								inline: true,
+							}
+						])
 				],
 			});
 		} else {
@@ -152,7 +140,7 @@ class AutoClean extends Command {
 
 			return await (options.message?.channel as TextChannel).send({
 				embeds: [
-					new MessageEmbed()
+					new EmbedBuilder()
 						.setColor('#ff51ff')
 						.setTitle('Channels having an auto-clean:')
 						.setDescription(
@@ -177,7 +165,7 @@ export default new AutoClean({
 	isClass: true,
 	missingArgumentsResponse:
 		':negative_squared_cross_mark: Not enough arguments.',
-	type: ApplicationCommandTypes.MESSAGE,
+	type: ApplicationCommandType.Message,
 	subCmdsName: ['add', 'remove', 'edit', 'list'],
 	isSlash: false,
 	run: async function (options) {

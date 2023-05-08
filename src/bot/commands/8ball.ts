@@ -15,8 +15,8 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see https://www.gnu.org/licenses/.
 */
-import { MessageEmbed } from 'discord.js';
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { EmbedBuilder } from 'discord.js';
+import { ApplicationCommandType } from 'discord.js';
 import { Command } from '../lib/Command';
 import ballResponse from '../data/ballResponses.json';
 
@@ -25,7 +25,7 @@ export default new Command({
 	aliases: ['eightBall'],
 	description: 'Use the magic 8 ball',
 	usage: 'how is the weather today?',
-	type: ApplicationCommandTypes.MESSAGE,
+	type: ApplicationCommandType.Message,
 	isArgumentsRequired: true,
 	isClass: false,
 	guildOnly: true,
@@ -39,7 +39,7 @@ export default new Command({
 			}`;
 			options.message?.channel.send({
 				embeds: [
-					new MessageEmbed()
+					new EmbedBuilder()
 						.setTitle('🎱 Magic 8 Ball 🎱')
 						.setDescription(result)
 						.setColor(0x000000),

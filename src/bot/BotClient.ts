@@ -1,12 +1,13 @@
 import {
 	ApplicationCommandDataResolvable,
+	ApplicationCommandPermissionType,
+	EmbedBuilder,
 	Client,
 	ClientEvents,
 	Collection,
-	MessageEmbed,
 	TextChannel,
 } from 'discord.js';
-import glob from 'glob';
+import {glob} from 'glob';
 import { promisify } from 'util';
 import { BotConfig, ExtendedClient, Settings } from './interfaces/Client';
 import { Event } from './lib/Event';
@@ -19,7 +20,6 @@ import { Channelcleans } from './entities/Channelcleans';
 import util from './Util';
 import { MessageProcessorType } from './interfaces/messageProcessor';
 // Used for importing commands and events asyncly
-const globPromise = promisify(glob);
 
 export class BOT extends Client implements ExtendedClient {
 	// properties
@@ -99,10 +99,11 @@ export class BOT extends Client implements ExtendedClient {
 						permissions: [
 							{
 								id: permission.id,
-								type: permission.type as 'USER' | 'ROLE',
+								type: permission.type as unknown as ApplicationCommandPermissionType,
 								permission: permission.permission,
 							},
 						],
+						token: this.config.botToken
 					});
 				}
 			});
@@ -155,8 +156,8 @@ export class BOT extends Client implements ExtendedClient {
 	}
 	async registerModules() {
 		// Commands
-		const commandFiles = await globPromise(`${__dirname}/commands/*.js`);
-		commandFiles.forEach(async (filePath) => {
+		const commandFiles = await glob(`${__dirname}/commands/*.js`);
+		commandFiles.forEach(async (filePath: string) => {
 			const command: CommandType = await this.importFile(filePath);
 			if (!command.name) return;
 			command.isSlash
@@ -164,17 +165,17 @@ export class BOT extends Client implements ExtendedClient {
 				: this.commands.set(command.name, command);
 		});
 		// Events
-		const eventFiles = await globPromise(`${__dirname}/events/*.js`);
-		eventFiles.forEach(async (filePath) => {
+		const eventFiles = await glob(`${__dirname}/events/*.js`);
+		eventFiles.forEach(async (filePath: string) => {
 			const event: Event<keyof ClientEvents> = await this.importFile(filePath);
 			this.on(event.event, event.run);
 		});
 		//message processors
-		const messageProcessorFiles = await globPromise(
+		const messageProcessorFiles = await glob(
 			`${__dirname}/messageprocessors/*.js`,
 		);
 
-		messageProcessorFiles.forEach(async (filepath) => {
+		messageProcessorFiles.forEach(async (filepath: string) => {
 			const messageProcessor: MessageProcessorType = await this.importFile(
 				filepath,
 			);
@@ -207,14 +208,14 @@ export class BOT extends Client implements ExtendedClient {
 		if (typeof channel === 'undefined' || null) {
 			this.guilds.cache.get(this.guildID)?.systemChannel?.send({
 				embeds: [
-					new MessageEmbed().setTitle(error.name).setDescription(error.message),
+					new EmbedBuilder().setTitle(error.name).setDescription(error.message),
 				],
 			});
 			return;
 		}
 		(channel as TextChannel).send({
 			embeds: [
-				new MessageEmbed().setTitle(error.name).setDescription(error.message),
+				new EmbedBuilder().setTitle(error.name).setDescription(error.message),
 			],
 		});
 	}

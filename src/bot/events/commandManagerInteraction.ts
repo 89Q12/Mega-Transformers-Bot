@@ -12,7 +12,7 @@ export default new Event('interactionCreate', async (interaction) => {
 		await interaction.deferReply();
 		const command = (interaction.client as ExtendedClient).slashCommands.find(
 			(cmd) => {
-				return cmd.name == interaction.command?.name;
+				return (cmd as CommandType).name == interaction.command?.name;
 			},
 		) as CommandType;
 		if (!command)

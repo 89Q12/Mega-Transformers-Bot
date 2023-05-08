@@ -5,7 +5,7 @@ import {
 	Message,
 	PermissionResolvable,
 } from 'discord.js';
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { ApplicationCommandType } from 'discord.js';
 import { ExtendedClient } from './Client';
 
 /**
@@ -70,7 +70,7 @@ export type CommandType = {
 	description: string;
 	usage?: string;
 	missingArgumentsResponse?: string;
-	type: ApplicationCommandTypes;
+	type: ApplicationCommandType;
 	isSlash: boolean;
 	isClass: boolean;
 	subCmdsName?: Array<string>;

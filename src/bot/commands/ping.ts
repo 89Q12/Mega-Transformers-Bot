@@ -1,10 +1,10 @@
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
 import { Command } from '../lib/Command';
+import { ApplicationCommandType } from 'discord.js';
 
 export default new Command({
 	name: 'ping',
 	description: 'replies with pong',
-	type: ApplicationCommandTypes.CHAT_INPUT,
+	type: ApplicationCommandType.ChatInput,
 	isSlash: true,
 	guildOnly: true,
 	isClass: false,

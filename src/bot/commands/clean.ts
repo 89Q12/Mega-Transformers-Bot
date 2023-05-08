@@ -1,5 +1,5 @@
-import { Message, MessageEmbed, TextChannel } from 'discord.js';
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { Message, EmbedBuilder, TextChannel, ThreadChannel } from 'discord.js';
+import { ApplicationCommandType } from 'discord.js';
 import { RunOptions } from '../interfaces/Command';
 import { Command } from '../lib/Command';
 import Util from '../Util';
@@ -10,7 +10,7 @@ export default new Command({
 	description: 'Cleans a channel.',
 	usage: 'clean #mention-channel ',
 	missingArgumentsResponse: 'Please mention a channel!',
-	type: ApplicationCommandTypes.MESSAGE,
+	type: ApplicationCommandType.Message,
 	isArgumentsRequired: true,
 	requiredPermissions: ['MANAGE_MESSAGES'],
 	isAdminOnly: true,
@@ -20,10 +20,11 @@ export default new Command({
 	// The ? Operator makes the compiler happy, also message and params will never be undefined because its gets checked before the command is executed.
 	// But doing the types like that makes it easier
 	run: async (options: RunOptions) => {
-		const channel = options.message?.mentions.channels.first();
+		const channel = options.message?.mentions.channels.first() as TextChannel | ThreadChannel;
+		if (channel === undefined) return;
 		await options.message?.channel.send({
 			embeds: [
-				new MessageEmbed()
+				new EmbedBuilder()
 					.setColor('#42d7f4')
 					.setTitle('Confirm channel clear.')
 					.setDescription(

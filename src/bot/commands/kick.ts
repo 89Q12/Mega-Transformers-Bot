@@ -1,5 +1,5 @@
-import { Message, MessageEmbed } from 'discord.js';
-import { ApplicationCommandTypes } from 'discord.js/typings/enums';
+import { Message, EmbedBuilder } from 'discord.js';
+import { ApplicationCommandType } from 'discord.js';
 import { Command } from '../lib/Command';
 
 export default new Command({
@@ -8,7 +8,7 @@ export default new Command({
 	description: 'Kick an user',
 	usage:
 		'userid | mention not limited to one. You can supply a list of ids/mentions',
-	type: ApplicationCommandTypes.MESSAGE,
+	type: ApplicationCommandType.Message,
 	isArgumentsRequired: true,
 	isClass: false,
 	guildOnly: true,
@@ -45,7 +45,7 @@ export default new Command({
 		}
 		await options.message?.reply({
 			embeds: [
-				new MessageEmbed()
+				new EmbedBuilder()
 					.setColor('#43cc24')
 					.setTitle(':white_check_mark: Kick summery.')
 					.setDescription(

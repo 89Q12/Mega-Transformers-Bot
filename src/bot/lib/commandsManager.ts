@@ -1,9 +1,10 @@
 import {
+	ChannelType,
 	Collection,
-	Formatters,
 	Message,
 	PermissionResolvable,
 	TextChannel,
+	userMention
 } from 'discord.js';
 import { ExtendedClient } from '../interfaces/Client';
 import { CommandType, RunFunction, RunOptions } from '../interfaces/Command';
@@ -24,13 +25,13 @@ export async function processCommands(
 		return;
 	}
 	// Checks if the command is guild only and that it is a text channel
-	if (!(command.guildOnly && message.channel.type == 'GUILD_TEXT')) {
+	if (!(command.guildOnly && message.channel.type == ChannelType.GuildText)) {
 		message.reply('Guild only');
 		return;
 	}
 	// check for args requirements and gives usage if usage is specified
 	if (command.isArgumentsRequired && !args.length) {
-		let reply: string = Formatters.userMention(message.author.id) + ' ';
+		let reply: string = userMention(message.author.id) + ' ';
 		if (command.missingArgumentsResponse) {
 			reply += command.missingArgumentsResponse;
 		} else {
@@ -64,7 +65,7 @@ export async function processCommands(
 		if (
 			!authorPermissions ||
 			!authorPermissions.has(
-				command.requiredPermissions as PermissionResolvable[],
+				command.requiredPermissions as unknown as PermissionResolvable[],
 			)
 		) {
 			message.reply('');

@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, TextChannel, User } from 'discord.js';
+import { Message, EmbedBuilder, TextChannel, User } from 'discord.js';
 import { Job, scheduleJob, RecurrenceRule, JobCallback } from 'node-schedule';
 import { ExtendedClient } from './interfaces/Client';
 
@@ -24,15 +24,15 @@ async function clean(channel: TextChannel) {
 
 	await channel.delete();
 	await n.setPosition(pos);
-	const embed = new MessageEmbed()
+	const embed = new EmbedBuilder()
 		.setImage(
 			'https://vignette3.wikia.nocookie.net/futurediary/images/9/94/Mirai_Nikki_-_06_-_Large_05.jpg',
 		)
 		.setColor('#ff51ff');
-	embed.author = {
+	embed.setAuthor( {
 		name: 'BOT is done cleaning.',
 		iconURL: n.client.user?.avatarURL() ?? '',
-	};
+	});
 	await n.send({ embeds: [embed] });
 }
 async function warnChannel(
@@ -40,17 +40,17 @@ async function warnChannel(
 	client: ExtendedClient,
 	minutes: number,
 ) {
-	const embed = new MessageEmbed()
+	const embed = new EmbedBuilder()
 		.setImage(
 			'https://vignette3.wikia.nocookie.net/futurediary/images/9/94/Mirai_Nikki_-_06_-_Large_05.jpg',
 		)
 		.setColor('#ff51ff');
-	embed.author = {
+		embed.setAuthor( {
 		name:
 			'BOT is going to clean this channel in ' +
 			minutes +
 			' minutes. Speak now or forever hold your peace.',
-	};
+	});
 	channel.send({ embeds: [embed] });
 }
 async function getChannelByName(
@@ -59,7 +59,7 @@ async function getChannelByName(
 ): Promise<TextChannel | undefined> {
 	const chan = (
 		await client.guilds.cache.get(client.guildID)?.channels.fetch()
-	)?.filter((chan) => chan.name == name);
+	)?.filter((chan) => chan?.name == name);
 	return (chan?.first() as TextChannel) ?? undefined;
 }
 function produceWarnJob(

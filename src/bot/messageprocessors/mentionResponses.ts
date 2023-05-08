@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 import { MessageProcessor } from '../lib/MessageProcessor';
 import { MentionResponses } from '../entities/MentionResponses';
 import { ExtendedClient } from '../interfaces/Client';
@@ -12,7 +12,7 @@ export default new MessageProcessor({
 			.getRepository(MentionResponses)
 			.findAll()) {
 			if (cleanContent == mentionResponse.trigger) {
-				const embed = new MessageEmbed()
+				const embed = new EmbedBuilder()
 					.setDescription(
 						mentionResponse.response.replace(
 							new RegExp('[$]{author}', 'gi'),
