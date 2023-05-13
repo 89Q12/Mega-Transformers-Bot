@@ -45,7 +45,7 @@ async function warnChannel(
 			'https://vignette3.wikia.nocookie.net/futurediary/images/9/94/Mirai_Nikki_-_06_-_Large_05.jpg',
 		)
 		.setColor('#ff51ff');
-		embed.setAuthor( {
+	embed.setAuthor({
 		name:
 			'BOT is going to clean this channel in ' +
 			minutes +
