@@ -62,7 +62,9 @@ export interface RunOptions {
 	params?: Array<string>;
 }
 export type RunFunction = (options: RunOptions) => unknown | Promise<unknown>;
-
+/**
+ * The class to implement commands with, must have the decorator @autoInjectable()
+ */
 export interface Command {
 	name: string;
 	aliases?: Array<string>;

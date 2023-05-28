@@ -99,7 +99,7 @@ export class BOT extends Client implements ExtendedClient {
 		// Commands
 		const commandFiles = await glob(`${__dirname}/commands/*.js`);
 		commandFiles.forEach(async (filePath: string) => {
-			const command: Command = new (await this.importFile(filePath));
+			const command: Command = container.resolve(await this.importFile(filePath));
 			
 			command.isSlash
 				? this.slashCommands.push(command)
@@ -136,7 +136,7 @@ export class BOT extends Client implements ExtendedClient {
 		deps.forEach(async (filePath: string) => {
 			const dep: Dependency = new (await this.importFile(filePath));
 			const type = new (await this.importFile(filePath, dep.name));
-			container.register(dep.name,type);
+			container.register(dep.name,{useClass: type});
 		});
 	}
 	async _parseSettings() {
