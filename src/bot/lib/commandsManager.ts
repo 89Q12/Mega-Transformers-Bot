@@ -7,11 +7,11 @@ import {
 	userMention
 } from 'discord.js';
 import { ExtendedClient } from '../interfaces/Client';
-import { CommandType, RunFunction, RunOptions } from '../interfaces/Command';
+import { Command, RunFunction, RunOptions } from '../interfaces/Command';
 
 export async function processCommands(
 	message: Message,
-	command: CommandType,
+	command: Command,
 	args: Array<string>,
 	client: ExtendedClient,
 ): Promise<unknown | undefined> {
@@ -49,7 +49,7 @@ export async function processCommands(
 	let runMethode: RunFunction = command.run;
 	if (command.isClass) {
 		if (command.subCmdsName?.includes(args[0])) {
-			runMethode = command[args[0].replace('-', '')] as RunFunction;
+			runMethode = (command as unknown as Record<string, () => void>)[args[0].replace('-', '')] as RunFunction;
 			args.shift();
 		} else {
 			message.reply(`Unknown subcommand ${args[0]} of command ${command.name}`);

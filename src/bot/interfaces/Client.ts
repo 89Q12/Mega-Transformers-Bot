@@ -1,13 +1,12 @@
-import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
 import {
 	ApplicationCommandDataResolvable,
 	Client,
 	ClientPresence,
 	Collection,
 } from 'discord.js';
-import { Job } from 'node-schedule';
-import { CommandType } from './Command';
+import { Command } from './Command';
 import { MessageProcessorType } from './messageProcessor';
+import { Cron } from 'croner';
 
 export interface RegisterCommandsOptions {
 	guildId?: string;
@@ -53,13 +52,12 @@ export interface BotConfig {
 	discordPresence: ClientPresence | null;
 }
 export interface ExtendedClient extends Client {
-	commands: Collection<string, CommandType>;
+	commands: Collection<string, Command>;
 	slashCommands: Array<ApplicationCommandDataResolvable>;
-	channelsToClean: Collection<string, Job>;
 	cooldowns: Collection<string, Collection<string, number>>;
 	messageProcessors: Collection<string, MessageProcessorType>;
+	backgroundJobs: Collection<string, Cron>;
 	guildID: string;
-	orm: MikroORM<IDatabaseDriver<Connection>>;
 	settings: Settings;
 	config: BotConfig;
 	booted: boolean;
@@ -67,5 +65,4 @@ export interface ExtendedClient extends Client {
 	importFile(filePath: string): Promise<unknown>;
 	registerCommands(): Promise<void>;
 	registerModules(): Promise<void>;
-	registerCleaningJobs(): Promise<void>;
 }

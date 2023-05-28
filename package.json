@@ -12,23 +12,22 @@
 		"lint": "eslint --ext .ts ."
 	},
 	"devDependencies": {
-		"jsdoc": "^4.0.2",
-		"@mikro-orm/cli": "^5.7.4",
+		"@prisma/client": "^4.14.1",
 		"@types/glob": "8.1.0",
-		"@types/node-schedule": "^2.1.0",
 		"@typescript-eslint/eslint-plugin": "^5.59.2",
 		"@typescript-eslint/parser": "^5.59.2",
 		"docdash": "2.0.1",
 		"eslint": "^8.40.0",
 		"eslint-config-prettier": "^8.8.0",
+		"jsdoc": "^4.0.2",
 		"prettier": "^2.8.8",
 		"typescript": "5.0.4"
 	},
 	"dependencies": {
-		"@mikro-orm/core": "^5.7.4",
-		"@mikro-orm/sqlite": "^5.7.4",
+		"croner": "^6.0.3",
 		"discord.js": "^14.11.0",
 		"glob": "^10.2.2",
-		"node-schedule": "^2.1.1"
+		"prisma": "^4.14.1",
+		"tsyringe": "^4.7.0"
 	}
 }

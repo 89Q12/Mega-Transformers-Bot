@@ -20,7 +20,7 @@ export default new MessageProcessor({
 				xpRepository.create({
 					exp: xpPerMsg,
 					guildID: message.guildId!,
-					level: "0",
+					level: '0',
 					userID: message.author.id,
 				}),
 			);

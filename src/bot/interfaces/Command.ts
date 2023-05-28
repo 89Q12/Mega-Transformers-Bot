@@ -7,7 +7,6 @@ import {
 } from 'discord.js';
 import { ApplicationCommandType } from 'discord.js';
 import { ExtendedClient } from './Client';
-
 /**
  * {
  *  name: "commandname",
@@ -64,7 +63,7 @@ export interface RunOptions {
 }
 export type RunFunction = (options: RunOptions) => unknown | Promise<unknown>;
 
-export type CommandType = {
+export interface Command {
 	name: string;
 	aliases?: Array<string>;
 	description: string;
@@ -81,5 +80,5 @@ export type CommandType = {
 	isAdminOnly?: boolean;
 	requiredPermissions?: Array<DiscordPermissionString>;
 	requiredRoles?: Array<string>;
-	run: RunFunction;
-} & Record<string, unknown>;
+	run(options: RunOptions): Promise<void>;
+}

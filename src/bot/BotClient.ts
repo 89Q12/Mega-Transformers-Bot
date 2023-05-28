@@ -1,51 +1,44 @@
 import {
 	ApplicationCommandDataResolvable,
 	ApplicationCommandPermissionType,
-	EmbedBuilder,
 	Client,
 	ClientEvents,
 	Collection,
-	TextChannel,
 } from 'discord.js';
-import {glob} from 'glob';
-import { promisify } from 'util';
+import { glob } from 'glob';
+import 'reflect-metadata';
+import { container } from 'tsyringe';
 import { BotConfig, ExtendedClient, Settings } from './interfaces/Client';
 import { Event } from './lib/Event';
-import { CommandType } from './interfaces/Command';
-import { Connection, IDatabaseDriver, MikroORM } from '@mikro-orm/core';
-import dbConfig from './config/mikro-orm.config';
-import { Guilds } from './entities';
-import { Job } from 'node-schedule';
-import { Channelcleans } from './entities/Channelcleans';
-import util from './Util';
+import { Command } from './interfaces/Command';
 import { MessageProcessorType } from './interfaces/messageProcessor';
-// Used for importing commands and events asyncly
+import { Cron } from 'croner';
+import { BackgroundJob } from './interfaces/BackgroundJob';
+import { Dependency } from './interfaces/dependency';
 
 export class BOT extends Client implements ExtendedClient {
 	// properties
-	public commands: Collection<string, CommandType>;
+	public commands: Collection<string, Command>;
 	public slashCommands: Array<ApplicationCommandDataResolvable>;
-	public channelsToClean: Collection<string, Job>;
 	public cooldowns: Collection<string, Collection<string, number>>;
 	public messageProcessors: Collection<string, MessageProcessorType>;
 	public guildID!: string;
 	// Settings from the database
 	public settings!: Settings;
-	public orm!: MikroORM<IDatabaseDriver<Connection>>;
 	// Settings from the config file needs to be reworked
 	public config!: BotConfig;
 	public booted: boolean; // prevents the bot from taking in commands before everything has been initialized
+	backgroundJobs: Collection<string, Cron>;
 	constructor() {
 		// All intents 32767
-		super({ intents: 32767 });
-		this.commands = new Collection<string, CommandType>();
+		super({ intents: 32767  });
+		this.commands = new Collection<string, Command>();
 		this.slashCommands = new Array<ApplicationCommandDataResolvable>();
 		this.cooldowns = new Collection<string, Collection<string, number>>();
 		this.messageProcessors = new Collection<string, MessageProcessorType>();
-		this.channelsToClean = new Collection<string, Job>();
+		this.backgroundJobs = new Collection<string, Cron>();
 		this.booted = false;
 		// setup listeners
-		this.on('error', this.onError);
 	}
 
 	async start(BOT_CONFIG: BotConfig) {
@@ -56,24 +49,17 @@ export class BOT extends Client implements ExtendedClient {
 		//register all commands once the bot is ready
 		this.on('ready', async () => {
 			await this.registerCommands().then(() => this.setPermissions());
-			await this.guilds
-				.fetch(this.guildID)
-				.then(() => this.registerCleaningJobs());
 			this.booted = true;
 			console.log('Booted');
 		});
 		// logs the bot in
 		await this.login(BOT_CONFIG.botToken);
-		// inits the orm db object
-		// REWORK CONFIG
-		dbConfig.dbName = BOT_CONFIG.database;
-		this.orm = await MikroORM.init(dbConfig);
 		// parses the settings data from the db into settings property
 		await this._parseSettings();
 	}
 
-	async importFile(filePath: string) {
-		return (await import(filePath))?.default;
+	async importFile(filePath: string, moduleName = 'default') {
+		return (await import(filePath))?.[moduleName];
 	}
 
 	async registerCommands() {
@@ -109,57 +95,12 @@ export class BOT extends Client implements ExtendedClient {
 			});
 		});
 	}
-	async registerCleaningJobs() {
-		this.channelsToClean = new Collection();
-		(await this.orm.em.getRepository(Channelcleans).findAll()).forEach(
-			(ChannelToClean: Channelcleans) => {
-				console.log(ChannelToClean.cname);
-				const cleanTime = parseInt(ChannelToClean.cleantime);
-				const warnTime = parseInt(ChannelToClean.warningtime);
-				this.channelsToClean.set(
-					ChannelToClean.cname + '_warn',
-					util.produceWarnJob(
-						cleanTime,
-						warnTime,
-						ChannelToClean.cname,
-						async (_firedate: Date) => {
-							const chan: TextChannel | undefined = await util.getChannelByName(
-								this,
-								ChannelToClean.cname,
-							);
-							if (typeof chan === 'undefined') return;
-							util.warnChannel(
-								chan as TextChannel,
-								this,
-								parseInt(ChannelToClean.warningtime),
-							);
-						},
-					),
-				);
-				this.channelsToClean.set(
-					ChannelToClean.cname + '_clean',
-					util.produceCleanJob(
-						cleanTime,
-						ChannelToClean.cname,
-						async (_firedate: Date) => {
-							const chan: TextChannel | undefined = await util.getChannelByName(
-								this,
-								ChannelToClean.cname,
-							);
-							if (typeof chan === 'undefined') return;
-							util.clean(chan as TextChannel);
-						},
-					),
-				);
-			},
-		);
-	}
 	async registerModules() {
 		// Commands
 		const commandFiles = await glob(`${__dirname}/commands/*.js`);
 		commandFiles.forEach(async (filePath: string) => {
-			const command: CommandType = await this.importFile(filePath);
-			if (!command.name) return;
+			const command: Command = new (await this.importFile(filePath));
+			
 			command.isSlash
 				? this.slashCommands.push(command)
 				: this.commands.set(command.name, command);
@@ -182,41 +123,23 @@ export class BOT extends Client implements ExtendedClient {
 			if (!messageProcessor.name) return;
 			this.messageProcessors.set(messageProcessor.name, messageProcessor);
 		});
+		const backgroundJobs = await glob(
+			`${__dirname}/backgroundJobs/*.js`,
+		);
+		backgroundJobs.forEach(async (filePath: string) => {
+			const job: BackgroundJob = new (await this.importFile(filePath));
+			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
+		});
+		const deps = await glob(
+			`${__dirname}/backgroundJobs/*.js`,
+		);
+		deps.forEach(async (filePath: string) => {
+			const dep: Dependency = new (await this.importFile(filePath));
+			const type = new (await this.importFile(filePath, dep.name));
+			container.register(dep.name,type);
+		});
 	}
 	async _parseSettings() {
-		// Parses the data from the db into the settings type object,
-		// if a value isn't set a default value the for given type is set, e.g false for boolean.
-		// Needs to be called after connecting to the database, get all guilds but we only one so using index 0 is safe
-		const rawSetting = await this.orm.em.getRepository(Guilds).findAll();
-		// Due to the database being setup in a weird way we need to do some cast magic
-		// As the types are TEXT in the database casting like this is safe
-		this.settings = {
-			levelRoleMap: JSON.parse(rawSetting[0].levelRoleMap),
-			measureXP: (rawSetting[0].measureXP as unknown as boolean) ?? false,
-			spamFilter: (rawSetting[0].spamFilter as unknown as boolean) ?? false,
-			// These followering properties are just string so no casting needed
-			onJoinDMMsg: rawSetting[0].onJoinDMMsg ?? '',
-			onJoinDMMsgTitle: rawSetting[0].onJoinDMMsgTitle ?? '',
-			prefix: rawSetting[0].prefix ?? this.config.commands.prefix,
-		};
-	}
-	async onError(error: Error) {
-		if (!this.config.errors.channel.length) return;
-		const channel = await this.guilds.cache
-			.get(this.guildID)
-			?.channels.fetch(this.config.errors.channel);
-		if (typeof channel === 'undefined' || null) {
-			this.guilds.cache.get(this.guildID)?.systemChannel?.send({
-				embeds: [
-					new EmbedBuilder().setTitle(error.name).setDescription(error.message),
-				],
-			});
-			return;
-		}
-		(channel as TextChannel).send({
-			embeds: [
-				new EmbedBuilder().setTitle(error.name).setDescription(error.message),
-			],
-		});
+		console.log('TODO');
 	}
 }

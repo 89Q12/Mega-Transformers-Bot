@@ -1,5 +1,4 @@
 import { Message, EmbedBuilder, TextChannel, User } from 'discord.js';
-import { Job, scheduleJob, RecurrenceRule, JobCallback } from 'node-schedule';
 import { ExtendedClient } from './interfaces/Client';
 
 function getAvatarURL(user: User) {
@@ -62,28 +61,7 @@ async function getChannelByName(
 	)?.filter((chan) => chan?.name == name);
 	return (chan?.first() as TextChannel) ?? undefined;
 }
-function produceWarnJob(
-	hour: number,
-	minute: number,
-	name: string,
-	callback: JobCallback,
-): Job {
-	const rule: RecurrenceRule = new RecurrenceRule();
-	rule.hour = hour == 0 ? 23 : hour - 1;
-	rule.minute = 60 - minute;
-	rule.tz = 'Etc/UTC';
-	return scheduleJob(name + '_warn', rule, callback);
-}
-function produceCleanJob(
-	hour: number,
-	name: string,
-	callback: JobCallback,
-): Job {
-	const rule: RecurrenceRule = new RecurrenceRule();
-	rule.hour = hour == 24 ? 0 : hour;
-	rule.tz = 'Etc/UTC';
-	return scheduleJob(name + '_clean', rule, callback);
-}
+
 async function ban(
 	message: Message,
 	id: string,
@@ -103,8 +81,6 @@ export default {
 	getAvatarURL,
 	clean,
 	warnChannel,
-	produceWarnJob,
-	produceCleanJob,
 	getChannelByName,
 	ban,
 };
