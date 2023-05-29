@@ -102,6 +102,7 @@ export class BOT extends Client implements ExtendedClient {
 	}
 	async loadModules(){
 		this.registerModules(`${__dirname}/modules/dependencies/*.ts`,(module: Dependency) => container.register(module.class,{useClass: module.class}));
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		this.registerModules(`${__dirname}/modules/commands/*.ts`,(module: any) => {
 			const command: Command = container.resolve(module);
 			command.isSlash
@@ -112,12 +113,14 @@ export class BOT extends Client implements ExtendedClient {
 			if (!messageProcessor.name) return;
 			this.messageProcessors.set(messageProcessor.name, messageProcessor);
 		});
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		this.registerModules(`${__dirname}/modules/backgroundJobs/*.ts`,(module: any) => {
 			const job: BackgroundJob = container.resolve(module);
 			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
 		});
 		this.registerModules(`${__dirname}/modules/events/*.ts`,(event: Event<keyof ClientEvents>) =>this.on(event.event, event.run));
 	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async registerModules(path: string, callback: (this: ExtendedClient, module: any) => void) {
 		const modules =  await glob(
 			path,
