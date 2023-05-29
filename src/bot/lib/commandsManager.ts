@@ -46,16 +46,7 @@ export async function processCommands(
 		return;
 	}
 	// checks if the command is a class command and checks if the class has a function that maps to the first arg given
-	let runMethode: RunFunction = command.run;
-	if (command.isClass) {
-		if (command.subCmdsName?.includes(args[0])) {
-			runMethode = (command as unknown as Record<string, () => void>)[args[0].replace('-', '')] as RunFunction;
-			args.shift();
-		} else {
-			message.reply(`Unknown subcommand ${args[0]} of command ${command.name}`);
-			return;
-		}
-	}
+	const runMethode: RunFunction = command.run;
 	// commands that require certain discord permissions
 	if (command.requiredPermissions) {
 		const authorPermissions = (message.channel as TextChannel).permissionsFor(

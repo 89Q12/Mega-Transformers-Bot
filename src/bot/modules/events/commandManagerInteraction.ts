@@ -1,6 +1,6 @@
 import { CommandInteractionOptionResolver } from 'discord.js';
 import { Event } from '../../lib/Event';
-import { CommandType, ExtendedInteraction } from '../../interfaces/Command';
+import { Command, ExtendedInteraction } from '../../interfaces/Command';
 import { ExtendedClient } from '../../interfaces/Client';
 
 // Slashcommands handling
@@ -12,9 +12,9 @@ export default new Event('interactionCreate', async (interaction) => {
 		await interaction.deferReply();
 		const command = (interaction.client as ExtendedClient).slashCommands.find(
 			(cmd) => {
-				return (cmd as CommandType).name == interaction.command?.name;
+				return (cmd as Command).name == interaction.command?.name;
 			},
-		) as CommandType;
+		) as Command;
 		if (!command)
 			return interaction.followUp('You have used a non existent command');
 		await command.run({

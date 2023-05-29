@@ -73,7 +73,6 @@ export interface Command {
 	missingArgumentsResponse?: string;
 	type: ApplicationCommandType;
 	isSlash: boolean;
-	isClass: boolean;
 	subCmdsName?: Array<string>;
 	isArgumentsRequired?: boolean;
 	guildOnly: boolean;

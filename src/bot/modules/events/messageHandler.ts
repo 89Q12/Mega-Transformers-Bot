@@ -1,5 +1,5 @@
 import { Event } from '../../lib/Event';
-import { CommandType } from '../../interfaces/Command';
+import { Command } from '../../interfaces/Command';
 import { ExtendedClient } from '../../interfaces/Client';
 import { processCommands } from '../../lib/commandsManager';
 // Non slash commands
@@ -35,7 +35,7 @@ export default new Event('messageCreate', async (message) => {
 				: cleanContent.slice(client.settings.prefix.length).trim().split(/ +/);
 		// Command args, command name and Command itself
 		const commandName = args.shift()?.toLowerCase() || '';
-		const command: CommandType | undefined =
+		const command: Command | undefined =
 			client.commands.get(commandName) ??
 			client.commands.find((command) =>
 				command.aliases?.includes(commandName) ? true : false,
@@ -49,7 +49,7 @@ export default new Event('messageCreate', async (message) => {
 			isCommand = true;
 			const error: unknown | undefined = await processCommands(
 				message,
-				command as CommandType,
+				command as Command,
 				args,
 				client,
 			);
