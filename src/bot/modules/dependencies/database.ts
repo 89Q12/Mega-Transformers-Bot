@@ -18,5 +18,6 @@ export class Database{
 }
 
 export default {
-	name: 'Database'
+	name: 'Database',
+	class: Database
 } as Dependency;
