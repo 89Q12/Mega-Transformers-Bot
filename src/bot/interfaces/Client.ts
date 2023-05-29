@@ -14,11 +14,7 @@ export interface RegisterCommandsOptions {
 }
 export interface Settings {
 	prefix: string;
-	onJoinDMMsg: string;
-	onJoinDMMsgTitle: string;
 	spamFilter: boolean;
-	measureXP: boolean;
-	levelRoleMap: Record<string, string>;
 }
 export interface BotConfig {
 	chat: {
