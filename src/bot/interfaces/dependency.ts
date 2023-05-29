@@ -3,4 +3,5 @@
  */
 export interface Dependency{
     name: string
+    class: any
 }

@@ -13,8 +13,9 @@ import { Event } from './lib/Event';
 import { Command } from './interfaces/Command';
 import { MessageProcessorType } from './interfaces/messageProcessor';
 import { Cron } from 'croner';
-import { BackgroundJob } from './interfaces/BackgroundJob';
+import { BackgroundJob } from './interfaces/backgroundJob';
 import { Dependency } from './interfaces/dependency';
+import { typeInfo } from 'tsyringe/dist/typings/dependency-container';
 
 export class BOT extends Client implements ExtendedClient {
 	// properties
@@ -96,24 +97,30 @@ export class BOT extends Client implements ExtendedClient {
 		});
 	}
 	async registerModules() {
+		const deps = await glob(
+			`${__dirname}/modules/dependencies/*.ts`,
+		);
+		deps.forEach(async (filePath: string) => {
+			const dep: Dependency = (await this.importFile(filePath));
+			container.register(dep.class,{useClass: dep.class});
+		});
 		// Commands
-		const commandFiles = await glob(`${__dirname}/commands/*.js`);
+		const commandFiles = await glob(`${__dirname}/modules/commands/*.ts`);
 		commandFiles.forEach(async (filePath: string) => {
 			const command: Command = container.resolve(await this.importFile(filePath));
-			
 			command.isSlash
 				? this.slashCommands.push(command)
 				: this.commands.set(command.name, command);
 		});
 		// Events
-		const eventFiles = await glob(`${__dirname}/events/*.js`);
+		const eventFiles = await glob(`${__dirname}/modules/events/*.ts`);
 		eventFiles.forEach(async (filePath: string) => {
 			const event: Event<keyof ClientEvents> = await this.importFile(filePath);
 			this.on(event.event, event.run);
 		});
 		//message processors
 		const messageProcessorFiles = await glob(
-			`${__dirname}/messageprocessors/*.js`,
+			`${__dirname}/modules/messageprocessors/*.ts`,
 		);
 
 		messageProcessorFiles.forEach(async (filepath: string) => {
@@ -124,22 +131,19 @@ export class BOT extends Client implements ExtendedClient {
 			this.messageProcessors.set(messageProcessor.name, messageProcessor);
 		});
 		const backgroundJobs = await glob(
-			`${__dirname}/backgroundJobs/*.js`,
+			`${__dirname}/modules/backgroundJobs/*.ts`,
 		);
 		backgroundJobs.forEach(async (filePath: string) => {
 			const job: BackgroundJob = new (await this.importFile(filePath));
 			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
 		});
-		const deps = await glob(
-			`${__dirname}/backgroundJobs/*.js`,
-		);
-		deps.forEach(async (filePath: string) => {
-			const dep: Dependency = new (await this.importFile(filePath));
-			const type = new (await this.importFile(filePath, dep.name));
-			container.register(dep.name,{useClass: type});
-		});
+
 	}
 	async _parseSettings() {
-		console.log('TODO');
+		this.settings = {
+			prefix: '.',
+			spamFilter: false,
+
+		};
 	}
 }
