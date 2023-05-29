@@ -4,7 +4,7 @@
 	"description": "A framework to easily built discord bots with inbuilt commands.",
 	"main": "build/index.js",
 	"scripts": {
-		"dev": "rm -r ./build && tsc && node ./build/index.js",
+		"dev": "nodemon --watch 'src/**' index.ts",
 		"build": "tsc",
 		"start": "node ./build/index.js",
 		"generate-doc": "jsdoc ./build -r -p -d docs -t node_modules/docdash",
@@ -21,6 +21,8 @@
 		"eslint-config-prettier": "^8.8.0",
 		"jsdoc": "^4.0.2",
 		"prettier": "^2.8.8",
+		"nodemon": "^2.0.22",
+		"ts-node": "^10.9.1",
 		"typescript": "5.0.4"
 	},
 	"dependencies": {
@@ -28,6 +30,7 @@
 		"discord.js": "^14.11.0",
 		"glob": "^10.2.2",
 		"prisma": "^4.14.1",
+		"reflect-metadata": "^0.1.13",
 		"tsyringe": "^4.7.0"
 	}
 }
