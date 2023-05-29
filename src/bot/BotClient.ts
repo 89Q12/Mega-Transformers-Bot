@@ -4,6 +4,7 @@ import {
 	Client,
 	ClientEvents,
 	Collection,
+	GatewayIntentBits,
 } from 'discord.js';
 import { glob } from 'glob';
 import 'reflect-metadata';
@@ -15,7 +16,6 @@ import { MessageProcessorType } from './interfaces/messageProcessor';
 import { Cron } from 'croner';
 import { BackgroundJob } from './interfaces/backgroundJob';
 import { Dependency } from './interfaces/dependency';
-import { typeInfo } from 'tsyringe/dist/typings/dependency-container';
 
 export class BOT extends Client implements ExtendedClient {
 	// properties
@@ -31,22 +31,26 @@ export class BOT extends Client implements ExtendedClient {
 	public booted: boolean; // prevents the bot from taking in commands before everything has been initialized
 	backgroundJobs: Collection<string, Cron>;
 	constructor() {
-		// All intents 32767
-		super({ intents: 32767  });
+		// All intents
+		super({ intents: [
+			GatewayIntentBits.Guilds,
+			GatewayIntentBits.GuildMessages,
+			GatewayIntentBits.MessageContent,
+			GatewayIntentBits.GuildMembers,
+		],  });
 		this.commands = new Collection<string, Command>();
 		this.slashCommands = new Array<ApplicationCommandDataResolvable>();
 		this.cooldowns = new Collection<string, Collection<string, number>>();
 		this.messageProcessors = new Collection<string, MessageProcessorType>();
 		this.backgroundJobs = new Collection<string, Cron>();
 		this.booted = false;
-		// setup listeners
 	}
 
 	async start(BOT_CONFIG: BotConfig) {
 		this.guildID = BOT_CONFIG.guildID;
 		this.config = BOT_CONFIG;
 		// Register modules, login afterwards and register the on
-		await this.registerModules();
+		await this.loadModules();
 		//register all commands once the bot is ready
 		this.on('ready', async () => {
 			await this.registerCommands().then(() => this.setPermissions());
@@ -96,48 +100,33 @@ export class BOT extends Client implements ExtendedClient {
 			});
 		});
 	}
-	async registerModules() {
-		const deps = await glob(
-			`${__dirname}/modules/dependencies/*.ts`,
-		);
-		deps.forEach(async (filePath: string) => {
-			const dep: Dependency = (await this.importFile(filePath));
-			container.register(dep.class,{useClass: dep.class});
-		});
-		// Commands
-		const commandFiles = await glob(`${__dirname}/modules/commands/*.ts`);
-		commandFiles.forEach(async (filePath: string) => {
-			const command: Command = container.resolve(await this.importFile(filePath));
+	async loadModules(){
+		this.registerModules(`${__dirname}/modules/dependencies/*.ts`,(module: Dependency) => container.register(module.class,{useClass: module.class}));
+		this.registerModules(`${__dirname}/modules/commands/*.ts`,(module: any) => {
+			const command: Command = container.resolve(module);
 			command.isSlash
 				? this.slashCommands.push(command)
 				: this.commands.set(command.name, command);
 		});
-		// Events
-		const eventFiles = await glob(`${__dirname}/modules/events/*.ts`);
-		eventFiles.forEach(async (filePath: string) => {
-			const event: Event<keyof ClientEvents> = await this.importFile(filePath);
-			this.on(event.event, event.run);
-		});
-		//message processors
-		const messageProcessorFiles = await glob(
-			`${__dirname}/modules/messageprocessors/*.ts`,
-		);
-
-		messageProcessorFiles.forEach(async (filepath: string) => {
-			const messageProcessor: MessageProcessorType = await this.importFile(
-				filepath,
-			);
+		this.registerModules(`${__dirname}/modules/messageprocessors/*.ts`,(messageProcessor: MessageProcessorType) => {
 			if (!messageProcessor.name) return;
 			this.messageProcessors.set(messageProcessor.name, messageProcessor);
 		});
-		const backgroundJobs = await glob(
-			`${__dirname}/modules/backgroundJobs/*.ts`,
-		);
-		backgroundJobs.forEach(async (filePath: string) => {
-			const job: BackgroundJob = new (await this.importFile(filePath));
+		this.registerModules(`${__dirname}/modules/backgroundJobs/*.ts`,(module: any) => {
+			const job: BackgroundJob = container.resolve(module);
 			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
 		});
+		this.registerModules(`${__dirname}/modules/events/*.ts`,(event: Event<keyof ClientEvents>) =>this.on(event.event, event.run));
+	}
+	async registerModules(path: string, callback: (this: ExtendedClient, module: any) => void) {
+		const modules =  await glob(
+			path,
+		);
 
+		modules.forEach(async (filePath: string) => {
+			const module = (await this.importFile(filePath));
+			callback.call(this, module);
+		});
 	}
 	async _parseSettings() {
 		this.settings = {

@@ -60,5 +60,4 @@ export interface ExtendedClient extends Client {
 	start(BOT_CONFIG: BotConfig): void;
 	importFile(filePath: string): Promise<unknown>;
 	registerCommands(): Promise<void>;
-	registerModules(): Promise<void>;
 }
