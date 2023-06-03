@@ -10,12 +10,12 @@ import { glob } from 'glob';
 import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { BotConfig, ExtendedClient, Settings } from './interfaces/Client';
-import { Event } from './lib/Event';
 import { Command } from './interfaces/Command';
 import { MessageProcessorType } from './interfaces/messageProcessor';
 import { Cron } from 'croner';
 import { BackgroundJob } from './interfaces/backgroundJob';
 import { Dependency } from './interfaces/dependency';
+import BotEvent from './interfaces/Event';
 
 export class BOT extends Client implements ExtendedClient {
 	// properties
@@ -118,7 +118,7 @@ export class BOT extends Client implements ExtendedClient {
 			const job: BackgroundJob = container.resolve(module);
 			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
 		});
-		this.registerModules(`${__dirname}/modules/events/*.ts`,(event: Event<keyof ClientEvents>) =>this.on(event.event, event.run));
+		this.registerModules(`${__dirname}/modules/events/*.ts`,(event: BotEvent<keyof ClientEvents>) =>this.on('channelCreate', event.run));
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async registerModules(path: string, callback: (this: ExtendedClient, module: any) => void) {

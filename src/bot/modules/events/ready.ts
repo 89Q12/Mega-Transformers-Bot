@@ -1,7 +1,9 @@
-import { Client } from 'discord.js';
-import { Event } from '../../lib/Event';
+import BotEvent from '../../interfaces/Event';
 
-export default new Event('ready', (client: Client<true>) => {
+
+export default class ReadyEvent implements BotEvent<'ready'> {
+	run() {
 	// Do things that should be done when the bot is ready
-	console.log('Bot is online');
-});
+		console.log('Bot is online');
+	}
+}
