@@ -5,7 +5,7 @@ import { processCommands } from '../../lib/commandsManager';
 import { Message } from 'discord.js';
 // Non slash commands
 export default class OnMessage implements BotEvent<'messageCreate'> {
-
+	event = 'messageCreate';
 	async run(message: Message<boolean>) {
 		// checks if the bot has booted(initialized)
 		if (!(message.client as ExtendedClient).booted) return;

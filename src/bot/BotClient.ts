@@ -118,7 +118,10 @@ export class BOT extends Client implements ExtendedClient {
 			const job: BackgroundJob = container.resolve(module);
 			this.backgroundJobs.set(job.name, new Cron(job.pattern,job.options,job.run));
 		});
-		this.registerModules(`${__dirname}/modules/events/*.ts`,(event: BotEvent<keyof ClientEvents>) =>this.on('channelCreate', event.run));
+		this.registerModules(`${__dirname}/modules/events/*.ts`,(module: any) =>{
+			const event: BotEvent<keyof ClientEvents> = container.resolve(module);
+			this.on(event.event as keyof ClientEvents, event.run);
+		});
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	async registerModules(path: string, callback: (this: ExtendedClient, module: any) => void) {

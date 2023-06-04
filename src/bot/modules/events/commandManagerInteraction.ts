@@ -1,13 +1,15 @@
 import {
 	CommandInteractionOptionResolver,
 	Interaction,
+	ClientEvents,
 } from 'discord.js';
 import { Command, ExtendedInteraction } from '../../interfaces/Command';
 import { ExtendedClient } from '../../interfaces/Client';
 import BotEvent from '../../interfaces/Event';
 
-// Slashcommands handling
+// Slash commands handling
 export default class SlashCommands implements BotEvent<'interactionCreate'> {
+	event = 'interactionCreate';
 	async run(interaction: Interaction) {
 		// checks if the bot has booted(initialized)
 		if (!(interaction.client as ExtendedClient).booted) return;
