@@ -8,7 +8,6 @@ export class AuthController {
   @Get()
   @UseGuards(DiscordAuthGuard)
   async discordAuth(@Req() req): Promise<any> {
-    const accessToken = await this.jwtAuthService.login(req.user);
-    return { access_token: accessToken };
+    return await this.jwtAuthService.login(req.user);
   }
 }

@@ -3,6 +3,8 @@ import { JwtAuthService } from './jwt-auth.service';
 import { JwtAuthStrategy } from './jwt-auth.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtAuthController } from './jwt-auth.controller';
+import { RefreshJwtStrategy } from './refresh-token.strategy';
 
 @Module({
   imports: [
@@ -12,7 +14,8 @@ import { PassportModule } from '@nestjs/passport';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [JwtAuthStrategy, JwtAuthService],
+  controllers: [JwtAuthController],
+  providers: [JwtAuthStrategy, RefreshJwtStrategy, JwtAuthService],
   exports: [JwtAuthService],
 })
 export class JwtAuthModule {}
