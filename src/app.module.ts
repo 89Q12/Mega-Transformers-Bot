@@ -7,6 +7,7 @@ import { AuthModule } from './auth/discord/discord-auth.module';
 import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 import { DiscordModule } from '@discord-nestjs/core';
 import { GatewayIntentBits } from 'discord.js';
+import { BotModule } from './bot/bot.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,18 +22,25 @@ import { GatewayIntentBits } from 'discord.js';
       useFactory: (configService: ConfigService) => ({
         token: configService.get('TOKEN'),
         discordClientOptions: {
-          intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+          intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
+            GatewayIntentBits.GuildMembers,
+            GatewayIntentBits.GuildPresences,
+          ],
         },
         registerCommandOptions: [
           {
-            forGuild: configService.get('GUILD_ID_WITH_COMMANDS'),
-            removeCommandsBefore: true,
+            forGuild: configService.get('GUILD_ID'),
+            removeCommandsBefore: false,
           },
         ],
         failOnLogin: true,
       }),
       inject: [ConfigService],
     }),
+    BotModule,
   ],
   controllers: [AppController],
   providers: [AppService],

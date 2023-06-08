@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@discord-nestjs/common": "^5.2.5",
     "@discord-nestjs/core": "^5.3.7",
     "@nestjs/axios": "^2.0.0",
     "@nestjs/common": "^9.0.0",
