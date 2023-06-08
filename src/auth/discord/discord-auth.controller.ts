@@ -1,15 +1,14 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { DiscordAuthGuard } from './discord-auth.guard';
+import { JwtAuthService } from '../jwt/jwt-auth.service';
 
 @Controller('auth/discord')
 export class AuthController {
+  constructor(private jwtAuthService: JwtAuthService) {}
   @Get()
   @UseGuards(DiscordAuthGuard)
   async discordAuth(@Req() req): Promise<any> {
-    return {
-      name: req.user.name,
-      discord_id: req.user.user_id.toString(),
-      id: req.user.id,
-    };
+    const accessToken = await this.jwtAuthService.login(req.user);
+    return { access_token: accessToken };
   }
 }
