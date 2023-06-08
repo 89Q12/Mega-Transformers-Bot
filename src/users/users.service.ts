@@ -13,4 +13,23 @@ export class UsersService {
       },
     });
   }
+  async findOneOrCreate(profile: {
+    id: string;
+    username: string;
+  }): Promise<User | undefined> {
+    const user = await this.database.user.findUnique({
+      where: {
+        user_id: parseInt(profile.id),
+      },
+    });
+    if (!user) {
+      return await this.database.user.create({
+        data: {
+          user_id: parseInt(profile.id),
+          name: profile.username,
+        },
+      });
+    }
+    return user;
+  }
 }
