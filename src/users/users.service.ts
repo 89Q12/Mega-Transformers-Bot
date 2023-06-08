@@ -32,4 +32,44 @@ export class UsersService {
     }
     return user;
   }
+  async createOne(id: number, name: string): Promise<User> {
+    const user = this.findOne(id);
+    return user
+      ? user
+      : await this.database.user.create({
+          data: {
+            user_id: id,
+            name,
+          },
+        });
+  }
+  async incrementMessagePoints(value: number, user_id: number) {
+    value += (await this.findOne(user_id)).message_points;
+    this.database.user.update({
+      where: {
+        user_id,
+      },
+      data: {
+        message_points: value,
+      },
+    });
+  }
+  async decrementMessagePoints(value: number, user_id: number) {
+    value -= (await this.findOne(user_id)).message_points;
+    this.database.user.update({
+      where: {
+        user_id,
+      },
+      data: {
+        message_points: value,
+      },
+    });
+  }
+  async deleteOne(user_id: number): Promise<void> {
+    this.database.user.delete({
+      where: {
+        user_id,
+      },
+    });
+  }
 }
