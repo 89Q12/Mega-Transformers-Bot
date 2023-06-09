@@ -10,9 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id    Int     @default(autoincrement()) @id
-  user_id BigInt @unique
-  name  String?
+  userId        BigInt @id @unique
+  name          String
+  refresh_token String @default("")
+  stats         Stats?
+}
+
+model Stats {
+  userId               BigInt    @id
+  user                 User      @relation(fields: [userId], references: [userId])
+  last_message_sent    DateTime  @default(now())
+  last_online          DateTime  @default(now())
+  message_points       Float     @default(10.0)
+  message_count_bucket Int       @default(0)
+  Messages             Messages? @relation(fields: [messagesId], references: [id])
+  messagesId           BigInt?
+}
+
+model Messages {
+  id      BigInt    @id @default(autoincrement())
+  user    Stats[]
+  message Message[]
+}
+
+model Message {
+  messageId  BigInt    @id
+  createdAt  DateTime
+  authorID   BigInt
+  Messages   Messages @relation(fields: [messageId], references: [id])
 }
