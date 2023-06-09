@@ -8,8 +8,11 @@ import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 import { DiscordModule } from '@discord-nestjs/core';
 import { GatewayIntentBits } from 'discord.js';
 import { BotModule } from './bot/bot.module';
+import { TasksModule } from './tasks/tasks.module';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvVars: true,
@@ -23,11 +26,11 @@ import { BotModule } from './bot/bot.module';
         token: configService.get('TOKEN'),
         discordClientOptions: {
           intents: [
+            GatewayIntentBits.GuildPresences,
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
             GatewayIntentBits.GuildMembers,
-            GatewayIntentBits.GuildPresences,
           ],
         },
         registerCommandOptions: [
@@ -41,6 +44,8 @@ import { BotModule } from './bot/bot.module';
       inject: [ConfigService],
     }),
     BotModule,
+    TasksModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
