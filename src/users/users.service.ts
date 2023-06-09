@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { retry } from 'rxjs';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -71,5 +72,15 @@ export class UsersService {
         user_id,
       },
     });
+  }
+  async findAll(): Promise<Array<User>> {
+    return this.database.user.findMany();
+  }
+
+  async updateMessageCountBucket(user: User): Promise<void> {
+    this.database;
+  }
+  async isActive(user: User): Promise<boolean> {
+    return false;
   }
 }
