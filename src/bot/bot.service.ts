@@ -2,13 +2,8 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
-import { BaseGuildTextChannel, GuildTextBasedChannel } from 'discord.js';
-import {
-  Client,
-  GuildBasedChannel,
-  PermissionOverwrites,
-  TextChannel,
-} from 'discord.js';
+import { BaseGuildTextChannel } from 'discord.js';
+import { Client } from 'discord.js';
 
 @Injectable()
 export class BotService {
@@ -24,7 +19,7 @@ export class BotService {
     );
   }
   async markMemberActive(user: User) {
-    this._addMemberToChannel(
+    this._removeMemberToChannel(
       user.user_id.toString(),
       this.configService.get<string>(''),
     );

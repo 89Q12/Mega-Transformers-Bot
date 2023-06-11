@@ -1,14 +1,11 @@
-import { InjectDiscordClient } from '@discord-nestjs/core';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { User } from '@prisma/client';
-import { Client } from 'discord.js';
 import { BotService } from 'src/bot/bot.service';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class TasksService {
-  private readonly logger = new Logger(TasksService.name);
   constructor(
     @Inject(BotService) private botService: BotService,
     @Inject(UsersService) private userService: UsersService,
@@ -16,7 +13,7 @@ export class TasksService {
 
   @Cron('* * 0 * * *', {
     name: 'checkActiveUsers',
-    timeZone: 'Europe/Paris',
+    timeZone: 'Europe/Berlin',
   })
   async checkActiveUsers() {
     (await this.userService.findAll()).forEach((user: User) => {
