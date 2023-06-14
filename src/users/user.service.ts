@@ -1,10 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
-import { retry } from 'rxjs';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(@Inject(PrismaService) private database: PrismaService) {}
 
   async findOne(userId: number): Promise<User | undefined> {
@@ -78,7 +77,7 @@ export class UsersService {
   }
 
   async updateMessageCountBucket(user: User): Promise<void> {
-    this.database;
+    false;
   }
   async isActive(user: User): Promise<boolean> {
     return false;

@@ -4,10 +4,10 @@ import { BotService } from './bot.service';
 import { BotController } from './bot.controller';
 import { PingCommand } from './commands/ping.command';
 import { BotGateway } from './bot.gateway';
-import { UsersModule } from 'src/users/users.module';
+import { UserModule } from 'src/users/user.module';
 
 @Module({
-  imports: [DiscordModule.forFeature(), UsersModule],
+  imports: [DiscordModule.forFeature(), UserModule],
   providers: [BotService, PingCommand, BotGateway],
   controllers: [BotController],
 })

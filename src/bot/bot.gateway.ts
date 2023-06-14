@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
 import { Client, GuildMember, Presence } from 'discord.js';
-import { UsersService } from 'src/users/users.service';
+import { UserService } from 'src/users/user.service';
 
 @Injectable()
 export class BotGateway {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
-    @Inject(UsersService) private readonly userService: UsersService,
+    @Inject(UserService) private readonly userService: UserService,
   ) {}
 
   @Once('ready')
