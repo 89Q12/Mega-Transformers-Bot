@@ -11,32 +11,32 @@ datasource db {
 }
 
 model User {
-  userId        BigInt @id @unique
+  userId        BigInt     @id @unique
   name          String
-  refresh_token String @default("")
+  refresh_token String     @default("")
   stats         Stats?
+  Messages      Messages[]
 }
 
 model Stats {
-  userId               BigInt    @id
-  user                 User      @relation(fields: [userId], references: [userId])
-  last_message_sent    DateTime  @default(now())
-  last_online          DateTime  @default(now())
-  message_points       Float     @default(10.0)
-  message_count_bucket Int       @default(0)
-  Messages             Messages? @relation(fields: [messagesId], references: [id])
-  messagesId           BigInt?
+  userId               BigInt   @id
+  user                 User     @relation(fields: [userId], references: [userId])
+  last_message_sent    DateTime @default(now())
+  last_online          DateTime @default(now())
+  message_points       Float    @default(10.0)
+  message_count_bucket Int      @default(0)
 }
 
 model Messages {
-  id      BigInt    @id @default(autoincrement())
-  user    Stats[]
-  message Message[]
+  id         BigInt    @id @default(autoincrement())
+  user_id    BigInt    @unique
+  user       User?     @relation(fields: [user_id], references: [userId])
+  message    Message[]
 }
 
 model Message {
-  messageId  BigInt    @id
-  createdAt  DateTime
-  authorID   BigInt
-  Messages   Messages @relation(fields: [messageId], references: [id])
+  messageId BigInt   @id
+  createdAt DateTime
+  authorID  BigInt
+  Messages  Messages @relation(fields: [messageId], references: [id])
 }

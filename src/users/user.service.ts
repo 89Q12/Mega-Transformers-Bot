@@ -13,35 +13,27 @@ export class UserService {
       },
     });
   }
-  async findOneOrCreate(profile: {
-    id: string;
-    username: string;
-  }): Promise<User | undefined> {
-    const user = await this.database.user.findUnique({
-      where: {
-        user_id: parseInt(profile.id),
-      },
-    });
-    if (!user) {
-      return await this.database.user.create({
-        data: {
-          user_id: parseInt(profile.id),
-          name: profile.username,
-        },
-      });
-    }
-    return user;
-  }
-  async createOne(id: number, name: string): Promise<User> {
-    const user = this.findOne(id);
+
+  async createOne(user_id: number, name: string): Promise<User> {
+    const user = this.findOne(user_id);
+    this.createStats(user_id);
     return user
       ? user
       : await this.database.user.create({
           data: {
-            user_id: id,
+            user_id,
             name,
           },
         });
+  }
+  private async createStats(user_id: number) {
+    throw new Error('Method not implemented.');
+  }
+
+  async insertMessage(user_id: number, message_id: number) {
+    await this.getStatsOrCreate(user_id);
+    // insert into this.datanase.messages with date.now(), message id userid, stats id
+    throw new Error('Method not implemented.');
   }
   async incrementMessagePoints(value: number, user_id: number) {
     value += (await this.findOne(user_id)).message_points;
@@ -81,5 +73,8 @@ export class UserService {
   }
   async isActive(user: User): Promise<boolean> {
     return false;
+  }
+  private async getStatsOrCreate(user_id: number) {
+    throw new Error('Function not implemented.');
   }
 }
