@@ -69,10 +69,10 @@ export class UserService {
   }
 
   async updateMessageCountBucket(user: User): Promise<void> {
-    false;
+    throw new Error('Function not implemented.');
   }
   async isActive(user: User): Promise<boolean> {
-    return false;
+    throw new Error('Function not implemented.');
   }
   private async getStatsOrCreate(user_id: number) {
     throw new Error('Function not implemented.');
