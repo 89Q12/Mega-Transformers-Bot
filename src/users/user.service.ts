@@ -34,18 +34,7 @@ export class UserService {
       },
     });
   }
-  async incrementMessagePoints(value: number, userId: number) {
-    this.database.stats.update({
-      where: { userId },
-      data: { message_points: { increment: 1 } },
-    });
-  }
-  async decrementMessagePoints(value: number, userId: number) {
-    this.database.stats.update({
-      where: { userId },
-      data: { message_points: { decrement: 1 } },
-    });
-  }
+
   async deleteOne(userId: number): Promise<void> {
     this.database.user.delete({ where: { userId } });
   }

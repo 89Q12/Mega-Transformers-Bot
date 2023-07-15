@@ -10,13 +10,13 @@ export class JwtAuthService {
       username: user.name,
       sub: {
         name: user.name,
-        user_id: user.user_id.toString(),
+        user_id: user.userId.toString(),
       },
     };
     return {
       user: {
         name: user.name,
-        user_id: user.user_id.toString(),
+        user_id: user.userId.toString(),
       },
       accessToken: this.jwtService.sign(payload),
       refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
