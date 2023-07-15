@@ -14,18 +14,19 @@ export class UserService {
     let user = await this.findOne(userId);
     if (user) return user;
 
+    await this.database.stats.create({
+      data: { userId },
+    });
     user = await this.database.user.create({
       data: { userId, name },
     });
 
-    await this.database.stats.create({
-      data: { userId },
-    });
     return user;
   }
 
   async insertMessage(userId: number, messageId: number, channelId: number) {
-    this.database.message.create({
+    console.log(messageId);
+    await this.database.message.create({
       data: {
         userId,
         messageId,
@@ -36,7 +37,7 @@ export class UserService {
   }
 
   async deleteOne(userId: number): Promise<void> {
-    this.database.user.delete({ where: { userId } });
+    await this.database.user.delete({ where: { userId } });
   }
   async findAll(): Promise<Array<User>> {
     return this.database.user.findMany();
@@ -54,6 +55,7 @@ export class UserService {
         },
       },
     });
+    console.log(messageCount);
     await this.database.stats.update({
       where: { userId: user.userId },
       data: { message_count_bucket: messageCount },
@@ -62,7 +64,7 @@ export class UserService {
   async isActive(user: User): Promise<boolean> {
     return (
       (await this.database.stats.findUnique({ where: { userId: user.userId } }))
-        .message_count_bucket > 30
+        .message_count_bucket >= 30
     );
   }
   // SELECT

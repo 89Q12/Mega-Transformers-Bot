@@ -11,14 +11,15 @@ export class TasksService {
     @Inject(UserService) private userService: UserService,
   ) {}
 
-  @Cron('* * 0 * * *', {
+  @Cron('0 0 * * *', {
     name: 'checkActiveUsers',
     timeZone: 'Europe/Berlin',
   })
   async checkActiveUsers() {
-    (await this.userService.findAll()).forEach((user: User) => {
+    (await this.userService.findAll()).forEach(async (user: User) => {
       this.userService.updateMessageCountBucket(user);
-      if (!this.userService.isActive(user))
+      console.log(await this.userService.isActive(user));
+      if (!(await this.userService.isActive(user)))
         this.botService.markMemberInactive(user);
       else this.botService.markMemberActive(user);
     });

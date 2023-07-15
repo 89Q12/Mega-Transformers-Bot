@@ -10,5 +10,6 @@ import { UserModule } from 'src/users/user.module';
   imports: [DiscordModule.forFeature(), UserModule],
   providers: [BotService, PingCommand, BotGateway],
   controllers: [BotController],
+  exports: [BotService],
 })
 export class BotModule {}
