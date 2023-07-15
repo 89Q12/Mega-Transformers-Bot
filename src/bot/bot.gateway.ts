@@ -3,7 +3,6 @@ import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
 import { Client, GuildMember, Message } from 'discord.js';
 import { UserService } from 'src/users/user.service';
 import { MessageFromUserGuard } from './guards/message-from-user.guard';
-import { time } from 'console';
 @Injectable()
 export class BotGateway {
   constructor(
