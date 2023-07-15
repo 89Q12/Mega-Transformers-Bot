@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Client, GuildMember, Presence } from 'discord.js';
+import { Client, GuildMember, Message } from 'discord.js';
 import { UserService } from 'src/users/user.service';
-
+import { MessageFromUserGuard } from './guards/message-from-user.guard';
+import { time } from 'console';
 @Injectable()
 export class BotGateway {
   constructor(
@@ -35,12 +36,13 @@ export class BotGateway {
   async removeMember(member: GuildMember) {
     await this.userService.deleteOne(parseInt(member.id));
   }
-
-  @On('presenceUpdate')
-  async presenceUpdate(
-    oldMemberPresence: Presence,
-    newMemberPresence: Presence,
-  ) {
-    console.log(oldMemberPresence.status, newMemberPresence.status);
+  @On('messageCreate')
+  @UseGuards(MessageFromUserGuard)
+  async onMessage(message: Message): Promise<void> {
+    await this.userService.insertMessage(
+      parseInt(message.author.id),
+      parseInt(message.id),
+      parseInt(message.guildId),
+    );
   }
 }
