@@ -18,7 +18,6 @@ export class TasksService {
   async checkActiveUsers() {
     (await this.userService.findAll()).forEach(async (user: User) => {
       this.userService.updateMessageCountBucket(user);
-      console.log(await this.userService.isActive(user));
       if (!(await this.userService.isActive(user)))
         this.botService.markMemberInactive(user);
       else this.botService.markMemberActive(user);

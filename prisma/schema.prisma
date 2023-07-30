@@ -33,3 +33,8 @@ model Message {
   createdAt   DateTime
   statsUserId BigInt?
 }
+
+model RistrictedChannels {
+  channelId BigInt @id @unique
+  requiredPoints BigInt
+}

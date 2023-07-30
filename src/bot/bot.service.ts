@@ -4,29 +4,45 @@ import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 import { BaseGuildTextChannel } from 'discord.js';
 import { Client } from 'discord.js';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class BotService {
   constructor(
     @InjectDiscordClient() private client: Client,
     @Inject(ConfigService) private configService: ConfigService,
+    @Inject(PrismaService) private database: PrismaService,
   ) {}
 
   async markMemberInactive(user: User) {
-    this.configService
-      .get<string>('RESTRICTED_CHANNEL_IDS')
-      .split(',')
-      .forEach((channel_id) => {
-        this._addMemberToChannel(user.userId.toString(), channel_id);
-      });
+    (
+      await this._getRestrictedChannels(
+        (
+          await this.database.stats.findUnique({
+            where: {
+              userId: user.userId,
+            },
+          })
+        ).message_count_bucket,
+      )
+    ).forEach((channel_id) => {
+      this._addMemberToChannel(user.userId.toString(), channel_id);
+    });
   }
   async markMemberActive(user: User) {
-    this.configService
-      .get<string>('RESTRICTED_CHANNEL_IDS')
-      .split(',')
-      .forEach((channel_id) => {
-        this._removeMemberToChannel(user.userId.toString(), channel_id);
-      });
+    (
+      await this._getRestrictedChannels(
+        (
+          await this.database.stats.findUnique({
+            where: {
+              userId: user.userId,
+            },
+          })
+        ).message_count_bucket,
+      )
+    ).forEach((channel_id) => {
+      this._addMemberToChannel(user.userId.toString(), channel_id);
+    });
   }
   private async _addMemberToChannel(user_id: string, channel_id: string) {
     await (
@@ -40,5 +56,17 @@ export class BotService {
     await (
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.delete(user_id);
+  }
+  private async _getRestrictedChannels(
+    activityCount: number,
+  ): Promise<Array<string>> {
+    const channels = await this.database.ristrictedChannels.findMany({
+      where: {
+        requiredPoints: {
+          gte: activityCount,
+        },
+      },
+    });
+    return channels.map((channel) => channel.channelId.toString());
   }
 }
