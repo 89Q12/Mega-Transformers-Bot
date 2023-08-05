@@ -14,9 +14,9 @@ export class BotService {
     @Inject(PrismaService) private database: PrismaService,
   ) {}
 
-  async markMemberInactive(user: User) {
+  async updateChannelPermissions(user: User) {
     (
-      await this._getRestrictedChannels(
+      await this._getLockedChannels(
         (
           await this.database.stats.findUnique({
             where: {
@@ -26,12 +26,10 @@ export class BotService {
         ).message_count_bucket,
       )
     ).forEach((channel_id) => {
-      this._addMemberToChannel(user.userId.toString(), channel_id);
+      this._removeMemberToChannel(user.userId.toString(), channel_id);
     });
-  }
-  async markMemberActive(user: User) {
     (
-      await this._getRestrictedChannels(
+      await this._getUnlockedChannels(
         (
           await this.database.stats.findUnique({
             where: {
@@ -57,13 +55,25 @@ export class BotService {
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.delete(user_id);
   }
-  private async _getRestrictedChannels(
+  private async _getUnlockedChannels(
     activityCount: number,
   ): Promise<Array<string>> {
     const channels = await this.database.ristrictedChannels.findMany({
       where: {
         requiredPoints: {
-          gte: activityCount,
+          lte: activityCount,
+        },
+      },
+    });
+    return channels.map((channel) => channel.channelId.toString());
+  }
+  private async _getLockedChannels(
+    activityCount: number,
+  ): Promise<Array<string>> {
+    const channels = await this.database.ristrictedChannels.findMany({
+      where: {
+        requiredPoints: {
+          gt: activityCount,
         },
       },
     });
