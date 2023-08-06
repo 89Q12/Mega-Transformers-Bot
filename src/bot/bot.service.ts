@@ -1,6 +1,5 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 import { BaseGuildTextChannel } from 'discord.js';
 import { Client } from 'discord.js';
@@ -10,7 +9,6 @@ import { PrismaService } from 'src/prisma.service';
 export class BotService {
   constructor(
     @InjectDiscordClient() private client: Client,
-    @Inject(ConfigService) private configService: ConfigService,
     @Inject(PrismaService) private database: PrismaService,
   ) {}
 
