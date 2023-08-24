@@ -1,6 +1,8 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
+import { privateDecrypt } from 'crypto';
 import { BaseGuildTextChannel } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
@@ -10,7 +12,18 @@ export class BotService {
   constructor(
     @InjectDiscordClient() private client: Client,
     @Inject(PrismaService) private database: PrismaService,
+    @Inject(ConfigService) private config: ConfigService,
   ) {}
+
+  async isMemberMod(user: User): Promise<boolean> {
+    return (
+      await this.client.guilds.cache
+        .first()
+        .members.fetch(user.userId.toString())
+    ).roles.cache.some(
+      (role) => role.name === this.config.get<string>('MODS_ROLE_NAME'),
+    );
+  }
 
   async updateChannelPermissions(user: User) {
     (
