@@ -2,7 +2,6 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
-import { privateDecrypt } from 'crypto';
 import { BaseGuildTextChannel } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
