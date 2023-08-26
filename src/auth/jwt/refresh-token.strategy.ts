@@ -10,13 +10,14 @@ export class RefreshJwtStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromBodyField('refresh'),
+      jwtFromRequest: ExtractJwt.fromHeader('refresh'),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_REFRESH_SECRET'),
     });
   }
 
   async validate(payload: any) {
-    return { user: payload.sub, username: payload.username };
+    console.log(payload);
+    return { user: payload.sub };
   }
 }

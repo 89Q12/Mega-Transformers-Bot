@@ -9,7 +9,12 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiProperty,
+  ApiResponse,
+} from '@nestjs/swagger';
 import {
   CategoryChannelResolvable,
   ChannelType,
@@ -71,6 +76,8 @@ class GuildChannelEditOptions {
   Bot API, this allows the frontend to interact with the discord api
 */
 @Controller('bot')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
 export class BotController {
   constructor(
     @InjectDiscordClient()
