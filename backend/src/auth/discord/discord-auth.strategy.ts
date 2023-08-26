@@ -6,19 +6,22 @@ import { Strategy, VerifyCallback } from 'passport-oauth2';
 import { stringify } from 'querystring';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 // change these to be your Discord client ID and secret
-const clientID = '664177028119003136';
-const clientSecret = 'oOt-EkPEokxbaL7sQ3XH1kaojUXxjPm_';
 const callbackURL = 'http://localhost:3000/auth/discord';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  constructor(private authService: AuthService, private http: HttpService) {
+  constructor(
+    private authService: AuthService,
+    private http: HttpService,
+    private configService: ConfigService,
+  ) {
     super({
       authorizationURL: `https://discordapp.com/api/oauth2/authorize?${stringify(
         {
-          client_id: clientID,
+          client_id: configService.get('DISCORD_OAUTH_CLIENT_ID'),
           redirect_uri: callbackURL,
           response_type: 'code',
           scope: 'identify',
@@ -26,8 +29,8 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       )}`,
       tokenURL: 'https://discordapp.com/api/oauth2/token',
       scope: 'identify',
-      clientID,
-      clientSecret,
+      clientID: configService.get('DISCORD_OAUTH_CLIENT_ID'),
+      clientSecret: configService.get('DISCORD_OAUTH_CLIENT_SECRET'),
       callbackURL,
     });
   }
