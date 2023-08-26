@@ -36,7 +36,6 @@ export class JwtAuthService {
     };
   }
   async refreshToken(user: { user: User }) {
-    console.log(user);
     const payload = {
       sub: user.user,
     };

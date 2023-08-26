@@ -25,7 +25,6 @@ export class UserService {
   }
 
   async insertMessage(userId: number, messageId: number, channelId: number) {
-    console.log(messageId);
     await this.database.message.create({
       data: {
         userId,
@@ -55,7 +54,6 @@ export class UserService {
         },
       },
     });
-    console.log(messageCount);
     await this.database.stats.update({
       where: { userId: user.userId },
       data: { message_count_bucket: messageCount },
