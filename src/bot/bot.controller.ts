@@ -9,17 +9,96 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 import {
+  Base64Resolvable,
+  Base64String,
+  BufferResolvable,
   Client,
+  ColorResolvable,
+  Colors,
+  EmojiResolvable,
   GuildBasedChannel,
   GuildChannel,
+  GuildEmoji,
+  PermissionFlagsBits,
+  PermissionResolvable,
+  ReactionEmoji,
   Role,
+  RoleEditOptions,
+  Snowflake,
   User,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
+class EditRoleData {
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'New name of the role',
+  })
+  name?: string;
+  @ApiProperty({
+    enum: Colors,
+    required: false,
+    description: 'New color of the role',
+  })
+  color?: ColorResolvable;
+  @ApiProperty({
+    type: String,
+    required: true,
+    description: 'Why was the role updated',
+  })
+  reason: string;
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+    description: 'Whether or not the role should be hoisted',
+  })
+  hoist?: boolean;
+  @ApiProperty({
+    type: Number,
+    required: false,
+    description:
+      'The position of the role; Higher = more permissions relative to the role below',
+  })
+  position?: number;
+  @ApiProperty({
+    type: Array<keyof typeof PermissionFlagsBits>,
+    required: false,
+    description: 'Updated Permission',
+    default: null,
+    example: ['AddReactions', 'KickMembers'],
+  })
+  permissions?: PermissionResolvable;
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+    description: 'Should the role be mentionable or not',
+  })
+  mentionable?: boolean;
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'New Icon of the role, base64 encoded string',
+    externalDocs: {
+      description: 'Discord.js docs',
+      url: 'https://old.discordjs.dev/#/docs/discord.js/main/class/Role?scrollTo=setIcon',
+    },
+  })
+  icon?: Base64Resolvable | EmojiResolvable | null;
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'The new unicodeEmoji of the role',
+  })
+  unicodeEmoji?: string | null;
+}
+
+/*
+  Bot API, this allows the frontend to interact with the discord api
+*/
 @Controller('bot')
-@UseGuards(JwtAuthGuard)
 export class BotController {
   constructor(
     @InjectDiscordClient()
@@ -91,11 +170,18 @@ export class BotController {
     const channel = guild.channels.cache.get(channelId) as GuildChannel;
     await channel.edit({ rateLimitPerUser: duration });
   }
+
+  @Get('guild/:guildId/roles')
+  async getGuildRoles(@Param('guildId') guildId: string): Promise<Role[]> {
+    const guild = await this.client.guilds.fetch(guildId);
+    return (await guild.roles.fetch()).toJSON();
+  }
+
   @Put('guild/:guildId/role/:roleId')
   async updateRole(
     @Param('guildId') guildId: string,
     @Param('roleId') roleId: string,
-    @Body() roleData: Partial<Record<string, unknown>>,
+    @Body() roleData: EditRoleData,
   ): Promise<Role> {
     const guild = await this.client.guilds.fetch(guildId);
     const role = guild.roles.cache.get(roleId);
