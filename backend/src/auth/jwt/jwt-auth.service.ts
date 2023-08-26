@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { config } from 'process';
 
 @Injectable()
 export class JwtAuthService {
@@ -28,7 +27,7 @@ export class JwtAuthService {
         algorithm: 'HS256',
       }),
       refreshToken: this.jwtService.sign(payload, {
-        expiresIn: '7d',
+        expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRATION'),
         secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
         issuer: this.configService.get<string>('JWT_ISSUER'),
         algorithm: 'HS256',
