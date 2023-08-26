@@ -12,21 +12,17 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import {
   Base64Resolvable,
-  Base64String,
-  BufferResolvable,
+  CategoryChannelResolvable,
+  ChannelType,
   Client,
   ColorResolvable,
   Colors,
   EmojiResolvable,
   GuildBasedChannel,
   GuildChannel,
-  GuildEmoji,
   PermissionFlagsBits,
   PermissionResolvable,
-  ReactionEmoji,
   Role,
-  RoleEditOptions,
-  Snowflake,
   User,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
@@ -41,6 +37,8 @@ class EditRoleData {
   @ApiProperty({
     enum: Colors,
     required: false,
+    example: 'White',
+    examples: Object.keys(Colors),
     description: 'New color of the role',
   })
   color?: ColorResolvable;
@@ -94,7 +92,45 @@ class EditRoleData {
   })
   unicodeEmoji?: string | null;
 }
-
+class GuildChannelEditOptions {
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'New name of the role',
+  })
+  name?: string;
+  @ApiProperty({
+    enum: ChannelType,
+    required: false,
+    description: 'Change the type of the channel',
+  })
+  type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Topic of the channel',
+  })
+  topic?: string | null;
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+    description: 'Should the channel be NSFW',
+  })
+  nsfw?: boolean;
+  userLimit?: number;
+  parent?: CategoryChannelResolvable | null;
+  @ApiProperty({
+    type: Number,
+    required: false,
+    description: 'Slowmode for the channel in seconds',
+  })
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Why was the channel updated/created',
+  })
+  reason?: string;
+}
 /*
   Bot API, this allows the frontend to interact with the discord api
 */
@@ -112,7 +148,7 @@ export class BotController {
     return members.map((member) => member.user);
   }
 
-  @Get('guild/:guildId/channels')
+  @Get('guild/:guildId/channel')
   async getGuildChannels(
     @Param('guildId') guildId: string,
   ): Promise<GuildChannel[]> {
@@ -124,7 +160,7 @@ export class BotController {
   async editChannel(
     @Param('guildId') guildId: string,
     @Param('channelId') channelId: string,
-    @Body() channelData: Partial<Record<string, unknown>>,
+    @Body() channelData: GuildChannelEditOptions,
   ): Promise<GuildBasedChannel> {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId);
@@ -176,7 +212,15 @@ export class BotController {
     const guild = await this.client.guilds.fetch(guildId);
     return (await guild.roles.fetch()).toJSON();
   }
-
+  @Post('guild/:guildId/role/')
+  async createRole(
+    @Param('guildId') guildId: string,
+    @Body() roleData: EditRoleData,
+  ): Promise<Role> {
+    const guild = await this.client.guilds.fetch(guildId);
+    const role = await guild.roles.create(roleData);
+    return role;
+  }
   @Put('guild/:guildId/role/:roleId')
   async updateRole(
     @Param('guildId') guildId: string,
