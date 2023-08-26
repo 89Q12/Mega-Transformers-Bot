@@ -9,89 +9,24 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger';
 import {
-  Base64Resolvable,
   CategoryChannelResolvable,
   ChannelType,
   Client,
-  ColorResolvable,
-  Colors,
-  EmojiResolvable,
   GuildBasedChannel,
   GuildChannel,
-  PermissionFlagsBits,
-  PermissionResolvable,
   Role,
   User,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
+import {
+  EditRoleData,
+  RoleResponse,
+  roleResponseSchema,
+  rolesResponseSchema,
+} from './entities/role';
 
-class EditRoleData {
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'New name of the role',
-  })
-  name?: string;
-  @ApiProperty({
-    enum: Colors,
-    required: false,
-    example: 'White',
-    examples: Object.keys(Colors),
-    description: 'New color of the role',
-  })
-  color?: ColorResolvable;
-  @ApiProperty({
-    type: String,
-    required: true,
-    description: 'Why was the role updated',
-  })
-  reason: string;
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-    description: 'Whether or not the role should be hoisted',
-  })
-  hoist?: boolean;
-  @ApiProperty({
-    type: Number,
-    required: false,
-    description:
-      'The position of the role; Higher = more permissions relative to the role below',
-  })
-  position?: number;
-  @ApiProperty({
-    type: Array<keyof typeof PermissionFlagsBits>,
-    required: false,
-    description: 'Updated Permission',
-    default: null,
-    example: ['AddReactions', 'KickMembers'],
-  })
-  permissions?: PermissionResolvable;
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-    description: 'Should the role be mentionable or not',
-  })
-  mentionable?: boolean;
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'New Icon of the role, base64 encoded string',
-    externalDocs: {
-      description: 'Discord.js docs',
-      url: 'https://old.discordjs.dev/#/docs/discord.js/main/class/Role?scrollTo=setIcon',
-    },
-  })
-  icon?: Base64Resolvable | EmojiResolvable | null;
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'The new unicodeEmoji of the role',
-  })
-  unicodeEmoji?: string | null;
-}
 class GuildChannelEditOptions {
   @ApiProperty({
     type: String,
@@ -131,6 +66,7 @@ class GuildChannelEditOptions {
   })
   reason?: string;
 }
+
 /*
   Bot API, this allows the frontend to interact with the discord api
 */
@@ -149,6 +85,7 @@ export class BotController {
   }
 
   @Get('guild/:guildId/channel')
+  @ApiOperation({ summary: 'Get all channels for a guild' })
   async getGuildChannels(
     @Param('guildId') guildId: string,
   ): Promise<GuildChannel[]> {
@@ -157,6 +94,7 @@ export class BotController {
   }
 
   @Put('guild/:guildId/channel/:channelId')
+  @ApiOperation({ summary: 'Edit a channel for a guild' })
   async editChannel(
     @Param('guildId') guildId: string,
     @Param('channelId') channelId: string,
@@ -169,6 +107,7 @@ export class BotController {
   }
 
   @Post('guild/:guildId/user/:userId/ban')
+  @ApiOperation({ summary: 'Ban a user from a guild' })
   async banUser(
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
@@ -178,6 +117,7 @@ export class BotController {
   }
 
   @Post('guild/:guildId/user/:userId/kick')
+  @ApiOperation({ summary: 'Kick a user from a guild' })
   async kickUser(
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
@@ -187,6 +127,7 @@ export class BotController {
   }
 
   @Post('guild/:guildId/user/:userId/timeout')
+  @ApiOperation({ summary: 'Timeout a user from a guild' })
   async timeoutUser(
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
@@ -197,6 +138,7 @@ export class BotController {
   }
 
   @Post('guild/:guildId/channel/:channelId/slowmode')
+  @ApiOperation({ summary: 'Set slowmode for a channel' })
   async setSlowmode(
     @Param('guildId') guildId: string,
     @Param('channelId') channelId: string,
@@ -208,11 +150,33 @@ export class BotController {
   }
 
   @Get('guild/:guildId/roles')
+  @ApiOperation({ summary: 'Get all roles for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: [RoleResponse],
+    schema: rolesResponseSchema,
+    description: 'Roles were successfully fetched',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Roles could not be successfully fetched',
+  })
   async getGuildRoles(@Param('guildId') guildId: string): Promise<Role[]> {
     const guild = await this.client.guilds.fetch(guildId);
     return (await guild.roles.fetch()).toJSON();
   }
   @Post('guild/:guildId/role/')
+  @ApiOperation({ summary: 'Create a role for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: RoleResponse,
+    schema: roleResponseSchema,
+    description: 'Role was successfully created',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Role could not be successfully created',
+  })
   async createRole(
     @Param('guildId') guildId: string,
     @Body() roleData: EditRoleData,
@@ -222,6 +186,17 @@ export class BotController {
     return role;
   }
   @Put('guild/:guildId/role/:roleId')
+  @ApiOperation({ summary: 'Update a role for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: RoleResponse,
+    schema: roleResponseSchema,
+    description: 'Role was successfully updated',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Role could not be successfully updated',
+  })
   async updateRole(
     @Param('guildId') guildId: string,
     @Param('roleId') roleId: string,
@@ -235,6 +210,16 @@ export class BotController {
   }
 
   @Delete('guild/:guildId/role/:roleId')
+  @ApiOperation({ summary: 'Delete a role for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: RoleResponse,
+    description: 'Role was successfully deleted',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Role could not be successfully deleted',
+  })
   async deleteRole(
     @Param('guildId') guildId: string,
     @Param('roleId') roleId: string,
