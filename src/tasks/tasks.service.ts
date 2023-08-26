@@ -17,6 +17,7 @@ export class TasksService {
   })
   async checkActiveUsers() {
     (await this.userService.findAll()).forEach(async (user: User) => {
+      if (this.botService.isMemberMod(user)) return;
       this.userService.updateMessageCountBucket(user);
       this.botService.updateChannelPermissions(user);
     });
