@@ -8,7 +8,12 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Client,
   GuildChannel,
@@ -16,7 +21,9 @@ import {
   GuildBasedChannel,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
+import { Channel } from '../entities/channel';
 
+@ApiTags('bot/channel')
 @Controller('channel')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
@@ -30,8 +37,7 @@ export class ChannelController {
   @ApiOperation({ summary: 'Get all channels for a guild' })
   @ApiResponse({
     status: 200,
-    type: [GuildChannel],
-    isArray: true,
+    type: [Channel],
     description: 'Channels were successfully fetched',
   })
   async getGuildChannels(

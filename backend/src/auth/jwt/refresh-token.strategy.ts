@@ -10,7 +10,7 @@ export class RefreshJwtStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromHeader('refresh'),
+      jwtFromRequest: ExtractJwt.fromHeader('refresh_token'),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>('JWT_REFRESH_SECRET'),
     });

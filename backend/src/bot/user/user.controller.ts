@@ -1,5 +1,10 @@
 import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Client, User } from 'discord.js';
 import {
   DiscordUser,
@@ -9,6 +14,7 @@ import {
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
+@ApiTags('bot/user')
 @Controller('bot/user')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
