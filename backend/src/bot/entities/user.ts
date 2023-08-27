@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class DiscorUser {
+class DiscordUser {
   @ApiProperty({
     type: String,
     description: 'The id of the user',
@@ -103,4 +103,4 @@ const usersResponseSchema = {
   type: 'array',
   items: userResponseSchema,
 };
-export { DiscorUser, userResponseSchema, usersResponseSchema };
+export { DiscordUser, userResponseSchema, usersResponseSchema };
