@@ -9,15 +9,8 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiProperty,
-  ApiResponse,
-} from '@nestjs/swagger';
-import {
-  CategoryChannelResolvable,
-  ChannelType,
   Client,
   GuildBasedChannel,
   GuildChannel,
@@ -31,46 +24,7 @@ import {
   roleResponseSchema,
   rolesResponseSchema,
 } from './entities/role';
-
-class GuildChannelEditOptions {
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'New name of the role',
-  })
-  name?: string;
-  @ApiProperty({
-    enum: ChannelType,
-    required: false,
-    description: 'Change the type of the channel',
-  })
-  type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'Topic of the channel',
-  })
-  topic?: string | null;
-  @ApiProperty({
-    type: Boolean,
-    required: false,
-    description: 'Should the channel be NSFW',
-  })
-  nsfw?: boolean;
-  userLimit?: number;
-  parent?: CategoryChannelResolvable | null;
-  @ApiProperty({
-    type: Number,
-    required: false,
-    description: 'Slowmode for the channel in seconds',
-  })
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'Why was the channel updated/created',
-  })
-  reason?: string;
-}
+import { GuildChannelEditOptions } from './entities/channel';
 
 /*
   Bot API, this allows the frontend to interact with the discord api
@@ -85,6 +39,12 @@ export class BotController {
   ) {}
 
   @Get('guild/:guildId/users')
+  @ApiOperation({ summary: 'Get all users for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: [User],
+    description: 'Users were successfully fetched',
+  })
   async getGuildUsers(@Param('guildId') guildId: string): Promise<User[]> {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();

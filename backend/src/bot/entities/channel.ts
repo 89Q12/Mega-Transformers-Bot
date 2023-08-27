@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ChannelType, CategoryChannelResolvable } from 'discord.js';
 
 class PermissionOverwrite {
   @ApiProperty({ description: 'ID of the permission overwrite' })
@@ -77,4 +78,45 @@ class Channel {
   })
   createdTimestamp: number;
 }
-export { Channel };
+
+class GuildChannelEditOptions {
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'New name of the role',
+  })
+  name?: string;
+  @ApiProperty({
+    enum: ChannelType,
+    required: false,
+    description: 'Change the type of the channel',
+  })
+  type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Topic of the channel',
+  })
+  topic?: string | null;
+  @ApiProperty({
+    type: Boolean,
+    required: false,
+    description: 'Should the channel be NSFW',
+  })
+  nsfw?: boolean;
+  userLimit?: number;
+  parent?: CategoryChannelResolvable | null;
+  @ApiProperty({
+    type: Number,
+    required: false,
+    description: 'Slowmode for the channel in seconds',
+  })
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'Why was the channel updated/created',
+  })
+  reason?: string;
+}
+
+export { Channel, GuildChannelEditOptions };
