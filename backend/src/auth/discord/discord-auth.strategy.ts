@@ -27,7 +27,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
       tokenURL: 'https://discordapp.com/api/oauth2/token',
       scope: 'identify',
       clientID: configService.get('DISCORD_OAUTH_CLIENT_ID'),
-      clientSecret: configService.get('DISCORD_OAUTH_CLIENT_SECRET'),
+      clientSecret: configService.get('DISCORD_OAUTH_SECRET'),
       callbackURL: configService.get('DISCORD_CALLBACK_URL'),
     });
   }
