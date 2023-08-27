@@ -25,6 +25,11 @@ import {
   rolesResponseSchema,
 } from './entities/role';
 import { GuildChannelEditOptions } from './entities/channel';
+import {
+  DiscorUser,
+  userResponseSchema,
+  usersResponseSchema,
+} from './entities/user';
 
 /*
   Bot API, this allows the frontend to interact with the discord api
@@ -42,7 +47,8 @@ export class BotController {
   @ApiOperation({ summary: 'Get all users for a guild' })
   @ApiResponse({
     status: 200,
-    type: [User],
+    type: [DiscorUser],
+    schema: usersResponseSchema,
     description: 'Users were successfully fetched',
   })
   async getGuildUsers(@Param('guildId') guildId: string): Promise<User[]> {
@@ -51,8 +57,31 @@ export class BotController {
     return members.map((member) => member.user);
   }
 
+  @Get('guild/:guildId/user/:userId')
+  @ApiOperation({ summary: 'Get a user for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: DiscorUser,
+    schema: userResponseSchema,
+    description: 'User was successfully fetched',
+  })
+  async getGuildUser(
+    @Param('guildId') guildId: string,
+    @Param('userId') userId: string,
+  ): Promise<User> {
+    const guild = await this.client.guilds.fetch(guildId);
+    const member = await guild.members.fetch(userId);
+    return member.user;
+  }
+
   @Get('guild/:guildId/channel')
   @ApiOperation({ summary: 'Get all channels for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: [GuildChannel],
+    isArray: true,
+    description: 'Channels were successfully fetched',
+  })
   async getGuildChannels(
     @Param('guildId') guildId: string,
   ): Promise<GuildChannel[]> {
