@@ -10,6 +10,7 @@ import { GatewayIntentBits } from 'discord.js';
 import { BotModule } from './bot/bot.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ModerationModule } from './moderation/moderation.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -46,6 +47,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     BotModule,
     TasksModule,
     TasksModule,
+    ModerationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
