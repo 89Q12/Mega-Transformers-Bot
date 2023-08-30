@@ -1,11 +1,18 @@
-import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  UseGuards,
+  NotFoundException,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Client, User } from 'discord.js';
+import { ChannelType, Client, User } from 'discord.js';
 import {
   DiscordUser,
   usersResponseSchema,
@@ -94,5 +101,41 @@ export class UserController {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
     await member.voice.setMute(true);
+  }
+
+  @Post(':guildId/user/:userId/purge')
+  @ApiOperation({
+    summary: 'Purge a user from a guild VERY EXPENSIVEEEEEE, USE WITH CAUTION',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User was successfully purged',
+  })
+  async purgeUserFromGuild(guildId: string, userId: string): Promise<void> {
+    const guild = await this.client.guilds.fetch(guildId);
+    if (guild === undefined) {
+      throw new NotFoundException('Guild not found');
+    }
+    const member = await guild.members.fetch(userId);
+    if (member === undefined) {
+      throw new NotFoundException('User not found');
+    }
+    guild.channels.cache.forEach(async (channel) => {
+      if (
+        channel.type === ChannelType.GuildText ||
+        channel.type === ChannelType.PublicThread ||
+        channel.type === ChannelType.PrivateThread
+      ) {
+        const messages = await channel.messages.fetch();
+        const userMessages = messages.filter(
+          (message) => message.author.id === userId,
+        );
+        userMessages.forEach(async (message) => {
+          await message.delete();
+          // sleep for 1 second to avoid rate limit
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        });
+      }
+    });
   }
 }
