@@ -17,12 +17,12 @@ import {
   DiscordUser,
   usersResponseSchema,
   userResponseSchema,
-} from '../entities/user';
+} from '../../entities/user';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
-@ApiTags('bot/user')
-@Controller('bot/user')
+@ApiTags('discord/user')
+@Controller('discord/user')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class UserController {

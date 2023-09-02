@@ -21,10 +21,10 @@ import {
   GuildBasedChannel,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
-import { Channel } from '../entities/channel';
+import { Channel } from '../../entities/channel';
 
-@ApiTags('bot/channel')
-@Controller('channel')
+@ApiTags('discord/channel')
+@Controller('discord/channel')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class ChannelController {
