@@ -1,1 +1,1 @@
-export const useIsAuthenticted = () => false
+export const useIsAuthenticted = () => false;
