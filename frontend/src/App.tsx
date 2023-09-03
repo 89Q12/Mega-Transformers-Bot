@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Box, ChakraProvider, ColorModeScript, VStack } from '@chakra-ui/react'
+import { lazy } from 'react'
+import { Header } from './components/header'
+import { useIsAuthenticted } from './hooks/use-is-authenticated'
+import { theme } from './theme'
 
-function App() {
-  const [count, setCount] = useState(0)
+const LoginPage = lazy(() => import('./pages/login'))
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+const App: React.FC = () => {
+  const isAuthenticated = useIsAuthenticted()
+
+  return <ChakraProvider theme={theme}>
+    <VStack height="100%" alignItems="stretch">
+      <Header/>
+      <Box flexGrow={1} padding='3'>
+        {!isAuthenticated && <LoginPage/>}
+      </Box>
+    </VStack>
+  </ChakraProvider>
 }
 
 export default App
