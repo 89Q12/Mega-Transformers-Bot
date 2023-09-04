@@ -9,7 +9,7 @@ export class AuthController {
   constructor(private jwtAuthService: JwtAuthService) {}
   @Get()
   @UseGuards(DiscordAuthGuard)
-  async discordAuth(@Req() req): Promise<any> {
+  async discordAuth(@Req() req) {
     return await this.jwtAuthService.login(req.user);
   }
 }

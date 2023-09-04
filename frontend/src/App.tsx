@@ -1,22 +1,19 @@
 import { Box, ChakraProvider, VStack } from '@chakra-ui/react';
-import { lazy } from 'react';
+import { Suspense } from 'react';
+import { RouterProvider } from 'react-router';
 import { Header } from './components/header';
-import { useIsAuthenticted } from './hooks/use-is-authenticated';
+import { PageSpinner } from './components/page-spinner';
+import { useRouter } from './hooks/use-router';
 import { theme } from './theme';
 
-const LoginPage = lazy(() => import('./pages/login'));
-
 const App: React.FC = () => {
-  const isAuthenticated = useIsAuthenticted();
+  const routes = useRouter();
 
   return (
     <ChakraProvider theme={theme}>
-      <VStack height="100%" alignItems="stretch">
-        <Header />
-        <Box flexGrow={1} padding="3">
-          {!isAuthenticated && <LoginPage />}
-        </Box>
-      </VStack>
+      <Suspense fallback={<PageSpinner />}>
+        <RouterProvider router={routes} />
+      </Suspense>
     </ChakraProvider>
   );
 };

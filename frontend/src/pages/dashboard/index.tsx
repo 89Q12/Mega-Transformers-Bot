@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 import { useTitle } from '../../hooks/use-title';
 
-const Login = lazy(() => import('./login-page'));
+const Dashboard = lazy(() => import('./dashboard-page'));
 const Page = () => {
-  useTitle('Login');
-  return <Login />;
+  useTitle('Dashboard');
+  return <Dashboard />;
 };
 export default Page;

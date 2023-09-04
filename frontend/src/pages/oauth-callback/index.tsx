@@ -1,9 +1,9 @@
 import { lazy } from 'react';
 import { useTitle } from '../../hooks/use-title';
 
-const Login = lazy(() => import('./login-page'));
+const OauthCallback = lazy(() => import('./oauth-callback-page'));
 const Page = () => {
-  useTitle('Login');
-  return <Login />;
+  useTitle('');
+  return <OauthCallback />;
 };
 export default Page;
