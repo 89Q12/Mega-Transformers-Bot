@@ -7,7 +7,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
-import { HiCog, HiHome, HiQueueList } from 'react-icons/hi2';
+import { HiCog, HiFlag, HiHome, HiQueueList } from 'react-icons/hi2';
 import {
   Link as RouterLink,
   useLocation,
@@ -20,8 +20,14 @@ const RouterLinkButton: FC<
 > = ({ to, icon, children }) => {
   const path = useResolvedPath(to);
   const location = useLocation();
-  console.log(to + ' ' + location.pathname + ' ' + path.pathname);
   const isActive = location.pathname === path.pathname;
+  const size = useBreakpointValue(
+    {
+      base: 'sm',
+      sm: 'md',
+    },
+    { fallback: 'sm' },
+  );
 
   return (
     <Button
@@ -31,6 +37,7 @@ const RouterLinkButton: FC<
       disabled={isActive}
       leftIcon={icon}
       color={isActive ? 'primary.300' : 'primary.50'}
+      size={size}
     >
       {children}
     </Button>
@@ -42,7 +49,14 @@ export const Header: FC = () => {
   const displayTitle = useBreakpointValue(
     {
       base: 'none',
-      sm: 'initial',
+      md: 'initial',
+    },
+    { fallback: 'md' },
+  );
+  const gap = useBreakpointValue(
+    {
+      base: '2',
+      sm: '4',
     },
     { fallback: 'sm' },
   );
@@ -52,19 +66,23 @@ export const Header: FC = () => {
       display="flex"
       backgroundColor="whiteAlpha.100"
       padding="4"
-      gap="4"
+      gap={gap}
+      flexWrap="wrap"
     >
       <Heading size="md" display={displayTitle}>
         🐶 Cardinal System
       </Heading>
       {isAuthenticated && (
         <>
-          <Flex height="100%" alignItems="center" gap={4} flexGrow={1}>
+          <Flex height="100%" alignItems="center" gap={gap} flexGrow={1}>
             <RouterLinkButton to="/" icon={<Icon as={HiHome} />}>
               Dashboard
             </RouterLinkButton>
             <RouterLinkButton to="/audit" icon={<Icon as={HiQueueList} />}>
               Audit
+            </RouterLinkButton>
+            <RouterLinkButton to="/moderation" icon={<Icon as={HiFlag} />}>
+              Moderation
             </RouterLinkButton>
           </Flex>
           <Flex height="100%">
