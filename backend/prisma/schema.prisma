@@ -11,18 +11,20 @@ datasource db {
 }
 
 model User {
-  userId        BigInt @id @unique
-  name          String
-  stats         Stats  @relation(fields: [userId], references: [userId])
+  userId BigInt @id @unique
+  name   String
+  stats  Stats  @relation(fields: [userId], references: [userId])
+  unlocked Boolean @default(false)
 }
 
 model Stats {
-  userId               BigInt    @id @unique
-  user                 User?
-  messages             Message[]
-  last_message_sent    DateTime? @default(now())
-  last_online          DateTime  @default(now())
-  message_count_bucket Int       @default(30)
+  userId             BigInt    @id @unique
+  user               User?
+  messages           Message[]
+  lastMessageSent    DateTime? @default(now())
+  lastOnline         DateTime  @default(now())
+  messageCountBucket Int       @default(30)
+  firstMessageId     BigInt    @default(0)
 }
 
 model Message {
@@ -35,6 +37,12 @@ model Message {
 }
 
 model RistrictedChannels {
-  channelId BigInt @id @unique
+  channelId      BigInt @id @unique
   requiredPoints BigInt
+}
+
+model Settings {
+  guildId BigInt @id @unique
+  prefix  String @default("!")
+  welcomeMessageFormat String @default("Welcome {user}!")
 }

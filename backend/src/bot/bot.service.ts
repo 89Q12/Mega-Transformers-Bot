@@ -2,7 +2,7 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
-import { BaseGuildTextChannel } from 'discord.js';
+import { BaseGuildTextChannel, Message } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 
@@ -33,7 +33,7 @@ export class BotService {
               userId: user.userId,
             },
           })
-        ).message_count_bucket,
+        ).messageCountBucket,
       )
     ).forEach((channel_id) => {
       this._removeMemberToChannel(user.userId.toString(), channel_id);
@@ -46,12 +46,24 @@ export class BotService {
               userId: user.userId,
             },
           })
-        ).message_count_bucket,
+        ).messageCountBucket,
       )
     ).forEach((channel_id) => {
       this._addMemberToChannel(user.userId.toString(), channel_id);
     });
   }
+
+  async templateMessage(message: Message): Promise<string> {
+    // template message using the template string provided in the settings
+    const template = this.config.get<string>('TEMPLATE');
+    // Useable variables:
+    // ${user} - username
+    // ${message} - message content
+    return template
+      .replace('${user}', message.author.username)
+      .replace('${message}', message.content);
+  }
+
   private async _addMemberToChannel(user_id: string, channel_id: string) {
     await (
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel

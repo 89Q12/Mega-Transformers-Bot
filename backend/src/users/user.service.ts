@@ -4,10 +4,27 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserService {
+  async unlockUser(userId: string) {
+    const user = await this.findOne(parseInt(userId));
+    this.database.user.update({
+      where: { userId: user.userId },
+      data: { unlocked: true },
+    });
+  }
+  async setFirstMessageId(mId: string, userId: string) {
+    const user = await this.findOne(parseInt(userId));
+    this.database.stats.update({
+      where: { userId: user.userId },
+      data: { firstMessageId: parseInt(mId) },
+    });
+  }
   constructor(@Inject(PrismaService) private database: PrismaService) {}
 
   async findOne(userId: number): Promise<User | undefined> {
     return this.database.user.findUnique({ where: { userId } });
+  }
+  async getStats(userId: number) {
+    return this.database.stats.findUnique({ where: { userId } });
   }
 
   async findOrCreate(userId: number, name: string): Promise<User> {
@@ -56,13 +73,13 @@ export class UserService {
     });
     await this.database.stats.update({
       where: { userId: user.userId },
-      data: { message_count_bucket: messageCount },
+      data: { messageCountBucket: messageCount },
     });
   }
   async isActive(user: User): Promise<boolean> {
     return (
       (await this.database.stats.findUnique({ where: { userId: user.userId } }))
-        .message_count_bucket >= 30
+        .messageCountBucket >= 30
     );
   }
   // SELECT
