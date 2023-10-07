@@ -11,6 +11,7 @@ import { BotModule } from './bot/bot.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ModerationModule } from './moderation/moderation.module';
+import { SettingsModule } from './settings/settings.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -48,6 +49,7 @@ import { ModerationModule } from './moderation/moderation.module';
     TasksModule,
     TasksModule,
     ModerationModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

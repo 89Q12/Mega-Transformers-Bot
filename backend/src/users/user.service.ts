@@ -27,24 +27,34 @@ export class UserService {
     return this.database.stats.findUnique({ where: { userId } });
   }
 
-  async findOrCreate(userId: number, name: string): Promise<User> {
+  async findOrCreate(
+    userId: number,
+    name: string,
+    guildId: number,
+  ): Promise<User> {
     let user = await this.findOne(userId);
     if (user) return user;
 
     await this.database.stats.create({
-      data: { userId },
+      data: { userId, guildId },
     });
     user = await this.database.user.create({
-      data: { userId, name },
+      data: { userId, name, guildId },
     });
 
     return user;
   }
 
-  async insertMessage(userId: number, messageId: number, channelId: number) {
+  async insertMessage(
+    userId: number,
+    messageId: number,
+    channelId: number,
+    guildId: number,
+  ) {
     await this.database.message.create({
       data: {
         userId,
+        guildId,
         messageId,
         createdAt: new Date(),
         channelId,

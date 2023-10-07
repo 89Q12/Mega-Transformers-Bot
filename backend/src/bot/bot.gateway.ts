@@ -18,8 +18,8 @@ export class BotGateway {
     @InjectDiscordClient()
     private readonly client: Client,
     @Inject(UserService) private readonly userService: UserService,
-    @Inject('ConfigService') private readonly configService: ConfigService,
-    @Inject('BotService') private readonly discordService: BotService,
+    @Inject(ConfigService) private readonly configService: ConfigService,
+    @Inject(BotService) private readonly discordService: BotService,
   ) {}
 
   @Once('ready')
@@ -30,6 +30,7 @@ export class BotGateway {
         await this.userService.findOrCreate(
           parseInt(member.id),
           member.user.username,
+          parseInt(member.guild.id),
         );
     });
   }
@@ -39,6 +40,7 @@ export class BotGateway {
     await this.userService.findOrCreate(
       parseInt(member.id),
       member.user.username,
+      parseInt(member.guild.id),
     );
   }
 
@@ -59,6 +61,7 @@ export class BotGateway {
     await this.userService.insertMessage(
       parseInt(message.author.id),
       parseInt(message.id),
+      parseInt(message.channelId),
       parseInt(message.guildId),
     );
   }
@@ -79,9 +82,9 @@ export class BotGateway {
   @On('guildMemberUpdate')
   @UseGuards(MessageFromUserGuard)
   async unlockUser(member: GuildMember) {
-    // check if wpf has been removed and user role has been added
+    // check if wfp has been removed and user role has been added
     if (
-      !member.roles.cache.has(this.configService.get('WPF_ROLE_ID')) &&
+      !member.roles.cache.has(this.configService.get('WFP_ROLE_ID')) &&
       member.roles.cache.has(this.configService.get('USER_ROLE_ID'))
     )
       return;

@@ -12,6 +12,7 @@ datasource db {
 
 model User {
   userId BigInt @id @unique
+  guildId BigInt
   name   String
   stats  Stats  @relation(fields: [userId], references: [userId])
   unlocked Boolean @default(false)
@@ -19,6 +20,7 @@ model User {
 
 model Stats {
   userId             BigInt    @id @unique
+  guildId            BigInt
   user               User?
   messages           Message[]
   lastMessageSent    DateTime? @default(now())
@@ -31,13 +33,15 @@ model Message {
   messageId   BigInt   @id @unique
   userId      BigInt
   channelId   BigInt
-  stats       Stats?   @relation(fields: [userId], references: [userId])
+  guildId     BigInt
+  stats       Stats   @relation(fields: [userId], references: [userId])
   createdAt   DateTime
   statsUserId BigInt?
 }
 
 model RistrictedChannels {
   channelId      BigInt @id @unique
+  guildId        BigInt
   requiredPoints BigInt
 }
 
@@ -45,4 +49,11 @@ model Settings {
   guildId BigInt @id @unique
   prefix  String @default("!")
   welcomeMessageFormat String @default("Welcome {user}!")
+  openIntroChannelId BigInt
+  IntroChannelId BigInt
+  leaveMessageFormat String @default("Goodbye {user}!")
+  leaveChannelId BigInt
+  restrictedRoleId BigInt
+  unlockRoleId BigInt
+  
 }
