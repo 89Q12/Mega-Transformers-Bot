@@ -22,7 +22,7 @@ CREATE TABLE "Settings" (
     "prefix" TEXT NOT NULL DEFAULT '!',
     "welcomeMessageFormat" TEXT NOT NULL DEFAULT 'Welcome {user}!',
     "openIntroChannelId" BIGINT NOT NULL,
-    "IntroChannelId" BIGINT NOT NULL,
+    "introChannelId" BIGINT NOT NULL,
     "leaveMessageFormat" TEXT NOT NULL DEFAULT 'Goodbye {user}!',
     "leaveChannelId" BIGINT NOT NULL,
     "restrictedRoleId" BIGINT NOT NULL,
