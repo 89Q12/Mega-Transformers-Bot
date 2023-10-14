@@ -14,6 +14,7 @@ export class SettingsService {
     leaveMessageFormat: string;
     verifiedMemberRoleId: number;
     unverifiedMemberRoleId: number;
+    modRoleId: number;
   }) {
     const newSettings = await this.database.settings.create({
       data: settings,
@@ -21,113 +22,131 @@ export class SettingsService {
     return newSettings;
   }
 
-  async createSettings(guildId: number) {
+  async createSettings(guildId: string) {
     const settings = await this.database.settings.create({
-      data: { guildId },
+      data: { guildId: this.stringToNumber(guildId) },
     });
     return settings;
   }
 
-  async getSettings(guildId: number) {
+  async getSettings(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
     return settings;
   }
   // Implement getters and setters for the all setting attributes given in the database schema
-  async getIntroChannelId(guildId: number) {
+  async getIntroChannelId(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
-    return settings.introChannelId;
+    return settings.introChannelId.toString();
   }
-  async setIntroChannelId(guildId: number, channelId: number) {
+  async setIntroChannelId(guildId: string, channelId: string) {
     await this.database.settings.update({
-      where: { guildId },
-      data: { introChannelId: channelId },
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { introChannelId: this.stringToNumber(channelId) },
     });
   }
 
-  async getOpenIntroChannelId(guildId: number) {
+  async getOpenIntroChannelId(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
-    return settings.openIntroChannelId;
+    return settings.openIntroChannelId.toString();
   }
 
-  async setOpenIntroChannelId(guildId: number, channelId: number) {
+  async setOpenIntroChannelId(guildId: string, channelId: string) {
     await this.database.settings.update({
-      where: { guildId },
-      data: { openIntroChannelId: channelId },
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { openIntroChannelId: this.stringToNumber(channelId) },
     });
   }
 
-  async getLeaveChannelId(guildId: number) {
+  async getLeaveChannelId(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
-    return settings.leaveChannelId;
+    return settings.leaveChannelId.toString();
   }
 
-  async setLeaveChannelId(guildId: number, channelId: number) {
+  async setLeaveChannelId(guildId: string, channelId: string) {
     await this.database.settings.update({
-      where: { guildId },
-      data: { leaveChannelId: channelId },
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { leaveChannelId: this.stringToNumber(channelId) },
     });
   }
 
-  async getWelcomeMessageFormat(guildId: number) {
+  async getWelcomeMessageFormat(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
     return settings.welcomeMessageFormat;
   }
-  async setWelcomeMessageFormat(guildId: number, format: string) {
+  async setWelcomeMessageFormat(guildId: string, format: string) {
     await this.database.settings.update({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
       data: { welcomeMessageFormat: format },
     });
   }
 
-  async getLeaveMessageFormat(guildId: number) {
+  async getLeaveMessageFormat(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
     return settings.leaveMessageFormat;
   }
 
-  async setLeaveMessageFormat(guildId: number, format: string) {
+  async setLeaveMessageFormat(guildId: string, format: string) {
     await this.database.settings.update({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
       data: { leaveMessageFormat: format },
     });
   }
 
-  async getVerifiedMemberRoleId(guildId: number) {
+  async getVerifiedMemberRoleId(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
-    return settings.verifiedMemberRoleId;
+    return settings.verifiedMemberRoleId.toString();
   }
 
-  async setVerifiedMemberRoleId(guildId: number, roleId: number) {
+  async setVerifiedMemberRoleId(guildId: string, roleId: string) {
     await this.database.settings.update({
-      where: { guildId },
-      data: { verifiedMemberRoleId: roleId },
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { verifiedMemberRoleId: this.stringToNumber(roleId) },
     });
   }
 
-  async getUnverifiedMemberRoleId(guildId: number) {
+  async getUnverifiedMemberRoleId(guildId: string) {
     const settings = await this.database.settings.findUnique({
-      where: { guildId },
+      where: { guildId: this.stringToNumber(guildId) },
     });
-    return settings.unverifiedMemberRoleId;
+    return settings.unverifiedMemberRoleId.toString();
   }
 
-  async setUnverifiedMemberRoleId(guildId: number, roleId: number) {
+  async setUnverifiedMemberRoleId(guildId: string, roleId: string) {
     await this.database.settings.update({
-      where: { guildId },
-      data: { unverifiedMemberRoleId: roleId },
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { unverifiedMemberRoleId: this.stringToNumber(roleId) },
     });
+  }
+
+  async getModRoleId(guildId: string) {
+    const settings = await this.database.settings.findUnique({
+      where: { guildId: this.stringToNumber(guildId) },
+    });
+    return settings.modRoleId.toString();
+  }
+
+  async setModRoleId(guildId: string, roleId: string) {
+    await this.database.settings.update({
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { modRoleId: this.stringToNumber(roleId) },
+    });
+  }
+
+  private stringToNumber(string: string) {
+    return parseInt(string);
   }
 }

@@ -10,15 +10,15 @@ import { UserService } from 'src/users/user.service';
 import { MessageFromUserGuard } from './guards/message-from-user.guard';
 import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';
-import { ConfigService } from '@nestjs/config';
 import { BotService } from './bot.service';
+import { SettingsService } from 'src/settings/settings.service';
 @Injectable()
 export class BotGateway {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
     @Inject(UserService) private readonly userService: UserService,
-    @Inject(ConfigService) private readonly configService: ConfigService,
+    @Inject(SettingsService) private readonly settingsService: SettingsService,
     @Inject(BotService) private readonly discordService: BotService,
   ) {}
 
@@ -84,8 +84,12 @@ export class BotGateway {
   async unlockUser(member: GuildMember) {
     // check if wfp has been removed and user role has been added
     if (
-      !member.roles.cache.has(this.configService.get('WFP_ROLE_ID')) &&
-      member.roles.cache.has(this.configService.get('USER_ROLE_ID'))
+      member.roles.cache.has(
+        await this.settingsService.getUnverifiedMemberRoleId(member.guild.id),
+      ) &&
+      !member.roles.cache.has(
+        await this.settingsService.getVerifiedMemberRoleId(member.guild.id),
+      )
     )
       return;
     await this.userService.unlockUser(member.id);
@@ -93,14 +97,12 @@ export class BotGateway {
     const stats = await this.userService.getStats(parseInt(member.id));
     if (stats.firstMessageId) {
       const channel = (await this.client.channels.fetch(
-        this.configService.get('OPEN_INTRO_CHANNEL_ID'),
+        await this.settingsService.getOpenIntroChannelId(member.guild.id),
       )) as GuildTextBasedChannel;
       const message = await (
-        this.client.guilds.cache
-          .get(this.configService.get('GUILD_ID'))
-          .channels.cache.get(
-            this.configService.get('INTRO_CHANNEL_ID'),
-          ) as GuildTextBasedChannel
+        (await this.client.channels.fetch(
+          await this.settingsService.getIntroChannelId(member.guild.id),
+        )) as GuildTextBasedChannel
       ).messages.fetch(stats.firstMessageId.toString());
       await channel.send(await this.discordService.templateMessage(message));
     }

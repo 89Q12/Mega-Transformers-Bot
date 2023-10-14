@@ -55,4 +55,5 @@ model Settings {
   leaveChannelId         BigInt @default(0)
   unverifiedMemberRoleId BigInt @default(0)
   verifiedMemberRoleId   BigInt @default(0)
+  modRoleId              BigInt @default(0)
 }

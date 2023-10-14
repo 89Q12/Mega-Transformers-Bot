@@ -1,17 +1,17 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { User } from '@prisma/client';
 import { BaseGuildTextChannel, Message } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
+import { SettingsService } from 'src/settings/settings.service';
 
 @Injectable()
 export class BotService {
   constructor(
     @InjectDiscordClient() private client: Client,
     @Inject(PrismaService) private database: PrismaService,
-    @Inject(ConfigService) private config: ConfigService,
+    @Inject(SettingsService) private settings: SettingsService,
   ) {}
 
   async isMemberMod(user: User): Promise<boolean> {
@@ -20,7 +20,9 @@ export class BotService {
         .first()
         .members.fetch(user.userId.toString())
     ).roles.cache.some(
-      (role) => role.name === this.config.get<string>('MODS_ROLE_NAME'),
+      async (role) =>
+        role.id ===
+        (await this.settings.getModRoleId(user.guildId.toString())).toString(),
     );
   }
 
@@ -55,7 +57,9 @@ export class BotService {
 
   async templateMessage(message: Message): Promise<string> {
     // template message using the template string provided in the settings
-    const template = this.config.get<string>('TEMPLATE');
+    const template = await this.settings.getWelcomeMessageFormat(
+      message.guild.id,
+    );
     // Useable variables:
     // ${user} - username
     // ${message} - message content
