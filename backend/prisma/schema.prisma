@@ -19,13 +19,15 @@ enum Rank {
 }
 
 model User {
-  userId      BigInt  @id @unique
+  userId      BigInt     @id @unique
   guildId     BigInt
   name        String
-  stats       Stats   @relation(fields: [userId], references: [userId])
-  unlocked    Boolean @default(false)
-  deactivated Boolean @default(false)
-  rank        Rank    @default(NEW)
+  stats       Stats      @relation(fields: [userId], references: [userId])
+  unlocked    Boolean    @default(false)
+  deactivated Boolean    @default(false)
+  rank        Rank       @default(NEW)
+  AuditLog_1    AuditLog[] @relation("AuditLogInvoker")
+  AuditLog_2    AuditLog[] @relation("AuditLogInvolvedUser")
 }
 
 model Stats {
@@ -69,3 +71,14 @@ model Settings {
   adminRoleId            BigInt @default(0)
 }
 
+model AuditLog {
+  id             Int      @id @default(autoincrement())
+  guildId        BigInt
+  invokerId      BigInt
+  invoker        User     @relation(fields: [invokerId], references: [userId], name: "AuditLogInvoker")
+  action         String
+  reason         String?
+  involvedUserId BigInt?
+  involvedUser   User?    @relation(fields: [involvedUserId], references: [userId], name: "AuditLogInvolvedUser")
+  createdAt      DateTime @default(now())
+}
