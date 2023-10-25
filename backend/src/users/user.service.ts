@@ -8,9 +8,18 @@ export class UserService {
     const user = await this.findOne(parseInt(userId));
     this.database.user.update({
       where: { userId: user.userId },
-      data: { unlocked: true },
+      data: { unlocked: true, rank: 'MEMBER' },
     });
   }
+
+  async setRank(userId: string, rank: 'MEMBER' | 'MOD' | 'ADMIN') {
+    const user = await this.findOne(parseInt(userId));
+    this.database.user.update({
+      where: { userId: user.userId },
+      data: { rank: rank },
+    });
+  }
+
   async setFirstMessageId(mId: string, userId: string) {
     const user = await this.findOne(parseInt(userId));
     this.database.stats.update({
@@ -31,6 +40,7 @@ export class UserService {
     userId: number,
     name: string,
     guildId: number,
+    rank: 'MEMBER' | 'MOD' | 'ADMIN',
   ): Promise<User> {
     let user = await this.findOne(userId);
     if (user) return user;
@@ -39,7 +49,7 @@ export class UserService {
       data: { userId, guildId },
     });
     user = await this.database.user.create({
-      data: { userId, name, guildId },
+      data: { userId, name, guildId, rank },
     });
 
     return user;

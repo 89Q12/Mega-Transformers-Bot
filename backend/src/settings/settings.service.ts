@@ -145,7 +145,19 @@ export class SettingsService {
       data: { modRoleId: this.stringToNumber(roleId) },
     });
   }
+  async getAdminRoleId(guildId: string) {
+    const settings = await this.database.settings.findUnique({
+      where: { guildId: this.stringToNumber(guildId) },
+    });
+    return settings.adminRoleId.toString();
+  }
 
+  async setAdminRoleId(guildId: string, roleId: string) {
+    await this.database.settings.update({
+      where: { guildId: this.stringToNumber(guildId) },
+      data: { adminRoleId: this.stringToNumber(roleId) },
+    });
+  }
   private stringToNumber(string: string) {
     return parseInt(string);
   }

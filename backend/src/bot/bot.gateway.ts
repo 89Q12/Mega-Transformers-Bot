@@ -26,11 +26,22 @@ export class BotGateway {
   async onReady() {
     const members = await this.client.guilds.cache.at(0).members.fetch();
     members.forEach(async (member: GuildMember) => {
+      const isMod = member.roles.cache.has(
+        await this.settingsService.getModRoleId(
+          this.client.guilds.cache.at(0).id,
+        ),
+      );
+      const isAdmin = member.roles.cache.has(
+        await this.settingsService.getAdminRoleId(
+          this.client.guilds.cache.at(0).id,
+        ),
+      );
       if (!member.user.bot)
         await this.userService.findOrCreate(
           parseInt(member.id),
           member.user.username,
           parseInt(member.guild.id),
+          isMod ? 'MOD' : isAdmin ? 'ADMIN' : 'MEMBER',
         );
     });
   }
@@ -41,6 +52,7 @@ export class BotGateway {
       parseInt(member.id),
       member.user.username,
       parseInt(member.guild.id),
+      'MEMBER',
     );
   }
 

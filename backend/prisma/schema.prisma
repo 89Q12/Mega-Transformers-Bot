@@ -6,16 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+enum Rank {
+  NEW
+  MEMBER
+  MOD
+  ADMIN
+  OWNER
+}
+
 model User {
-  userId   BigInt  @id @unique
-  guildId  BigInt
-  name     String
-  stats    Stats   @relation(fields: [userId], references: [userId])
-  unlocked Boolean @default(false)
+  userId      BigInt  @id @unique
+  guildId     BigInt
+  name        String
+  stats       Stats   @relation(fields: [userId], references: [userId])
+  unlocked    Boolean @default(false)
+  deactivated Boolean @default(false)
+  rank        Rank    @default(NEW)
 }
 
 model Stats {
@@ -56,4 +66,6 @@ model Settings {
   unverifiedMemberRoleId BigInt @default(0)
   verifiedMemberRoleId   BigInt @default(0)
   modRoleId              BigInt @default(0)
+  adminRoleId            BigInt @default(0)
 }
+
