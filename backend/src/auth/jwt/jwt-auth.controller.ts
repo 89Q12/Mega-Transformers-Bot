@@ -50,11 +50,6 @@ export class JwtAuthController {
           },
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            data: {
-              grant_type: 'authorization_code',
-              code: code,
-              redirect_uri: this.configService.get('DISCORD_CALLBACK_URL'),
-            },
             auth: {
               username: this.configService.get('DISCORD_OAUTH_CLIENT_ID'),
               password: this.configService.get('DISCORD_OAUTH_SECRET'),
