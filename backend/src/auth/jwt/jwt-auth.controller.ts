@@ -1,13 +1,28 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthService } from './jwt-auth.service';
 import { RefreshJwtGuard } from './guards/refresh-auth.guard';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
+import { catchError, firstValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 @ApiTags('auth/jwt')
 @ApiBearerAuth()
 export class JwtAuthController {
-  constructor(private authService: JwtAuthService) {}
+  constructor(
+    private authService: JwtAuthService,
+    private http: HttpService,
+    private configService: ConfigService,
+  ) {}
   @UseGuards(RefreshJwtGuard)
   @ApiHeader({
     name: 'refresh_token',
@@ -16,5 +31,57 @@ export class JwtAuthController {
   @Post('refresh')
   async refreshToken(@Req() req) {
     return this.authService.refreshToken(req.user);
+  }
+
+  @Get('login')
+  async login(@Req() req) {
+    const code = req.query.code;
+    if (!code) {
+      throw new BadRequestException('No code provided');
+    }
+    const response = await firstValueFrom(
+      this.http
+        .post(
+          'https://discordapp.com/api/oauth2/token',
+          {
+            grant_type: 'authorization_code',
+            code: code,
+            redirect_uri: this.configService.get('DISCORD_CALLBACK_URL'),
+          },
+          {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data: {
+              grant_type: 'authorization_code',
+              code: code,
+              redirect_uri: this.configService.get('DISCORD_CALLBACK_URL'),
+            },
+            auth: {
+              username: this.configService.get('DISCORD_OAUTH_CLIENT_ID'),
+              password: this.configService.get('DISCORD_OAUTH_SECRET'),
+            },
+          },
+        )
+        .pipe(
+          catchError((error: AxiosError) => {
+            console.log(error.response);
+            throw `Error: ${error.request} `;
+          }),
+        ),
+    );
+    const { data } = await firstValueFrom(
+      this.http
+        .get<{
+          id: string;
+          username: string;
+        }>('https://discordapp.com/api/users/@me', {
+          headers: { Authorization: `Bearer ${response.data.access_token}` },
+        })
+        .pipe(
+          catchError((error: AxiosError) => {
+            throw `Error: ${error.message} `;
+          }),
+        ),
+    );
+    return this.authService.login(await this.authService.validateUser(data));
   }
 }

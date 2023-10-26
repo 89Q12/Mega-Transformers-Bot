@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
+import { UserService } from 'src/users/user.service';
 
 @Injectable()
 export class JwtAuthService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    private readonly usersService: UserService,
   ) {}
   async login(user: User) {
     const payload = {
@@ -42,5 +44,13 @@ export class JwtAuthService {
     return {
       accessToken: this.jwtService.sign(payload),
     };
+  }
+  async validateUser(profile: { id: string; username: string }): Promise<any> {
+    const user = await this.usersService.findOne(parseInt(profile.id));
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return user;
   }
 }
