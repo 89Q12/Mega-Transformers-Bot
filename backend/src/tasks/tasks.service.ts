@@ -21,28 +21,25 @@ export class TasksService {
   })
   async checkActiveUsers() {
     this.client.guilds.cache.forEach(async (guild) => {
-      (await this.userService.findAll(parseInt(guild.id))).forEach(
-        async (user: User) => {
-          if (user.rank != ('MEMBER' || 'NEW')) return;
-          this.userService.updateMessageCountBucket(user);
-          this.botService.updateChannelPermissions(user);
-        },
-      );
+      (await this.userService.findAll(guild.id)).forEach(async (user: User) => {
+        if (user.rank != ('MEMBER' || 'NEW')) return;
+        this.userService.updateMessageCountBucket(user);
+        this.botService.updateChannelPermissions(user);
+      });
     });
   }
 
   // Run every 5 minutes
-  @Cron('*/5 * * * *', {
+  @Cron('*/1 * * * *', {
     name: 'timeouts',
     timeZone: 'Europe/Berlin',
   })
   async checkTimeouts() {
     this.client.guilds.cache.forEach(async (guild) => {
-      guild.members.fetch();
-      (await this.userService.findAll(parseInt(guild.id))).forEach(
+      (await this.userService.findAll(guild.id)).forEach(
         async (dbUser: User) => {
           const member = await this.client.guilds.cache
-            .get(dbUser.guildId.toString())
+            .get(guild.id)
             .members.fetch(dbUser.userId.toString());
           if (member.communicationDisabledUntilTimestamp > Date.now()) {
             return;

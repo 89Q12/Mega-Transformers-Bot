@@ -19,8 +19,8 @@ enum Rank {
 }
 
 model User {
-  userId      BigInt     @id @unique
-  guildId     BigInt
+  userId      String     @id @unique
+  guildId     String
   name        String
   stats       Stats      @relation(fields: [userId], references: [userId])
   unlocked    Boolean    @default(false)
@@ -31,54 +31,54 @@ model User {
 }
 
 model Stats {
-  userId             BigInt    @id @unique
-  guildId            BigInt
+  userId             String    @id @unique
+  guildId            String
   user               User?
   messages           Message[]
   lastMessageSent    DateTime? @default(now())
   lastOnline         DateTime  @default(now())
   messageCountBucket Int       @default(30)
-  firstMessageId     BigInt    @default(0)
+  firstMessageId     String    @default("")
 }
 
 model Message {
-  messageId   BigInt   @id @unique
-  userId      BigInt
-  channelId   BigInt
-  guildId     BigInt
+  messageId   String   @id @unique
+  userId      String
+  channelId   String
+  guildId     String
   stats       Stats    @relation(fields: [userId], references: [userId])
   createdAt   DateTime
-  statsUserId BigInt?
+  statsUserId String?
 }
 
 model RistrictedChannels {
-  channelId      BigInt @id @unique
-  guildId        BigInt
-  requiredPoints BigInt
+  channelId      String @id @unique
+  guildId        String
+  requiredPoints Int    @default(0)
 }
 
 model Settings {
-  guildId                BigInt @id @unique
+  guildId                String @id @unique
   prefix                 String @default("!")
   welcomeMessageFormat   String @default("Welcome {user}!")
-  openIntroChannelId     BigInt @default(0)
-  introChannelId         BigInt @default(0)
+  openIntroChannelId     String @default("")
+  introChannelId         String @default("")
   leaveMessageFormat     String @default("Goodbye {user}!")
-  leaveChannelId         BigInt @default(0)
-  unverifiedMemberRoleId BigInt @default(0)
-  verifiedMemberRoleId   BigInt @default(0)
-  modRoleId              BigInt @default(0)
-  adminRoleId            BigInt @default(0)
+  leaveChannelId         String @default("")
+  unverifiedMemberRoleId String @default("")
+  verifiedMemberRoleId   String @default("")
+  modRoleId              String @default("")
+  adminRoleId            String @default("")
 }
 
 model AuditLog {
   id             Int      @id @default(autoincrement())
-  guildId        BigInt
-  invokerId      BigInt
+  guildId        String
+  invokerId      String
   invoker        User     @relation(fields: [invokerId], references: [userId], name: "AuditLogInvoker")
   action         String
   reason         String?
-  involvedUserId BigInt?
+  involvedUserId String?
   involvedUser   User?    @relation(fields: [involvedUserId], references: [userId], name: "AuditLogInvolvedUser")
   createdAt      DateTime @default(now())
 }

@@ -46,7 +46,7 @@ export class JwtAuthService {
     };
   }
   async validateUser(profile: { id: string; username: string }): Promise<any> {
-    const user = await this.usersService.findOne(parseInt(profile.id));
+    const user = await this.usersService.findOne(profile.id);
     if (!user) {
       throw new UnauthorizedException();
     }

@@ -45,29 +45,31 @@ export class BotGateway {
           this.client.guilds.cache.at(0).id,
         ),
       );
-      if (!member.user.bot)
+      if (!member.user.bot) {
         await this.userService.findOrCreate(
-          parseInt(member.id),
+          member.id,
           member.user.username,
-          parseInt(member.guild.id),
+          member.guild.id,
           isMod ? 'MOD' : isAdmin ? 'ADMIN' : 'MEMBER',
         );
+      }
     });
   }
 
   @On('guildMemberAdd')
   async addMember(member: GuildMember) {
+    if (member.user.bot) return;
     await this.userService.findOrCreate(
-      parseInt(member.id),
+      member.id,
       member.user.username,
-      parseInt(member.guild.id),
+      member.guild.id,
       'MEMBER',
     );
   }
 
   @On('guildMemberRemove')
   async removeMember(member: GuildMember) {
-    await this.userService.deleteOne(parseInt(member.id));
+    await this.userService.deleteOne(member.id);
     // remove all roles from user to avoid this: https://canary.discord.com/channels/1011511871297302608/1011527466130608171/1155900698257539202
     // THis probably errors out quite often though
     try {
@@ -80,10 +82,10 @@ export class BotGateway {
   @UseGuards(MessageFromUserGuard, IsUserUnlockedGuard)
   async onMessage(message: Message): Promise<void> {
     await this.userService.insertMessage(
-      parseInt(message.author.id),
-      parseInt(message.id),
-      parseInt(message.channelId),
-      parseInt(message.guildId),
+      message.author.id,
+      message.id,
+      message.channelId,
+      message.guildId,
     );
   }
 
@@ -115,7 +117,7 @@ export class BotGateway {
       return;
     await this.userService.unlockUser(member.id);
     // Post introduction message(firstmessage) to open introduction channel
-    const stats = await this.userService.getStats(parseInt(member.id));
+    const stats = await this.userService.getStats(member.id);
     if (stats.firstMessageId) {
       const channel = (await this.client.channels.fetch(
         await this.settingsService.getOpenIntroChannelId(member.guild.id),

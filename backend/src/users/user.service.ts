@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma.service';
 @Injectable()
 export class UserService {
   async unlockUser(userId: string) {
-    const user = await this.findOne(parseInt(userId));
+    const user = await this.findOne(userId);
     this.database.user.update({
       where: { userId: user.userId },
       data: { unlocked: true, rank: 'MEMBER' },
@@ -13,7 +13,7 @@ export class UserService {
   }
 
   async setRank(userId: string, rank: 'MEMBER' | 'MOD' | 'ADMIN') {
-    const user = await this.findOne(parseInt(userId));
+    const user = await this.findOne(userId);
     this.database.user.update({
       where: { userId: user.userId },
       data: { rank: rank },
@@ -21,25 +21,25 @@ export class UserService {
   }
 
   async setFirstMessageId(mId: string, userId: string) {
-    const user = await this.findOne(parseInt(userId));
+    const user = await this.findOne(userId);
     this.database.stats.update({
       where: { userId: user.userId },
-      data: { firstMessageId: parseInt(mId) },
+      data: { firstMessageId: mId },
     });
   }
   constructor(@Inject(PrismaService) private database: PrismaService) {}
 
-  async findOne(userId: number): Promise<User | undefined> {
+  async findOne(userId: string): Promise<User | undefined> {
     return this.database.user.findUnique({ where: { userId } });
   }
-  async getStats(userId: number) {
+  async getStats(userId: string) {
     return this.database.stats.findUnique({ where: { userId } });
   }
 
   async findOrCreate(
-    userId: number,
+    userId: string,
     name: string,
-    guildId: number,
+    guildId: string,
     rank: 'MEMBER' | 'MOD' | 'ADMIN',
   ): Promise<User> {
     let user = await this.findOne(userId);
@@ -56,10 +56,10 @@ export class UserService {
   }
 
   async insertMessage(
-    userId: number,
-    messageId: number,
-    channelId: number,
-    guildId: number,
+    userId: string,
+    messageId: string,
+    channelId: string,
+    guildId: string,
   ) {
     await this.database.message.create({
       data: {
@@ -72,10 +72,10 @@ export class UserService {
     });
   }
 
-  async deleteOne(userId: number): Promise<void> {
+  async deleteOne(userId: string): Promise<void> {
     await this.database.user.delete({ where: { userId } });
   }
-  async findAll(guildId: number): Promise<Array<User>> {
+  async findAll(guildId: string): Promise<Array<User>> {
     const users = await this.database.user.findMany({
       where: { guildId: guildId },
     });
