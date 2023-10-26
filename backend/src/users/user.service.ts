@@ -75,8 +75,12 @@ export class UserService {
   async deleteOne(userId: number): Promise<void> {
     await this.database.user.delete({ where: { userId } });
   }
-  async findAll(): Promise<Array<User>> {
-    return this.database.user.findMany();
+  async findAll(guildId: number): Promise<Array<User>> {
+    const users = await this.database.user.findMany({
+      where: { guildId: guildId },
+    });
+    if (!users) return [];
+    return users;
   }
 
   async updateMessageCountBucket(user: User): Promise<void> {

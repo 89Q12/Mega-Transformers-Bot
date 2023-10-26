@@ -8,6 +8,7 @@ import { UserModule } from 'src/users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from 'src/prisma.service';
 import { SettingsModule } from 'src/settings/settings.module';
+import { SettingsService } from 'src/settings/settings.service';
 
 @Module({
   imports: [
@@ -16,7 +17,13 @@ import { SettingsModule } from 'src/settings/settings.module';
     ConfigModule,
     SettingsModule,
   ],
-  providers: [BotService, PingCommand, BotGateway, PrismaService],
+  providers: [
+    BotService,
+    PingCommand,
+    BotGateway,
+    PrismaService,
+    SettingsService,
+  ],
   controllers: [BotController],
   exports: [BotService, DiscordModule],
 })
