@@ -30,7 +30,7 @@ export class TasksService {
   }
 
   // Run every 5 minutes
-  @Cron('*/1 * * * *', {
+  @Cron('*/5 * * * *', {
     name: 'timeouts',
     timeZone: 'Europe/Berlin',
   })
