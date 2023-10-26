@@ -3,12 +3,25 @@ import {
   Flex,
   Heading,
   Icon,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   chakra,
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
-import { HiCog, HiFlag, HiHome, HiQueueList } from 'react-icons/hi2';
 import {
+  HiCog,
+  HiEllipsisVertical,
+  HiFlag,
+  HiHome,
+  HiQueueList,
+  HiArrowLeftOnRectangle,
+} from 'react-icons/hi2';
+import {
+  Link,
   Link as RouterLink,
   useLocation,
   useResolvedPath,
@@ -68,6 +81,7 @@ export const Header: FC = () => {
       padding="4"
       gap={gap}
       flexWrap="wrap"
+      alignItems="center"
     >
       <Heading size="md" display={displayTitle}>
         🐶 Cardinal System
@@ -86,10 +100,21 @@ export const Header: FC = () => {
             </RouterLinkButton>
           </Flex>
           <Flex height="100%">
-            <RouterLinkButton
-              to="/settings"
-              icon={<Icon as={HiCog} />}
-            ></RouterLinkButton>
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                aria-label="More"
+                icon={<Icon as={HiEllipsisVertical} />}
+                variant="ghost"
+                color="primary.50"
+              />
+              <MenuList>
+                <MenuItem icon={<HiCog />} as={Link} to="/settings">
+                  Settings
+                </MenuItem>
+                <MenuItem icon={<HiArrowLeftOnRectangle />}>Logout</MenuItem>
+              </MenuList>
+            </Menu>
           </Flex>
         </>
       )}
