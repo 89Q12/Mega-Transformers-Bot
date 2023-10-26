@@ -5,7 +5,13 @@ import { FaDiscord } from 'react-icons/fa6';
 const LoginPage: FC = () => {
   return (
     <Flex justifyContent="center" alignItems="center" height="100%">
-      <a href={`${import.meta.env.VITE_API_URL}/auth/discord`}>
+      <a
+        href={`https://discord.com/oauth2/authorize?redirect_uri=${encodeURIComponent(
+          import.meta.env.VITE_DISCORD_CALLBACK_URL,
+        )}&client_id=${
+          import.meta.env.VITE_DISCORD_OAUTH_CLIENT_ID
+        }&response_type=code&scope=identify`}
+      >
         <Button
           leftIcon={<Icon as={FaDiscord} />}
           colorScheme="discord"

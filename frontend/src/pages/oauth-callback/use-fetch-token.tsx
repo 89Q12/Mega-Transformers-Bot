@@ -22,7 +22,7 @@ export const useFetchToken = () => {
     setUsedCodes((codes) => [...codes, code]);
     return new Promise<void>((resolve, reject) =>
       api
-        .get(`/auth/discord?code=${code}`)
+        .get(`/auth/login?code=${code}`)
         .badRequest(() => {
           // We dont want the promise to resolve here
           setGrantFailed(true);
