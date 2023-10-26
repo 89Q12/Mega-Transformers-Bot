@@ -24,6 +24,15 @@ export class BotGateway {
 
   @Once('ready')
   async onReady() {
+    const settings = await this.settingsService.getSettings(
+      this.client.guilds.cache.at(0).id,
+    );
+    if (!settings) {
+      await this.settingsService.createSettings(
+        this.client.guilds.cache.at(0).id,
+      );
+      console.log('Created settings using default values');
+    }
     const members = await this.client.guilds.cache.at(0).members.fetch();
     members.forEach(async (member: GuildMember) => {
       const isMod = member.roles.cache.has(
