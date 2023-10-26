@@ -7,7 +7,7 @@ import { JwtAuthController } from './jwt-auth.controller';
 import { RefreshJwtStrategy } from './refresh-token.strategy';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from 'src/users/user.module';
+import { UserModule } from 'src/user/user.module';
 import { SettingsModule } from 'src/settings/settings.module';
 
 @Module({

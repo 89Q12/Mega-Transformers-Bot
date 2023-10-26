@@ -6,7 +6,7 @@ import {
   GuildTextBasedChannel,
   Message,
 } from 'discord.js';
-import { UserService } from 'src/users/user.service';
+import { UserService } from 'src/user/user.service';
 import { MessageFromUserGuard } from './guards/message-from-user.guard';
 import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';

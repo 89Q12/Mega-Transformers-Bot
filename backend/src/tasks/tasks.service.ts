@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 import { User } from '@prisma/client';
 import { Client } from 'discord.js';
 import { BotService } from 'src/bot/bot.service';
-import { UserService } from 'src/users/user.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class TasksService {

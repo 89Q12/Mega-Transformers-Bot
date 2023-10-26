@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './users/user.module';
+import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/discord/discord-auth.module';
 import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 import { DiscordModule } from '@discord-nestjs/core';
