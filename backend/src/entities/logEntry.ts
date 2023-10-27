@@ -6,5 +6,5 @@ export default interface LogEntry {
   createdAt: Date;
   targetId: string;
   targetType: string;
-  extraInfo: string;
+  extraInfo?: string;
 }

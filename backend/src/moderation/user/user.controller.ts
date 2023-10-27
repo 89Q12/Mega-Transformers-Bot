@@ -5,6 +5,8 @@ import {
   Param,
   UseGuards,
   NotFoundException,
+  Req,
+  Inject,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,6 +22,8 @@ import {
 } from '../../entities/user';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
+import LogEntry from 'src/entities/logEntry';
+import { AuditLogService } from 'src/auditlog/auditlog.service';
 
 @ApiTags('discord/user')
 @Controller('discord/user')
@@ -29,6 +33,7 @@ export class UserController {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
+    @Inject(AuditLogService) private auditLogService: AuditLogService,
   ) {}
   @Get(':guildId/users')
   @ApiOperation({ summary: 'Get all users for a guild' })
@@ -67,11 +72,21 @@ export class UserController {
     description: 'User was successfully banned',
   })
   async banUser(
+    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.ban(userId);
+    const logEntry: LogEntry = {
+      action: 'BAN',
+      invokerId: req.user.user.user_id,
+      reason: 'Ban',
+      guildId: guildId,
+      targetId: userId,
+      targetType: 'USER',
+      createdAt: new Date(),
+    };
   }
 
   @Post(':guildId/user/:userId/kick')
@@ -81,11 +96,22 @@ export class UserController {
     description: 'User was successfully kicked',
   })
   async kickUser(
+    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.kick(userId);
+    const logEntry: LogEntry = {
+      action: 'KICK',
+      invokerId: req.user.user.user_id,
+      reason: 'Kick',
+      guildId: guildId,
+      targetId: userId,
+      targetType: 'USER',
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
   }
 
   @Post(':guildId/user/:userId/timeout')
@@ -95,12 +121,29 @@ export class UserController {
     description: 'User was successfully timed outed',
   })
   async timeoutUser(
+    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
+    @Param('duration') duration: number,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
+    const logEntry: LogEntry = {
+      action: 'TIMEOUT',
+      invokerId: req.user.user.user_id,
+      reason: 'Timeout',
+      guildId: guildId,
+      targetId: userId,
+      targetType: 'USER',
+      createdAt: new Date(),
+      extraInfo: JSON.stringify({
+        duration: duration,
+      }),
+    };
+
     await member.voice.setMute(true);
+    await member.timeout(duration);
+    await this.auditLogService.create(logEntry);
   }
 
   @Post(':guildId/user/:userId/purge')

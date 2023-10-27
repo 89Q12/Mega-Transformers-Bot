@@ -1,17 +1,4 @@
-import { InjectDiscordClient, On } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import {
-  Client,
-  DMChannel,
-  Guild,
-  GuildBasedChannel,
-  GuildMember,
-  InvalidRequestWarningData,
-  Invite,
-  Message,
-  MessageReaction,
-  Role,
-} from 'discord.js';
 import LogEntry from 'src/entities/logEntry';
 import { PrismaService } from 'src/prisma.service';
 
@@ -29,7 +16,7 @@ export class AuditLogService {
         reason: entry.reason,
         targetId: entry.targetId,
         targetType: entry.targetType,
-        extraInfo: entry.extraInfo,
+        extraInfo: entry.extraInfo || null,
         createdAt: entry.createdAt,
       },
     });
