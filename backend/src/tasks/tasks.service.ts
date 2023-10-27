@@ -44,7 +44,10 @@ export class TasksService {
           const member = await this.client.guilds.cache
             .get(guild.id)
             .members.fetch(dbUser.userId.toString());
-          if (member.communicationDisabledUntilTimestamp > Date.now()) {
+          if (
+            member.communicationDisabledUntilTimestamp > Date.now() ||
+            member.communicationDisabledUntilTimestamp == null
+          ) {
             return;
           } else if (member.communicationDisabledUntilTimestamp < Date.now()) {
             const logEntry: LogEntry = {
@@ -55,7 +58,9 @@ export class TasksService {
               createdAt: new Date(),
               targetId: dbUser.userId.toString(),
               targetType: 'USER',
-              extraInfo: '',
+              extraInfo: JSON.stringify({
+                timeout: member.communicationDisabledUntilTimestamp,
+              }),
             };
             await this.auditLogService.create(logEntry);
           }
