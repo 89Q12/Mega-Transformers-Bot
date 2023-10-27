@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
@@ -19,6 +20,10 @@ import {
   GuildChannel,
   GuildChannelEditOptions,
   GuildBasedChannel,
+  ChannelType,
+  GuildTextBasedChannel,
+  Message,
+  Collection,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { Channel } from '../../entities/channel';
@@ -70,5 +75,60 @@ export class ChannelController {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId) as GuildChannel;
     await channel.edit({ rateLimitPerUser: duration });
+  }
+
+  @Post('guild/:guildId/channel/:channelId/clean')
+  @ApiOperation({ summary: 'Clean a channel' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        userId: {
+          type: 'string',
+        },
+        before: {
+          type: 'number',
+        },
+      },
+    },
+  })
+  async cleanChannel(
+    @Param('guildId') guildId: string,
+    @Param('channelId') channelId: string,
+    @Body() { userId, before }: { userId: string; before: number },
+  ): Promise<void> {
+    console.log('before unix timestamp: ' + before);
+    const guild = await this.client.guilds.fetch(guildId);
+    const channel = guild.channels.cache.get(channelId);
+    switch (channel.type) {
+      case ChannelType.GuildText:
+        this.cleanTextChannel(channel as GuildTextBasedChannel, userId, before);
+        break;
+      case ChannelType.PublicThread:
+        this.cleanTextChannel(channel as GuildTextBasedChannel, userId, before);
+      case ChannelType.PrivateThread:
+      case ChannelType.GuildForum:
+    }
+  }
+  private async cleanTextChannel(
+    channel: GuildTextBasedChannel,
+    userId: string,
+    before: number,
+  ): Promise<void> {
+    let stop = false;
+    while (!stop) {
+      const messages = await channel.messages.fetch({
+        limit: 100,
+      });
+      if (messages.last().createdTimestamp < before) stop = true;
+      messages
+        .filter(
+          (msg) =>
+            msg.author.id === userId &&
+            msg.deletable &&
+            msg.createdTimestamp > before,
+        )
+        .forEach((msg) => msg.delete().catch((err) => console.error(err)));
+    }
   }
 }
