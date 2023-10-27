@@ -11,6 +11,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ModerationModule } from './moderation/moderation.module';
 import { SettingsModule } from './settings/settings.module';
+import { AuditLogModule } from './auditlog/auditlog.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -48,6 +49,7 @@ import { SettingsModule } from './settings/settings.module';
     TasksModule,
     ModerationModule,
     SettingsModule,
+    AuditLogModule,
   ],
   controllers: [AppController],
   providers: [AppService],

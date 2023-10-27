@@ -90,7 +90,7 @@ export class BotGateway {
   }
 
   @On('messageCreate')
-  @UseGuards(MessageFromUserGuard, ChannelIdGuard('1055422746596737094'))
+  @UseGuards(MessageFromUserGuard, ChannelIdGuard('1121822614374060175'))
   async postIntroductionFromUser(message: Message): Promise<void> {
     // Get first message from user in the introduction channel and post it to the open introduction channel
     const messages = await message.channel.messages.fetch({ limit: 1 });

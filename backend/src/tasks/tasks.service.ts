@@ -3,7 +3,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { User } from '@prisma/client';
 import { Client } from 'discord.js';
+import { AuditLogService } from 'src/auditlog/auditlog.service';
 import { BotService } from 'src/bot/bot.service';
+import LogEntry from 'src/entities/logEntry';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -13,6 +15,7 @@ export class TasksService {
     @Inject(UserService) private userService: UserService,
     @InjectDiscordClient()
     private readonly client: Client,
+    @Inject(AuditLogService) private auditLogService: AuditLogService,
   ) {}
 
   @Cron('0 0 * * *', {
@@ -43,8 +46,18 @@ export class TasksService {
             .members.fetch(dbUser.userId.toString());
           if (member.communicationDisabledUntilTimestamp > Date.now()) {
             return;
-          } else {
-            // ADD AUDIT LOG ENTRY
+          } else if (member.communicationDisabledUntilTimestamp < Date.now()) {
+            const logEntry: LogEntry = {
+              guildId: guild.id,
+              invokerId: '0',
+              action: 'TIMEOUT_EXPIRED',
+              reason: 'Timeout expired',
+              createdAt: new Date(),
+              targetId: dbUser.userId.toString(),
+              targetType: 'USER',
+              extraInfo: '',
+            };
+            await this.auditLogService.create(logEntry);
           }
         },
       );

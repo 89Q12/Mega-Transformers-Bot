@@ -26,8 +26,6 @@ model User {
   unlocked    Boolean    @default(false)
   deactivated Boolean    @default(false)
   rank        Rank       @default(NEW)
-  AuditLog_1    AuditLog[] @relation("AuditLogInvoker")
-  AuditLog_2    AuditLog[] @relation("AuditLogInvolvedUser")
 }
 
 model Stats {
@@ -75,10 +73,10 @@ model AuditLog {
   id             Int      @id @default(autoincrement())
   guildId        String
   invokerId      String
-  invoker        User     @relation(fields: [invokerId], references: [userId], name: "AuditLogInvoker")
   action         String
-  reason         String?
-  involvedUserId String?
-  involvedUser   User?    @relation(fields: [involvedUserId], references: [userId], name: "AuditLogInvolvedUser")
+  reason         String
   createdAt      DateTime @default(now())
+  targetId       String
+  targetType     String
+  extraInfo      Json?
 }
