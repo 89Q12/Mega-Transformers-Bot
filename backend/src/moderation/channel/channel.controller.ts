@@ -22,8 +22,6 @@ import {
   GuildBasedChannel,
   ChannelType,
   GuildTextBasedChannel,
-  Message,
-  Collection,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { Channel } from '../../entities/channel';
@@ -50,6 +48,21 @@ export class ChannelController {
   ): Promise<GuildChannel[]> {
     const guild = await this.client.guilds.fetch(guildId);
     return (await guild.channels.fetch()).toJSON();
+  }
+
+  @Get('guild/:guildId/:channelId')
+  @ApiOperation({ summary: 'Get a channel for a guild' })
+  @ApiResponse({
+    status: 200,
+    type: Channel,
+    description: 'Channel was successfully fetched',
+  })
+  async getGuildChannel(
+    @Param('guildId') guildId: string,
+    @Param('channelId') channelId: string,
+  ): Promise<GuildBasedChannel> {
+    const guild = await this.client.guilds.fetch(guildId);
+    return await guild.channels.fetch(channelId);
   }
 
   @Put('guild/:guildId/channel/:channelId')
