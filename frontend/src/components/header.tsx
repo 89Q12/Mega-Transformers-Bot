@@ -30,6 +30,7 @@ import {
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 import { useSelf } from '../hooks/use-self.tsx';
 import { useIsMod } from '../hooks/use-is-mod.tsx';
+import { useLogout } from '../hooks/use-logout.tsx';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>
@@ -64,6 +65,7 @@ export const Header: FC = () => {
   const isAuthenticated = useIsAuthenticated();
   const self = useSelf();
   const isMod = useIsMod();
+  const logout = useLogout();
   const displayTitle = useBreakpointValue(
     {
       base: 'none',
@@ -132,7 +134,12 @@ export const Header: FC = () => {
                     Settings
                   </MenuItem>
                 )}
-                <MenuItem icon={<HiArrowLeftOnRectangle />}>Logout</MenuItem>
+                <MenuItem
+                  icon={<HiArrowLeftOnRectangle />}
+                  onClick={() => logout()}
+                >
+                  Logout
+                </MenuItem>
               </MenuList>
             </Menu>
           </Flex>
