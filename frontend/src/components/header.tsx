@@ -26,7 +26,7 @@ import {
   useLocation,
   useResolvedPath,
 } from 'react-router-dom';
-import { useIsAuthenticted } from '../hooks/use-is-authenticated';
+import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>
@@ -58,7 +58,7 @@ const RouterLinkButton: FC<
 };
 
 export const Header: FC = () => {
-  const isAuthenticated = useIsAuthenticted();
+  const isAuthenticated = useIsAuthenticated();
   const displayTitle = useBreakpointValue(
     {
       base: 'none',

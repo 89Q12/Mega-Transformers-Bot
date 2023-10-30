@@ -1,5 +1,5 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { RouterProvider } from 'react-router';
 import { PageSpinner } from './components/page-spinner';
 import { useRouter } from './hooks/use-router';

@@ -1,10 +1,13 @@
-import { FC, PropsWithChildren, createContext, useState } from 'react';
+import { createContext, FC, PropsWithChildren, useState } from 'react';
 import Cookies from 'js-cookie';
+import { User } from '../hooks/use-fetch-self.tsx';
 
 interface UserContextType {
   token: string | undefined;
-  setToken: (token: string) => void;
+  user: User | undefined;
+  set: (token: string, user: User) => void;
   clear: () => void;
+  initializing: boolean;
 }
 
 export const UserContext = createContext<UserContextType>(null!);
@@ -14,19 +17,24 @@ export const ProvideUserContext: FC<PropsWithChildren> = ({ children }) => {
   const [token, setToken] = useState<string | undefined>(
     Cookies.get(key) ?? undefined,
   );
+  const [user, setUser] = useState<User | undefined>();
 
   return (
     <UserContext.Provider
       value={{
         token,
-        setToken: (token) => {
+        user,
+        set: (token, user) => {
           Cookies.set(key, token);
           setToken(token);
+          setUser(user);
         },
         clear: () => {
           Cookies.remove(key);
           setToken(undefined);
+          setUser(undefined);
         },
+        initializing: !!(token && !user),
       }}
     >
       {children}

@@ -7,10 +7,10 @@ import Moderation from '../pages/moderation';
 import OauthCallback from '../pages/oauth-callback';
 import { Root } from '../pages/root';
 import Settings from '../pages/settings';
-import { useIsAuthenticted } from './use-is-authenticated';
+import { useIsAuthenticated } from './use-is-authenticated';
 
 export const useRouter = () => {
-  const isAuthenticated = useIsAuthenticted();
+  const isAuthenticated = useIsAuthenticated();
   return createBrowserRouter([
     {
       path: '/',

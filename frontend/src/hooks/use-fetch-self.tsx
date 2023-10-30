@@ -1,0 +1,20 @@
+import { useApi } from './use-api.tsx';
+
+export type Rank = 'NEW' | 'MEMBER' | 'MOD' | 'ADMIN' | 'OWNER';
+
+export interface User {
+  userId: string;
+  guildId: string;
+  name: string;
+  unlocked?: boolean;
+  deactivated?: boolean;
+  ran: Rank;
+}
+
+export const useFetchSelf = () => {
+  const api = useApi();
+
+  return (token?: string) => {
+    return api.auth(`Bearer ${token}`).get('/user/self').json<User>();
+  };
+};

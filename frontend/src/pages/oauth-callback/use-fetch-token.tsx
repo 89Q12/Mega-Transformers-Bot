@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useApi } from '../../hooks/use-api';
 import { UserContext } from '../../state/user.context';
+import { useFetchSelf } from '../../hooks/use-fetch-self.tsx';
 
 interface FetchTokenResponse {
   user: {
@@ -13,7 +14,8 @@ interface FetchTokenResponse {
 
 export const useFetchToken = () => {
   const api = useApi();
-  const { setToken } = useContext(UserContext);
+  const fetchSelf = useFetchSelf();
+  const { set } = useContext(UserContext);
   const [usedCodes, setUsedCodes] = useState<string[]>([]);
   const [grantFailed, setGrantFailed] = useState<boolean>(false);
 
@@ -28,7 +30,9 @@ export const useFetchToken = () => {
           setGrantFailed(true);
         })
         .json((response: FetchTokenResponse) => {
-          setToken(response.accessToken);
+          fetchSelf(response.accessToken).then((user) => {
+            set(response.accessToken, user);
+          });
           resolve();
         })
         .catch((err) => reject(err)),
