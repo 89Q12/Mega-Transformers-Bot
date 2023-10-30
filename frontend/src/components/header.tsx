@@ -29,6 +29,7 @@ import {
 } from 'react-router-dom';
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 import { useSelf } from '../hooks/use-self.tsx';
+import { useIsMod } from '../hooks/use-is-mod.tsx';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>
@@ -62,6 +63,7 @@ const RouterLinkButton: FC<
 export const Header: FC = () => {
   const isAuthenticated = useIsAuthenticated();
   const self = useSelf();
+  const isMod = useIsMod();
   const displayTitle = useBreakpointValue(
     {
       base: 'none',
@@ -125,9 +127,11 @@ export const Header: FC = () => {
                 color="primary.50"
               />
               <MenuList>
-                <MenuItem icon={<HiCog />} as={Link} to="/settings">
-                  Settings
-                </MenuItem>
+                {isMod && (
+                  <MenuItem icon={<HiCog />} as={Link} to="/settings">
+                    Settings
+                  </MenuItem>
+                )}
                 <MenuItem icon={<HiArrowLeftOnRectangle />}>Logout</MenuItem>
               </MenuList>
             </Menu>

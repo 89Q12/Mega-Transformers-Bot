@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useSearchParams, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { PageSpinner } from '../../components/page-spinner';
 import { useApi } from '../../hooks/use-api';
 import { Flex, Link } from '@chakra-ui/react';
