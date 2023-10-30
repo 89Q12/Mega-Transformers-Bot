@@ -6,9 +6,8 @@ export interface User {
   userId: string;
   guildId: string;
   name: string;
-  unlocked?: boolean;
-  deactivated?: boolean;
-  ran: Rank;
+  rank: Rank;
+  avatarUrl: string;
 }
 
 export const useFetchSelf = () => {

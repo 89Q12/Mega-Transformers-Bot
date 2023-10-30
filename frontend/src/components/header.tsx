@@ -10,6 +10,7 @@ import {
   MenuList,
   chakra,
   useBreakpointValue,
+  Image,
 } from '@chakra-ui/react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import {
@@ -27,6 +28,7 @@ import {
   useResolvedPath,
 } from 'react-router-dom';
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
+import { useSelf } from '../hooks/use-self.tsx';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>
@@ -59,6 +61,7 @@ const RouterLinkButton: FC<
 
 export const Header: FC = () => {
   const isAuthenticated = useIsAuthenticated();
+  const self = useSelf();
   const displayTitle = useBreakpointValue(
     {
       base: 'none',
@@ -104,7 +107,20 @@ export const Header: FC = () => {
               <MenuButton
                 as={IconButton}
                 aria-label="More"
-                icon={<Icon as={HiEllipsisVertical} />}
+                borderRadius="50%"
+                icon={
+                  self?.avatarUrl ? (
+                    <Image
+                      src={self.avatarUrl}
+                      alt="More"
+                      borderRadius="50%"
+                      width="calc(100% - .2rem)"
+                      height="calc(100% - .2rem)"
+                    />
+                  ) : (
+                    <Icon as={HiEllipsisVertical} />
+                  )
+                }
                 variant="ghost"
                 color="primary.50"
               />
