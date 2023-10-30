@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ModerationModule } from './moderation/moderation.module';
 import { SettingsModule } from './settings/settings.module';
 import { AuditLogModule } from './auditlog/auditlog.module';
+import { APP_FILTER } from '@nestjs/core';
 @Module({
   imports: [
     ScheduleModule.forRoot(),

@@ -58,9 +58,9 @@ export class BotService {
   async templateMessage(message: Message): Promise<string> {
     // template message using the template string provided in the settings
     const template = await this.settings.getWelcomeMessageFormat(
-      message.guild.id,
+      message.guildId,
     );
-    // Useable variables:
+    // Usable variables:
     // ${user} - username
     // ${message} - message content
     return template

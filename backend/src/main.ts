@@ -2,12 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { GuildDoesNotExistExceptionFilter } from './exception/guild-does-not-exist-exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   if (process.env.CORS_ALLOW_ALL) {
     app.enableCors();
   }
+  app.useGlobalFilters(new GuildDoesNotExistExceptionFilter());
   SwaggerModule.setup(
     'api',
     app,
@@ -27,4 +29,5 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
+
 bootstrap();

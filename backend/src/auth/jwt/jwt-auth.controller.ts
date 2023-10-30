@@ -2,8 +2,11 @@ import {
   BadRequestException,
   Controller,
   Get,
+  Logger,
   Post,
+  Query,
   Req,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthService } from './jwt-auth.service';
@@ -13,16 +16,20 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { OAuthErrorData } from 'discord.js';
 
 @Controller('auth')
 @ApiTags('auth/jwt')
 @ApiBearerAuth()
 export class JwtAuthController {
+  private readonly logger = new Logger(JwtAuthController.name);
+
   constructor(
     private authService: JwtAuthService,
     private http: HttpService,
     private configService: ConfigService,
   ) {}
+
   @UseGuards(RefreshJwtGuard)
   @ApiHeader({
     name: 'refresh_token',
@@ -34,8 +41,7 @@ export class JwtAuthController {
   }
 
   @Get('login')
-  async login(@Req() req) {
-    const code = req.query.code;
+  async login(@Query('code') code: string) {
     if (!code) {
       throw new BadRequestException('No code provided');
     }
@@ -57,9 +63,17 @@ export class JwtAuthController {
           },
         )
         .pipe(
-          catchError((error: AxiosError) => {
-            console.log(error.response);
-            throw `Error: ${error.request} `;
+          catchError((error: AxiosError<OAuthErrorData>) => {
+            this.logger.warn(
+              'OAuth token call to Discord failed: ' +
+                JSON.stringify(error.response.data),
+            );
+            if (error.response.data.error === 'invalid_grant') {
+              this.logger.warn(
+                'Is the user trying to log in not member of the guild?',
+              );
+            }
+            throw new UnauthorizedException();
           }),
         ),
     );
