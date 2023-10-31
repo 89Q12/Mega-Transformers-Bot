@@ -1,5 +1,5 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { User } from '@prisma/client';
 import { Client } from 'discord.js';
@@ -7,6 +7,8 @@ import { AuditLogService } from 'src/auditlog/auditlog.service';
 import { BotService } from 'src/bot/bot.service';
 import LogEntry from 'src/entities/logEntry';
 import { UserService } from 'src/user/user.service';
+
+const logger = new Logger('TaskService');
 
 @Injectable()
 export class TasksService {
@@ -26,6 +28,7 @@ export class TasksService {
     this.client.guilds.cache.forEach(async (guild) => {
       (await this.userService.findAll(guild.id)).forEach(async (user: User) => {
         if (user.rank != ('MEMBER' || 'NEW')) return;
+        logger.log(`Checking user ${user.userId} for activity...`);
         this.userService.updateMessageCountBucket(user);
         this.botService.updateChannelPermissions(user);
       });
@@ -44,12 +47,14 @@ export class TasksService {
           const member = await this.client.guilds.cache
             .get(guild.id)
             .members.fetch(dbUser.userId.toString());
-          if (
-            member.communicationDisabledUntilTimestamp > Date.now() ||
-            member.communicationDisabledUntilTimestamp == null
-          ) {
+          if (member.communicationDisabledUntilTimestamp == null) {
+            logger.log(`User ${dbUser.userId} has no timeout.`);
+            return;
+          } else if (member.communicationDisabledUntilTimestamp > Date.now()) {
+            logger.log(`User ${dbUser.userId} is still timed out.`);
             return;
           } else if (member.communicationDisabledUntilTimestamp < Date.now()) {
+            logger.log(`User ${dbUser.userId} timeout expired.`);
             const logEntry: LogEntry = {
               guildId: guild.id,
               invokerId: '0',
