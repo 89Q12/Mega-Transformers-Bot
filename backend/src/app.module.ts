@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { JwtAuthModule } from './auth/jwt/jwt-auth.module';
 import { DiscordModule } from '@discord-nestjs/core';
-import { GatewayIntentBits } from 'discord.js';
+import { GatewayIntentBits, Partials } from 'discord.js';
 import { BotModule } from './bot/bot.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -28,11 +28,34 @@ import { APP_FILTER } from '@nestjs/core';
         token: configService.get('TOKEN'),
         discordClientOptions: {
           intents: [
+            GatewayIntentBits.AutoModerationConfiguration,
+            GatewayIntentBits.AutoModerationExecution,
             GatewayIntentBits.GuildPresences,
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
             GatewayIntentBits.MessageContent,
             GatewayIntentBits.GuildMembers,
+            GatewayIntentBits.GuildMessageReactions,
+            GatewayIntentBits.GuildModeration,
+            GatewayIntentBits.GuildInvites,
+            GatewayIntentBits.GuildVoiceStates,
+            GatewayIntentBits.GuildMessageTyping,
+            GatewayIntentBits.GuildWebhooks,
+            GatewayIntentBits.GuildIntegrations,
+            GatewayIntentBits.GuildMessageTyping,
+            GatewayIntentBits.GuildEmojisAndStickers,
+            GatewayIntentBits.DirectMessageTyping,
+            GatewayIntentBits.DirectMessages,
+            GatewayIntentBits.DirectMessageReactions,
+          ],
+          partials: [
+            Partials.GuildMember,
+            Partials.ThreadMember,
+            Partials.User,
+            Partials.Message,
+            Partials.Channel,
+            Partials.Reaction,
+            Partials.GuildScheduledEvent,
           ],
         },
         registerCommandOptions: [
