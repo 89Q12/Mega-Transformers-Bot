@@ -14,7 +14,7 @@ import { RequestUser } from '../util/decorators/request-user.decorator';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Client } from 'discord.js';
 import { SelfDto } from './dto/self.dto';
-import { plainToInstance } from '../util/plain-to-instance';
+import { plainToInstance } from '../util/functions/plain-to-instance';
 
 @Injectable()
 @ApiTags('user')

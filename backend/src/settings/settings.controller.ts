@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
 import { IsModGuard } from '../guards/is-mod.guard';
 import { SettingsDto } from './dto/settings.dto';
 import { SettingsService } from './settings.service';
-import { plainToInstance } from '../util/plain-to-instance';
+import { plainToInstance } from '../util/functions/plain-to-instance';
 import { HttpStatusCode } from 'axios';
 
 @Controller('settings')
