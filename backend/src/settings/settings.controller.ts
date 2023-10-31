@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
-import { IsModGuard } from '../guards/is-mod.guard';
+import { IsModGuard } from '../util/guards/is-mod.guard';
 import { SettingsDto } from './dto/settings.dto';
 import { SettingsService } from './settings.service';
 import { plainToInstance } from '../util/functions/plain-to-instance';

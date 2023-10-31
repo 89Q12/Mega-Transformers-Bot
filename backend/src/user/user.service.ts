@@ -6,7 +6,7 @@ import { PrismaService } from 'src/prisma.service';
 export class UserService {
   async unlockUser(userId: string) {
     const user = await this.findOne(userId);
-    this.database.user.update({
+    await this.database.user.update({
       where: { userId: user.userId },
       data: { unlocked: true, rank: 'MEMBER' },
     });
@@ -14,7 +14,7 @@ export class UserService {
 
   async setRank(userId: string, rank: 'MEMBER' | 'MOD' | 'ADMIN') {
     const user = await this.findOne(userId);
-    this.database.user.update({
+    await this.database.user.update({
       where: { userId: user.userId },
       data: { rank: rank },
     });
@@ -22,7 +22,7 @@ export class UserService {
 
   async setFirstMessageId(mId: string, userId: string) {
     const user = await this.findOne(userId);
-    this.database.stats.update({
+    await this.database.stats.update({
       where: { userId: user.userId },
       data: { firstMessageId: mId },
     });
@@ -30,10 +30,10 @@ export class UserService {
   constructor(@Inject(PrismaService) private database: PrismaService) {}
 
   async findOne(userId: string): Promise<User | undefined> {
-    return this.database.user.findUnique({ where: { userId } });
+    return await this.database.user.findUnique({ where: { userId } });
   }
   async getStats(userId: string) {
-    return this.database.stats.findUnique({ where: { userId } });
+    return await this.database.stats.findUnique({ where: { userId } });
   }
 
   async findOrCreate(

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -24,6 +25,7 @@ import {
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
+const logger = new Logger('RoleController');
 @ApiTags('discord/role')
 @Controller('discord/role')
 @UseGuards(JwtAuthGuard)
@@ -48,6 +50,7 @@ export class RoleController {
   })
   async getGuildRoles(@Param('guildId') guildId: string): Promise<Role[]> {
     const guild = await this.client.guilds.fetch(guildId);
+    logger.log(`Found ${guild.roles.cache.size} roles in guild ${guildId}`);
     return (await guild.roles.fetch()).toJSON();
   }
   @Post(':guildId/role/')
@@ -68,6 +71,7 @@ export class RoleController {
   ): Promise<Role> {
     const guild = await this.client.guilds.fetch(guildId);
     const role = await guild.roles.create(roleData);
+    logger.log(`Created role ${role.name} in guild ${guildId}`);
     return role;
   }
   @Put(':guildId/role/:roleId')
@@ -90,7 +94,7 @@ export class RoleController {
     const guild = await this.client.guilds.fetch(guildId);
     const role = guild.roles.cache.get(roleId);
     await role.edit(roleData);
-
+    logger.log(`Updated role ${role.name} in guild ${guildId}`);
     return role;
   }
 
@@ -111,6 +115,7 @@ export class RoleController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const role = guild.roles.cache.get(roleId);
+    logger.log(`Deleted role ${role.name} in guild ${guildId}`);
     await role.delete();
   }
 }

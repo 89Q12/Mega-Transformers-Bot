@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Param,
   Post,
   Put,
@@ -26,6 +27,8 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { Channel } from '../dto/channel';
 
+const logger = new Logger('ChannelController');
+
 @ApiTags('discord/channel')
 @Controller('discord/channel')
 @UseGuards(JwtAuthGuard)
@@ -47,6 +50,9 @@ export class ChannelController {
     @Param('guildId') guildId: string,
   ): Promise<GuildChannel[]> {
     const guild = await this.client.guilds.fetch(guildId);
+    logger.log(
+      `Found ${guild.channels.cache.size} channels in guild ${guildId}`,
+    );
     return (await guild.channels.fetch()).toJSON();
   }
 
@@ -62,6 +68,9 @@ export class ChannelController {
     @Param('channelId') channelId: string,
   ): Promise<GuildBasedChannel> {
     const guild = await this.client.guilds.fetch(guildId);
+    logger.log(
+      `Found ${guild.channels.cache.size} channels in guild ${guildId}`,
+    );
     return await guild.channels.fetch(channelId);
   }
 
@@ -75,6 +84,7 @@ export class ChannelController {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId);
     await channel.edit(channelData);
+    logger.log(`Edited channel ${channelId} in guild ${guildId}`);
     return channel;
   }
 
@@ -87,6 +97,7 @@ export class ChannelController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId) as GuildChannel;
+    logger.log(`Set slowmode for channel ${channelId} in guild ${guildId}`);
     await channel.edit({ rateLimitPerUser: duration });
   }
 
@@ -113,6 +124,9 @@ export class ChannelController {
     console.log('before unix timestamp: ' + before);
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId);
+    logger.log(
+      `Cleaning channel ${channelId} in guild ${guildId} from messages before ${before} of user ${userId}`,
+    );
     switch (channel.type) {
       case ChannelType.GuildText:
         this.cleanTextChannel(channel as GuildTextBasedChannel, userId, before);

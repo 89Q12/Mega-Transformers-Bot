@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Req,
   Inject,
+  Logger,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -25,6 +26,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
 
+const logger = new Logger('UserController');
 @ApiTags('discord/user')
 @Controller('discord/user')
 @UseGuards(JwtAuthGuard)
@@ -46,6 +48,7 @@ export class UserController {
   async getGuildUsers(@Param('guildId') guildId: string): Promise<User[]> {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
+    logger.log(`Found ${members.size} members in guild ${guildId}`);
     return members.map((member) => member.user);
   }
 
@@ -63,6 +66,7 @@ export class UserController {
   ): Promise<User> {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
+    logger.log(`Found member ${member.user.username} in guild ${guildId}`);
     return member.user;
   }
   @Post(':guildId/user/:userId/ban')
@@ -78,6 +82,7 @@ export class UserController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.ban(userId);
+    logger.log(`Banned user ${userId} from guild ${guildId}`);
     const logEntry: LogEntry = {
       action: 'BAN',
       invokerId: req.user.user.user_id,
@@ -87,6 +92,7 @@ export class UserController {
       targetType: 'USER',
       createdAt: new Date(),
     };
+    await this.auditLogService.create(logEntry);
   }
 
   @Post(':guildId/user/:userId/kick')
@@ -102,6 +108,7 @@ export class UserController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.kick(userId);
+    logger.log(`Kicked user ${userId} from guild ${guildId}`);
     const logEntry: LogEntry = {
       action: 'KICK',
       invokerId: req.user.user.user_id,
@@ -140,8 +147,9 @@ export class UserController {
         duration: duration,
       }),
     };
-
-    await member.voice.setMute(true);
+    logger.log(
+      `Timed out user ${userId} from guild ${guildId} for ${duration}`,
+    );
     await member.timeout(duration);
     await this.auditLogService.create(logEntry);
   }
@@ -156,6 +164,7 @@ export class UserController {
   })
   async purgeUserFromGuild(guildId: string, userId: string): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
+    logger.log(`Purging user ${userId} from guild ${guildId}`);
     if (guild === undefined) {
       throw new NotFoundException('Guild not found');
     }

@@ -103,7 +103,6 @@ export class BotGateway {
   }
 
   @On('guildMemberUpdate')
-  //@UseGuards(MessageFromUserGuard)
   async unlockUser(oldMember: GuildMember, newMember: GuildMember) {
     // check if wfp has been removed and user role has been added
     if (
