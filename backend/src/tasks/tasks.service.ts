@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 import { Client } from 'discord.js';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
 import { BotService } from 'src/bot/bot.service';
-import LogEntry from 'src/entities/logEntry';
+import LogEntry from 'src/util/dto/log.entry.dto';
 import { UserService } from 'src/user/user.service';
 
 const logger = new Logger('TaskService');

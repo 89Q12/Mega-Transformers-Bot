@@ -12,7 +12,7 @@ import {
   DMChannel,
   Client,
 } from 'discord.js';
-import LogEntry from 'src/entities/logEntry';
+import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from './auditlog.service';
 
 @Injectable()
@@ -329,6 +329,21 @@ export default class AuditEvents {
         new: newChannel.toJSON(),
       }),
       reason: 'Channel updated',
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
+  }
+  @On('webhooksUpdate')
+  async webhooksUpdate(channel: GuildBasedChannel) {
+    console.log(channel);
+    const logEntry: LogEntry = {
+      action: 'WEBHOOKS_UPDATED',
+      guildId: channel.guild.id,
+      invokerId: this.client.user.id,
+      targetId: channel.id,
+      targetType: 'CHANNEL',
+      extraInfo: JSON.stringify({ channel: channel.toJSON() }),
+      reason: `Webhooks updated`,
       createdAt: new Date(),
     };
     await this.auditLogService.create(logEntry);

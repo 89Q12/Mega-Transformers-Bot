@@ -24,7 +24,7 @@ import {
   GuildTextBasedChannel,
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
-import { Channel } from '../../entities/channel';
+import { Channel } from '../dto/channel';
 
 @ApiTags('discord/channel')
 @Controller('discord/channel')

@@ -1,5 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsBoolean,
+  IsEnum,
+  IsIn,
+  IsInstance,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
+import {
   Colors,
   ColorResolvable,
   PermissionFlagsBits,
@@ -9,78 +20,103 @@ import {
 } from 'discord.js';
 
 class RoleResponse {
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The guild the api belongs to',
     example: '123456789012345678',
   })
   guild: string;
+
+  @IsUrl()
   @ApiProperty({
     type: String,
     description: 'The icon of the role',
     example: 'https://cdn.discordapp.com/emojis/859111454677139476.webp',
   })
-  icon: any;
+  icon: string;
+
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The unicodeEmoji of the role',
     example: '👑',
   })
   unicodeEmoji: string;
+
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The id of the role',
     example: '123456789012345678',
   })
   id: string;
+
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The name of the role',
     example: 'Admin',
   })
   name: string;
+
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The color of the role',
     example: 0,
   })
   color: number;
+
+  @IsBoolean()
   @ApiProperty({
     type: Boolean,
     description: 'Whether or not the role is hoisted',
     example: false,
   })
   hoist: boolean;
+
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The position of the role',
     example: 0,
   })
   rawPosition: number;
+
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The permissions of the role',
     example: '0',
   })
   permissions: string;
+
+  @IsBoolean()
   @ApiProperty({
     type: Boolean,
     description: 'Whether or not the role is managed by an integration',
     example: false,
   })
   managed: boolean;
+
+  @IsBoolean()
   @ApiProperty({
     type: Boolean,
     description: 'Whether or not the role is mentionable',
     example: false,
   })
   mentionable: boolean;
+
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The tags of the role',
     example: null,
   })
-  tags: any;
+  tags: string;
+
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The timestamp the role was created at(Unixtimestamp)',
@@ -88,13 +124,18 @@ class RoleResponse {
   })
   createdTimestamp: number;
 }
+
 class EditRoleData {
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     type: String,
     required: false,
     description: 'New name of the role',
   })
   name?: string;
+
+  @IsIn(Object.keys(Colors))
   @ApiProperty({
     enum: Colors,
     required: false,
@@ -103,18 +144,26 @@ class EditRoleData {
     description: 'New color of the role',
   })
   color?: ColorResolvable;
+
+  @IsString()
   @ApiProperty({
     type: String,
     required: true,
     description: 'Why was the role updated',
   })
   reason: string;
+
+  @IsBoolean()
+  @IsOptional()
   @ApiProperty({
     type: Boolean,
     required: false,
     description: 'Whether or not the role should be hoisted',
   })
   hoist?: boolean;
+
+  @IsNumber()
+  @IsOptional()
   @ApiProperty({
     type: Number,
     required: false,
@@ -122,6 +171,9 @@ class EditRoleData {
       'The position of the role; Higher = more permissions relative to the role below',
   })
   position?: number;
+
+  @IsIn(Object.keys(PermissionFlagsBits))
+  @IsOptional()
   @ApiProperty({
     type: Array<keyof typeof PermissionFlagsBits>,
     required: false,
@@ -130,12 +182,18 @@ class EditRoleData {
     example: ['AddReactions', 'KickMembers'],
   })
   permissions?: PermissionResolvable;
+
+  @IsBoolean()
+  @IsOptional()
   @ApiProperty({
     type: Boolean,
     required: false,
     description: 'Should the role be mentionable or not',
   })
   mentionable?: boolean;
+
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     type: String,
     required: false,
@@ -146,6 +204,9 @@ class EditRoleData {
     },
   })
   icon?: Base64Resolvable | EmojiResolvable | null;
+
+  @IsString()
+  @IsOptional()
   @ApiProperty({
     type: String,
     required: false,

@@ -19,10 +19,10 @@ import {
   DiscordUser,
   usersResponseSchema,
   userResponseSchema,
-} from '../../entities/user';
+} from '../dto/user';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
-import LogEntry from 'src/entities/logEntry';
+import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
 
 @ApiTags('discord/user')

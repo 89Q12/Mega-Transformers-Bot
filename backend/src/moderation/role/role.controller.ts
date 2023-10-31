@@ -20,7 +20,7 @@ import {
   rolesResponseSchema,
   roleResponseSchema,
   EditRoleData,
-} from '../../entities/role';
+} from '../dto/role';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 

@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 class DiscordUser {
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The id of the user',
@@ -8,6 +10,7 @@ class DiscordUser {
   })
   id: string;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The username of the user',
@@ -15,31 +18,37 @@ class DiscordUser {
   })
   username: string;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The discriminator of the user but now ITS ALWAYS 0',
     example: '1234',
+    deprecated: true,
   })
   discriminator: string;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The avatar url of the user',
   })
   avatarURL: string;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The display avatar url of the user',
   })
   displayAvatarURL: string;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The banner url of the user',
   })
   bannerURL: string;
 
+  @IsBoolean()
   @ApiProperty({
     type: Boolean,
     description: 'Whether or not the user is a bot',
@@ -47,6 +56,7 @@ class DiscordUser {
   })
   bot: boolean;
 
+  @IsBoolean()
   @ApiProperty({
     type: Boolean,
     description: 'Whether or not the user is a system user',
@@ -54,6 +64,7 @@ class DiscordUser {
   })
   system: boolean;
 
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The flags of the user',
@@ -61,6 +72,7 @@ class DiscordUser {
   })
   flags: number;
 
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The created timestamp of the user',
@@ -68,6 +80,7 @@ class DiscordUser {
   })
   createdTimestamp: number;
 
+  @IsNumber()
   @ApiProperty({
     type: Number,
     description: 'The accent color of the user',
@@ -75,6 +88,7 @@ class DiscordUser {
   })
   accentColor: number;
 
+  @IsString()
   @ApiProperty({
     type: String,
     description: 'The hex accent color of the user',
