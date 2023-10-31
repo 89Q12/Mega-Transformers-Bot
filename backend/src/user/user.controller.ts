@@ -10,7 +10,7 @@ import {
 import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../decorators/request-user.decorator';
+import { RequestUser } from '../util/decorators/request-user.decorator';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Client } from 'discord.js';
 import { SelfDto } from './dto/self.dto';

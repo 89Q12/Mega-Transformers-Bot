@@ -18,7 +18,7 @@ export class GuildDoesNotExistException extends Error {
 export class GuildDoesNotExistExceptionFilter implements ExceptionFilter {
   catch(exception: GuildDoesNotExistException, host: ArgumentsHost): any {
     const ctx = host.switchToHttp();
-    let response = ctx.getResponse<Response>();
+    const response = ctx.getResponse<Response>();
     response.statusMessage = exception.message;
     response.sendStatus(HttpStatus.FORBIDDEN);
   }

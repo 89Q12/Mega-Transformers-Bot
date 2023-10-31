@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
 
 const logger = new Logger('RequestUser');
 
