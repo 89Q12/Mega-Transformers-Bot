@@ -104,30 +104,56 @@ export class BotGateway {
 
   @On('guildMemberUpdate')
   //@UseGuards(MessageFromUserGuard)
-  async unlockUser(member: GuildMember) {
+  async unlockUser(oldMember: GuildMember, newMember: GuildMember) {
     // check if wfp has been removed and user role has been added
     if (
-      member.roles.cache.has(
-        await this.settingsService.getUnverifiedMemberRoleId(member.guild.id),
+      oldMember.roles.cache.has(
+        await this.settingsService.getUnverifiedMemberRoleId(
+          oldMember.guild.id,
+        ),
       ) &&
-      !member.roles.cache.has(
-        await this.settingsService.getVerifiedMemberRoleId(member.guild.id),
+      !newMember.roles.cache.has(
+        await this.settingsService.getVerifiedMemberRoleId(newMember.guild.id),
       )
     )
       return;
-    await this.userService.unlockUser(member.id);
+    await this.userService.unlockUser(newMember.id);
     // Post introduction message(firstmessage) to open introduction channel
-    const stats = await this.userService.getStats(member.id);
+    const stats = await this.userService.getStats(newMember.id);
     if (stats.firstMessageId) {
       const channel = (await this.client.channels.fetch(
-        await this.settingsService.getOpenIntroChannelId(member.guild.id),
+        await this.settingsService.getOpenIntroChannelId(newMember.guild.id),
       )) as GuildTextBasedChannel;
       const message = await (
         (await this.client.channels.fetch(
-          await this.settingsService.getIntroChannelId(member.guild.id),
+          await this.settingsService.getIntroChannelId(newMember.guild.id),
         )) as GuildTextBasedChannel
       ).messages.fetch(stats.firstMessageId.toString());
       await channel.send(await this.discordService.templateMessage(message));
+    }
+  }
+
+  @On('guildMemberUpdate')
+  async updateRank(oldMember: GuildMember, newMember: GuildMember) {
+    // check if user has been promoted to mod or admin
+    if (
+      !oldMember.roles.cache.has(
+        await this.settingsService.getModRoleId(oldMember.guild.id),
+      ) &&
+      newMember.roles.cache.has(
+        await this.settingsService.getModRoleId(newMember.guild.id),
+      )
+    ) {
+      await this.userService.setRank(newMember.id, 'MOD');
+    } else if (
+      !oldMember.roles.cache.has(
+        await this.settingsService.getAdminRoleId(oldMember.guild.id),
+      ) &&
+      newMember.roles.cache.has(
+        await this.settingsService.getAdminRoleId(newMember.guild.id),
+      )
+    ) {
+      await this.userService.setRank(newMember.id, 'ADMIN');
     }
   }
 }
