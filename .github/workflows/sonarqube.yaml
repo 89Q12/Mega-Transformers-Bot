@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+env:
+  NODE_VERSION: 19.0.1
 
 jobs:
   build:
@@ -15,6 +16,17 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+    
+      - name: Install Dependencies
+        run: yarn install
+    
+      - name: Unit testing
+        run: yarn test:cov
       - uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
