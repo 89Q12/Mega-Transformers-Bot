@@ -74,6 +74,7 @@ export class UserService {
 
   async deleteOne(userId: string): Promise<void> {
     await this.database.user.delete({ where: { userId } });
+    await this.database.stats.delete({ where: { userId } });
   }
   async findAll(guildId: string): Promise<Array<User>> {
     const users = await this.database.user.findMany({
