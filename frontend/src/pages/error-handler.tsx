@@ -33,5 +33,5 @@ export const ErrorHandler = () => {
     console.error(error);
   }, [error]);
 
-  return <p>{error}</p>;
+  return <p>{String(error)}</p>;
 };
