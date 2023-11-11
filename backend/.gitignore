@@ -37,3 +37,4 @@ postgres-data/
 *.db
 *db-journal
 .env
+.env.*
