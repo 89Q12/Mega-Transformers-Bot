@@ -1,6 +1,6 @@
 import { withFormControl } from '../../../components/with-form-control.tsx';
 import { Settings } from '../domain/settings.tsx';
-import { ChannelField } from './channel-field.tsx';
+import { ChannelField } from '../../../components/channel-field.tsx';
 
 export const IntroChannel = withFormControl(
   ChannelField,

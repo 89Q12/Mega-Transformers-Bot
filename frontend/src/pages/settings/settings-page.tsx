@@ -1,13 +1,13 @@
-import { useGetChannels } from './hooks/use-get-channels.tsx';
+import { useGetChannels } from '../../hooks/use-get-channels.tsx';
 import { PageSpinner } from '../../components/page-spinner.tsx';
 import { Container, Icon } from '@chakra-ui/react';
 import { OpenIntroChannel } from './components/open-intro-channel.tsx';
 import { useGetSettings } from './hooks/use-get-settings.tsx';
-import { Form, Formik } from 'formik';
+import { Form, FormikProvider, useFormik } from 'formik';
 import { Settings } from './domain/settings.tsx';
-import { usePostSettings } from './hooks/use-post-settings.tsx';
+import { usePutSettings } from './hooks/use-put-settings.tsx';
 import { IntroChannel } from './components/intro-channel.tsx';
-import { useGetRoles } from './hooks/use-get-roles.tsx';
+import { useGetRoles } from '../../hooks/use-get-roles.tsx';
 import { UnverifiedMemberRole } from './components/unverified-member-role.tsx';
 import { VerifiedMemberRole } from './components/verified-member-role.tsx';
 import { ModRole } from './components/mod-role.tsx';
@@ -19,11 +19,12 @@ import {
   HiUserGroup,
 } from 'react-icons/hi2';
 import { Heading } from '@chakra-ui/layout';
-import { ElementType, FC, PropsWithChildren } from 'react';
+import { ElementType, FC, PropsWithChildren, useEffect, useState } from 'react';
 import { LeaveChannel } from './components/leave-channel.tsx';
 import { Prefix } from './components/prefix.tsx';
 import { WelcomeMessageFormat } from './components/welcome-message-format.tsx';
 import { LeaveMessageFormat } from './components/leave-message-format.tsx';
+import { equals } from 'rambda';
 
 const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
   icon,
@@ -37,17 +38,34 @@ const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
 
 const SettingsPage = () => {
   const settings = useGetSettings();
-  const postSettings = usePostSettings();
+  const postSettings = usePutSettings();
   const channels = useGetChannels();
   const roles = useGetRoles();
-  const submit = async (settings: Settings) => {
-    postSettings(settings).then();
-  };
+  const [submitting, setSubmitting] = useState(false);
+  const form = useFormik<Settings>({});
+  useEffect(() => {
+    if (form.values && settings && !equals(form.values, settings)) {
+      setSubmitting(true);
+      postSettings(form.values)
+        .then()
+        .finally(() => setSubmitting(false));
+    }
+    // other dependencies cause loops, and we are not interested settings changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.values]);
+  useEffect(() => {
+    if (settings) {
+      form.setValues(settings);
+    }
+    // form changes should not trigger this effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
+
   if (!settings || !channels || !roles) {
     return <PageSpinner />;
   }
   return (
-    <Formik<Settings> initialValues={settings} onSubmit={submit}>
+    <FormikProvider value={{ ...form, isSubmitting: submitting }}>
       <Container as={Form} display="flex" flexDirection="column" gap={6}>
         <SectionHeading icon={HiHashtag}>Channels</SectionHeading>
         <OpenIntroChannel channels={channels} />
@@ -66,7 +84,7 @@ const SettingsPage = () => {
         <SectionHeading icon={HiOutlineEllipsisVertical}>Misc</SectionHeading>
         <Prefix />
       </Container>
-    </Formik>
+    </FormikProvider>
   );
 };
 

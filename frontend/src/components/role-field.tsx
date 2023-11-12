@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { FieldProps } from '../../../components/with-form-control.tsx';
+import { FieldProps } from './with-form-control.tsx';
 import { Role } from '../hooks/use-get-roles.tsx';
 import { Select } from '@chakra-ui/react';
 
 export const RoleField: FC<FieldProps<string, { roles: Role[] }>> = ({
   roles,
+  helpers,
   ...field
 }) => (
   <Select {...field}>

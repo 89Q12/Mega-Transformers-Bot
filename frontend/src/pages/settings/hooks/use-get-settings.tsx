@@ -13,6 +13,6 @@ export const useGetSettings = () => {
       .get(`/settings/${guildId}`)
       .json<Settings>()
       .then((settings) => setSettings(settings));
-  }, [guildId]);
+  }, [api, guildId]);
   return settings;
 };

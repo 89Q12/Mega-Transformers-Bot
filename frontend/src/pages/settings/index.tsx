@@ -12,7 +12,7 @@ const Page = () => {
     if (!isMod) {
       navigate('/');
     }
-  }, [isMod]);
+  }, [isMod, navigate]);
   return <Settings />;
 };
 export default Page;

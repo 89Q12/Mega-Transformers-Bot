@@ -1,6 +1,6 @@
 import { withFormControl } from '../../../components/with-form-control.tsx';
 import { Settings } from '../domain/settings.tsx';
-import { RoleField } from './role-field.tsx';
+import { RoleField } from '../../../components/role-field.tsx';
 
 export const AdminRole = withFormControl(
   RoleField,

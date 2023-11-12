@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/layout';
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { useRouteError } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -29,9 +29,7 @@ export const ErrorHandler = () => {
     );
   }
 
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+  console.error(error);
 
   return <p>{String(error)}</p>;
 };

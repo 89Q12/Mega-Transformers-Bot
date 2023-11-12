@@ -9,5 +9,5 @@ export const useInitialize = () => {
     if (token && !user) {
       fetchSelf(token).then((self) => set(token, self));
     }
-  }, [user, token]);
+  }, [user, token, fetchSelf, set]);
 };

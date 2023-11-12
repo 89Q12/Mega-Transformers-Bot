@@ -2,7 +2,7 @@ import {
   Colors,
   ThemeConfig,
   extendTheme,
-  withDefaultColorScheme
+  withDefaultColorScheme,
 } from '@chakra-ui/react';
 
 const config: ThemeConfig = {

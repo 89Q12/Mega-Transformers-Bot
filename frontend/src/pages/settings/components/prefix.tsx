@@ -1,15 +1,9 @@
-import {
-  FieldProps,
-  withFormControl,
-} from '../../../components/with-form-control.tsx';
+import { withFormControl } from '../../../components/with-form-control.tsx';
 import { Settings } from '../domain/settings.tsx';
-import { Input } from '@chakra-ui/react';
-import { FC } from 'react';
-
-const Field: FC<FieldProps<string>> = ({ ...field }) => <Input {...field} />;
+import { TextField } from '../../../components/text-field.tsx';
 
 export const Prefix = withFormControl<string>(
-  Field,
+  TextField,
   'prefix' as keyof Settings,
   'Prefix',
 );
