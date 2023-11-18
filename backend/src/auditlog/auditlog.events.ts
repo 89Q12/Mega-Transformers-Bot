@@ -1,5 +1,5 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
 import {
   GuildMember,
   Guild,
@@ -14,6 +14,7 @@ import {
 } from 'discord.js';
 import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from './auditlog.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export default class AuditEvents {
