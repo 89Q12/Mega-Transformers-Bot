@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { PrismaService } from 'src/prisma.service';
-import { PrismaClient, Rank, Stats } from '@prisma/client';
+import { PrismaClient, Rank, Stats, User } from '@prisma/client';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
 describe('UserService', () => {
@@ -17,6 +17,7 @@ describe('UserService', () => {
 
     service = module.get<UserService>(UserService);
     prisma = module.get<DeepMockProxy<PrismaClient>>(PrismaService);
+    jest.useFakeTimers().setSystemTime(new Date());
   });
 
   it('should be defined', () => {
@@ -190,5 +191,47 @@ describe('UserService', () => {
     expect(prisma.stats.findUnique).toBeCalledWith({
       where: { userId: userId },
     });
+  });
+  it('should return false if the user is inactive', async () => {
+    const user = {
+      userId: '322822954796974080',
+      name: 'John Doe',
+      guildId: '616609333832187924',
+      rank: Rank.MEMBER,
+      unlocked: false,
+      deactivated: false,
+    } as User;
+    prisma.stats.findUnique.mockResolvedValueOnce({
+      userId: '322822954796974080',
+      guildId: '616609333832187924',
+      user,
+      messages: [],
+      lastMessageSent: new Date(),
+      lastOnline: new Date(),
+      messageCountBucket: 10,
+      firstMessageId: '123456789',
+    } as Stats);
+    expect(await service.isActive(user)).toBe(false);
+  });
+  it('should return true if the user is inactive', async () => {
+    const user = {
+      userId: '322822954796974080',
+      name: 'John Doe',
+      guildId: '616609333832187924',
+      rank: Rank.MEMBER,
+      unlocked: false,
+      deactivated: false,
+    } as User;
+    prisma.stats.findUnique.mockResolvedValueOnce({
+      userId: '322822954796974080',
+      guildId: '616609333832187924',
+      user,
+      messages: [],
+      lastMessageSent: new Date(),
+      lastOnline: new Date(),
+      messageCountBucket: 33,
+      firstMessageId: '123456789',
+    } as Stats);
+    expect(await service.isActive(user)).toBe(true);
   });
 });

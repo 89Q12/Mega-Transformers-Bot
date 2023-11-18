@@ -3,13 +3,19 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { GuildDoesNotExistExceptionFilter } from './util/exception/guild-does-not-exist-exception';
+import * as cookieParser from 'cookie-parser';
+import { SendDirectMessageToUserExceptionFilter } from './util/exception/send-direct-message-to-user-exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   if (process.env.CORS_ALLOW_ALL) {
     app.enableCors();
   }
-  app.useGlobalFilters(new GuildDoesNotExistExceptionFilter());
+  app.use(cookieParser(process.env.COOKIE_SECRET));
+  app.useGlobalFilters(
+    new GuildDoesNotExistExceptionFilter(),
+    new SendDirectMessageToUserExceptionFilter(),
+  );
   SwaggerModule.setup(
     'api',
     app,

@@ -25,12 +25,12 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
+import cleanTextChannel from 'src/util/functions/channel-utils';
+import { SendDirectMessageToUserException } from 'src/util/exception/send-direct-message-to-user-exception';
 
 const logger = new Logger('UserController');
 @ApiTags('discord/user')
 @Controller('discord/user')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class UserController {
   constructor(
     @InjectDiscordClient()
@@ -121,7 +121,7 @@ export class UserController {
     await this.auditLogService.create(logEntry);
   }
 
-  @Post(':guildId/user/:userId/timeout')
+  @Post(':guildId/user/:userId/timeout/:duration')
   @ApiOperation({ summary: 'Timeout a user from a guild' })
   @ApiResponse({
     status: 200,
@@ -131,13 +131,13 @@ export class UserController {
     @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
-    @Param('duration') duration: number,
+    @Param('duration') duration: string,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
     const logEntry: LogEntry = {
       action: 'TIMEOUT',
-      invokerId: req.user.user.user_id,
+      invokerId: '688719911320551426',
       reason: 'Timeout',
       guildId: guildId,
       targetId: userId,
@@ -147,11 +147,20 @@ export class UserController {
         duration: duration,
       }),
     };
+    await member.timeout(parseInt(duration));
+    await member
+      .send(
+        `Du hast einen Timeout bis ${new Date(
+          new Date().getTime() + duration,
+        ).toISOString()}, bei Fragen wende dich an die Mods.`,
+      )
+      .catch((e) => {
+        throw new SendDirectMessageToUserException(guildId, userId);
+      });
+    await this.auditLogService.create(logEntry);
     logger.log(
       `Timed out user ${userId} from guild ${guildId} for ${duration}`,
     );
-    await member.timeout(duration);
-    await this.auditLogService.create(logEntry);
   }
 
   @Post(':guildId/user/:userId/purge')
@@ -162,31 +171,30 @@ export class UserController {
     status: 200,
     description: 'User was successfully purged',
   })
-  async purgeUserFromGuild(guildId: string, userId: string): Promise<void> {
+  async purgeUserFromGuild(
+    @Param('guildId') guildId: string,
+    @Param('userId') userId: string,
+  ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     logger.log(`Purging user ${userId} from guild ${guildId}`);
     if (guild === undefined) {
       throw new NotFoundException('Guild not found');
     }
-    const member = await guild.members.fetch(userId);
-    if (member === undefined) {
-      throw new NotFoundException('User not found');
-    }
+    guild.channels.fetch();
     guild.channels.cache.forEach(async (channel) => {
       if (
         channel.type === ChannelType.GuildText ||
         channel.type === ChannelType.PublicThread ||
         channel.type === ChannelType.PrivateThread
       ) {
-        const messages = await channel.messages.fetch();
-        const userMessages = messages.filter(
-          (message) => message.author.id === userId,
+        logger.log(`Purging user ${userId} from channel ${channel.id}`);
+        cleanTextChannel(
+          channel,
+          () => true,
+          (msg) => msg.author.id === userId,
         );
-        userMessages.forEach(async (message) => {
-          await message.delete();
-          // sleep for 1 second to avoid rate limit
-          await new Promise((resolve) => setTimeout(resolve, 500));
-        });
+        // sleep for 1 second to avoid rate limit
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     });
   }
