@@ -26,13 +26,12 @@ import {
 } from 'discord.js';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { Channel } from '../dto/channel';
+import cleanTextChannel from 'src/util/functions/channel-utils';
 
 const logger = new Logger('ChannelController');
 
 @ApiTags('discord/channel')
 @Controller('discord/channel')
-@UseGuards(JwtAuthGuard)
-@ApiBearerAuth()
 export class ChannelController {
   constructor(
     @InjectDiscordClient()
@@ -129,33 +128,20 @@ export class ChannelController {
     );
     switch (channel.type) {
       case ChannelType.GuildText:
-        this.cleanTextChannel(channel as GuildTextBasedChannel, userId, before);
+        cleanTextChannel(
+          channel as GuildTextBasedChannel,
+          (messages) => messages.last().createdTimestamp < before,
+          (msg) => msg.deletable && msg.createdTimestamp > before,
+        );
         break;
       case ChannelType.PublicThread:
-        this.cleanTextChannel(channel as GuildTextBasedChannel, userId, before);
+        cleanTextChannel(
+          channel as GuildTextBasedChannel,
+          (messages) => messages.last().createdTimestamp < before,
+          (msg) => msg.deletable && msg.createdTimestamp > before,
+        );
       case ChannelType.PrivateThread:
       case ChannelType.GuildForum:
-    }
-  }
-  private async cleanTextChannel(
-    channel: GuildTextBasedChannel,
-    userId: string,
-    before: number,
-  ): Promise<void> {
-    let stop = false;
-    while (!stop) {
-      const messages = await channel.messages.fetch({
-        limit: 100,
-      });
-      if (messages.last().createdTimestamp < before) stop = true;
-      messages
-        .filter(
-          (msg) =>
-            msg.author.id === userId &&
-            msg.deletable &&
-            msg.createdTimestamp > before,
-        )
-        .forEach((msg) => msg.delete().catch((err) => console.error(err)));
     }
   }
 }
