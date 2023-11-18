@@ -4,6 +4,7 @@ import { Client } from 'discord.js';
 @Command({
   name: 'ping',
   description: 'Gets the ws gateway ping',
+  defaultMemberPermissions: ['Administrator'],
 })
 export class PingCommand {
   constructor(
