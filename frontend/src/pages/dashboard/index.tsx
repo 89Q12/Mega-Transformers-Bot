@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { useTitle } from '../../hooks/use-title';
+import { useTitle } from '../../hooks/ui/use-title.tsx';
 
 const Dashboard = lazy(() => import('./dashboard-page'));
 const Page = () => {

@@ -1,7 +1,7 @@
-import { useApi } from '../../../hooks/use-api.tsx';
+import { useApi } from '../../../hooks/api/use-api.tsx';
 import { Settings } from '../domain/settings.tsx';
 import { useEffect, useState } from 'react';
-import { useGuildId } from '../../../hooks/use-guild-id.tsx';
+import { useGuildId } from '../../../hooks/state/use-guild-id.tsx';
 
 export const useGetSettings = () => {
   const api = useApi();

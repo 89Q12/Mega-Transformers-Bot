@@ -3,6 +3,7 @@ import {
   Get,
   Inject,
   Param,
+  ParseIntPipe,
   Query,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,18 +23,23 @@ export class AuditLogController {
   async getAuditLog(
     @Param('guildId') guildId: string,
     @Query(ValidationPipe) filter: AuditLogFilterDto,
-  ): Promise<LogEntryDto[]> {
-    return this.auditLogService.find(guildId, filter).then((result) =>
-      result.map((it) =>
-        plainToInstance(LogEntryDto, {
-          action: it.action as Action,
-          createdAt: it.createdAt,
-          invokerId: it.invokerId,
-          reason: it.reason,
-          targetId: it.targetId,
-          targetType: it.targetType as TargetType,
-        }),
-      ),
-    );
+    @Query('limit', ParseIntPipe) limit: number,
+    @Query('offset', ParseIntPipe) offset: number,
+  ): Promise<{ total: number; data: LogEntryDto[] }> {
+    return this.auditLogService
+      .find(guildId, filter, { offset, limit })
+      .then((result) => ({
+        total: result.total,
+        data: result.data.map((it) =>
+          plainToInstance(LogEntryDto, {
+            action: it.action as Action,
+            createdAt: it.createdAt,
+            invokerId: it.invokerId,
+            reason: it.reason,
+            targetId: it.targetId,
+            targetType: it.targetType as TargetType,
+          }),
+        ),
+      }));
   }
 }

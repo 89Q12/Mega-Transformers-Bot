@@ -1,6 +1,6 @@
 import { createContext, FC, PropsWithChildren, useState } from 'react';
 import Cookies from 'js-cookie';
-import { User } from '../hooks/use-fetch-self.tsx';
+import { User } from '../hooks/api/use-fetch-self.tsx';
 
 interface UserContextType {
   token: string | undefined;

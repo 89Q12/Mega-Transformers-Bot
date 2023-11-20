@@ -22,32 +22,47 @@ export class AuditLogService {
     });
   }
 
-  async find(guildId: string, filter: AuditLogFilterDto) {
-    return this.prismaService.auditLog.findMany({
-      select: {
-        action: true,
-        invokerId: true,
-        reason: true,
-        targetId: true,
-        targetType: true,
-        extraInfo: true,
-        createdAt: true,
-      },
-      where: {
-        guildId,
-        createdAt:
-          filter.createdFrom || filter.createdTill
-            ? {
-                gte: filter.createdFrom,
-                lte: filter.createdTill,
-              }
-            : undefined,
-        action: filter.actions ? { in: filter.actions } : undefined,
-        targetType: filter.targetTypes ? { in: filter.targetTypes } : undefined,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+  async find(
+    guildId: string,
+    filter: AuditLogFilterDto,
+    pagination: { offset?: number; limit?: number },
+  ) {
+    const where = {
+      guildId,
+      createdAt:
+        filter.createdFrom || filter.createdTill
+          ? {
+              gte: filter.createdFrom
+                ? new Date(filter.createdFrom).toISOString()
+                : undefined,
+              lte: filter.createdTill
+                ? new Date(filter.createdTill).toISOString()
+                : undefined,
+            }
+          : undefined,
+      action: filter.actions ? { in: filter.actions } : undefined,
+      targetType: filter.targetTypes ? { in: filter.targetTypes } : undefined,
+    };
+
+    return {
+      total: await this.prismaService.auditLog.count({ where }),
+      data: await this.prismaService.auditLog.findMany({
+        select: {
+          action: true,
+          invokerId: true,
+          reason: true,
+          targetId: true,
+          targetType: true,
+          extraInfo: true,
+          createdAt: true,
+        },
+        where,
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip: pagination.offset ?? 0,
+        take: pagination.limit ?? 0,
+      }),
+    };
   }
 }

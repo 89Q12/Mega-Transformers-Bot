@@ -1,7 +1,7 @@
 import { useApi } from './use-api.tsx';
 import { useEffect, useState } from 'react';
-import { useGuildId } from './use-guild-id.tsx';
-import { APIGuildChannel, ChannelType } from '../discord-api.ts';
+import { useGuildId } from '../state/use-guild-id.tsx';
+import { APIGuildChannel, ChannelType } from '../../discord-api.ts';
 
 export type Channel = APIGuildChannel<ChannelType>;
 export const useGetChannels = () => {

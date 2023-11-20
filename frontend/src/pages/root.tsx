@@ -4,7 +4,7 @@ import { Header } from '../components/header';
 import { useContext } from 'react';
 import { UserContext } from '../state/user.context.tsx';
 import { PageSpinner } from '../components/page-spinner.tsx';
-import { useInitialize } from '../hooks/use-initialize.tsx';
+import { useInitialize } from '../hooks/state/use-initialize.tsx';
 
 export const Root = () => {
   const { initializing } = useContext(UserContext);

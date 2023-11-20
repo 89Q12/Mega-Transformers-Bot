@@ -1,5 +1,5 @@
-import { useApi } from '../../../hooks/use-api.tsx';
-import { useGuildId } from '../../../hooks/use-guild-id.tsx';
+import { useApi } from '../../../hooks/api/use-api.tsx';
+import { useGuildId } from '../../../hooks/state/use-guild-id.tsx';
 import { Settings } from '../domain/settings.tsx';
 
 export const usePutSettings = () => {

@@ -1,3 +1,44 @@
-const AuditPage = () => <p>Audit</p>;
+import {
+  AuditLogFilter,
+  useGetAuditLogs,
+} from './hooks/use-get-audit-logs.tsx';
+import { FC, useState } from 'react';
+import { Container } from '@chakra-ui/react';
+import { PageSpinner } from '../../components/page-spinner.tsx';
+import { LogEntry } from './domain/log-entry.tsx';
+import { LogEntriesTable } from './components/log-entries-table.tsx';
+import { Flex } from '@chakra-ui/layout';
+import { useConditionalToast } from '../../hooks/ui/use-conditional-toast.tsx';
+import { Filter } from './components/filter.tsx';
+import { usePagination } from '../../hooks/ui/use-pagination.tsx';
+
+const Content: FC<{ auditLogs: LogEntry[] | undefined }> = ({ auditLogs }) => {
+  if (!auditLogs) {
+    return <PageSpinner />;
+  }
+  return <LogEntriesTable auditLogs={auditLogs} />;
+};
+
+const AuditPage = () => {
+  const [filter, setFilter] = useState<AuditLogFilter>({});
+  const { pagination, Paginator } = usePagination({ pageSize: 100 });
+  const { auditLogs, isRefreshing } = useGetAuditLogs({ filter, pagination });
+
+  useConditionalToast(isRefreshing, {
+    title: 'Refreshing...',
+    status: 'loading',
+  });
+
+  return (
+    <Flex flexDirection="column" gap={6} justifyContent="center">
+      <Container>
+        <Filter onChange={setFilter} />
+      </Container>
+      <Paginator total={auditLogs?.total} />
+      <Content auditLogs={auditLogs?.data} />
+      <Paginator total={auditLogs?.total} />
+    </Flex>
+  );
+};
 
 export default AuditPage;

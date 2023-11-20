@@ -1,7 +1,7 @@
 import { useApi } from './use-api.tsx';
-import { useGuildId } from './use-guild-id.tsx';
+import { useGuildId } from '../state/use-guild-id.tsx';
 import { useEffect, useState } from 'react';
-import { APIRole } from '../discord-api.ts';
+import { APIRole } from '../../discord-api.ts';
 
 export type Role = APIRole;
 

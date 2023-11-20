@@ -1,4 +1,4 @@
-import { useGetChannels } from '../../hooks/use-get-channels.tsx';
+import { useGetChannels } from '../../hooks/api/use-get-channels.tsx';
 import { PageSpinner } from '../../components/page-spinner.tsx';
 import { Container, Icon } from '@chakra-ui/react';
 import { OpenIntroChannel } from './components/open-intro-channel.tsx';
@@ -7,7 +7,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { Settings } from './domain/settings.tsx';
 import { usePutSettings } from './hooks/use-put-settings.tsx';
 import { IntroChannel } from './components/intro-channel.tsx';
-import { useGetRoles } from '../../hooks/use-get-roles.tsx';
+import { useGetRoles } from '../../hooks/api/use-get-roles.tsx';
 import { UnverifiedMemberRole } from './components/unverified-member-role.tsx';
 import { VerifiedMemberRole } from './components/verified-member-role.tsx';
 import { ModRole } from './components/mod-role.tsx';
@@ -42,7 +42,10 @@ const SettingsPage = () => {
   const channels = useGetChannels();
   const roles = useGetRoles();
   const [submitting, setSubmitting] = useState(false);
-  const form = useFormik<Settings>({});
+  const form = useFormik<Settings>({
+    initialValues: {},
+    onSubmit: () => {},
+  });
   useEffect(() => {
     if (form.values && settings && !equals(form.values, settings)) {
       setSubmitting(true);

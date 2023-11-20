@@ -47,7 +47,10 @@ const Controls = () => {
   );
 };
 
-export const TextField: FC<FieldProps<string>> = ({ helpers, ...field }) => {
+export const SubmittableTextField: FC<FieldProps<string>> = ({
+  helpers,
+  ...field
+}) => {
   const [value, setValue] = useState(field.value);
   return (
     <Editable

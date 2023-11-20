@@ -1,8 +1,9 @@
 import { useContext, useMemo } from 'react';
 import wretch from 'wretch';
-import { UserContext } from '../state/user.context';
+import { UserContext } from '../../state/user.context.tsx';
+import QueryStringAddon from 'wretch/addons/queryString';
 
-const instance = wretch(import.meta.env.VITE_API_URL);
+const instance = wretch(import.meta.env.VITE_API_URL).addon(QueryStringAddon);
 
 export const useApi = () => {
   const user = useContext(UserContext);

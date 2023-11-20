@@ -2,7 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import React, { Suspense } from 'react';
 import { RouterProvider } from 'react-router';
 import { PageSpinner } from './components/page-spinner';
-import { useRouter } from './hooks/use-router';
+import { useRouter } from './hooks/ui/use-router.tsx';
 import { theme } from './theme';
 import { ProvideUserContext } from './state/user.context';
 

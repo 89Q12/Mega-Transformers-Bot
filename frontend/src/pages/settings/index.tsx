@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
-import { useTitle } from '../../hooks/use-title';
-import { useIsMod } from '../../hooks/use-is-mod.tsx';
+import { useTitle } from '../../hooks/ui/use-title.tsx';
+import { useIsMod } from '../../hooks/state/use-is-mod.tsx';
 import { useNavigate } from 'react-router';
 
 const Settings = lazy(() => import('./settings-page.tsx'));

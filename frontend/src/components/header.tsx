@@ -27,10 +27,10 @@ import {
   useLocation,
   useResolvedPath,
 } from 'react-router-dom';
-import { useIsAuthenticated } from '../hooks/use-is-authenticated';
-import { useSelf } from '../hooks/use-self.tsx';
-import { useIsMod } from '../hooks/use-is-mod.tsx';
-import { useLogout } from '../hooks/use-logout.tsx';
+import { useIsAuthenticated } from '../hooks/state/use-is-authenticated.tsx';
+import { useSelf } from '../hooks/state/use-self.tsx';
+import { useIsMod } from '../hooks/state/use-is-mod.tsx';
+import { useLogout } from '../hooks/state/use-logout.tsx';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>

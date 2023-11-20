@@ -1,11 +1,4 @@
-import {
-  IsArray,
-  IsDate,
-  IsIn,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsArray, IsIn, IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   Action,
@@ -13,18 +6,6 @@ import {
   TargetType,
   targetTypes,
 } from '../../util/dto/log.entry.dto';
-
-export class DateRange {
-  @IsDate()
-  @IsOptional()
-  @ApiPropertyOptional({ type: Date })
-  from?: Date;
-
-  @IsDate()
-  @IsOptional()
-  @ApiPropertyOptional({ type: Date })
-  to?: Date;
-}
 
 export class AuditLogFilterDto {
   @ApiPropertyOptional({ type: 'string', format: 'date-time' })

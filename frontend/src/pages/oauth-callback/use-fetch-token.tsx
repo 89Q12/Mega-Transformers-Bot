@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
-import { useApi } from '../../hooks/use-api';
+import { useApi } from '../../hooks/api/use-api.tsx';
 import { UserContext } from '../../state/user.context';
-import { useFetchSelf } from '../../hooks/use-fetch-self.tsx';
+import { useFetchSelf } from '../../hooks/api/use-fetch-self.tsx';
 
 interface FetchTokenResponse {
   user: {
