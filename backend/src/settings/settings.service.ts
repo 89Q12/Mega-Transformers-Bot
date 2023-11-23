@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Settings } from '@prisma/client';
 import { GuildDoesNotExistException } from '../util/exception/guild-does-not-exist-exception';
-import { omit, without } from 'rambda/immutable';
+import { omit } from 'rambda/immutable';
 
 @Injectable()
 export class SettingsService {
