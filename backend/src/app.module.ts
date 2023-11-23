@@ -12,6 +12,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ModerationModule } from './moderation/moderation.module';
 import { SettingsModule } from './settings/settings.module';
 import { AuditLogModule } from './auditlog/auditlog.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -66,6 +67,9 @@ import { AuditLogModule } from './auditlog/auditlog.module';
         failOnLogin: true,
       }),
       inject: [ConfigService],
+    }),
+    EventEmitterModule.forRoot({
+      wildcard: true,
     }),
     BotModule,
     TasksModule,
