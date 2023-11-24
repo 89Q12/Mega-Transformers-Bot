@@ -6,7 +6,8 @@ import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { SettingsService } from 'src/settings/settings.service';
 import { UserService } from 'src/user/user.service';
-
+import { OnEvent } from '@nestjs/event-emitter';
+import { SettingsChanged } from 'src/settings/events/settings-role-id-changed.event';
 @Injectable()
 export class BotService {
   constructor(
@@ -75,7 +76,7 @@ export class BotService {
       .replace('${message}', message.content);
   }
 
-  async crawlMembers(guildId: string) {
+  async addMembers(guildId: string) {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
     members.forEach(async (member: GuildMember) => {
@@ -92,6 +93,10 @@ export class BotService {
         );
       }
     });
+  }
+  @OnEvent('settings.*.changed')
+  async onAdminRoleIdChanged(payload: SettingsChanged) {
+    await this.addMembers(payload.guildId);
   }
   private async _addMemberToChannel(user_id: string, channel_id: string) {
     await (

@@ -3,10 +3,15 @@ import { PrismaService } from 'src/prisma.service';
 import { Settings } from '@prisma/client';
 import { GuildDoesNotExistException } from '../util/exception/guild-does-not-exist-exception';
 import { omit } from 'rambda/immutable';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { SettingsChanged } from './events/settings-role-id-changed.event';
 
 @Injectable()
 export class SettingsService {
-  constructor(@Inject(PrismaService) private database: PrismaService) {}
+  constructor(
+    @Inject(PrismaService) private database: PrismaService,
+    @Inject(EventEmitter2) private eventEmitter: EventEmitter2,
+  ) {}
 
   async createSettings(guildId: string) {
     return await this.database.settings.create({
@@ -18,6 +23,15 @@ export class SettingsService {
     guildId: string,
     settings: Partial<Omit<Settings, 'guildId'>>,
   ) {
+    Object.keys(settings).forEach((key) => {
+      if (key.endsWith('RoleId')) {
+        this.eventEmitter.emit(`settings.${key}.changed`, {
+          guildId: guildId,
+          value: settings[key],
+          eventType: key,
+        } as SettingsChanged);
+      }
+    });
     await this.database.settings.update({ where: { guildId }, data: settings });
   }
 
