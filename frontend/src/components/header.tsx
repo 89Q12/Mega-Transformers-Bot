@@ -91,7 +91,7 @@ export const Header: FC = () => {
       alignItems="center"
     >
       <Heading size="md" display={displayTitle}>
-        🐶 Cardinal System
+        Mega Transformers Bot
       </Heading>
       {isAuthenticated && (
         <>
