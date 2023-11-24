@@ -42,17 +42,16 @@ export class UserService {
     guildId: string,
     rank: 'MEMBER' | 'MOD' | 'ADMIN',
   ): Promise<User> {
-    let user = await this.findOne(userId);
-    if (user) return user;
-
-    await this.database.stats.create({
-      data: { userId, guildId },
+    await this.database.stats.upsert({
+      where: { userId },
+      create: { userId, guildId },
+      update: { userId, guildId },
     });
-    user = await this.database.user.create({
-      data: { userId, name, guildId, rank },
+    return await this.database.user.upsert({
+      where: { userId },
+      create: { userId, name, guildId, rank },
+      update: { userId, name, guildId, rank },
     });
-
-    return user;
   }
 
   async insertMessage(
