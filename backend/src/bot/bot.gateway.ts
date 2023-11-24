@@ -1,4 +1,4 @@
-import { Inject, Injectable, UseGuards } from '@nestjs/common';
+import { Inject, Injectable, Logger, UseGuards } from '@nestjs/common';
 import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
 import {
   Client,
@@ -14,6 +14,7 @@ import { BotService } from './bot.service';
 import { SettingsService } from 'src/settings/settings.service';
 @Injectable()
 export class BotGateway {
+  logger = new Logger(BotGateway.name);
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
@@ -24,35 +25,18 @@ export class BotGateway {
 
   @Once('ready')
   async onReady() {
-    const settings = await this.settingsService.getSettings(
-      this.client.guilds.cache.at(0).id,
-    );
-    if (!settings) {
-      await this.settingsService.createSettings(
-        this.client.guilds.cache.at(0).id,
+    await this.client.guilds.fetch();
+
+    try {
+      await this.settingsService.getSettings(this.client.guilds.cache.at(0).id);
+    } catch (e) {
+      this.logger.log(
+        "Couldn't find settings for guild, not adding users to database",
       );
-      console.log('Created settings using default values');
+      return;
     }
-    const members = await this.client.guilds.cache.at(0).members.fetch();
-    members.forEach(async (member: GuildMember) => {
-      const isMod = member.roles.cache.has(
-        await this.settingsService.getModRoleId(
-          this.client.guilds.cache.at(0).id,
-        ),
-      );
-      const isAdmin = member.roles.cache.has(
-        await this.settingsService.getAdminRoleId(
-          this.client.guilds.cache.at(0).id,
-        ),
-      );
-      if (!member.user.bot) {
-        await this.userService.findOrCreate(
-          member.id,
-          member.user.username,
-          member.guild.id,
-          isMod ? 'MOD' : isAdmin ? 'ADMIN' : 'MEMBER',
-        );
-      }
+    this.client.guilds.cache.forEach(async (guild) => {
+      this.discordService.addMembers(guild.id);
     });
   }
 
@@ -70,13 +54,6 @@ export class BotGateway {
   @On('guildMemberRemove')
   async removeMember(member: GuildMember) {
     await this.userService.deleteOne(member.id);
-    // remove all roles from user to avoid this: https://canary.discord.com/channels/1011511871297302608/1011527466130608171/1155900698257539202
-    // THis probably errors out quite often though
-    try {
-      await member.roles.remove(member.roles.cache);
-    } catch (e) {
-      console.log(e);
-    }
   }
   @On('messageCreate')
   @UseGuards(MessageFromUserGuard, IsUserUnlockedGuard)
