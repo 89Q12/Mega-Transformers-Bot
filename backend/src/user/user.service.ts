@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Rank, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UserService {
     });
   }
 
-  async setRank(userId: string, rank: 'MEMBER' | 'MOD' | 'ADMIN') {
+  async setRank(userId: string, rank: Rank) {
     const user = await this.findOne(userId);
     await this.database.user.update({
       where: { userId: user.userId },
@@ -40,7 +40,7 @@ export class UserService {
     userId: string,
     name: string,
     guildId: string,
-    rank: 'MEMBER' | 'MOD' | 'ADMIN',
+    rank: Rank,
   ): Promise<User> {
     await this.database.stats.upsert({
       where: { userId },

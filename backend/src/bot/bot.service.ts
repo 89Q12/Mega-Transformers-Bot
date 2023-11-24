@@ -1,6 +1,6 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Rank, User } from '@prisma/client';
 import { BaseGuildTextChannel, GuildMember, Message } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
@@ -17,20 +17,40 @@ export class BotService {
     @Inject(UserService) private userService: UserService,
   ) {}
 
-  async isMemberMod(user_id: string, guild_id: string): Promise<boolean> {
+  async getRank(member: GuildMember): Promise<Rank> {
+    if (await this._isMemberAdmin(member.id, member.guild.id)) {
+      return 'ADMIN';
+    } else if (await this._isMemberMod(member.id, member.guild.id)) {
+      return 'MOD';
+    } else if (await this._isMemberVerified(member.id, member.guild.id)) {
+      return 'MEMBER';
+    } else {
+      return 'NEW';
+    }
+  }
+  private async _isMemberVerified(user_id: string, guild_id: string) {
     return (
       await this.client.guilds.cache.first().members.fetch(user_id)
-    ).roles.cache.some(
-      async (role) =>
-        role.id === (await this.settings.getModRoleId(guild_id)).toString(),
+    ).roles.cache.has(
+      (await this.settings.getVerifiedMemberRoleId(guild_id)).toString(),
     );
   }
-  async isMemberAdmin(user_id: string, guild_id: string): Promise<boolean> {
+  private async _isMemberMod(
+    user_id: string,
+    guild_id: string,
+  ): Promise<boolean> {
     return (
       await this.client.guilds.cache.first().members.fetch(user_id)
-    ).roles.cache.some(
-      async (role) =>
-        role.id === (await this.settings.getAdminRoleId(guild_id)).toString(),
+    ).roles.cache.has((await this.settings.getModRoleId(guild_id)).toString());
+  }
+  private async _isMemberAdmin(
+    user_id: string,
+    guild_id: string,
+  ): Promise<boolean> {
+    return (
+      await this.client.guilds.cache.first().members.fetch(user_id)
+    ).roles.cache.has(
+      (await this.settings.getAdminRoleId(guild_id)).toString(),
     );
   }
 
@@ -85,11 +105,7 @@ export class BotService {
           member.id,
           member.user.username,
           member.guild.id,
-          this.isMemberAdmin(member.id, guildId)
-            ? 'ADMIN'
-            : this.isMemberMod(member.id, guildId)
-            ? 'MOD'
-            : 'MEMBER',
+          await this.getRank(member),
         );
       }
     });
