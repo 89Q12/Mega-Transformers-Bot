@@ -1,5 +1,5 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Inject, Injectable, ValidationPipe } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   GuildMember,
   Guild,
@@ -14,8 +14,12 @@ import {
 } from 'discord.js';
 import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from './auditlog.service';
-import { UserService } from 'src/user/user.service';
-
+import { OnEvent } from '@nestjs/event-emitter';
+import {
+  UserBanEvent,
+  UserKickEvent,
+  UserTimeOutEvent,
+} from 'src/moderation/events/user.events';
 @Injectable()
 export default class AuditEvents {
   constructor(
@@ -193,11 +197,12 @@ export default class AuditEvents {
 
   @On('messageDelete')
   async messageDelete(message: Message) {
+    console.log(message);
     const logEntry: LogEntry = {
       action: 'MESSAGE_DELETED',
       guildId: message.guild.id,
-      invokerId: message.author.id,
-      targetId: message.id,
+      invokerId: message.author.id || '0',
+      targetId: message.id || '0',
       targetType: 'MESSAGE',
       extraInfo: JSON.stringify({ message: message.toJSON() }),
       reason: `Message deleted`,
@@ -345,6 +350,61 @@ export default class AuditEvents {
       targetType: 'CHANNEL',
       extraInfo: JSON.stringify({ channel: channel.toJSON() }),
       reason: `Webhooks updated`,
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
+  }
+  @OnEvent('user.timeout.created')
+  async onUserTimeoutCreated(payload: UserTimeOutEvent) {
+    const logEntry: LogEntry = {
+      action: 'TIMEOUT',
+      guildId: payload.guildId,
+      invokerId: this.client.user.id,
+      targetId: payload.userId,
+      targetType: 'USER',
+      extraInfo: JSON.stringify({ timeout: payload }),
+      reason: `User timeout created`,
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
+  }
+  @OnEvent('user.timeout.expired')
+  async onUserTimeoutExpired(payload: UserTimeOutEvent) {
+    const logEntry: LogEntry = {
+      action: 'TIMEOUT_EXPIRED',
+      guildId: payload.guildId,
+      invokerId: this.client.user.id,
+      targetId: payload.userId,
+      targetType: 'USER',
+      reason: `User timeout expired`,
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
+  }
+
+  @OnEvent('user.kick')
+  async onUserKick(payload: UserKickEvent) {
+    const logEntry: LogEntry = {
+      action: 'KICK',
+      guildId: payload.guildId,
+      invokerId: this.client.user.id,
+      targetId: payload.userId,
+      targetType: 'USER',
+      reason: `User kicked`,
+      createdAt: new Date(),
+    };
+    await this.auditLogService.create(logEntry);
+  }
+
+  @OnEvent('user.ban')
+  async onUserBan(payload: UserBanEvent) {
+    const logEntry: LogEntry = {
+      action: 'BAN',
+      guildId: payload.guildId,
+      invokerId: this.client.user.id,
+      targetId: payload.userId,
+      targetType: 'USER',
+      reason: `User banned`,
       createdAt: new Date(),
     };
     await this.auditLogService.create(logEntry);
