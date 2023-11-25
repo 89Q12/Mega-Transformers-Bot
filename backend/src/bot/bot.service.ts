@@ -1,7 +1,12 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { Rank, User } from '@prisma/client';
-import { BaseGuildTextChannel, GuildMember, Message } from 'discord.js';
+import {
+  BaseGuildTextChannel,
+  GuildMember,
+  Message,
+  userMention,
+} from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { SettingsService } from 'src/settings/settings.service';
@@ -95,8 +100,8 @@ export class BotService {
     // ${user} - username
     // ${message} - message content
     return template
-      .replace('${user}', message.author.username)
-      .replace('${message}', message.content);
+      .replace('{user}', userMention(message.author.id))
+      .replace('{message}', message.content);
   }
 
   async addMembers(guildId: string) {

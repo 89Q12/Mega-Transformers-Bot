@@ -5,6 +5,8 @@ import {
   GuildMember,
   GuildTextBasedChannel,
   Message,
+  MessageReaction,
+  User,
 } from 'discord.js';
 import { UserService } from 'src/user/user.service';
 import { MessageFromUserGuard } from './guards/message-from-user.guard';
@@ -78,33 +80,50 @@ export class BotGateway {
     );
   }
 
-  @On('guildMemberUpdate')
-  async unlockUser(oldMember: GuildMember, newMember: GuildMember) {
+  @On('messageReactionAdd')
+  async unlockUser(reaction: MessageReaction, user: User) {
     // check if wfp has been removed and user role has been added
+    if (reaction.partial)
+      try {
+        await reaction.fetch();
+      } catch (e) {
+        this.logger.error(e);
+        // HACK: set username to member.username so that the templateMessage function works
+        reaction.message.author.username = user.username;
+        reaction.message.author.id = user.id;
+      }
     if (
-      oldMember.roles.cache.has(
-        await this.settingsService.getUnverifiedMemberRoleId(
-          oldMember.guild.id,
+      reaction.message.channelId ==
+        (await this.settingsService.getIntroChannelId(
+          reaction.message.guildId,
+        )) &&
+      (await this.userService.findOne(user.id)).rank === 'NEW' &&
+      reaction.emoji.name === '✅'
+    ) {
+      await this.userService.unlockUser(user.id);
+      const member = await (
+        await this.client.guilds.fetch(reaction.message.guildId)
+      ).members.fetch(user.id);
+      try {
+        member.roles.add(
+          await this.settingsService.getVerifiedMemberRoleId(
+            reaction.message.guildId,
+          ),
+        );
+        member.roles.remove(
+          await this.settingsService.getUnverifiedMemberRoleId(
+            reaction.message.guildId,
+          ),
+        );
+      } catch (e) {
+        this.logger.error(e);
+      }
+      await reaction.message.channel.send(
+        await this.discordService.templateMessage(
+          reaction.message as Message<true>,
         ),
-      ) &&
-      !newMember.roles.cache.has(
-        await this.settingsService.getVerifiedMemberRoleId(newMember.guild.id),
-      )
-    )
-      return;
-    await this.userService.unlockUser(newMember.id);
-    // Post introduction message(firstmessage) to open introduction channel
-    const stats = await this.userService.getStats(newMember.id);
-    if (stats.firstMessageId) {
-      const channel = (await this.client.channels.fetch(
-        await this.settingsService.getOpenIntroChannelId(newMember.guild.id),
-      )) as GuildTextBasedChannel;
-      const message = await (
-        (await this.client.channels.fetch(
-          await this.settingsService.getIntroChannelId(newMember.guild.id),
-        )) as GuildTextBasedChannel
-      ).messages.fetch(stats.firstMessageId.toString());
-      await channel.send(await this.discordService.templateMessage(message));
+      );
+      await reaction.remove();
     }
   }
 
