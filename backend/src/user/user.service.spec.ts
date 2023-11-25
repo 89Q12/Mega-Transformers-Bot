@@ -70,7 +70,7 @@ describe('UserService', () => {
     //@ts-expect-error - PrismaClient is mocked
     prisma.stats.create.mockImplementation();
     expect(
-      await service.findOrCreate(
+      await service.upsert(
         result.userId,
         result.name,
         result.guildId,

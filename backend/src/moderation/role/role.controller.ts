@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Logger,
   Param,
   Post,
@@ -24,6 +25,7 @@ import {
 } from '../dto/role';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 const logger = new Logger('RoleController');
 @ApiTags('discord/role')
@@ -34,6 +36,7 @@ export class RoleController {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
+    @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
   @Get(':guildId/roles')

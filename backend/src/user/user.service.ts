@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserService {
+  constructor(@Inject(PrismaService) private database: PrismaService) {}
   async unlockUser(userId: string) {
     const user = await this.findOne(userId);
     await this.database.user.update({
@@ -27,7 +28,6 @@ export class UserService {
       data: { firstMessageId: mId },
     });
   }
-  constructor(@Inject(PrismaService) private database: PrismaService) {}
 
   async findOne(userId: string): Promise<User | undefined> {
     return await this.database.user.findUnique({ where: { userId } });
@@ -36,11 +36,12 @@ export class UserService {
     return await this.database.stats.findUnique({ where: { userId } });
   }
 
-  async findOrCreate(
+  async upsert(
     userId: string,
     name: string,
     guildId: string,
     rank: Rank,
+    unlocked: boolean,
   ): Promise<User> {
     await this.database.stats.upsert({
       where: { userId },
@@ -49,8 +50,8 @@ export class UserService {
     });
     return await this.database.user.upsert({
       where: { userId },
-      create: { userId, name, guildId, rank },
-      update: { userId, name, guildId, rank },
+      create: { userId, name, guildId, rank, unlocked },
+      update: { userId, name, guildId, rank, unlocked },
     });
   }
 

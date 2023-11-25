@@ -18,10 +18,15 @@ import {
 } from '../dto/user';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
-import LogEntry from 'src/util/dto/log.entry.dto';
-import { AuditLogService } from 'src/auditlog/auditlog.service';
 import cleanTextChannel from 'src/util/functions/channel-utils';
 import { SendDirectMessageToUserException } from 'src/util/exception/send-direct-message-to-user-exception';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import {
+  UserBanEvent,
+  UserKickEvent,
+  UserPurgeEvent,
+  UserTimeOutEvent,
+} from '../events/user.events';
 @Controller('discord/user')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
@@ -30,7 +35,7 @@ export class UserController {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
-    @Inject(AuditLogService) private auditLogService: AuditLogService,
+    @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
   @Get(':guildId/users')
   @ApiOperation({ summary: 'Get all users for a guild' })
@@ -71,23 +76,16 @@ export class UserController {
     description: 'User was successfully banned',
   })
   async banUser(
-    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.ban(userId);
     this.logger.log(`Banned user ${userId} from guild ${guildId}`);
-    const logEntry: LogEntry = {
-      action: 'BAN',
-      invokerId: req.user.user.user_id,
-      reason: 'Ban',
-      guildId: guildId,
-      targetId: userId,
-      targetType: 'USER',
-      createdAt: new Date(),
-    };
-    await this.auditLogService.create(logEntry);
+    await this.eventEmitter.emitAsync(
+      'user.ban',
+      new UserBanEvent(userId, guildId, 'TODO: NOT IMPLEMENTED'),
+    );
   }
 
   @Post(':guildId/user/:userId/kick')
@@ -104,16 +102,10 @@ export class UserController {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.kick(userId);
     this.logger.log(`Kicked user ${userId} from guild ${guildId}`);
-    const logEntry: LogEntry = {
-      action: 'KICK',
-      invokerId: req.user.user.user_id,
-      reason: 'Kick',
-      guildId: guildId,
-      targetId: userId,
-      targetType: 'USER',
-      createdAt: new Date(),
-    };
-    await this.auditLogService.create(logEntry);
+    await this.eventEmitter.emitAsync(
+      'user.kick',
+      new UserKickEvent(userId, guildId, 'TODO: NOT IMPLEMENTED'),
+    );
   }
 
   @Post(':guildId/user/:userId/timeout/:duration')
@@ -129,18 +121,6 @@ export class UserController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
-    const logEntry: LogEntry = {
-      action: 'TIMEOUT',
-      invokerId: '688719911320551426',
-      reason: 'Timeout',
-      guildId: guildId,
-      targetId: userId,
-      targetType: 'USER',
-      createdAt: new Date(),
-      extraInfo: JSON.stringify({
-        duration: duration,
-      }),
-    };
     await member.timeout(parseInt(duration));
     await member
       .send(
@@ -151,7 +131,15 @@ export class UserController {
       .catch(() => {
         throw new SendDirectMessageToUserException(guildId, userId);
       });
-    await this.auditLogService.create(logEntry);
+    await this.eventEmitter.emitAsync(
+      'user.timeout.created',
+      new UserTimeOutEvent(
+        userId,
+        guildId,
+        'TODO: NOT IMPLEMENTED',
+        new Date(new Date().getTime() + duration).getMilliseconds(),
+      ),
+    );
     this.logger.log(
       `Timed out user ${userId} from guild ${guildId} for ${duration}`,
     );
@@ -191,5 +179,9 @@ export class UserController {
         await new Promise((resolve) => setTimeout(resolve, 500));
       }
     });
+    await this.eventEmitter.emitAsync(
+      'user.purge',
+      new UserPurgeEvent(userId, guildId, 'TODO: NOT IMPLEMENTED'),
+    );
   }
 }

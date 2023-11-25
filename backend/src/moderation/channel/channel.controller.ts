@@ -3,19 +3,14 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Logger,
   Param,
   Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   Client,
   GuildChannel,
@@ -27,15 +22,23 @@ import {
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { Channel } from '../dto/channel';
 import cleanTextChannel from 'src/util/functions/channel-utils';
-
-const logger = new Logger('ChannelController');
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import {
+  ChannelCleaned,
+  SlowmodeDisabled,
+  SlowmodeEnabled,
+} from '../events/channel.event';
+import { ChannelNotTextBasedException } from 'src/util/exception/channel-not-text-based-exception';
 
 @ApiTags('discord/channel')
 @Controller('discord/channel')
+@UseGuards(JwtAuthGuard)
 export class ChannelController {
+  logger = new Logger(ChannelController.name);
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
+    @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
   @Get('guild/:guildId/channel')
@@ -49,7 +52,7 @@ export class ChannelController {
     @Param('guildId') guildId: string,
   ): Promise<GuildChannel[]> {
     const guild = await this.client.guilds.fetch(guildId);
-    logger.log(
+    this.logger.log(
       `Found ${guild.channels.cache.size} channels in guild ${guildId}`,
     );
     return (await guild.channels.fetch()).toJSON();
@@ -67,7 +70,7 @@ export class ChannelController {
     @Param('channelId') channelId: string,
   ): Promise<GuildBasedChannel> {
     const guild = await this.client.guilds.fetch(guildId);
-    logger.log(
+    this.logger.log(
       `Found ${guild.channels.cache.size} channels in guild ${guildId}`,
     );
     return await guild.channels.fetch(channelId);
@@ -83,7 +86,7 @@ export class ChannelController {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId);
     await channel.edit(channelData);
-    logger.log(`Edited channel ${channelId} in guild ${guildId}`);
+    this.logger.log(`Edited channel ${channelId} in guild ${guildId}`);
     return channel;
   }
 
@@ -96,7 +99,15 @@ export class ChannelController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId) as GuildChannel;
-    logger.log(`Set slowmode for channel ${channelId} in guild ${guildId}`);
+    this.logger.log(
+      `Set slowmode for channel ${channelId} in guild ${guildId}`,
+    );
+    await this.eventEmitter.emitAsync(
+      `channel.slowmode.${duration > 0 ? 'enabled' : 'disabled'}`,
+      duration > 0
+        ? new SlowmodeEnabled(guildId, channelId, true, duration)
+        : new SlowmodeDisabled(guildId, channelId, false),
+    );
     await channel.edit({ rateLimitPerUser: duration });
   }
 
@@ -120,28 +131,30 @@ export class ChannelController {
     @Param('channelId') channelId: string,
     @Body() { userId, before }: { userId: string; before: number },
   ): Promise<void> {
-    console.log('before unix timestamp: ' + before);
     const guild = await this.client.guilds.fetch(guildId);
     const channel = guild.channels.cache.get(channelId);
-    logger.log(
+    this.logger.log(
       `Cleaning channel ${channelId} in guild ${guildId} from messages before ${before} of user ${userId}`,
     );
-    switch (channel.type) {
-      case ChannelType.GuildText:
-        cleanTextChannel(
-          channel as GuildTextBasedChannel,
-          (messages) => messages.last().createdTimestamp < before,
-          (msg) => msg.deletable && msg.createdTimestamp > before,
-        );
-        break;
-      case ChannelType.PublicThread:
-        cleanTextChannel(
-          channel as GuildTextBasedChannel,
-          (messages) => messages.last().createdTimestamp < before,
-          (msg) => msg.deletable && msg.createdTimestamp > before,
-        );
-      case ChannelType.PrivateThread:
-      case ChannelType.GuildForum:
+    if (
+      channel.type in
+      [
+        ChannelType.GuildText,
+        ChannelType.PublicThread,
+        ChannelType.PrivateThread,
+      ]
+    ) {
+      cleanTextChannel(
+        channel as GuildTextBasedChannel,
+        (messages) => messages.last().createdTimestamp < before,
+        (msg) => msg.deletable && msg.createdTimestamp > before,
+      );
+    } else {
+      throw new ChannelNotTextBasedException(channel.name);
     }
+    await this.eventEmitter.emitAsync(
+      'channel.clean',
+      new ChannelCleaned(guildId, channelId, 0, before, userId),
+    );
   }
 }

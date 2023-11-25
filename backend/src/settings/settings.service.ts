@@ -23,9 +23,9 @@ export class SettingsService {
     guildId: string,
     settings: Partial<Omit<Settings, 'guildId'>>,
   ) {
-    Object.keys(settings).forEach((key) => {
+    Object.keys(settings).forEach(async (key) => {
       if (key.endsWith('RoleId')) {
-        this.eventEmitter.emit(`settings.${key}.changed`, {
+        await this.eventEmitter.emitAsync(`settings.role.${key}.changed`, {
           guildId: guildId,
           value: settings[key],
           eventType: key,

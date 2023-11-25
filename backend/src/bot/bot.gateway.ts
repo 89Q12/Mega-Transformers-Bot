@@ -26,7 +26,6 @@ export class BotGateway {
   @Once('ready')
   async onReady() {
     await this.client.guilds.fetch();
-
     try {
       await this.settingsService.getSettings(this.client.guilds.cache.at(0).id);
     } catch (e) {
@@ -43,11 +42,12 @@ export class BotGateway {
   @On('guildMemberAdd')
   async addMember(member: GuildMember) {
     if (member.user.bot) return;
-    await this.userService.findOrCreate(
+    await this.userService.upsert(
       member.id,
       member.user.username,
       member.guild.id,
-      'MEMBER',
+      'NEW',
+      false,
     );
   }
 
@@ -76,7 +76,6 @@ export class BotGateway {
       firstMessage.id,
       firstMessage.author.id,
     );
-    return;
   }
 
   @On('guildMemberUpdate')
