@@ -5,7 +5,6 @@ import { User } from '@prisma/client';
 import { Client } from 'discord.js';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
 import { BotService } from 'src/bot/bot.service';
-import LogEntry from 'src/util/dto/log.entry.dto';
 import { UserService } from 'src/user/user.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/moderation/events/user.events';
