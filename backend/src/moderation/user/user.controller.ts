@@ -9,12 +9,7 @@ import {
   Inject,
   Logger,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChannelType, Client, User } from 'discord.js';
 import {
   DiscordUser,
@@ -27,11 +22,11 @@ import LogEntry from 'src/util/dto/log.entry.dto';
 import { AuditLogService } from 'src/auditlog/auditlog.service';
 import cleanTextChannel from 'src/util/functions/channel-utils';
 import { SendDirectMessageToUserException } from 'src/util/exception/send-direct-message-to-user-exception';
-
-const logger = new Logger('UserController');
-@ApiTags('discord/user')
 @Controller('discord/user')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class UserController {
+  logger = new Logger(UserController.name);
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
@@ -48,7 +43,7 @@ export class UserController {
   async getGuildUsers(@Param('guildId') guildId: string): Promise<User[]> {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
-    logger.log(`Found ${members.size} members in guild ${guildId}`);
+    this.logger.log(`Found ${members.size} members in guild ${guildId}`);
     return members.map((member) => member.user);
   }
 
@@ -66,7 +61,7 @@ export class UserController {
   ): Promise<User> {
     const guild = await this.client.guilds.fetch(guildId);
     const member = await guild.members.fetch(userId);
-    logger.log(`Found member ${member.user.username} in guild ${guildId}`);
+    this.logger.log(`Found member ${member.user.username} in guild ${guildId}`);
     return member.user;
   }
   @Post(':guildId/user/:userId/ban')
@@ -82,7 +77,7 @@ export class UserController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.ban(userId);
-    logger.log(`Banned user ${userId} from guild ${guildId}`);
+    this.logger.log(`Banned user ${userId} from guild ${guildId}`);
     const logEntry: LogEntry = {
       action: 'BAN',
       invokerId: req.user.user.user_id,
@@ -108,7 +103,7 @@ export class UserController {
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
     await guild.members.kick(userId);
-    logger.log(`Kicked user ${userId} from guild ${guildId}`);
+    this.logger.log(`Kicked user ${userId} from guild ${guildId}`);
     const logEntry: LogEntry = {
       action: 'KICK',
       invokerId: req.user.user.user_id,
@@ -128,7 +123,6 @@ export class UserController {
     description: 'User was successfully timed outed',
   })
   async timeoutUser(
-    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
     @Param('duration') duration: string,
@@ -154,11 +148,11 @@ export class UserController {
           new Date().getTime() + duration,
         ).toISOString()}, bei Fragen wende dich an die Mods.`,
       )
-      .catch((e) => {
+      .catch(() => {
         throw new SendDirectMessageToUserException(guildId, userId);
       });
     await this.auditLogService.create(logEntry);
-    logger.log(
+    this.logger.log(
       `Timed out user ${userId} from guild ${guildId} for ${duration}`,
     );
   }
@@ -176,7 +170,7 @@ export class UserController {
     @Param('userId') userId: string,
   ): Promise<void> {
     const guild = await this.client.guilds.fetch(guildId);
-    logger.log(`Purging user ${userId} from guild ${guildId}`);
+    this.logger.log(`Purging user ${userId} from guild ${guildId}`);
     if (guild === undefined) {
       throw new NotFoundException('Guild not found');
     }
@@ -187,13 +181,13 @@ export class UserController {
         channel.type === ChannelType.PublicThread ||
         channel.type === ChannelType.PrivateThread
       ) {
-        logger.log(`Purging user ${userId} from channel ${channel.id}`);
+        this.logger.log(`Purging user ${userId} from channel ${channel.id}`);
         cleanTextChannel(
           channel,
           () => true,
           (msg) => msg.author.id === userId,
         );
-        // sleep for 1 second to avoid rate limit
+        // sleep for 500ms to avoid rate limit
         await new Promise((resolve) => setTimeout(resolve, 500));
       }
     });

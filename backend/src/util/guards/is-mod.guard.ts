@@ -6,7 +6,6 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { PrismaService } from '../../prisma.service';
 import { Request } from 'express';
 import { User } from '@prisma/client';
