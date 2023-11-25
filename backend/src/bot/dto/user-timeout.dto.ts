@@ -30,16 +30,14 @@ export default class UserTimeOutDto {
   @Transform(({ value }) => {
     console.log(value);
     if (!/\b(\d{1,}[d])|(\d{1,}[h])\b/.test(value.trim())) return null;
-    value = value.replace('h', '') as string;
-    value = value.replace('d', ' ') as string;
-    const [_days, _hours] = value.split(' ') as Array<string>;
+    let _days = '0';
+    let _hours = '0';
+    (value as string).match(/\b(\d{1,}[d])|(\d{1,}[h])\b/g).forEach((match) => {
+      if (match.endsWith('d')) _days = match.replace('d', '');
+      else if (match.endsWith('h')) _hours = match.replace('h', '');
+    });
     const days = parseInt(_days) || 0;
     const hours = parseInt(_hours) || 0;
-    const millis = Date.now() + (days * 24 + hours) * 60 * 60 * 1000;
-    const date = new Date();
-    // If the date is more than 14 days in the future (the maximum for a timeout), return null
-    if (millis - date.getTime() > 14 * 24 * 60 * 60 * 1000) return null;
-    date.setMilliseconds(millis);
     return new Date(
       Date.now() + (days * 24 + hours) * 60 * 60 * 1000,
     ).toISOString();
