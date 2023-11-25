@@ -66,7 +66,7 @@ export class BotService {
         ).messageCountBucket,
       )
     ).forEach((channel_id) => {
-      this._removeMemberToChannel(user.userId.toString(), channel_id);
+      this._addMemberToChannelOverwrite(user.userId.toString(), channel_id);
     });
     (
       await this._getUnlockedChannels(
@@ -79,7 +79,10 @@ export class BotService {
         ).messageCountBucket,
       )
     ).forEach((channel_id) => {
-      this._addMemberToChannel(user.userId.toString(), channel_id);
+      this._removeMemberFromChannelOverwrite(
+        user.userId.toString(),
+        channel_id,
+      );
     });
   }
 
@@ -101,20 +104,25 @@ export class BotService {
     const members = await guild.members.fetch();
     members.forEach(async (member: GuildMember) => {
       if (!member.user.bot) {
-        await this.userService.findOrCreate(
+        const rank = await this.getRank(member);
+        await this.userService.upsert(
           member.id,
           member.user.username,
           member.guild.id,
-          await this.getRank(member),
+          rank,
+          rank !== 'NEW',
         );
       }
     });
   }
-  @OnEvent('settings.*.changed')
+  @OnEvent('settings.role.*.changed')
   async onAdminRoleIdChanged(payload: SettingsChanged) {
     await this.addMembers(payload.guildId);
   }
-  private async _addMemberToChannel(user_id: string, channel_id: string) {
+  private async _addMemberToChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
     await (
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.create(user_id, {
@@ -122,7 +130,10 @@ export class BotService {
       ReadMessageHistory: false,
     });
   }
-  private async _removeMemberToChannel(user_id: string, channel_id: string) {
+  private async _removeMemberFromChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
     await (
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.delete(user_id);
