@@ -58,6 +58,34 @@ export class UserTimeOutEvent implements EventToLog {
   }
 }
 
+export class UserTimeOutFailedEvent implements EventToLog {
+  userId: string;
+  guildId: string;
+  reason: string;
+  duration: number;
+  error: Error;
+
+  constructor(
+    userId: string,
+    guildId: string,
+    reason: string,
+    duration: number,
+    error: Error,
+  ) {
+    this.userId = userId;
+    this.guildId = guildId;
+    this.reason = reason;
+    this.duration = duration;
+    this.error = error;
+  }
+
+  toFormattedLog(logger: Logger): void {
+    logger.error(
+      `UserTimeOutFailedEvent: ${this.userId} failed to time out in guild ${this.guildId}, with error ${this.error.message}`,
+    );
+  }
+}
+
 export class UserPurgeEvent implements EventToLog {
   userId: string;
   guildId: string;

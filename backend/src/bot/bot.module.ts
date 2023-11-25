@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from 'src/prisma.service';
 import { SettingsModule } from 'src/settings/settings.module';
 import { SettingsService } from 'src/settings/settings.service';
+import { TimeOutCommand } from './commands/timeout.command';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SettingsService } from 'src/settings/settings.service';
   providers: [
     BotService,
     PingCommand,
+    TimeOutCommand,
     BotGateway,
     PrismaService,
     SettingsService,

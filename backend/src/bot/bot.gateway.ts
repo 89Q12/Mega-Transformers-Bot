@@ -81,6 +81,7 @@ export class BotGateway {
   }
 
   @On('messageReactionAdd')
+  @UseGuards(ChannelIdGuard('1121822614374060175c'))
   async unlockUser(reaction: MessageReaction, user: User) {
     // check if wfp has been removed and user role has been added
     if (reaction.partial)
