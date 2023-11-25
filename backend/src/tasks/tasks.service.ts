@@ -52,7 +52,11 @@ export class TasksService {
           if (member.communicationDisabledUntilTimestamp == null) {
             return;
           } else if (member.communicationDisabledUntilTimestamp > Date.now()) {
-            logger.log(`User ${dbUser.userId} is still timed out.`);
+            logger.log(
+              `User ${dbUser.userId} is still timed out, until ${new Date(
+                member.communicationDisabledUntilTimestamp,
+              ).toLocaleString()}`,
+            );
             return;
           } else if (member.communicationDisabledUntilTimestamp < Date.now()) {
             logger.log(`User ${dbUser.userId} timeout expired.`);
