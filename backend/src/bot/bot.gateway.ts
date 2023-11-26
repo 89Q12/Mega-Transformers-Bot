@@ -14,7 +14,8 @@ import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';
 import { BotService } from './bot.service';
 import { SettingsService } from 'src/settings/settings.service';
-import { Rank } from '@prisma/client';
+import { set } from 'rambda';
+
 @Injectable()
 export class BotGateway {
   logger = new Logger(BotGateway.name);
@@ -81,14 +82,20 @@ export class BotGateway {
       firstMessage.author.id,
     );
   }
-
+  @On('messageCreate')
+  @UseGuards(MessageFromUserGuard)
+  async toniMsgsToBird(message: Message): Promise<void> {
+    if (message.author.id === '1132244079242133555') {
+      message.react('🐦');
+    }
+  }
   @On('messageReactionAdd')
   async unlockUser(reaction: MessageReaction, userReacted: User) {
+    if (reaction.message.channelId != '1121822614374060175') return;
     if (
-      reaction.message.channelId != '1121822614374060175' &&
-      ((await this.userService.findOne(userReacted.id)).rank == 'MOD' ||
-        'ADMIN' ||
-        'OWNER')
+      !['MOD', 'ADMIN', 'OWNER'].includes(
+        (await this.userService.findOne(userReacted.id)).rank,
+      )
     )
       return;
     if (reaction.partial) {
@@ -119,6 +126,9 @@ export class BotGateway {
             reaction.message.guildId,
           ),
         );
+        // Wait 500ms to make sure the role is added before removing the unverified role
+        //https://github.com/discordjs/discord.js/issues/4930#issuecomment-1042351896
+        await new Promise((resolve) => setTimeout(resolve, 500));
         member.roles.remove(
           await this.settingsService.getUnverifiedMemberRoleId(
             reaction.message.guildId,
