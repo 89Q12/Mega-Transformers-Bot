@@ -14,6 +14,7 @@ import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';
 import { BotService } from './bot.service';
 import { SettingsService } from 'src/settings/settings.service';
+import { Rank } from '@prisma/client';
 @Injectable()
 export class BotGateway {
   logger = new Logger(BotGateway.name);
@@ -43,6 +44,7 @@ export class BotGateway {
 
   @On('guildMemberAdd')
   async addMember(member: GuildMember) {
+    this.logger.log(`Adding member ${member.user.username} to database.`);
     if (member.user.bot) return;
     await this.userService.upsert(
       member.id,
@@ -81,26 +83,32 @@ export class BotGateway {
   }
 
   @On('messageReactionAdd')
-  @UseGuards(ChannelIdGuard('1121822614374060175c'))
-  async unlockUser(reaction: MessageReaction, user: User) {
-    // check if wfp has been removed and user role has been added
-    if (reaction.partial)
+  async unlockUser(reaction: MessageReaction, userReacted: User) {
+    if (
+      reaction.message.channelId != '1121822614374060175' &&
+      ((await this.userService.findOne(userReacted.id)).rank == 'MOD' ||
+        'ADMIN' ||
+        'OWNER')
+    )
+      return;
+    if (reaction.partial) {
       try {
         await reaction.fetch();
       } catch (e) {
         this.logger.error(e);
-        // HACK: set username to member.username so that the templateMessage function works
-        reaction.message.author.username = user.username;
-        reaction.message.author.id = user.id;
       }
+    }
+    const user = reaction.message.author;
     if (
       reaction.message.channelId ==
         (await this.settingsService.getIntroChannelId(
           reaction.message.guildId,
         )) &&
-      (await this.userService.findOne(user.id)).rank === 'NEW' &&
+      (await this.userService.findOne(reaction.message.author.id)).rank ===
+        'NEW' &&
       reaction.emoji.name === '✅'
     ) {
+      console.log('unlocking user');
       await this.userService.unlockUser(user.id);
       const member = await (
         await this.client.guilds.fetch(reaction.message.guildId)
@@ -119,7 +127,12 @@ export class BotGateway {
       } catch (e) {
         this.logger.error(e);
       }
-      await reaction.message.channel.send(
+      const channel = (await reaction.message.guild.channels.fetch(
+        await this.settingsService.getOpenIntroChannelId(
+          reaction.message.guildId,
+        ),
+      )) as GuildTextBasedChannel;
+      await channel.send(
         await this.discordService.templateMessage(
           reaction.message as Message<true>,
         ),

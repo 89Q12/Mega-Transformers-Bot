@@ -23,7 +23,9 @@ export class BotService {
   ) {}
 
   async getRank(member: GuildMember): Promise<Rank> {
-    if (await this._isMemberAdmin(member.id, member.guild.id)) {
+    if (member.guild.ownerId === member.id) {
+      return 'OWNER';
+    } else if (await this._isMemberAdmin(member.id, member.guild.id)) {
       return 'ADMIN';
     } else if (await this._isMemberMod(member.id, member.guild.id)) {
       return 'MOD';
