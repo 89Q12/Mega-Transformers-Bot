@@ -5,12 +5,17 @@ import {
   InjectDiscordClient,
   InteractionEvent,
 } from '@discord-nestjs/core';
-
-import { Client, CommandInteraction } from 'discord.js';
+import {
+  Client,
+  CommandInteraction,
+  EmbedBuilder,
+  userMention,
+} from 'discord.js';
 import UserTimeOutDto from '../dto/user-timeout.dto';
 import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
+  UserSendDMFailedEvent,
   UserTimeOutEvent,
   UserTimeOutFailedEvent,
 } from 'src/moderation/events/user.events';
@@ -41,25 +46,14 @@ export class TimeOutCommand {
   ) {
     const date = new Date(dto.duration).getTime();
     const user = await interaction.guild.members.fetch(dto.user);
+    interaction.deferReply({
+      ephemeral: true,
+    });
+    const error: Array<Error> = [];
     try {
       await user.timeout(date - Date.now(), dto.reason);
-      this.eventEmitter.emit(
-        'user.timeout.created',
-        new UserTimeOutEvent(user.id, interaction.guildId, dto.reason, date),
-      );
-      interaction.reply({
-        content: `Timeouted user ${user.user.username} for ${
-          (date - Date.now()) / 1000 / 60 / 60 / 24
-        } days`,
-        ephemeral: true,
-      });
     } catch (err) {
-      interaction.reply({
-        content: `Failed to timeout user ${user.user.username} for ${
-          (date - Date.now()) / 1000 / 60 / 60 / 24
-        } days, reason: ${err.message}`,
-        ephemeral: true,
-      });
+      error.push(err);
       this.eventEmitter.emit(
         'user.timeout.failed',
         new UserTimeOutFailedEvent(
@@ -71,5 +65,54 @@ export class TimeOutCommand {
         ),
       );
     }
+    try {
+      if (error.length)
+        throw new Error('Timeout failed, therefore no DM').name == 'DMFailed';
+      await user.send(
+        `Du hast einen Timeout bis ${new Date(
+          dto.duration,
+        ).toString()}, bei Fragen wende dich an die Mods. 
+Grund: ${dto.reason}`,
+      );
+    } catch (err) {
+      error.push(err);
+      this.eventEmitter.emit(
+        'user.send.failed',
+        new UserSendDMFailedEvent(user.id, interaction.guildId, err),
+      );
+    }
+    const embed = new EmbedBuilder()
+      .setAuthor({
+        name: this.client.user.username,
+        iconURL: this.client.user.avatarURL(),
+      })
+      .setTitle(`Timeout user ${user.user.username}`)
+      .setDescription(
+        error.length === 0
+          ? `Timeouted user ${userMention(user.id)} until ${new Date(
+              dto.duration,
+            ).toLocaleString()} and sent them a DM.`
+          : `Failed to timeout user ${userMention(user.id)} until ${new Date(
+              dto.duration,
+            ).toLocaleString()}, check below for more information.`,
+      );
+    if (error.length) {
+      embed.addFields(
+        error.map((e) => {
+          return {
+            name: e.name,
+            value: e.message,
+          };
+        }),
+      );
+    }
+    interaction.followUp({
+      embeds: [embed],
+      ephemeral: true,
+    });
+    this.eventEmitter.emit(
+      'user.timeout.created',
+      new UserTimeOutEvent(user.id, interaction.guildId, dto.reason, date),
+    );
   }
 }

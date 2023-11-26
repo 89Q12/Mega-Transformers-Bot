@@ -103,3 +103,21 @@ export class UserPurgeEvent implements EventToLog {
     );
   }
 }
+
+export class UserSendDMFailedEvent implements EventToLog {
+  userId: string;
+  guildId: string;
+  error: Error;
+
+  constructor(userId: string, guildId: string, error: Error) {
+    this.userId = userId;
+    this.guildId = guildId;
+    this.error = error;
+  }
+
+  toFormattedLog(logger: Logger): void {
+    logger.error(
+      `UserSendDMFailedEvent: ${this.userId} failed to send DM in guild ${this.guildId}, with error ${this.error.message}`,
+    );
+  }
+}

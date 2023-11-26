@@ -2,6 +2,7 @@ import { Param, ParamType } from '@discord-nestjs/core';
 import { Transform } from 'class-transformer';
 import { IsDateString, IsObject, Matches, Validate } from 'class-validator';
 import { User } from 'discord.js';
+import e from 'express';
 
 export default class UserTimeOutDto {
   @Param({
@@ -29,17 +30,29 @@ export default class UserTimeOutDto {
   // Hacky way to both transform the value and validate it, in one step :D
   @Transform(({ value }) => {
     console.log(value);
-    if (!/\b(\d{1,}[d])|(\d{1,}[h])\b/.test(value.trim())) return null;
+    if (
+      !/\b(\d{1,}[d])(\d{1,}[h])\b|\b(\d{1,}[h])(\d{1,}[m])\b|\b(\d{1,}[d])(\d{1,}[m])\b|\b(\d{1,}[dhm])\b|\b(\d{1,}[d])(\d{1,}[h])(\d{1,}[m])/.test(
+        value.trim(),
+      )
+    )
+      return null;
     let _days = '0';
     let _hours = '0';
-    (value as string).match(/\b(\d{1,}[d])|(\d{1,}[h])\b/g).forEach((match) => {
-      if (match.endsWith('d')) _days = match.replace('d', '');
-      else if (match.endsWith('h')) _hours = match.replace('h', '');
-    });
+    let _minutes = '0';
+    (value as string)
+      .match(
+        /\b(\d{1,}[d])(\d{1,}[h])\b|\b(\d{1,}[h])(\d{1,}[m])\b|\b(\d{1,}[d])(\d{1,}[m])\b|\b(\d{1,}[dhm])\b|\b(\d{1,}[d])(\d{1,}[h])(\d{1,}[m])/g,
+      )
+      .forEach((match) => {
+        if (match.endsWith('d')) _days = match.replace('d', '');
+        else if (match.endsWith('h')) _hours = match.replace('h', '');
+        else if (match.endsWith('m')) _minutes = match.replace('m', '');
+      });
     const days = parseInt(_days) || 0;
     const hours = parseInt(_hours) || 0;
+    const minutes = parseInt(_minutes) || 0;
     return new Date(
-      Date.now() + (days * 24 + hours) * 60 * 60 * 1000,
+      Date.now() + ((days * 24 + hours) * 60 + minutes) * 60 * 1000,
     ).toISOString();
   })
   @Param({
@@ -55,7 +68,7 @@ export default class UserTimeOutDto {
     {},
     {
       message:
-        'The input must be in format: Xd, Xh or XdXh. Where X is a number',
+        'The input must be in format: Xd, Xh, Xm or XdXh or XhXm or XdXm or XdXhXm. Where X is a number',
     },
   )
   duration: string;
