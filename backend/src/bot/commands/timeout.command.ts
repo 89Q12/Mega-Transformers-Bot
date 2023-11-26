@@ -46,7 +46,7 @@ export class TimeOutCommand {
   ) {
     const date = new Date(dto.duration).getTime();
     const user = await interaction.guild.members.fetch(dto.user);
-    interaction.deferReply({
+    await interaction.deferReply({
       ephemeral: true,
     });
     const error: Array<Error> = [];
@@ -66,8 +66,7 @@ export class TimeOutCommand {
       );
     }
     try {
-      if (error.length)
-        throw new Error('Timeout failed, therefore no DM').name == 'DMFailed';
+      if (error.length) throw new Error('Timeout failed, therefore no DM');
       await user.send(
         `Du hast einen Timeout bis ${new Date(
           dto.duration,
@@ -99,6 +98,7 @@ Grund: ${dto.reason}`,
     if (error.length) {
       embed.addFields(
         error.map((e) => {
+          if (!(e instanceof Error)) return;
           return {
             name: e.name,
             value: e.message,
@@ -106,7 +106,7 @@ Grund: ${dto.reason}`,
         }),
       );
     }
-    interaction.followUp({
+    await interaction.followUp({
       embeds: [embed],
       ephemeral: true,
     });
