@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, UseGuards } from '@nestjs/common';
-import { Once, InjectDiscordClient, On } from '@discord-nestjs/core';
+import { InjectDiscordClient, On } from '@discord-nestjs/core';
 import {
   Client,
   GuildMember,
@@ -14,7 +14,6 @@ import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';
 import { BotService } from './bot.service';
 import { SettingsService } from 'src/settings/settings.service';
-import { set } from 'rambda';
 
 @Injectable()
 export class BotGateway {
@@ -27,18 +26,19 @@ export class BotGateway {
     @Inject(BotService) private readonly discordService: BotService,
   ) {}
 
-  @Once('ready')
-  async onReady() {
+  // Runs whenever the discordjs websocket gets recreated
+  @On('ready')
+  async onReady(): Promise<void | Error> {
     await this.client.guilds.fetch();
-    try {
-      await this.settingsService.getSettings(this.client.guilds.cache.at(0).id);
-    } catch (e) {
-      this.logger.log(
-        "Couldn't find settings for guild, not adding users to database",
-      );
-      return;
-    }
     this.client.guilds.cache.forEach(async (guild) => {
+      try {
+        await this.settingsService.getSettings(guild.id);
+      } catch (e) {
+        this.logger.log(
+          "Couldn't find settings for guild, not adding users to database",
+        );
+        this.settingsService.createSettings(guild.id);
+      }
       this.discordService.addMembers(guild.id);
     });
   }
@@ -68,6 +68,9 @@ export class BotGateway {
       message.id,
       message.channelId,
       message.guildId,
+    );
+    await this.userService.updateMessageCountBucket(
+      await this.userService.findOne(message.author.id),
     );
   }
 
