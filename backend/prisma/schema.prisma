@@ -19,13 +19,13 @@ enum Rank {
 }
 
 model User {
-  userId      String     @id @unique
+  userId      String  @id @unique
   guildId     String
   name        String
-  stats       Stats      @relation(fields: [userId], references: [userId])
-  unlocked    Boolean    @default(false)
-  deactivated Boolean    @default(false)
-  rank        Rank       @default(NEW)
+  stats       Stats   @relation(fields: [userId], references: [userId])
+  unlocked    Boolean @default(false)
+  deactivated Boolean @default(false)
+  rank        Rank    @default(NEW)
 }
 
 model Stats {
@@ -49,34 +49,44 @@ model Message {
   statsUserId String?
 }
 
-model RistrictedChannels {
-  channelId      String @id @unique
+model RestrictedChannels {
+  channelId      String   @id @unique
   guildId        String
-  requiredPoints Int    @default(0)
+  requiredPoints Int      @default(0)
+  settings       Settings @relation(fields: [guildId], references: [guildId])
+}
+
+model AutoDeleteChannels {
+  channelId    String   @id @unique
+  guildId      String
+  deleteAtCron String   @default("0 0 * * *")
+  settings     Settings @relation(fields: [guildId], references: [guildId])
 }
 
 model Settings {
-  guildId                String @id @unique
-  prefix                 String @default("!")
-  welcomeMessageFormat   String @default("Welcome {user}!")
-  openIntroChannelId     String @default("")
-  introChannelId         String @default("")
-  leaveMessageFormat     String @default("Goodbye {user}!")
-  leaveChannelId         String @default("")
-  unverifiedMemberRoleId String @default("")
-  verifiedMemberRoleId   String @default("")
-  modRoleId              String @default("")
-  adminRoleId            String @default("")
+  guildId                String               @id @unique
+  prefix                 String               @default("!")
+  welcomeMessageFormat   String               @default("Welcome {user}!")
+  openIntroChannelId     String               @default("")
+  introChannelId         String               @default("")
+  leaveMessageFormat     String               @default("Goodbye {user}!")
+  leaveChannelId         String               @default("")
+  unverifiedMemberRoleId String               @default("")
+  verifiedMemberRoleId   String               @default("")
+  modRoleId              String               @default("")
+  adminRoleId            String               @default("")
+  restrictedChannels     RestrictedChannels[]
+  autoDeleteChannels     AutoDeleteChannels[]
 }
 
 model AuditLog {
-  id             Int      @id @default(autoincrement())
-  guildId        String
-  invokerId      String
-  action         String
-  reason         String
-  createdAt      DateTime @default(now())
-  targetId       String
-  targetType     String
-  extraInfo      Json?
+  id         Int      @id @default(autoincrement())
+  guildId    String
+  invokerId  String
+  action     String
+  reason     String
+  createdAt  DateTime @default(now())
+  targetId   String
+  targetType String
+  extraInfo  Json?
 }
