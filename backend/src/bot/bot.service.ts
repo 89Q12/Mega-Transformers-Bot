@@ -109,18 +109,31 @@ export class BotService {
   async addMembers(guildId: string) {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
+    const knownMembers = Array<string>();
     members.forEach(async (member: GuildMember) => {
       if (!member.user.bot) {
         const rank = await this.getRank(member);
-        await this.userService.upsert(
+        const user = await this.userService.upsert(
           member.id,
           member.user.username,
           member.guild.id,
           rank,
           rank !== 'NEW',
         );
+        knownMembers.push(user.userId);
       }
     });
+    const orphanedUsers = this.database.user.findMany({
+      where: {
+        userId: {
+          notIn: knownMembers,
+        },
+        guildId: guildId,
+      },
+    });
+    (await orphanedUsers).forEach((user) =>
+      this.userService.deleteOne(user.userId),
+    );
   }
   @OnEvent('settings.role.*.changed')
   async onAdminRoleIdChanged(payload: SettingsChanged) {
@@ -148,7 +161,7 @@ export class BotService {
   private async _getUnlockedChannels(
     activityCount: number,
   ): Promise<Array<string>> {
-    const channels = await this.database.ristrictedChannels.findMany({
+    const channels = await this.database.restrictedChannels.findMany({
       where: {
         requiredPoints: {
           lte: activityCount,
@@ -160,7 +173,7 @@ export class BotService {
   private async _getLockedChannels(
     activityCount: number,
   ): Promise<Array<string>> {
-    const channels = await this.database.ristrictedChannels.findMany({
+    const channels = await this.database.restrictedChannels.findMany({
       where: {
         requiredPoints: {
           gt: activityCount,
