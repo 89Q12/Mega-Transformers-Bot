@@ -18,7 +18,7 @@ export const useFetchSelf = () => {
       api
         .auth(`Bearer ${token}`)
         // TODO: replace with actual guild id from GUILD SELECTION PAGE
-        .get('/guild/1011511871297302608/user/self')
+        .get(`/guild/${import.meta.env.VITE_GUILD_ID}/user/self`)
         .json<User>()
     );
   };

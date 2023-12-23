@@ -29,6 +29,9 @@ export const useFetchToken = () => {
           // We dont want the promise to resolve here
           setGrantFailed(true);
         })
+        .unauthorized(() => {
+          setGrantFailed(true);
+        })
         .json((response: FetchTokenResponse) => {
           fetchSelf(response.accessToken).then((user) => {
             set(response.accessToken, user);
