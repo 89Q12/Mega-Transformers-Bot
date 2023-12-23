@@ -28,8 +28,8 @@ import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 const logger = new Logger('RoleController');
-@ApiTags('discord/role')
-@Controller('discord/role')
+@ApiTags('/role')
+@Controller('/role')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class RoleController {
@@ -39,7 +39,7 @@ export class RoleController {
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  @Get(':guildId/roles')
+  @Get('/')
   @ApiOperation({ summary: 'Get all roles for a guild' })
   @ApiResponse({
     status: 200,
@@ -56,7 +56,7 @@ export class RoleController {
     logger.log(`Found ${guild.roles.cache.size} roles in guild ${guildId}`);
     return (await guild.roles.fetch()).toJSON();
   }
-  @Post(':guildId/role/')
+  @Post('/')
   @ApiOperation({ summary: 'Create a role for a guild' })
   @ApiResponse({
     status: 200,
@@ -77,7 +77,7 @@ export class RoleController {
     logger.log(`Created role ${role.name} in guild ${guildId}`);
     return role;
   }
-  @Put(':guildId/role/:roleId')
+  @Put(':roleId')
   @ApiOperation({ summary: 'Update a role for a guild' })
   @ApiResponse({
     status: 200,
@@ -101,7 +101,7 @@ export class RoleController {
     return role;
   }
 
-  @Delete(':guildId/role/:roleId')
+  @Delete(':roleId')
   @ApiOperation({ summary: 'Delete a role for a guild' })
   @ApiResponse({
     status: 200,

@@ -1,112 +1,25 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Rank, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserService {
   constructor(@Inject(PrismaService) private database: PrismaService) {}
-  async unlockUser(userId: string) {
-    const user = await this.findOne(userId);
-    await this.database.user.update({
-      where: { userId: user.userId },
-      data: { unlocked: true, rank: 'MEMBER' },
-    });
-  }
 
-  async setRank(userId: string, rank: Rank) {
-    const user = await this.findOne(userId);
-    await this.database.user.update({
-      where: { userId: user.userId },
-      data: { rank: rank },
-    });
-  }
-
-  async setFirstMessageId(mId: string, userId: string) {
-    const user = await this.findOne(userId);
-    await this.database.stats.update({
-      where: { userId: user.userId },
-      data: { firstMessageId: mId },
-    });
-  }
-
-  async findOne(userId: string): Promise<User | undefined> {
-    return await this.database.user.findUnique({ where: { userId } });
-  }
-  async getStats(userId: string) {
-    return await this.database.stats.findUnique({ where: { userId } });
-  }
-
-  async upsert(
-    userId: string,
-    name: string,
-    guildId: string,
-    rank: Rank,
-    unlocked: boolean,
-  ): Promise<User> {
-    await this.database.stats.upsert({
+  async findOneUser(userId: string): Promise<User | undefined> {
+    return await this.database.user.findUnique({
       where: { userId },
-      create: { userId, guildId },
-      update: { userId, guildId },
     });
+  }
+
+  async upsert(userId: string): Promise<User> {
     return await this.database.user.upsert({
       where: { userId },
-      create: { userId, name, guildId, rank, unlocked },
-      update: { userId, name, guildId, rank, unlocked },
+      create: { userId },
+      update: { userId },
     });
   }
 
-  async insertMessage(
-    userId: string,
-    messageId: string,
-    channelId: string,
-    guildId: string,
-  ) {
-    await this.database.message.create({
-      data: {
-        userId,
-        guildId,
-        messageId,
-        createdAt: new Date(),
-        channelId,
-      },
-    });
-  }
-
-  async deleteOne(userId: string): Promise<void> {
-    await this.database.user.delete({ where: { userId } });
-    await this.database.stats.delete({ where: { userId } });
-  }
-  async findAll(guildId: string): Promise<Array<User>> {
-    const users = await this.database.user.findMany({
-      where: { guildId: guildId },
-    });
-    if (!users) return [];
-    return users;
-  }
-
-  async updateMessageCountBucket(user: User): Promise<void> {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    const messageCount = await this.database.message.count({
-      where: {
-        userId: user.userId,
-        createdAt: {
-          gte: thirtyDaysAgo,
-        },
-      },
-    });
-    await this.database.stats.update({
-      where: { userId: user.userId },
-      data: { messageCountBucket: messageCount },
-    });
-  }
-  async isActive(user: User): Promise<boolean> {
-    return (
-      (await this.database.stats.findUnique({ where: { userId: user.userId } }))
-        .messageCountBucket >= 30
-    );
-  }
   // SELECT
   //   m.channelId,
   //   m.userId,
@@ -117,7 +30,7 @@ export class UserService {
   // JOIN
   //   (SELECT channelId, COUNT(messageId) / 30 AS messageCount
   //   FROM Message
-  //   WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+  //   WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId = '123'
   //   GROUP BY channelId) AS subquery ON m.channelId = subquery.channelId
   // WHERE
   //   m.createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY)
@@ -125,14 +38,19 @@ export class UserService {
   //   m.channelId, m.userId
   // ORDER BY
   //   avgMessageCount DESC;
-  async averageMessagesPerChannelLastMonth(): Promise<Record<string, number>> {
+  async averageMessagesPerChannelLastMonth(
+    guildId: string,
+  ): Promise<Record<string, number>> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const messageStats = await this.database.message.groupBy({
+    const messageStats = await this.database.messages.groupBy({
       by: ['channelId', 'userId'],
       where: {
         createdAt: {
           gte: thirtyDaysAgo,
+        },
+        AND: {
+          guildId: guildId,
         },
       },
       _count: {

@@ -13,8 +13,7 @@ export const RequestUser = createParamDecorator<string>(
   (data: unknown, ctx: ExecutionContext) => {
     const userId = ctx
       .switchToHttp()
-      .getRequest<Request & { user: { user: { user_id: string } } }>().user
-      ?.user?.user_id;
+      .getRequest<Request & { user: { userId: string } }>().user.userId;
 
     if (!userId) {
       logger.error(`${ctx.getHandler().toString()} has a parameter with

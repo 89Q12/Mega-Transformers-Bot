@@ -7,11 +7,11 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt/guards/jwt-auth.guard';
-import { IsModGuard } from '../util/guards/is-mod.guard';
+import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
+import { IsModGuard } from '../../util/guards/is-mod.guard';
 import { SettingsDto } from './dto/settings.dto';
 import { SettingsService } from './settings.service';
-import { plainToInstance } from '../util/functions/plain-to-instance';
+import { plainToInstance } from '../../util/functions/plain-to-instance';
 import { HttpStatusCode } from 'axios';
 
 @Controller('settings')
@@ -19,13 +19,13 @@ import { HttpStatusCode } from 'axios';
 export class SettingsController {
   constructor(private readonly settingsService: SettingsService) {}
 
-  @Get(':guildId')
+  @Get('/')
   async getSettings(@Param('guildId') guildId: string): Promise<SettingsDto> {
     const settings = await this.settingsService.getSettings(guildId);
     return plainToInstance(SettingsDto, settings);
   }
 
-  @Put(':guildId')
+  @Put('/')
   @HttpCode(HttpStatusCode.Accepted)
   async putSettings(
     @Param('guildId') guildId: string,

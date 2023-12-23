@@ -18,7 +18,7 @@ import {
   UserSendDMFailedEvent,
   UserTimeOutEvent,
   UserTimeOutFailedEvent,
-} from 'src/moderation/events/user.events';
+} from 'src/guild/moderation/events/user.events';
 import { UseFilters } from '@nestjs/common';
 import { CommandValidationFilter } from '../filters/command-validation';
 

@@ -6,5 +6,5 @@ export const usePutSettings = () => {
   const api = useApi();
   const guildId = useGuildId();
   return (settings: Settings) =>
-    api.put(settings, `/settings/${guildId}`).text();
+    api.put(settings, `/guild/${guildId}/settings`).text();
 };

@@ -14,6 +14,12 @@ export const useFetchSelf = () => {
   const api = useApi();
 
   return (token?: string) => {
-    return api.auth(`Bearer ${token}`).get('/user/self').json<User>();
+    return (
+      api
+        .auth(`Bearer ${token}`)
+        // TODO: replace with actual guild id from GUILD SELECTION PAGE
+        .get('/guild/1011511871297302608/user/self')
+        .json<User>()
+    );
   };
 };

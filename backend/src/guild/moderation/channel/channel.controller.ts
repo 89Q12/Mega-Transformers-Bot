@@ -30,8 +30,8 @@ import {
 } from '../events/channel.event';
 import { ChannelNotTextBasedException } from 'src/util/exception/channel-not-text-based-exception';
 
-@ApiTags('discord/channel')
-@Controller('discord/channel')
+@ApiTags('/channel')
+@Controller('/channel')
 @UseGuards(JwtAuthGuard)
 export class ChannelController {
   logger = new Logger(ChannelController.name);
@@ -41,7 +41,7 @@ export class ChannelController {
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  @Get('guild/:guildId/channel')
+  @Get('/')
   @ApiOperation({ summary: 'Get all channels for a guild' })
   @ApiResponse({
     status: 200,
@@ -58,7 +58,7 @@ export class ChannelController {
     return (await guild.channels.fetch()).toJSON();
   }
 
-  @Get('guild/:guildId/:channelId')
+  @Get(':channelId')
   @ApiOperation({ summary: 'Get a channel for a guild' })
   @ApiResponse({
     status: 200,
@@ -76,7 +76,7 @@ export class ChannelController {
     return await guild.channels.fetch(channelId);
   }
 
-  @Put('guild/:guildId/channel/:channelId')
+  @Put(':channelId')
   @ApiOperation({ summary: 'Edit a channel for a guild' })
   async editChannel(
     @Param('guildId') guildId: string,
@@ -90,7 +90,7 @@ export class ChannelController {
     return channel;
   }
 
-  @Post('guild/:guildId/channel/:channelId/slowmode')
+  @Post(':channelId/slowmode')
   @ApiOperation({ summary: 'Set slowmode for a channel' })
   async setSlowmode(
     @Param('guildId') guildId: string,
@@ -111,7 +111,7 @@ export class ChannelController {
     await channel.edit({ rateLimitPerUser: duration });
   }
 
-  @Post('guild/:guildId/channel/:channelId/clean')
+  @Post(':channelId/clean')
   @ApiOperation({ summary: 'Clean a channel' })
   @ApiBody({
     schema: {

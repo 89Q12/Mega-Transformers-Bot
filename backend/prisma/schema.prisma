@@ -18,65 +18,71 @@ enum Rank {
   OWNER
 }
 
-model User {
-  userId      String  @id @unique
-  guildId     String
-  name        String
-  stats       Stats   @relation(fields: [userId], references: [userId])
-  unlocked    Boolean @default(false)
-  deactivated Boolean @default(false)
-  rank        Rank    @default(NEW)
+enum LimitType {
+  MAX_REACTIONS
+  MAX_EMBEDS
+  MAX_ATTACHMENTS
 }
 
-model Stats {
-  userId             String    @id @unique
+model User {
+  userId   String      @id @unique
+  Stats    GuildUser[]
+  Messages Messages[]
+}
+
+model GuildUser {
   guildId            String
-  user               User?
-  messages           Message[]
+  userId             String
   lastMessageSent    DateTime? @default(now())
   lastOnline         DateTime  @default(now())
   messageCountBucket Int       @default(30)
   firstMessageId     String    @default("")
+  unlocked           Boolean   @default(false)
+  deactivated        Boolean   @default(false)
+  rank               Rank      @default(NEW)
+  user               User      @relation(fields: [userId], references: [userId])
+  guild              Guild     @relation(fields: [guildId], references: [id])
+
+  @@id([guildId, userId])
 }
 
-model Message {
-  messageId   String   @id @unique
-  userId      String
-  channelId   String
-  guildId     String
-  stats       Stats    @relation(fields: [userId], references: [userId])
-  createdAt   DateTime
-  statsUserId String?
+model Messages {
+  messageId String   @id @unique
+  userId    String
+  channelId String
+  guildId   String
+  createdAt DateTime
+  user      User     @relation(fields: [userId], references: [userId])
+  guild     Guild    @relation(fields: [guildId], references: [id])
 }
 
 model RestrictedChannels {
-  channelId      String   @id @unique
+  channelId      String @id @unique
   guildId        String
-  requiredPoints Int      @default(0)
-  settings       Settings @relation(fields: [guildId], references: [guildId])
+  requiredPoints Int    @default(0)
+  guild          Guild  @relation(fields: [guildId], references: [id])
 }
 
 model AutoDeleteChannels {
-  channelId    String   @id @unique
+  channelId    String @id @unique
   guildId      String
-  deleteAtCron String   @default("0 0 * * *")
-  settings     Settings @relation(fields: [guildId], references: [guildId])
+  deleteAtCron String @default("0 0 * * *")
+  guild        Guild  @relation(fields: [guildId], references: [id])
 }
 
 model Settings {
-  guildId                String               @id @unique
-  prefix                 String               @default("!")
-  welcomeMessageFormat   String               @default("Welcome {user}!")
-  openIntroChannelId     String               @default("")
-  introChannelId         String               @default("")
-  leaveMessageFormat     String               @default("Goodbye {user}!")
-  leaveChannelId         String               @default("")
-  unverifiedMemberRoleId String               @default("")
-  verifiedMemberRoleId   String               @default("")
-  modRoleId              String               @default("")
-  adminRoleId            String               @default("")
-  restrictedChannels     RestrictedChannels[]
-  autoDeleteChannels     AutoDeleteChannels[]
+  guildId                String @id @unique
+  prefix                 String @default("!")
+  welcomeMessageFormat   String @default("Welcome {user}!")
+  openIntroChannelId     String @default("")
+  introChannelId         String @default("")
+  leaveMessageFormat     String @default("Goodbye {user}!")
+  leaveChannelId         String @default("")
+  unverifiedMemberRoleId String @default("")
+  verifiedMemberRoleId   String @default("")
+  modRoleId              String @default("")
+  adminRoleId            String @default("")
+  guild                  Guild  @relation(fields: [guildId], references: [id])
 }
 
 model AuditLog {
@@ -89,4 +95,26 @@ model AuditLog {
   targetId   String
   targetType String
   extraInfo  Json?
+  guild      Guild    @relation(fields: [guildId], references: [id])
+}
+
+model Limits {
+  id         Int       @id @default(autoincrement())
+  guildId    String
+  limitType  LimitType
+  limitValue Int
+  period     Int       @default(86400) // in seconds (1 day = 86400)
+  guild      Guild     @relation(fields: [guildId], references: [id])
+}
+
+model Guild {
+  id                 String               @id @unique
+  name               String               @default("")
+  Settings           Settings?
+  AutoDeleteChannels AutoDeleteChannels[]
+  RestrictedChannels RestrictedChannels[]
+  AuditLog           AuditLog[]
+  Limits             Limits[]
+  Messages           Messages[]
+  GuildUser          GuildUser[]
 }

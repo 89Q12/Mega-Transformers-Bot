@@ -1,16 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { GuildUserController } from './guild-user.controller';
+import { INJECT_DISCORD_CLIENT } from '@discord-nestjs/core';
 import { Rank } from '@prisma/client';
 import { Client } from 'discord.js';
-import { INJECT_DISCORD_CLIENT } from '@discord-nestjs/core';
+import { UserController } from 'src/guild/moderation/user/user.controller';
+import { UserService } from 'src/user/user.service';
+import { GuildUserService } from './guild-user.service';
 
-describe('UserController', () => {
-  let userController: UserController;
-  let userService: UserService;
+describe('GuildUserController', () => {
+  let userController: GuildUserController;
+
+  it('should be defined', () => {
+    expect(userController).toBeDefined();
+  });
+
+  let userService: GuildUserService;
   let client: Client;
   beforeEach(async () => {
-    userService = {} as UserService;
+    userService = {} as GuildUserService;
     client = {} as Client;
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
@@ -20,7 +27,7 @@ describe('UserController', () => {
       ],
     }).compile();
 
-    userController = module.get<UserController>(UserController);
+    userController = module.get<GuildUserController>(GuildUserController);
   });
 
   it('should be defined', () => {
@@ -35,7 +42,7 @@ describe('UserController', () => {
       rank: Rank.MEMBER,
       avatarUrl: 'https://example.com/avatar.png',
     };
-    userService.findOne = jest
+    userService.getGuildUser = jest
       .fn()
       .mockImplementation(() => Promise.resolve(result));
     client.users = {} as Client['users'];
@@ -49,6 +56,8 @@ describe('UserController', () => {
       }),
     );
 
-    expect(await userController.getSelf('616609333832187924')).toEqual(result);
+    expect(
+      await userController.getSelf('616609333832187924', '616609333832187924'),
+    ).toEqual(result);
   });
 });

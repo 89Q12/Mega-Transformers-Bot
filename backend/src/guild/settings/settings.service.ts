@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Settings } from '@prisma/client';
-import { GuildDoesNotExistException } from '../util/exception/guild-does-not-exist-exception';
+import { GuildDoesNotExistException } from '../../util/exception/guild-does-not-exist-exception';
 import { omit } from 'rambda/immutable';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SettingsChanged } from './events/settings-role-id-changed.event';
@@ -12,24 +12,16 @@ export class SettingsService {
     @Inject(PrismaService) private database: PrismaService,
     @Inject(EventEmitter2) private eventEmitter: EventEmitter2,
   ) {}
-
-  async createSettings(guildId: string) {
-    return await this.database.settings.create({
-      data: { guildId: guildId },
-    });
-  }
-
   async editSettings(
     guildId: string,
     settings: Partial<Omit<Settings, 'guildId'>>,
   ) {
     Object.keys(settings).forEach(async (key) => {
       if (key.endsWith('RoleId')) {
-        await this.eventEmitter.emitAsync(`settings.role.${key}.changed`, {
-          guildId: guildId,
-          value: settings[key],
-          eventType: key,
-        } as SettingsChanged);
+        await this.eventEmitter.emitAsync(
+          `settings.role.${key}.changed`,
+          new SettingsChanged(guildId, settings[key], key as keyof Settings),
+        );
       }
     });
     await this.database.settings.update({ where: { guildId }, data: settings });

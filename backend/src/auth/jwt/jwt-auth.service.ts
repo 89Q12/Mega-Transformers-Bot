@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '@prisma/client';
 import { AxiosError } from 'axios';
 import { OAuthErrorData } from 'discord.js';
 import { firstValueFrom, catchError } from 'rxjs';
@@ -18,17 +17,15 @@ export class JwtAuthService {
     private readonly usersService: UserService,
     private http: HttpService,
   ) {}
-  async login(user: User) {
+  async login(userId: string) {
     const payload = {
       sub: {
-        name: user.name,
-        user_id: user.userId.toString(),
+        userId,
       },
     };
     return {
       user: {
-        name: user.name,
-        user_id: user.userId.toString(),
+        user_id: userId,
       },
       accessToken: this.jwtService.sign(payload, {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
@@ -43,24 +40,26 @@ export class JwtAuthService {
       }),
     };
   }
-  async refreshToken(user: { user: User }) {
+  async refreshToken(userId: string) {
     const payload = {
-      sub: user.user,
+      sub: {
+        userId,
+      },
     };
 
     return {
       accessToken: this.jwtService.sign(payload),
     };
   }
-  async validateUser(profile: { id: string; username: string }): Promise<any> {
-    const user = await this.usersService.findOne(profile.id);
+  async validateUser(userId: string): Promise<string> {
+    const user = await this.usersService.findOneUser(userId);
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    return user;
+    return user.userId;
   }
-  async getUserFromCode(code: string): Promise<User> {
+  async getUserFromCode(code: string): Promise<string> {
     const response = await firstValueFrom(
       this.http
         .post(
@@ -107,6 +106,6 @@ export class JwtAuthService {
           }),
         ),
     );
-    return this.validateUser(data);
+    return this.validateUser(data.id);
   }
 }

@@ -8,12 +8,14 @@ import {
   MessageReaction,
   User,
 } from 'discord.js';
-import { UserService } from 'src/user/user.service';
 import { MessageFromUserGuard } from './guards/message-from-user.guard';
 import { IsUserUnlockedGuard } from './guards/user-is-unlocked.guard';
 import { ChannelIdGuard } from './guards/message-in-channel.guard';
 import { BotService } from './bot.service';
-import { SettingsService } from 'src/settings/settings.service';
+import { SettingsService } from 'src/guild/settings/settings.service';
+import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import { Rank } from '@prisma/client';
+import { GuildService } from 'src/guild/guild.service';
 
 @Injectable()
 export class BotGateway {
@@ -21,9 +23,11 @@ export class BotGateway {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
-    @Inject(UserService) private readonly userService: UserService,
+    @Inject(GuildUserService)
+    private readonly guildUserService: GuildUserService,
     @Inject(SettingsService) private readonly settingsService: SettingsService,
     @Inject(BotService) private readonly discordService: BotService,
+    @Inject(GuildService) private readonly guildService: GuildService,
   ) {}
 
   // Runs whenever the discordjs websocket gets recreated
@@ -31,14 +35,9 @@ export class BotGateway {
   async onReady(): Promise<void | Error> {
     await this.client.guilds.fetch();
     this.client.guilds.cache.forEach(async (guild) => {
-      try {
-        await this.settingsService.getSettings(guild.id);
-      } catch (e) {
-        this.logger.log(
-          "Couldn't find settings for guild, not adding users to database",
-        );
-        this.settingsService.createSettings(guild.id);
-      }
+      await this.guildService.upsertGuild(guild.id, {
+        name: guild.name,
+      });
       this.discordService.addMembers(guild.id);
     });
   }
@@ -47,30 +46,28 @@ export class BotGateway {
   async addMember(member: GuildMember) {
     this.logger.log(`Adding member ${member.user.username} to database.`);
     if (member.user.bot) return;
-    await this.userService.upsert(
-      member.id,
-      member.user.username,
-      member.guild.id,
-      'NEW',
-      false,
-    );
+    await this.discordService.addMember(member.id, member.guild.id, {
+      rank: Rank.NEW,
+      unlocked: false,
+    });
   }
 
   @On('guildMemberRemove')
   async removeMember(member: GuildMember) {
-    await this.userService.deleteOne(member.id);
+    await this.guildUserService.deleteOne(member.id, member.guild.id);
   }
   @On('messageCreate')
   @UseGuards(MessageFromUserGuard, IsUserUnlockedGuard)
   async onMessage(message: Message): Promise<void> {
-    await this.userService.insertMessage(
+    await this.guildUserService.insertMessage(
       message.author.id,
       message.id,
       message.channelId,
       message.guildId,
     );
-    await this.userService.updateMessageCountBucket(
-      await this.userService.findOne(message.author.id),
+    await this.guildUserService.updateMessageCountBucket(
+      message.author.id,
+      message.guildId,
     );
   }
 
@@ -80,9 +77,12 @@ export class BotGateway {
     // Get first message from user in the introduction channel and post it to the open introduction channel
     const messages = await message.channel.messages.fetch({ limit: 1 });
     const firstMessage = messages.first();
-    await this.userService.setFirstMessageId(
-      firstMessage.id,
+    await this.guildUserService.upsert(
       firstMessage.author.id,
+      message.guildId,
+      {
+        firstMessageId: firstMessage.id,
+      },
     );
   }
   @On('messageCreate')
@@ -97,7 +97,12 @@ export class BotGateway {
     if (reaction.message.channelId != '1121822614374060175') return;
     if (
       !['MOD', 'ADMIN', 'OWNER'].includes(
-        (await this.userService.findOne(userReacted.id)).rank,
+        (
+          await this.guildUserService.getGuildUser(
+            userReacted.id,
+            reaction.message.guildId,
+          )
+        ).rank,
       )
     )
       return;
@@ -114,12 +119,18 @@ export class BotGateway {
         (await this.settingsService.getIntroChannelId(
           reaction.message.guildId,
         )) &&
-      (await this.userService.findOne(reaction.message.author.id)).rank ===
-        'NEW' &&
+      (
+        await this.guildUserService.getGuildUser(
+          reaction.message.author.id,
+          reaction.message.guildId,
+        )
+      ).rank === 'NEW' &&
       reaction.emoji.name === '✅'
     ) {
       console.log('unlocking user');
-      await this.userService.unlockUser(user.id);
+      await this.guildUserService.upsert(user.id, reaction.message.guildId, {
+        unlocked: true,
+      });
       const member = await (
         await this.client.guilds.fetch(reaction.message.guildId)
       ).members.fetch(user.id);
@@ -157,24 +168,14 @@ export class BotGateway {
   @On('guildMemberUpdate')
   async updateRank(oldMember: GuildMember, newMember: GuildMember) {
     // check if user has been promoted to mod or admin
-    if (
-      !oldMember.roles.cache.has(
-        await this.settingsService.getModRoleId(oldMember.guild.id),
-      ) &&
-      newMember.roles.cache.has(
-        await this.settingsService.getModRoleId(newMember.guild.id),
-      )
-    ) {
-      await this.userService.setRank(newMember.id, 'MOD');
-    } else if (
-      !oldMember.roles.cache.has(
-        await this.settingsService.getAdminRoleId(oldMember.guild.id),
-      ) &&
-      newMember.roles.cache.has(
-        await this.settingsService.getAdminRoleId(newMember.guild.id),
-      )
-    ) {
-      await this.userService.setRank(newMember.id, 'ADMIN');
-    }
+    const oldRank = await this.discordService.getRank(oldMember);
+    const newRank = await this.discordService.getRank(newMember);
+    if (oldRank === newRank) return;
+    this.logger.log(
+      `User ${newMember.user.username} has been promoted from ${oldRank} to ${newRank}`,
+    );
+    await this.guildUserService.upsert(newMember.id, newMember.guild.id, {
+      rank: newRank,
+    });
   }
 }

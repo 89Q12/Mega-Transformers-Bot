@@ -10,7 +10,7 @@ export const useGetSettings = () => {
   useEffect(() => {
     if (!guildId) return;
     api
-      .get(`/settings/${guildId}`)
+      .get(`/guild/${guildId}/settings`)
       .json<Settings>()
       .then((settings) => setSettings(settings));
   }, [api, guildId]);

@@ -1,13 +1,12 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
-import { User } from '@prisma/client';
+import { GuildUser } from '@prisma/client';
 import { Client } from 'discord.js';
-import { AuditLogService } from 'src/auditlog/auditlog.service';
 import { BotService } from 'src/bot/bot.service';
-import { UserService } from 'src/user/user.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { UserTimeOutEvent } from 'src/moderation/events/user.events';
+import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
+import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 
 const logger = new Logger('TaskService');
 
@@ -15,10 +14,9 @@ const logger = new Logger('TaskService');
 export class TasksService {
   constructor(
     @Inject(BotService) private botService: BotService,
-    @Inject(UserService) private userService: UserService,
+    @Inject(GuildUserService) private userService: GuildUserService,
     @InjectDiscordClient()
     private readonly client: Client,
-    @Inject(AuditLogService) private auditLogService: AuditLogService,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
@@ -28,12 +26,14 @@ export class TasksService {
   })
   async checkActiveUsers() {
     this.client.guilds.cache.forEach(async (guild) => {
-      (await this.userService.findAll(guild.id)).forEach(async (user: User) => {
-        if (user.rank != 'MEMBER') return;
-        logger.log(`Checking user ${user.userId} for activity...`);
-        this.userService.updateMessageCountBucket(user);
-        this.botService.updateChannelPermissions(user);
-      });
+      (await this.userService.findAll(guild.id)).forEach(
+        async (user: GuildUser) => {
+          if (user.rank != 'MEMBER') return;
+          logger.log(`Checking user ${user.userId} for activity...`);
+          this.userService.updateMessageCountBucket(user.userId, user.guildId);
+          this.botService.updateChannelPermissions(user);
+        },
+      );
     });
   }
 
@@ -45,7 +45,7 @@ export class TasksService {
   async checkTimeouts() {
     this.client.guilds.cache.forEach(async (guild) => {
       (await this.userService.findAll(guild.id)).forEach(
-        async (dbUser: User) => {
+        async (dbUser: GuildUser) => {
           const member = await this.client.guilds.cache
             .get(guild.id)
             .members.fetch(dbUser.userId.toString());

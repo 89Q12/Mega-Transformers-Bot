@@ -19,7 +19,7 @@ import {
   UserBanEvent,
   UserKickEvent,
   UserTimeOutEvent,
-} from 'src/moderation/events/user.events';
+} from 'src/guild/moderation/events/user.events';
 @Injectable()
 export default class AuditEvents {
   constructor(
@@ -197,7 +197,6 @@ export default class AuditEvents {
 
   @On('messageDelete')
   async messageDelete(message: Message) {
-    console.log(message);
     const logEntry: LogEntry = {
       action: 'MESSAGE_DELETED',
       guildId: message.guild.id,

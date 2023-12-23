@@ -12,7 +12,7 @@ export const useGetRoles = () => {
   useEffect(() => {
     if (!guildId) return;
     api
-      .get(`/discord/role/${guildId}/roles`)
+      .get(`/guild/${guildId}/moderation/role/`)
       .json<Role[]>()
       .then((roles) => setRoles(roles));
   }, [guildId, api]);

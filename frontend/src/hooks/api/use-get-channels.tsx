@@ -11,7 +11,7 @@ export const useGetChannels = () => {
   useEffect(() => {
     if (!guildId) return;
     api
-      .get(`/discord/channel/guild/${guildId}/channel`)
+      .get(`/guild/${guildId}/moderation/channel`)
       .json<Channel[]>()
       .then((channels) => setChannels(channels));
   }, [guildId, api]);

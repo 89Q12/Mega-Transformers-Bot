@@ -27,7 +27,7 @@ import {
   UserPurgeEvent,
   UserTimeOutEvent,
 } from '../events/user.events';
-@Controller('discord/user')
+@Controller('/user')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class UserController {
@@ -37,7 +37,7 @@ export class UserController {
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
-  @Get(':guildId/users')
+  @Get('/')
   @ApiOperation({ summary: 'Get all users for a guild' })
   @ApiResponse({
     status: 200,
@@ -52,7 +52,7 @@ export class UserController {
     return members.map((member) => member.user);
   }
 
-  @Get(':guildId/user/:userId')
+  @Get(':userId')
   @ApiOperation({ summary: 'Get a user for a guild' })
   @ApiResponse({
     status: 200,
@@ -69,7 +69,7 @@ export class UserController {
     this.logger.log(`Found member ${member.user.username} in guild ${guildId}`);
     return member.user;
   }
-  @Post(':guildId/user/:userId/ban')
+  @Post(':userId/ban')
   @ApiOperation({ summary: 'Ban a user from a guild' })
   @ApiResponse({
     status: 200,
@@ -88,14 +88,13 @@ export class UserController {
     );
   }
 
-  @Post(':guildId/user/:userId/kick')
+  @Post(':userId/kick')
   @ApiOperation({ summary: 'Kick a user from a guild' })
   @ApiResponse({
     status: 200,
     description: 'User was successfully kicked',
   })
   async kickUser(
-    @Req() req,
     @Param('guildId') guildId: string,
     @Param('userId') userId: string,
   ): Promise<void> {
@@ -108,7 +107,7 @@ export class UserController {
     );
   }
 
-  @Post(':guildId/user/:userId/timeout/:duration')
+  @Post(':userId/timeout/:duration')
   @ApiOperation({ summary: 'Timeout a user from a guild' })
   @ApiResponse({
     status: 200,
@@ -145,7 +144,7 @@ export class UserController {
     );
   }
 
-  @Post(':guildId/user/:userId/purge')
+  @Post(':userId/purge')
   @ApiOperation({
     summary: 'Purge a user from a guild VERY EXPENSIVEEEEEE, USE WITH CAUTION',
   })

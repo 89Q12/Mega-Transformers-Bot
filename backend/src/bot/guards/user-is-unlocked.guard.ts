@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Message } from 'discord.js';
-import { SettingsService } from 'src/settings/settings.service';
+import { SettingsService } from 'src/guild/settings/settings.service';
 
 interface DiscordExecutionContext extends ExecutionContext {
   getMessage(): Message;

@@ -1,6 +1,8 @@
 import { Settings } from '@prisma/client';
-import { IsOptional, IsString } from 'class-validator';
+import { IsInstance, IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { AutoDeleteChannelDto } from './auto-delete-channels.dto';
+import { RestrictedChannelDto } from './restricted-channels.dto';
 
 export class SettingsDto implements Omit<Settings, 'guildId'> {
   @IsString()

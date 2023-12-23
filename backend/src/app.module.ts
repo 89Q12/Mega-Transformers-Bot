@@ -9,10 +9,13 @@ import { GatewayIntentBits, Partials } from 'discord.js';
 import { BotModule } from './bot/bot.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ModerationModule } from './moderation/moderation.module';
-import { SettingsModule } from './settings/settings.module';
+import { ModerationModule } from './guild/moderation/moderation.module';
+import { SettingsModule } from './guild/settings/settings.module';
 import { AuditLogModule } from './auditlog/auditlog.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { GuildUserModule } from './guild/guild-user/guild-user.module';
+import { GuildModule } from './guild/guild.module';
+import { RouterModule } from '@nestjs/core';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -20,8 +23,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       isGlobal: true,
       ignoreEnvVars: false,
     }),
-    UserModule,
-    JwtAuthModule,
     DiscordModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -71,12 +72,42 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     EventEmitterModule.forRoot({
       wildcard: true,
     }),
+    RouterModule.register([
+      {
+        path: 'guild/:guildId',
+        children: [
+          {
+            path: '/',
+            module: GuildModule,
+          },
+          {
+            path: '/auditlog',
+            module: AuditLogModule,
+          },
+          {
+            path: '/user',
+            module: GuildUserModule,
+          },
+          {
+            path: '/settings',
+            module: SettingsModule,
+          },
+          {
+            path: '/moderation',
+            module: ModerationModule,
+          },
+        ],
+      },
+    ]),
+    UserModule,
+    JwtAuthModule,
+    GuildModule,
     BotModule,
-    TasksModule,
     TasksModule,
     ModerationModule,
     SettingsModule,
     AuditLogModule,
+    GuildUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

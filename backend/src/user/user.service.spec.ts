@@ -52,7 +52,7 @@ describe('UserService', () => {
       deactivated: false,
     };
     prisma.user.findUnique.mockResolvedValue(result);
-    expect(await service.findOne(result.userId)).toEqual(result);
+    expect(await service.findOneUser(result.userId)).toEqual(result);
     expect(prisma.user.findUnique).toBeCalledWith({
       where: { userId: result.userId },
     });
@@ -100,7 +100,7 @@ describe('UserService', () => {
 
   it('should unlock a user', async () => {
     prisma.user.update.mockImplementation();
-    service.findOne = jest.fn().mockImplementation(() =>
+    service.findOneUser = jest.fn().mockImplementation(() =>
       Promise.resolve({
         userId: '322822954796974080',
         name: 'John Doe',
@@ -119,7 +119,7 @@ describe('UserService', () => {
   });
   it('should set a rank', async () => {
     prisma.user.update.mockImplementation();
-    service.findOne = jest.fn().mockImplementation(() =>
+    service.findOneUser = jest.fn().mockImplementation(() =>
       Promise.resolve({
         userId: '322822954796974080',
         name: 'John Doe',
@@ -138,7 +138,7 @@ describe('UserService', () => {
   });
   it('should set a first message id', async () => {
     prisma.stats.update.mockImplementation();
-    service.findOne = jest.fn().mockImplementation(() =>
+    service.findOneUser = jest.fn().mockImplementation(() =>
       Promise.resolve({
         userId: '322822954796974080',
         name: 'John Doe',
@@ -159,7 +159,7 @@ describe('UserService', () => {
   it('should insert a message', async () => {
     //@ts-expect-error - PrismaClient is mocked
     prisma.message.create.mockImplementation();
-    service.findOne = jest.fn().mockImplementation(() =>
+    service.findOneUser = jest.fn().mockImplementation(() =>
       Promise.resolve({
         userId: '322822954796974080',
         name: 'John Doe',
@@ -187,7 +187,7 @@ describe('UserService', () => {
   it('should return stats', async () => {
     const userId = '322822954796974080';
     prisma.stats.findUnique.mockImplementation();
-    await service.getStats(userId);
+    await service.getGuildUser(userId);
     expect(prisma.stats.findUnique).toBeCalledWith({
       where: { userId: userId },
     });

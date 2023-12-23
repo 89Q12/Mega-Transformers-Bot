@@ -1,6 +1,6 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { Rank, User } from '@prisma/client';
+import { Rank, GuildUser } from '@prisma/client';
 import {
   BaseGuildTextChannel,
   GuildMember,
@@ -9,16 +9,18 @@ import {
 } from 'discord.js';
 import { Client } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
-import { SettingsService } from 'src/settings/settings.service';
-import { UserService } from 'src/user/user.service';
+import { SettingsService } from 'src/guild/settings/settings.service';
 import { OnEvent } from '@nestjs/event-emitter';
-import { SettingsChanged } from 'src/settings/events/settings-role-id-changed.event';
+import { SettingsChanged } from 'src/guild/settings/events/settings-role-id-changed.event';
+import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class BotService {
   constructor(
     @InjectDiscordClient() private client: Client,
     @Inject(PrismaService) private database: PrismaService,
     @Inject(SettingsService) private settings: SettingsService,
+    @Inject(GuildUserService) private guildUserService: GuildUserService,
     @Inject(UserService) private userService: UserService,
   ) {}
 
@@ -37,7 +39,7 @@ export class BotService {
   }
   private async _isMemberVerified(user_id: string, guild_id: string) {
     return (
-      await this.client.guilds.cache.first().members.fetch(user_id)
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
     ).roles.cache.has(
       (await this.settings.getVerifiedMemberRoleId(guild_id)).toString(),
     );
@@ -47,7 +49,7 @@ export class BotService {
     guild_id: string,
   ): Promise<boolean> {
     return (
-      await this.client.guilds.cache.first().members.fetch(user_id)
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
     ).roles.cache.has((await this.settings.getModRoleId(guild_id)).toString());
   }
   private async _isMemberAdmin(
@@ -55,19 +57,19 @@ export class BotService {
     guild_id: string,
   ): Promise<boolean> {
     return (
-      await this.client.guilds.cache.first().members.fetch(user_id)
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
     ).roles.cache.has(
       (await this.settings.getAdminRoleId(guild_id)).toString(),
     );
   }
 
-  async updateChannelPermissions(user: User) {
+  async updateChannelPermissions(user: GuildUser) {
     (
       await this._getLockedChannels(
         (
-          await this.database.stats.findUnique({
+          await this.database.guildUser.findUnique({
             where: {
-              userId: user.userId,
+              guildId_userId: { userId: user.userId, guildId: user.guildId },
             },
           })
         ).messageCountBucket,
@@ -78,9 +80,9 @@ export class BotService {
     (
       await this._getUnlockedChannels(
         (
-          await this.database.stats.findUnique({
+          await this.database.guildUser.findUnique({
             where: {
-              userId: user.userId,
+              guildId_userId: { userId: user.userId, guildId: user.guildId },
             },
           })
         ).messageCountBucket,
@@ -109,31 +111,23 @@ export class BotService {
   async addMembers(guildId: string) {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
-    const knownMembers = Array<string>();
     members.forEach(async (member: GuildMember) => {
       if (!member.user.bot) {
         const rank = await this.getRank(member);
-        const user = await this.userService.upsert(
-          member.id,
-          member.user.username,
-          member.guild.id,
-          rank,
-          rank !== 'NEW',
-        );
-        knownMembers.push(user.userId);
+        await this.addMember(member.id, member.guild.id, {
+          rank: rank,
+          unlocked: rank !== 'NEW',
+        });
       }
     });
-    const orphanedUsers = this.database.user.findMany({
-      where: {
-        userId: {
-          notIn: knownMembers,
-        },
-        guildId: guildId,
-      },
-    });
-    (await orphanedUsers).forEach((user) =>
-      this.userService.deleteOne(user.userId),
-    );
+  }
+  async addMember(
+    userId: string,
+    guildId: string,
+    data: Omit<Omit<Partial<GuildUser>, 'userId'>, 'guildId'>,
+  ) {
+    await this.userService.upsert(userId);
+    await this.guildUserService.upsert(userId, guildId, data);
   }
   @OnEvent('settings.role.*.changed')
   async onAdminRoleIdChanged(payload: SettingsChanged) {
