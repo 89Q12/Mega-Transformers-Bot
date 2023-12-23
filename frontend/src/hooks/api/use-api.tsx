@@ -2,8 +2,11 @@ import { useContext, useMemo } from 'react';
 import wretch from 'wretch';
 import { UserContext } from '../../state/user.context.tsx';
 import QueryStringAddon from 'wretch/addons/queryString';
+import { normalizeUrlMiddleware } from './normalize-url-middleware.tsx';
 
-const instance = wretch(import.meta.env.VITE_API_URL).addon(QueryStringAddon);
+const instance = wretch(import.meta.env.VITE_API_URL)
+  .middlewares([normalizeUrlMiddleware])
+  .addon(QueryStringAddon);
 
 export const useApi = () => {
   const user = useContext(UserContext);
