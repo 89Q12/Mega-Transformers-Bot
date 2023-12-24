@@ -1,4 +1,4 @@
-import { useApi } from './use-api.tsx';
+import { useGlobalApi } from './use-api.tsx';
 
 export type Rank = 'NEW' | 'MEMBER' | 'MOD' | 'ADMIN' | 'OWNER';
 
@@ -11,7 +11,7 @@ export interface User {
 }
 
 export const useFetchSelf = () => {
-  const api = useApi();
+  const api = useGlobalApi();
 
   return (token?: string) => {
     return (

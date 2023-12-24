@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useApi } from '../../hooks/api/use-api.tsx';
+import { useGlobalApi } from '../../hooks/api/use-api.tsx';
 import { UserContext } from '../../state/user.context';
 import { useFetchSelf } from '../../hooks/api/use-fetch-self.tsx';
 
@@ -13,7 +13,7 @@ interface FetchTokenResponse {
 }
 
 export const useFetchToken = () => {
-  const api = useApi();
+  const api = useGlobalApi();
   const fetchSelf = useFetchSelf();
   const { set } = useContext(UserContext);
   const [usedCodes, setUsedCodes] = useState<string[]>([]);

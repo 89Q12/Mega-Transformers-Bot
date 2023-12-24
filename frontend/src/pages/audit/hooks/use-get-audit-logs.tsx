@@ -1,5 +1,4 @@
-import { useApi } from '../../../hooks/api/use-api.tsx';
-import { useGuildId } from '../../../hooks/state/use-guild-id.tsx';
+import { useGuildApi } from '../../../hooks/api/use-api.tsx';
 import { TargetType } from '../domain/target-type.tsx';
 import { Action } from '../domain/action.tsx';
 import { LogEntry } from '../domain/log-entry.tsx';
@@ -20,8 +19,7 @@ export const useGetAuditLogs = ({
   filter: AuditLogFilter;
   pagination: Pagination;
 }) => {
-  const api = useApi();
-  const guildId = useGuildId();
+  const api = useGuildApi();
   const [auditLogs, setAuditLogs] = useState<{
     data: LogEntry[];
     total: number;
@@ -32,11 +30,11 @@ export const useGetAuditLogs = ({
     setRefreshing((it) => it + 1);
     api
       .query({ ...filter, ...pagination })
-      .get(`/auditlog/${guildId}`)
+      .get(`/auditlog/`)
       .json<{ data: LogEntry[]; total: number }>()
       .then((auditLogs) => setAuditLogs(auditLogs))
       .finally(() => setRefreshing((it) => it - 1));
-  }, [guildId, api, filter, pagination.offset, pagination.limit]);
+  }, [api, filter, pagination.offset, pagination.limit]);
 
   const isRefreshing = useMemo(
     () => refreshing > 0 && !!auditLogs,

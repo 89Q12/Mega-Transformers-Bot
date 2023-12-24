@@ -3,13 +3,15 @@ import wretch from 'wretch';
 import { UserContext } from '../../state/user.context.tsx';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { normalizeUrlMiddleware } from './normalize-url-middleware.tsx';
+import { useGuildId } from '../state/use-guild-id.tsx';
 
 const instance = wretch(import.meta.env.VITE_API_URL)
   .middlewares([normalizeUrlMiddleware])
   .addon(QueryStringAddon);
 
-export const useApi = () => {
+const useApi = ({ prependGuildId }: { prependGuildId: boolean }) => {
   const user = useContext(UserContext);
+  const guildId = useGuildId();
 
   return useMemo(() => {
     const authenticated = () => {
@@ -18,12 +20,23 @@ export const useApi = () => {
     };
     return authenticated().middlewares([
       (next) => async (url, opts) => {
-        const response = await next(url, opts);
+        if (prependGuildId && !guildId) {
+          throw new Error(
+            'Having a guild selected is required for this request',
+          );
+        }
+        const prependedUrl = prependGuildId
+          ? `/guild/${guildId}/${url.replace(/^\//, '')}`
+          : url;
+        const response = await next(prependedUrl, opts);
         if (response.status === 401) {
           user.clear();
         }
         return response;
       },
     ]);
-  }, [user]);
+  }, [user, guildId, prependGuildId]);
 };
+
+export const useGlobalApi = () => useApi({ prependGuildId: false });
+export const useGuildApi = () => useApi({ prependGuildId: true });

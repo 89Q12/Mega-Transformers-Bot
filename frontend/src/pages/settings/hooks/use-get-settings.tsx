@@ -1,18 +1,15 @@
-import { useApi } from '../../../hooks/api/use-api.tsx';
+import { useGuildApi } from '../../../hooks/api/use-api.tsx';
 import { Settings } from '../domain/settings.tsx';
 import { useEffect, useState } from 'react';
-import { useGuildId } from '../../../hooks/state/use-guild-id.tsx';
 
 export const useGetSettings = () => {
-  const api = useApi();
-  const guildId = useGuildId();
+  const api = useGuildApi();
   const [settings, setSettings] = useState<Settings>();
   useEffect(() => {
-    if (!guildId) return;
     api
-      .get(`/guild/${guildId}/settings`)
+      .get(`/settings`)
       .json<Settings>()
       .then((settings) => setSettings(settings));
-  }, [api, guildId]);
+  }, [api]);
   return settings;
 };
