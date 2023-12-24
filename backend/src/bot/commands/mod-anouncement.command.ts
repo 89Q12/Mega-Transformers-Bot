@@ -24,14 +24,15 @@ export class MumVoice {
     @InteractionEvent() interaction: CommandInteraction,
     @IA(SlashCommandPipe, ValidationPipe) message: ModAnouncementDto,
   ): Promise<void> {
-    await interaction.deleteReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
     try {
       await interaction.channel.send(message.message);
     } catch (err) {
-      interaction.followUp({
+      interaction.editReply({
         content: `Failed to send message in this channel with error: ${err} and message:
           ${message.message}`,
-        ephemeral: true,
       });
     }
   }
