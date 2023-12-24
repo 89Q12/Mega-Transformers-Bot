@@ -17,6 +17,7 @@ export class JwtAuthService {
     private readonly usersService: UserService,
     private http: HttpService,
   ) {}
+
   async login(userId: string) {
     const payload = {
       sub: {
@@ -40,6 +41,7 @@ export class JwtAuthService {
       }),
     };
   }
+
   async refreshToken(userId: string) {
     const payload = {
       sub: {
@@ -51,6 +53,7 @@ export class JwtAuthService {
       accessToken: this.jwtService.sign(payload),
     };
   }
+
   async validateUser(userId: string): Promise<string> {
     const user = await this.usersService.findOneUser(userId);
     if (!user) {
@@ -59,22 +62,22 @@ export class JwtAuthService {
 
     return user.userId;
   }
+
   async getUserFromCode(code: string): Promise<string> {
     const response = await firstValueFrom(
       this.http
         .post(
           'https://discordapp.com/api/oauth2/token',
-          {
-            grant_type: 'authorization_code',
+          new URLSearchParams({
+            client_id: this.configService.get('DISCORD_OAUTH_CLIENT_ID'),
+            client_secret: this.configService.get('DISCORD_OAUTH_SECRET'),
             code: code,
+            grant_type: 'authorization_code',
             redirect_uri: this.configService.get('DISCORD_CALLBACK_URL'),
-          },
+            scope: 'identify',
+          }),
           {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            auth: {
-              username: this.configService.get('DISCORD_OAUTH_CLIENT_ID'),
-              password: this.configService.get('DISCORD_OAUTH_SECRET'),
-            },
           },
         )
         .pipe(
