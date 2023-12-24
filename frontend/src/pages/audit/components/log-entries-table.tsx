@@ -14,7 +14,7 @@ export const LogEntriesTable: FC<{ auditLogs: LogEntry[] }> = ({
   auditLogs,
 }) => (
   <TableContainer>
-    <Table>
+    <Table variant="striped" colorScheme="gray">
       <Thead>
         <Tr>
           <Th>Date</Th>

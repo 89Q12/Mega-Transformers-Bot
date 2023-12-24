@@ -8,8 +8,8 @@ import { Pagination } from '../../../hooks/ui/use-pagination.tsx';
 export interface AuditLogFilter {
   createdFrom?: string;
   createdTill?: string;
-  targetTypes?: TargetType[];
-  actions?: Action[];
+  targetType?: TargetType;
+  action?: Action;
 }
 
 export const useGetAuditLogs = ({
@@ -29,8 +29,11 @@ export const useGetAuditLogs = ({
   useEffect(() => {
     setRefreshing((it) => it + 1);
     api
-      .query({ ...filter, ...pagination })
-      .get(`/auditlog/`)
+      .query({
+        ...filter,
+        ...pagination,
+      })
+      .get(`/auditlog`)
       .json<{ data: LogEntry[]; total: number }>()
       .then((auditLogs) => setAuditLogs(auditLogs))
       .finally(() => setRefreshing((it) => it - 1));

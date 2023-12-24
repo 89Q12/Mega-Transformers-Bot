@@ -25,8 +25,13 @@ const useApi = ({ prependGuildId }: { prependGuildId: boolean }) => {
             'Having a guild selected is required for this request',
           );
         }
+
+        const parsedUrl = new URL(url);
         const prependedUrl = prependGuildId
-          ? `/guild/${guildId}/${url.replace(/^\//, '')}`
+          ? `${parsedUrl.origin}/guild/${guildId}/${parsedUrl.pathname.replace(
+              /^\//,
+              '',
+            )}${parsedUrl.search}`
           : url;
         const response = await next(prependedUrl, opts);
         if (response.status === 401) {

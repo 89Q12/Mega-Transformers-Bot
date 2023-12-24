@@ -13,13 +13,13 @@ import { LogEntryDto } from './dto/log-entry.dto';
 import { plainToInstance } from '../util/functions/plain-to-instance';
 import { Action, TargetType } from '../util/dto/log.entry.dto';
 
-@Controller('auditlog')
+@Controller()
 export class AuditLogController {
   constructor(
     @Inject(AuditLogService) private readonly auditLogService: AuditLogService,
   ) {}
 
-  @Get(':guildId')
+  @Get()
   async getAuditLog(
     @Param('guildId') guildId: string,
     @Query(ValidationPipe) filter: AuditLogFilterDto,

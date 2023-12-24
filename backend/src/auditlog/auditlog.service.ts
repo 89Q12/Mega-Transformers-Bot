@@ -8,7 +8,7 @@ export class AuditLogService {
   constructor(@Inject(PrismaService) private prismaService: PrismaService) {}
 
   async create(entry: LogEntry) {
-    return await this.prismaService.auditLog.create({
+    return this.prismaService.auditLog.create({
       data: {
         action: entry.action,
         guildId: entry.guildId,
@@ -40,8 +40,8 @@ export class AuditLogService {
                 : undefined,
             }
           : undefined,
-      action: filter.actions ? { in: filter.actions } : undefined,
-      targetType: filter.targetTypes ? { in: filter.targetTypes } : undefined,
+      action: filter.action,
+      targetType: filter.targetType,
     };
 
     return {
