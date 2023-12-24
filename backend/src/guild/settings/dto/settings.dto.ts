@@ -54,4 +54,9 @@ export class SettingsDto implements Omit<Settings, 'guildId'> {
   @IsOptional()
   @ApiPropertyOptional({ type: String })
   adminRoleId: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional({ type: String })
+  modChannelId: string;
 }

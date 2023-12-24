@@ -6,6 +6,8 @@ import {
   InteractionEvent,
 } from '@discord-nestjs/core';
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
   Client,
   CommandInteraction,
   EmbedBuilder,
@@ -21,6 +23,7 @@ import {
 } from 'src/guild/moderation/events/user.events';
 import { UseFilters } from '@nestjs/common';
 import { CommandValidationFilter } from '../filters/command-validation';
+import { needHelpButton } from 'src/util/functions/menu-helper';
 
 @Command({
   name: 'timeout',
@@ -67,12 +70,15 @@ export class TimeOutCommand {
     }
     try {
       if (error.length) throw new Error('Timeout failed, therefore no DM');
-      await user.send(
-        `Du hast einen Timeout bis ${new Date(
+      await user.send({
+        content: `Du hast einen Timeout bis ${new Date(
           dto.duration,
         ).toString()}, bei Fragen wende dich an die Mods. 
 Grund: ${dto.reason}`,
-      );
+        components: [
+          new ActionRowBuilder<ButtonBuilder>().addComponents(needHelpButton()),
+        ],
+      });
     } catch (err) {
       error.push(err);
       this.eventEmitter.emit(

@@ -54,9 +54,12 @@ export class GuildUserService {
       await this.database.user.delete({ where: { userId } });
     }
   }
-  async findAll(guildId: string): Promise<Array<GuildUser>> {
+  async findAll(
+    guildId: string | undefined = undefined,
+    userId: string | undefined = undefined,
+  ): Promise<Array<GuildUser>> {
     const users = await this.database.guildUser.findMany({
-      where: { guildId: guildId },
+      where: { OR: [{ userId }, { guildId }] },
     });
     if (!users) return [];
     return users;
@@ -68,8 +71,6 @@ export class GuildUserService {
   ): Promise<void> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const currentBucket =
-      (await this.getGuildUser(userId, guildId)).messageCountBucket ?? 30;
     const messageCount = await this.database.messages.count({
       where: {
         AND: {
@@ -83,7 +84,7 @@ export class GuildUserService {
     });
     await this.database.guildUser.update({
       where: { guildId_userId: { userId, guildId } },
-      data: { messageCountBucket: currentBucket - messageCount },
+      data: { messageCountBucket: messageCount },
     });
   }
   async isActive(userId: string, guildId: string): Promise<boolean> {

@@ -17,7 +17,7 @@ export class IsUserUnlockedGuard implements CanActivate {
   ) {}
   async canActivate(context: DiscordExecutionContext): Promise<boolean> {
     const message: Message = context.getArgByIndex(0);
-    if (!(message instanceof Message) && !(message as Message).inGuild) {
+    if (!(message instanceof Message) || !(message as Message).inGuild()) {
       return false;
     }
     return message.member.roles.cache.has(

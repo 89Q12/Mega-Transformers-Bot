@@ -24,6 +24,13 @@ enum LimitType {
   MAX_ATTACHMENTS
 }
 
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  AUDIO
+  OTHER
+}
+
 model User {
   userId   String      @id @unique
   Stats    GuildUser[]
@@ -47,13 +54,14 @@ model GuildUser {
 }
 
 model Messages {
-  messageId String   @id @unique
+  messageId String          @id @unique
   userId    String
   channelId String
   guildId   String
   createdAt DateTime
-  user      User     @relation(fields: [userId], references: [userId])
-  guild     Guild    @relation(fields: [guildId], references: [id])
+  metadata  MessageMetadata @relation(fields: [messageId], references: [messageId])
+  user      User            @relation(fields: [userId], references: [userId])
+  guild     Guild           @relation(fields: [guildId], references: [id])
 }
 
 model RestrictedChannels {
@@ -73,7 +81,7 @@ model AutoDeleteChannels {
 model Settings {
   guildId                String @id @unique
   prefix                 String @default("!")
-  welcomeMessageFormat   String @default("Welcome {user}!")
+  welcomeMessageFormat   String @default("Hallo {user}, schön, dass du zu uns gefunden hast!\n>{message}")
   openIntroChannelId     String @default("")
   introChannelId         String @default("")
   leaveMessageFormat     String @default("Goodbye {user}!")
@@ -82,6 +90,7 @@ model Settings {
   verifiedMemberRoleId   String @default("")
   modRoleId              String @default("")
   adminRoleId            String @default("")
+  modChannelId           String @default("")
   guild                  Guild  @relation(fields: [guildId], references: [id])
 }
 
@@ -117,4 +126,28 @@ model Guild {
   Limits             Limits[]
   Messages           Messages[]
   GuildUser          GuildUser[]
+}
+
+model MessageMetadata {
+  messageId   String       @id @unique
+  length      Int
+  reactions   Reaction[]
+  attachments Attachment[]
+  Messages    Messages?
+}
+
+model Reaction {
+  id              Int             @id @default(autoincrement())
+  messageId       String
+  emoji           String
+  count           Int
+  MessageMetadata MessageMetadata @relation(fields: [messageId], references: [messageId])
+}
+
+model Attachment {
+  id              Int             @id @default(autoincrement())
+  messageId       String
+  url             String
+  type            AttachmentType
+  MessageMetadata MessageMetadata @relation(fields: [messageId], references: [messageId])
 }

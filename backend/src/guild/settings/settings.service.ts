@@ -66,4 +66,7 @@ export class SettingsService {
   async getIntroChannelId(guildId: string) {
     return this.getSettings(guildId).then((it) => it.introChannelId);
   }
+  async getModChannelId(guildId: string) {
+    return this.getSettings(guildId).then((it) => it.modChannelId);
+  }
 }

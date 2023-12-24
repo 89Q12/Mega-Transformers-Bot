@@ -199,7 +199,7 @@ export default class AuditEvents {
   async messageDelete(message: Message) {
     const logEntry: LogEntry = {
       action: 'MESSAGE_DELETED',
-      guildId: message.guild.id,
+      guildId: message.guild.id || '0',
       invokerId: message.author.id || '0',
       targetId: message.id || '0',
       targetType: 'MESSAGE',
@@ -214,7 +214,7 @@ export default class AuditEvents {
   async reactionAdd(message: MessageReaction, user: GuildMember) {
     const logEntry: LogEntry = {
       action: 'REACTION_ADDED',
-      guildId: message.message.guild.id,
+      guildId: message.message.guild.id || '0',
       invokerId: user.id,
       targetId: message.message.id,
       targetType: 'MESSAGE',
@@ -229,7 +229,7 @@ export default class AuditEvents {
   async reactionRemove(message: MessageReaction, user: GuildMember) {
     const logEntry: LogEntry = {
       action: 'REACTION_REMOVED',
-      guildId: message.message.guild.id,
+      guildId: message.message.guild.id || '0',
       invokerId: user.id,
       targetId: message.message.id,
       targetType: 'MESSAGE',

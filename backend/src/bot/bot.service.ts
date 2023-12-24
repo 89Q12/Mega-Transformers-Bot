@@ -5,6 +5,7 @@ import {
   BaseGuildTextChannel,
   GuildMember,
   Message,
+  quote,
   userMention,
 } from 'discord.js';
 import { Client } from 'discord.js';
@@ -105,7 +106,7 @@ export class BotService {
     // ${message} - message content
     return template
       .replace('{user}', userMention(message.author.id))
-      .replace('{message}', message.content);
+      .replace('{message}', `\n\n${quote(message.content)}`);
   }
 
   async addMembers(guildId: string) {

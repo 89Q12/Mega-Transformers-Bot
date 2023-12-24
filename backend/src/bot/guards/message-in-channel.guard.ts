@@ -5,7 +5,7 @@ export const ChannelIdGuard = (channelId: string) => {
   class ChannelIdGuardMixin implements CanActivate {
     canActivate(context: ExecutionContext) {
       const message = context.getArgByIndex(0);
-      if (!(message instanceof Message) && !(message as Message).inGuild) {
+      if (!(message instanceof Message) || !(message as Message).inGuild()) {
         return false;
       }
       return message.channelId === channelId;
