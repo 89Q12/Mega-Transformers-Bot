@@ -1,8 +1,9 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Client, GuildChannel } from 'discord.js';
+import { Client, Guild, GuildChannel } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { TasksService } from 'src/tasks/tasks.service';
+import { GuildAutoDeleteChannelDto } from './dto/auto-delete-channels.dto';
 
 @Injectable()
 export class GuildAutoDeleteChannelService {
@@ -13,6 +14,28 @@ export class GuildAutoDeleteChannelService {
     @Inject(PrismaService) private database: PrismaService,
     @Inject(TasksService) private tasksService: TasksService,
   ) {}
+  async get(guildId: string) {
+    return await this.database.autoDeleteChannels.findMany({
+      where: { guildId },
+    });
+  }
+  async upsert(guildId: string, autoDeleteChannel: GuildAutoDeleteChannelDto) {
+    const channelId = autoDeleteChannel.channelId;
+    return this.database.autoDeleteChannels.upsert({
+      where: {
+        channelId,
+        guildId,
+      },
+      create: {
+        ...autoDeleteChannel,
+        guildId,
+      },
+      update: {
+        ...autoDeleteChannel,
+        guildId,
+      },
+    });
+  }
 
   async constructChannelDeleteJobs() {
     const guilds = await this.database.guild.findMany({

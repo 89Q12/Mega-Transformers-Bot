@@ -9,7 +9,9 @@ describe('GuildAutoDeleteChannelController', () => {
       controllers: [GuildAutoDeleteChannelController],
     }).compile();
 
-    controller = module.get<GuildAutoDeleteChannelController>(GuildAutoDeleteChannelController);
+    controller = module.get<GuildAutoDeleteChannelController>(
+      GuildAutoDeleteChannelController,
+    );
   });
 
   it('should be defined', () => {

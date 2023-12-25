@@ -7,6 +7,7 @@ import { BotService } from 'src/bot/bot.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import { CronJob, CronJobParameters } from 'cron';
 
 const logger = new Logger('TaskService');
 
@@ -19,6 +20,10 @@ export class TasksService {
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
+
+  createDynamicScheduledJob(jobOptions: CronJobParameters) {
+    return new CronJob(jobOptions);
+  }
 
   @Cron('0 0 * * *', {
     name: 'checkActiveUsers',
