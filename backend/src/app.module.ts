@@ -10,12 +10,13 @@ import { BotModule } from './bot/bot.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ModerationModule } from './guild/moderation/moderation.module';
-import { SettingsModule } from './guild/settings/settings.module';
+import { GuildSettingsModule } from './guild/guild-settings/guild-settings.module';
 import { AuditLogModule } from './auditlog/auditlog.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GuildUserModule } from './guild/guild-user/guild-user.module';
 import { GuildModule } from './guild/guild.module';
 import { RouterModule } from '@nestjs/core';
+import { GuildAutoDeleteChannelModule } from './guild/guild-auto-delete-channel/guild-auto-delete-channel.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -61,8 +62,8 @@ import { RouterModule } from '@nestjs/core';
         },
         registerCommandOptions: [
           {
-            forGuild: configService.get('GUILD_ID'),
-            removeCommandsBefore: false,
+            forGuild: '1011511871297302608',
+            removeCommandsBefore: true,
           },
         ],
         failOnLogin: true,
@@ -90,7 +91,7 @@ import { RouterModule } from '@nestjs/core';
           },
           {
             path: '/settings',
-            module: SettingsModule,
+            module: GuildSettingsModule,
           },
           {
             path: '/moderation',
@@ -105,9 +106,10 @@ import { RouterModule } from '@nestjs/core';
     BotModule,
     TasksModule,
     ModerationModule,
-    SettingsModule,
+    GuildSettingsModule,
     AuditLogModule,
     GuildUserModule,
+    GuildAutoDeleteChannelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
