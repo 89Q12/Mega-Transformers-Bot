@@ -10,14 +10,14 @@ import {
 import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
 import { IsModGuard } from '../../util/guards/is-mod.guard';
 import { SettingsDto } from './dto/settings.dto';
-import { SettingsService } from './settings.service';
+import { GuildSettingsService } from './guild-settings.service';
 import { plainToInstance } from '../../util/functions/plain-to-instance';
 import { HttpStatusCode } from 'axios';
 
 @Controller('settings')
 @UseGuards(JwtAuthGuard, IsModGuard)
-export class SettingsController {
-  constructor(private readonly settingsService: SettingsService) {}
+export class GuildSettingsController {
+  constructor(private readonly settingsService: GuildSettingsService) {}
 
   @Get('/')
   async getSettings(@Param('guildId') guildId: string): Promise<SettingsDto> {

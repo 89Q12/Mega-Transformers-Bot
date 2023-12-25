@@ -7,7 +7,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SettingsChanged } from './events/settings-role-id-changed.event';
 
 @Injectable()
-export class SettingsService {
+export class GuildSettingsService {
   constructor(
     @Inject(PrismaService) private database: PrismaService,
     @Inject(EventEmitter2) private eventEmitter: EventEmitter2,
