@@ -1,10 +1,18 @@
+import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { Guild } from '@prisma/client';
+import { Guild, GuildUser } from '@prisma/client';
+import { Client, BaseGuildTextChannel } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
+import { GuildRestrictedChannelService } from './guild-restricted-channel/guild-restricted-channel.service';
 
 @Injectable()
 export class GuildService {
-  constructor(@Inject(PrismaService) private database: PrismaService) {}
+  constructor(
+    @Inject(PrismaService) private database: PrismaService,
+    @Inject(GuildRestrictedChannelService)
+    private restrictedChannelService: GuildRestrictedChannelService,
+    @InjectDiscordClient() private client: Client,
+  ) {}
 
   async upsertGuild(guildId: string, data: Omit<Partial<Guild>, 'id'>) {
     return await this.database.guild.upsert({
@@ -132,5 +140,44 @@ export class GuildService {
     );
 
     return messageCounts;
+  }
+
+  async updateChannelPermissions(user: GuildUser) {
+    this.restrictedChannelService.getAll(user.guildId).then((channels) =>
+      channels.forEach((channel) =>
+        this.restrictedChannelService
+          .isChannelAvailableToUser(user, channel)
+          .then((bool) => {
+            bool
+              ? this._removeMemberFromChannelOverwrite(
+                  user.userId.toString(),
+                  channel.channelId,
+                )
+              : this._addMemberToChannelOverwrite(
+                  user.userId.toString(),
+                  channel.channelId,
+                );
+          }),
+      ),
+    );
+  }
+  private async _addMemberToChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
+    await (
+      (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
+    ).permissionOverwrites.create(user_id, {
+      ViewChannel: false,
+      ReadMessageHistory: false,
+    });
+  }
+  private async _removeMemberFromChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
+    await (
+      (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
+    ).permissionOverwrites.delete(user_id);
   }
 }

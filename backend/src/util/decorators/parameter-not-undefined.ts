@@ -1,10 +1,5 @@
 export default function DearV8ProtectMeFromParametersWithNoneValue(
   target: any,
-  errorCallback: (context: {
-    propertyName: string;
-    target: any;
-    args: any[];
-  }) => void,
 ): ClassDecorator {
   for (const propertyName of Object.keys(target.prototype)) {
     const descriptor = Object.getOwnPropertyDescriptor(
@@ -16,11 +11,7 @@ export default function DearV8ProtectMeFromParametersWithNoneValue(
     descriptor.value = function (...args: any[]) {
       args.forEach((arg) => {
         if (arg === undefined || arg === null) {
-          return errorCallback.apply(this, {
-            propertyName,
-            target,
-            args,
-          });
+          throw new Error('BLEEEERRGGGHHH undefined value');
         }
       });
       originalMethod.apply(this, args);

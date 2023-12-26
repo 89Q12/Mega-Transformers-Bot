@@ -3,18 +3,18 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { GuildUser } from '@prisma/client';
 import { Client } from 'discord.js';
-import { BotService } from 'src/bot/bot.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 import { CronJob, CronJobParameters } from 'cron';
+import { GuildService } from 'src/guild/guild.service';
 
 const logger = new Logger('TaskService');
 
 @Injectable()
 export class TasksService {
   constructor(
-    @Inject(BotService) private botService: BotService,
+    @Inject(GuildService) private guildService: GuildService,
     @Inject(GuildUserService) private userService: GuildUserService,
     @InjectDiscordClient()
     private readonly client: Client,
@@ -36,7 +36,7 @@ export class TasksService {
           if (user.rank != 'MEMBER') return;
           logger.log(`Checking user ${user.userId} for activity...`);
           this.userService.updateMessageCountBucket(user.userId, user.guildId);
-          this.botService.updateChannelPermissions(user);
+          this.guildService.updateChannelPermissions(user);
         },
       );
     });

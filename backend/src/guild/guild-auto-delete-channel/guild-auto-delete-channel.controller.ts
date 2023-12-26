@@ -1,5 +1,6 @@
 import {
   Body,
+  ConflictException,
   Controller,
   Get,
   Inject,
@@ -35,6 +36,11 @@ export class GuildAutoDeleteChannelController {
     @Param('guildId') guildId: string,
     @Body() autoDeleteChannel: GuildAutoDeleteChannelDto,
   ) {
+    this.guildAutoDeleteChannelService.get(guildId).then(() => {
+      throw new ConflictException(
+        `Channel ${channel.channelId} already exists`,
+      );
+    });
     const channel = await this.guildAutoDeleteChannelService.upsert(
       guildId,
       autoDeleteChannel,

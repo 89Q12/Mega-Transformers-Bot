@@ -1,10 +1,19 @@
+import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { GuildUser } from '@prisma/client';
+import { GuildUser, Rank } from '@prisma/client';
+import { Client, GuildMember } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
+import { GuildSettingsService } from '../guild-settings/guild-settings.service';
+import { SettingsChanged } from '../guild-settings/events/settings-role-id-changed.event';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class GuildUserService {
-  constructor(@Inject(PrismaService) private database: PrismaService) {}
+  constructor(
+    @Inject(PrismaService) private database: PrismaService,
+    @InjectDiscordClient() private client: Client,
+    @Inject(GuildSettingsService) private settings: GuildSettingsService,
+  ) {}
   async getGuildUser(
     userId: string,
     guildId: string,
@@ -99,6 +108,77 @@ export class GuildUserService {
           },
         })
       ).messageCountBucket >= 30
+    );
+  }
+
+  async getRank(member: GuildMember): Promise<Rank> {
+    if (member.guild.ownerId === member.id) {
+      return 'OWNER';
+    } else if (await this._isMemberAdmin(member.id, member.guild.id)) {
+      return 'ADMIN';
+    } else if (await this._isMemberMod(member.id, member.guild.id)) {
+      return 'MOD';
+    } else if (await this._isMemberVerified(member.id, member.guild.id)) {
+      return 'MEMBER';
+    } else {
+      return 'NEW';
+    }
+  }
+  async addMembers(guildId: string) {
+    const guild = await this.client.guilds.fetch(guildId);
+    const members = await guild.members.fetch();
+    members.forEach(async (member: GuildMember) => {
+      if (!member.user.bot) {
+        const rank = await this.getRank(member);
+        await this.addMember(member.id, member.guild.id, {
+          rank: rank,
+          unlocked: rank !== 'NEW',
+        });
+      }
+    });
+  }
+  async addMember(
+    userId: string,
+    guildId: string,
+    data: Omit<Omit<Partial<GuildUser>, 'userId'>, 'guildId'>,
+  ) {
+    await this.database.user.upsert({
+      where: { userId },
+      create: { userId },
+      update: { userId },
+    });
+    await this.upsert(userId, guildId, data);
+  }
+
+  @OnEvent('settings.role.*.changed')
+  async onAdminRoleIdChanged(payload: SettingsChanged) {
+    await this.addMembers(payload.guildId);
+  }
+
+  private async _isMemberVerified(user_id: string, guild_id: string) {
+    return (
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
+    ).roles.cache.has(
+      (await this.settings.getVerifiedMemberRoleId(guild_id)).toString(),
+    );
+  }
+
+  private async _isMemberMod(
+    user_id: string,
+    guild_id: string,
+  ): Promise<boolean> {
+    return (
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
+    ).roles.cache.has((await this.settings.getModRoleId(guild_id)).toString());
+  }
+  private async _isMemberAdmin(
+    user_id: string,
+    guild_id: string,
+  ): Promise<boolean> {
+    return (
+      await (await this.client.guilds.fetch(guild_id)).members.fetch(user_id)
+    ).roles.cache.has(
+      (await this.settings.getAdminRoleId(guild_id)).toString(),
     );
   }
 }

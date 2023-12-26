@@ -16,7 +16,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GuildUserModule } from './guild/guild-user/guild-user.module';
 import { GuildModule } from './guild/guild.module';
 import { RouterModule } from '@nestjs/core';
-import { GuildAutoDeleteChannelModule } from './guild/guild-auto-delete-channel/guild-auto-delete-channel.module';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -105,11 +104,6 @@ import { GuildAutoDeleteChannelModule } from './guild/guild-auto-delete-channel/
     GuildModule,
     BotModule,
     TasksModule,
-    ModerationModule,
-    GuildSettingsModule,
-    AuditLogModule,
-    GuildUserModule,
-    GuildAutoDeleteChannelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

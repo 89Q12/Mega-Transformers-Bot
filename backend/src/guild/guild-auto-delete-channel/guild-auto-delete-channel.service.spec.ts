@@ -9,7 +9,9 @@ describe('GuildAutoDeleteChannelService', () => {
       providers: [GuildAutoDeleteChannelService],
     }).compile();
 
-    service = module.get<GuildAutoDeleteChannelService>(GuildAutoDeleteChannelService);
+    service = module.get<GuildAutoDeleteChannelService>(
+      GuildAutoDeleteChannelService,
+    );
   });
 
   it('should be defined', () => {

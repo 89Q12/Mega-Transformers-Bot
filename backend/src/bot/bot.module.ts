@@ -1,36 +1,22 @@
 import { DiscordModule } from '@discord-nestjs/core';
 import { Module } from '@nestjs/common';
-import { BotService } from './bot.service';
-import { BotController } from './bot.controller';
 import { PingCommand } from './commands/ping.command';
-import { BotGateway } from './bot.gateway';
-import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from 'src/prisma.service';
-import { SettingsModule } from 'src/guild/settings/settings.module';
-import { SettingsService } from 'src/guild/settings/settings.service';
+import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
 import { TimeOutCommand } from './commands/timeout.command';
-import { GuildUserModule } from 'src/guild/guild-user/guild-user.module';
-import { GuildModule } from 'src/guild/guild.module';
-import { UserModule } from 'src/user/user.module';
+import { MumVoiceCommand } from './commands/mod-anouncement.command';
+import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channel/guild-restricted-channel.service';
 
 @Module({
-  imports: [
-    DiscordModule.forFeature(),
-    GuildUserModule,
-    ConfigModule,
-    SettingsModule,
-    GuildModule,
-    UserModule,
-  ],
+  imports: [DiscordModule.forFeature()],
   providers: [
-    BotService,
     PingCommand,
     TimeOutCommand,
-    BotGateway,
+    MumVoiceCommand,
     PrismaService,
-    SettingsService,
+    GuildSettingsService,
+    GuildRestrictedChannelService,
   ],
-  controllers: [BotController],
-  exports: [BotService, DiscordModule],
+  exports: [DiscordModule],
 })
 export class BotModule {}

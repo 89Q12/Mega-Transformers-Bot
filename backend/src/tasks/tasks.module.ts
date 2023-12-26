@@ -1,17 +1,21 @@
 import { Module } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { BotModule } from 'src/bot/bot.module';
 import { DiscordModule } from '@discord-nestjs/core';
-import { AuditLogModule } from 'src/auditlog/auditlog.module';
-import { GuildUserModule } from 'src/guild/guild-user/guild-user.module';
+import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import { GuildService } from 'src/guild/guild.service';
+import { PrismaService } from 'src/prisma.service';
+import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
+import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channel/guild-restricted-channel.service';
 
 @Module({
-  providers: [TasksService],
-  imports: [
-    BotModule,
-    GuildUserModule,
-    DiscordModule.forFeature(),
-    AuditLogModule,
+  providers: [
+    TasksService,
+    GuildUserService,
+    GuildService,
+    PrismaService,
+    GuildSettingsService,
+    GuildRestrictedChannelService,
   ],
+  imports: [DiscordModule.forFeature()],
 })
 export class TasksModule {}

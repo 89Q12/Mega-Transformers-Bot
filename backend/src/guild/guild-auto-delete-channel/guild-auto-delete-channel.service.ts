@@ -1,6 +1,6 @@
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Client, Guild, GuildChannel } from 'discord.js';
+import { Client, GuildChannel } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { TasksService } from 'src/tasks/tasks.service';
 import { GuildAutoDeleteChannelDto } from './dto/auto-delete-channels.dto';

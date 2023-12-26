@@ -1,11 +1,5 @@
-import {
-  Command,
-  Handler,
-  IA,
-  InjectDiscordClient,
-  InteractionEvent,
-} from '@discord-nestjs/core';
-import { Client, CommandInteraction } from 'discord.js';
+import { Command, Handler, IA, InteractionEvent } from '@discord-nestjs/core';
+import { ApplicationCommandType, CommandInteraction } from 'discord.js';
 import { ModAnouncementDto } from '../dto/mod-anouncement.dto';
 import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
 
@@ -13,26 +7,25 @@ import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
   name: 'mumvoice',
   description: 'Sends your message using the bot',
   defaultMemberPermissions: ['ModerateMembers'],
+  type: ApplicationCommandType.ChatInput,
 })
-export class MumVoice {
-  constructor(
-    @InjectDiscordClient()
-    private readonly client: Client,
-  ) {}
+export class MumVoiceCommand {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
     @IA(SlashCommandPipe, ValidationPipe) message: ModAnouncementDto,
   ): Promise<void> {
-    await interaction.deferReply({
-      ephemeral: true,
-    });
     try {
       await interaction.channel.send(message.message);
+      interaction.reply({
+        content: 'Done!',
+        ephemeral: true,
+      });
     } catch (err) {
-      interaction.editReply({
+      interaction.reply({
         content: `Failed to send message in this channel with error: ${err} and message:
           ${message.message}`,
+        ephemeral: true,
       });
     }
   }

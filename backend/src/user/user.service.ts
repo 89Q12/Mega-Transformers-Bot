@@ -13,7 +13,7 @@ export class UserService {
   }
 
   async upsert(userId: string): Promise<User> {
-    return await this.database.user.upsert({
+    return this.database.user.upsert({
       where: { userId },
       create: { userId },
       update: { userId },

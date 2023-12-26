@@ -6,24 +6,26 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtAuthController } from './jwt-auth.controller';
 import { RefreshJwtStrategy } from './refresh-token.strategy';
 import { HttpModule } from '@nestjs/axios';
-import { ConfigModule } from '@nestjs/config';
-import { UserModule } from 'src/user/user.module';
-import { SettingsModule } from 'src/guild/settings/settings.module';
+import { PrismaService } from 'src/prisma.service';
+import { UserService } from 'src/user/user.service';
 
 @Module({
   imports: [
     PassportModule,
-    UserModule,
     HttpModule,
-    ConfigModule,
-    SettingsModule,
     JwtModule.register({
       secret: 'jwtConstants.secret',
       signOptions: { expiresIn: '900s' },
     }),
   ],
   controllers: [JwtAuthController],
-  providers: [JwtAuthStrategy, RefreshJwtStrategy, JwtAuthService],
+  providers: [
+    JwtAuthStrategy,
+    RefreshJwtStrategy,
+    JwtAuthService,
+    PrismaService,
+    UserService,
+  ],
   exports: [JwtAuthService],
 })
 export class JwtAuthModule {}

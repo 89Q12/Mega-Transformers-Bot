@@ -5,6 +5,7 @@ import { GuildDoesNotExistException } from '../../util/exception/guild-does-not-
 import { omit } from 'rambda/immutable';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SettingsChanged } from './events/settings-role-id-changed.event';
+import { Message, userMention, quote } from 'discord.js';
 
 @Injectable()
 export class GuildSettingsService {
@@ -38,9 +39,7 @@ export class GuildSettingsService {
   }
 
   async getVerifiedMemberRoleId(guildId: string) {
-    return await this.getSettings(guildId).then(
-      (it) => it.verifiedMemberRoleId,
-    );
+    return this.getSettings(guildId).then((it) => it.verifiedMemberRoleId);
   }
 
   async getUnverifiedMemberRoleId(guildId: string) {
@@ -68,5 +67,15 @@ export class GuildSettingsService {
   }
   async getModChannelId(guildId: string) {
     return this.getSettings(guildId).then((it) => it.modChannelId);
+  }
+  async templateMessage(message: Message): Promise<string> {
+    // template message using the template string provided in the settings
+    const template = await this.getWelcomeMessageFormat(message.guildId);
+    // Usable variables:
+    // ${user} - username
+    // ${message} - message content
+    return template
+      .replace('{user}', userMention(message.author.id))
+      .replace('{message}', `\n\n${quote(message.content)}`);
   }
 }

@@ -4,10 +4,10 @@ import { GuildAutoDeleteChannelController } from './guild-auto-delete-channel.co
 import { DiscordModule } from '@discord-nestjs/core';
 import { PrismaService } from 'src/prisma.service';
 import { TasksService } from 'src/tasks/tasks.service';
-import { BotService } from 'src/bot/bot.service';
+import { GuildService } from '../guild.service';
 import { GuildUserService } from '../guild-user/guild-user.service';
+import { GuildRestrictedChannelService } from '../guild-restricted-channel/guild-restricted-channel.service';
 import { GuildSettingsService } from '../guild-settings/guild-settings.service';
-import { UserService } from 'src/user/user.service';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -15,10 +15,10 @@ import { UserService } from 'src/user/user.service';
     GuildAutoDeleteChannelService,
     PrismaService,
     TasksService,
-    BotService,
+    GuildService,
     GuildUserService,
+    GuildRestrictedChannelService,
     GuildSettingsService,
-    UserService,
   ],
   controllers: [GuildAutoDeleteChannelController],
   exports: [GuildAutoDeleteChannelService],

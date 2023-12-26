@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Message } from 'discord.js';
-import { SettingsService } from 'src/guild/settings/settings.service';
+import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
 
 interface DiscordExecutionContext extends ExecutionContext {
   getMessage(): Message;
@@ -13,7 +13,7 @@ interface DiscordExecutionContext extends ExecutionContext {
 @Injectable()
 export class IsUserUnlockedGuard implements CanActivate {
   constructor(
-    @Inject(SettingsService) private readonly settingsService: SettingsService,
+    @Inject(GuildSettingsService) private readonly settingsService: GuildSettingsService,
   ) {}
   async canActivate(context: DiscordExecutionContext): Promise<boolean> {
     const message: Message = context.getArgByIndex(0);
