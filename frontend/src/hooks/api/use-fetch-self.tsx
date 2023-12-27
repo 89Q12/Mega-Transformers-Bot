@@ -1,25 +1,22 @@
 import { useGlobalApi } from './use-api.tsx';
 
-export type Rank = 'NEW' | 'MEMBER' | 'MOD' | 'ADMIN' | 'OWNER';
-
-export interface User {
-  userId: string;
+export interface Guild {
   guildId: string;
   name: string;
-  rank: Rank;
+  image: string;
+}
+
+export interface Self {
+  userId: string;
   avatarUrl: string;
+  name: string;
+  guilds: Guild[];
 }
 
 export const useFetchSelf = () => {
   const api = useGlobalApi();
 
   return (token?: string) => {
-    return (
-      api
-        .auth(`Bearer ${token}`)
-        // TODO: replace with actual guild id from GUILD SELECTION PAGE
-        .get(`/guild/${import.meta.env.VITE_GUILD_ID}/user/self`)
-        .json<User>()
-    );
+    return api.auth(`Bearer ${token}`).get(`/user/self`).json<Self>();
   };
 };

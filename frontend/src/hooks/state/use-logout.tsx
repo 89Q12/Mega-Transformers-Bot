@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { UserContext } from '../../state/user.context.tsx';
+import { SelfContext } from '../../state/self.context.tsx';
 
 export const useLogout = () => {
-  const { clear } = useContext(UserContext);
+  const { clear } = useContext(SelfContext);
   return () => clear();
 };

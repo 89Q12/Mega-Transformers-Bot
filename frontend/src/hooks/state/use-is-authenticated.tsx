@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import { UserContext } from '../../state/user.context.tsx';
+import { SelfContext } from '../../state/self.context.tsx';
 
 export const useIsAuthenticated = () => {
-  const { token } = useContext(UserContext);
+  const { token } = useContext(SelfContext);
   return !!token;
 };

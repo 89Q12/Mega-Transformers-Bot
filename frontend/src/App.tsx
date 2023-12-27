@@ -4,7 +4,8 @@ import { RouterProvider } from 'react-router';
 import { PageSpinner } from './components/page-spinner';
 import { useRouter } from './hooks/ui/use-router.tsx';
 import { theme } from './theme';
-import { ProvideUserContext } from './state/user.context';
+import { ProvideSelfContext } from './state/self.context.tsx';
+import { ProvideGuildSelfContext } from './state/guild-self.context.tsx';
 
 const Router = () => {
   const routes = useRouter();
@@ -14,11 +15,13 @@ const Router = () => {
 const App: React.FC = () => {
   return (
     <ChakraProvider theme={theme}>
-      <ProvideUserContext>
-        <Suspense fallback={<PageSpinner />}>
-          <Router />
-        </Suspense>
-      </ProvideUserContext>
+      <ProvideSelfContext>
+        <ProvideGuildSelfContext>
+          <Suspense fallback={<PageSpinner />}>
+            <Router />
+          </Suspense>
+        </ProvideGuildSelfContext>
+      </ProvideSelfContext>
     </ChakraProvider>
   );
 };

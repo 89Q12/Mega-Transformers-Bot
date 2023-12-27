@@ -2,13 +2,12 @@ import { FC, useEffect } from 'react';
 import { AuditLogFilter } from '../hooks/use-get-audit-logs.tsx';
 import { Card, CardBody, Select, Wrap, WrapItem } from '@chakra-ui/react';
 import { Form, FormikProvider, useFormik } from 'formik';
-import { withFormControl } from '../../../components/with-form-control.tsx';
-import { DateField } from '../../../components/date-field.tsx';
+import { withFormControl } from '../../../../components/with-form-control.tsx';
+import { DateField } from '../../../../components/date-field.tsx';
 import { Action, actions } from '../domain/action.tsx';
 import { useSearchParams } from 'react-router-dom';
 import { TargetType, targetTypes } from '../domain/target-type.tsx';
-import { removeUndefined } from '../../../util/remove-undefined.ts';
-import { Box } from '@chakra-ui/layout';
+import { removeUndefined } from '../../../../util/remove-undefined.ts';
 
 const CreatedFrom = withFormControl(
   DateField,
@@ -55,8 +54,6 @@ const TargetTypeField = withFormControl<string | undefined>(
   'targetType' satisfies keyof AuditLogFilter,
   'Target Type',
 );
-
-const FieldWrap: FC = ({ children }) => {};
 
 export const Filter: FC<{
   onChange: (value: AuditLogFilter) => void;

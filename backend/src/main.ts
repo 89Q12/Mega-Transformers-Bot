@@ -20,8 +20,8 @@ async function bootstrap() {
     SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-        .setTitle('Cardinal System')
-        .setDescription('Cardinal System API description')
+        .setTitle('Mega Transformers Bot')
+        .setDescription('Mega Transformers Bot API description')
         .setLicense(
           `Copyright (C) 2023-${new Date().getFullYear()} `,
           'https://github.com/89Q12/discord-bot/blob/main/LICENSE',

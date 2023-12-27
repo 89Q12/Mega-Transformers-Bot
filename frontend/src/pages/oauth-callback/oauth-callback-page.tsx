@@ -14,12 +14,14 @@ const OauthCallbackPage = () => {
 
   useEffect(() => {
     const code = params.get('code');
+    const state = params.get('state');
+    const path = state ? decodeURIComponent(state) : '/';
     if (!code) {
-      navigate('/', { replace: true });
+      navigate(path, { replace: true });
       return;
     }
     fetchToken(code)?.then(() => {
-      navigate('/', { replace: true });
+      navigate(path, { replace: true });
     });
   }, [api, navigate, params, fetchToken]);
   return !grantFailed ? (

@@ -2,7 +2,7 @@ import {} from 'react';
 
 export const useTitle = (text: string | '') => {
   const emoji = '🐶';
-  const originalTitle = 'Cardinal System';
+  const originalTitle = 'Mega Transformers Bot';
   document.title =
     text !== ''
       ? `${emoji} ${text} - ${originalTitle}`

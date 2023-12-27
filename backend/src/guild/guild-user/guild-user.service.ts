@@ -18,7 +18,7 @@ export class GuildUserService {
     userId: string,
     guildId: string,
   ): Promise<GuildUser | undefined> {
-    return await this.database.guildUser.findUnique({
+    return this.database.guildUser.findUnique({
       where: { guildId_userId: { userId, guildId } },
     });
   }

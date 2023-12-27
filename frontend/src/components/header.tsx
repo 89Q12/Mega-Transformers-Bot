@@ -1,25 +1,25 @@
 import {
   Button,
+  chakra,
   Flex,
-  Heading,
   Icon,
   IconButton,
+  Image,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  chakra,
+  StyleProps,
   useBreakpointValue,
-  Image,
 } from '@chakra-ui/react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import {
+  HiArrowLeftOnRectangle,
   HiCog,
   HiEllipsisVertical,
   HiFlag,
   HiHome,
   HiQueueList,
-  HiArrowLeftOnRectangle,
 } from 'react-icons/hi2';
 import {
   Link,
@@ -27,10 +27,10 @@ import {
   useLocation,
   useResolvedPath,
 } from 'react-router-dom';
-import { useIsAuthenticated } from '../hooks/state/use-is-authenticated.tsx';
 import { useSelf } from '../hooks/state/use-self.tsx';
 import { useIsMod } from '../hooks/state/use-is-mod.tsx';
 import { useLogout } from '../hooks/state/use-logout.tsx';
+import { useGuildId } from '../hooks/state/use-guild-id.tsx';
 
 const RouterLinkButton: FC<
   PropsWithChildren<{ to: string; icon: ReactElement }>
@@ -61,18 +61,11 @@ const RouterLinkButton: FC<
   );
 };
 
-export const Header: FC = () => {
-  const isAuthenticated = useIsAuthenticated();
+export const Header: FC<StyleProps> = (props) => {
   const self = useSelf();
   const isMod = useIsMod();
   const logout = useLogout();
-  const displayTitle = useBreakpointValue(
-    {
-      base: 'none',
-      md: 'initial',
-    },
-    { fallback: 'md' },
-  );
+  const guildId = useGuildId();
   const gap = useBreakpointValue(
     {
       base: '2',
@@ -84,67 +77,70 @@ export const Header: FC = () => {
   return (
     <chakra.header
       display="flex"
-      backgroundColor="whiteAlpha.100"
       padding="4"
       gap={gap}
       flexWrap="wrap"
       alignItems="center"
+      {...props}
     >
-      <Heading size="md" display={displayTitle}>
-        Mega Transformers Bot
-      </Heading>
-      {isAuthenticated && (
-        <>
-          <Flex height="100%" alignItems="center" gap={gap} flexGrow={1}>
-            <RouterLinkButton to="/" icon={<Icon as={HiHome} />}>
-              Dashboard
-            </RouterLinkButton>
-            <RouterLinkButton to="/audit" icon={<Icon as={HiQueueList} />}>
-              Audit
-            </RouterLinkButton>
-            <RouterLinkButton to="/moderation" icon={<Icon as={HiFlag} />}>
-              Moderation
-            </RouterLinkButton>
-          </Flex>
-          <Flex height="100%">
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="More"
-                borderRadius="50%"
-                icon={
-                  self?.avatarUrl ? (
-                    <Image
-                      src={self.avatarUrl}
-                      alt="More"
-                      borderRadius="50%"
-                      width="calc(100% - .2rem)"
-                      height="calc(100% - .2rem)"
-                    />
-                  ) : (
-                    <Icon as={HiEllipsisVertical} />
-                  )
-                }
-                variant="ghost"
-                color="primary.50"
-              />
-              <MenuList>
-                {isMod && (
-                  <MenuItem icon={<HiCog />} as={Link} to="/settings">
-                    Settings
-                  </MenuItem>
-                )}
-                <MenuItem
-                  icon={<HiArrowLeftOnRectangle />}
-                  onClick={() => logout()}
-                >
-                  Logout
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
-        </>
-      )}
+      <Flex height="100%" alignItems="center" gap={gap} flexGrow={1}>
+        <RouterLinkButton to={`/guild/${guildId}`} icon={<Icon as={HiHome} />}>
+          Dashboard
+        </RouterLinkButton>
+        <RouterLinkButton
+          to={`/guild/${guildId}/audit`}
+          icon={<Icon as={HiQueueList} />}
+        >
+          Audit
+        </RouterLinkButton>
+        <RouterLinkButton
+          to={`/guild/${guildId}/moderation`}
+          icon={<Icon as={HiFlag} />}
+        >
+          Moderation
+        </RouterLinkButton>
+      </Flex>
+      <Flex height="100%">
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="More"
+            borderRadius="50%"
+            icon={
+              self?.avatarUrl ? (
+                <Image
+                  src={self.avatarUrl}
+                  alt="More"
+                  borderRadius="50%"
+                  width="calc(100% - .2rem)"
+                  height="calc(100% - .2rem)"
+                />
+              ) : (
+                <Icon as={HiEllipsisVertical} />
+              )
+            }
+            variant="ghost"
+            color="primary.50"
+          />
+          <MenuList>
+            {isMod && (
+              <MenuItem
+                icon={<HiCog />}
+                as={Link}
+                to={`/guild/${guildId}/settings`}
+              >
+                Settings
+              </MenuItem>
+            )}
+            <MenuItem
+              icon={<HiArrowLeftOnRectangle />}
+              onClick={() => logout()}
+            >
+              Logout
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Flex>
     </chakra.header>
   );
 };

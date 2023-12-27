@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { UserContext } from '../../state/user.context.tsx';
+import { SelfContext } from '../../state/self.context.tsx';
 
 export const useIsMod = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(SelfContext);
   if (!user) return false;
   return (
     (user && user.rank === 'MOD') ||

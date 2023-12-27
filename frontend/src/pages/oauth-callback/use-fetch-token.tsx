@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { useGlobalApi } from '../../hooks/api/use-api.tsx';
-import { UserContext } from '../../state/user.context';
+import { SelfContext } from '../../state/self.context.tsx';
 import { useFetchSelf } from '../../hooks/api/use-fetch-self.tsx';
 
 interface FetchTokenResponse {
@@ -15,7 +15,7 @@ interface FetchTokenResponse {
 export const useFetchToken = () => {
   const api = useGlobalApi();
   const fetchSelf = useFetchSelf();
-  const { set } = useContext(UserContext);
+  const { set } = useContext(SelfContext);
   const [usedCodes, setUsedCodes] = useState<string[]>([]);
   const [grantFailed, setGrantFailed] = useState<boolean>(false);
 
@@ -26,7 +26,7 @@ export const useFetchToken = () => {
       api
         .get(`/auth/login?code=${code}`)
         .badRequest(() => {
-          // We dont want the promise to resolve here
+          // We don't want the promise to resolve here
           setGrantFailed(true);
         })
         .unauthorized(() => {

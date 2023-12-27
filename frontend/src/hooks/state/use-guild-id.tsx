@@ -1,6 +1,6 @@
-import { useSelf } from './use-self.tsx';
+import { useParams } from 'react-router-dom';
 
 export const useGuildId = () => {
-  const self = useSelf();
-  return self?.guildId;
+  const { guildId } = useParams<{ guildId?: string }>();
+  return guildId;
 };

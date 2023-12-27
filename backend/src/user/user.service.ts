@@ -7,7 +7,7 @@ export class UserService {
   constructor(@Inject(PrismaService) private database: PrismaService) {}
 
   async findOneUser(userId: string): Promise<User | undefined> {
-    return await this.database.user.findUnique({
+    return this.database.user.findUnique({
       where: { userId },
     });
   }

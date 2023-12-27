@@ -1,21 +1,25 @@
 import { Box, VStack } from '@chakra-ui/layout';
 import { Outlet } from 'react-router';
-import { Header } from '../components/header';
 import { useContext } from 'react';
-import { UserContext } from '../state/user.context.tsx';
+import { SelfContext } from '../state/self.context.tsx';
 import { PageSpinner } from '../components/page-spinner.tsx';
 import { useInitialize } from '../hooks/state/use-initialize.tsx';
 
 export const Root = () => {
-  const { initializing } = useContext(UserContext);
+  const { initializing } = useContext(SelfContext);
   useInitialize();
   return (
     <VStack height="100%" alignItems="stretch">
       {initializing && <PageSpinner />}
       {!initializing && (
         <>
-          <Header />
-          <Box flexGrow={1} padding="3">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="100%"
+            width="100%"
+          >
             <Outlet />
           </Box>
         </>

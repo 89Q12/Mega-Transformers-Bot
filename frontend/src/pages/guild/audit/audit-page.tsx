@@ -3,15 +3,14 @@ import {
   useGetAuditLogs,
 } from './hooks/use-get-audit-logs.tsx';
 import { FC, useState } from 'react';
-import { Container } from '@chakra-ui/react';
-import { PageSpinner } from '../../components/page-spinner.tsx';
+import { PageSpinner } from '../../../components/page-spinner.tsx';
 import { LogEntry } from './domain/log-entry.tsx';
 import { LogEntriesTable } from './components/log-entries-table.tsx';
 import { Flex } from '@chakra-ui/layout';
-import { useConditionalToast } from '../../hooks/ui/use-conditional-toast.tsx';
+import { useConditionalToast } from '../../../hooks/ui/use-conditional-toast.tsx';
 import { Filter } from './components/filter.tsx';
-import { usePagination } from '../../hooks/ui/use-pagination.tsx';
-import { Empty } from '../../components/empty.tsx';
+import { usePagination } from '../../../hooks/ui/use-pagination.tsx';
+import { Empty } from '../../../components/empty.tsx';
 
 const Content: FC<{ auditLogs: LogEntry[] | undefined }> = ({ auditLogs }) => {
   if (!auditLogs) {

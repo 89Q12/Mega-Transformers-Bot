@@ -1,58 +1,61 @@
-import { Navigate, RouteObject, createBrowserRouter } from 'react-router-dom';
-import Audit from '../../pages/audit';
-import Dashboard from '../../pages/dashboard';
+import { createBrowserRouter, RouteObject } from 'react-router-dom';
+import Audit from '../../pages/guild/audit';
+import Dashboard from '../../pages/guild/dashboard';
 import { ErrorHandler } from '../../pages/error-handler.tsx';
-import Login from '../../pages/login';
-import Moderation from '../../pages/moderation';
+import Moderation from '../../pages/guild/moderation';
 import OauthCallback from '../../pages/oauth-callback';
 import { Root } from '../../pages/root.tsx';
-import Settings from '../../pages/settings';
-import { useIsAuthenticated } from '../state/use-is-authenticated.tsx';
+import Settings from '../../pages/guild/settings';
+import SelectGuild from '../../pages/select-guild';
+import GuildRoot from '../../pages/guild';
+import { AuthenticatedRoot } from '../../pages/authenticated-root.tsx';
 
 export const useRouter = () => {
-  const isAuthenticated = useIsAuthenticated();
   return createBrowserRouter([
     {
       path: '/',
       element: <Root />,
       errorElement: <ErrorHandler />,
-      children: isAuthenticated
-        ? createAuthenticatedRoutes()
-        : createUnauthenticatedRoutes(),
+      children: createAuthenticatedRoutes(),
     },
   ]);
 };
 
 const createAuthenticatedRoutes = (): RouteObject[] => [
   {
-    path: '/audit',
-    element: <Audit />,
-  },
-  {
-    path: '/moderation',
-    element: <Moderation />,
-  },
-  {
-    path: '/settings',
-    element: <Settings />,
-  },
-  {
-    path: '/',
-    element: <Dashboard />,
-  },
-  {
-    path: '/oauth-callback',
-    element: <Navigate to="/" />,
-  },
-];
-
-const createUnauthenticatedRoutes = (): RouteObject[] => [
-  {
     path: '/oauth-callback',
     element: <OauthCallback />,
   },
   {
     path: '/',
-    element: <Login />,
+    element: <AuthenticatedRoot />,
+    children: [
+      {
+        path: '/',
+        element: <SelectGuild />,
+      },
+      {
+        path: '/guild/:guildId',
+        element: <GuildRoot />,
+        children: [
+          {
+            path: '/guild/:guildId',
+            element: <Dashboard />,
+          },
+          {
+            path: '/guild/:guildId/audit',
+            element: <Audit />,
+          },
+          {
+            path: '/guild/:guildId/moderation',
+            element: <Moderation />,
+          },
+          {
+            path: '/guild/:guildId/settings',
+            element: <Settings />,
+          },
+        ],
+      },
+    ],
   },
 ];

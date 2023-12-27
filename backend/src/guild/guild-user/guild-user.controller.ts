@@ -7,7 +7,7 @@ import { RequestUser } from 'src/util/decorators/request-user.decorator';
 import { GuildUserService } from './guild-user.service';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
-@Controller('user')
+@Controller()
 @UseGuards(JwtAuthGuard)
 export class GuildUserController {
   constructor(
@@ -22,12 +22,13 @@ export class GuildUserController {
   ): Promise<SelfDto> {
     const [{ rank }, { avatarUrl, name }] = await Promise.all([
       this.userService.getGuildUser(userId, guildId),
-      this.client.users.fetch(userId).then((it) => {
-        return {
+      this.client.guilds
+        .fetch(guildId)
+        .then((it) => it.members.fetch(userId))
+        .then((it) => ({
           avatarUrl: it.avatarURL({ size: 128 }),
-          name: it.username,
-        };
-      }),
+          name: it.displayName,
+        })),
     ]);
     return plainToInstance(SelfDto, {
       userId,

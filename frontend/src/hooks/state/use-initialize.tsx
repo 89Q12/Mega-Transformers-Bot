@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { UserContext } from '../../state/user.context.tsx';
+import { SelfContext } from '../../state/self.context.tsx';
 import { useFetchSelf } from '../api/use-fetch-self.tsx';
 
 export const useInitialize = () => {
-  const { user, token, set } = useContext(UserContext);
+  const { user, token, set } = useContext(SelfContext);
   const fetchSelf = useFetchSelf();
   useEffect(() => {
     if (token && !user) {

@@ -1,9 +1,9 @@
-import { useGuildApi } from '../../../hooks/api/use-api.tsx';
+import { useGuildApi } from '../../../../hooks/api/use-api.tsx';
 import { TargetType } from '../domain/target-type.tsx';
 import { Action } from '../domain/action.tsx';
 import { LogEntry } from '../domain/log-entry.tsx';
 import { useEffect, useMemo, useState } from 'react';
-import { Pagination } from '../../../hooks/ui/use-pagination.tsx';
+import { Pagination } from '../../../../hooks/ui/use-pagination.tsx';
 
 export interface AuditLogFilter {
   createdFrom?: string;

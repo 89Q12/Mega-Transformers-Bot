@@ -1,8 +1,10 @@
 import { Button, Flex, Icon } from '@chakra-ui/react';
 import { FC } from 'react';
 import { FaDiscord } from 'react-icons/fa6';
+import { useLocation } from 'react-router-dom';
 
 const LoginPage: FC = () => {
+  const { pathname } = useLocation();
   return (
     <Flex justifyContent="center" alignItems="center" height="100%">
       <a
@@ -10,7 +12,9 @@ const LoginPage: FC = () => {
           import.meta.env.VITE_DISCORD_CALLBACK_URL,
         )}&client_id=${
           import.meta.env.VITE_DISCORD_OAUTH_CLIENT_ID
-        }&response_type=code&scope=identify`}
+        }&response_type=code&scope=identify&state=${encodeURIComponent(
+          pathname,
+        )}`}
       >
         <Button
           leftIcon={<Icon as={FaDiscord} />}

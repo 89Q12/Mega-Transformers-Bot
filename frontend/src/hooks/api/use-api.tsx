@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import wretch from 'wretch';
-import { UserContext } from '../../state/user.context.tsx';
+import { SelfContext } from '../../state/self.context.tsx';
 import QueryStringAddon from 'wretch/addons/queryString';
 import { normalizeUrlMiddleware } from './normalize-url-middleware.tsx';
 import { useGuildId } from '../state/use-guild-id.tsx';
@@ -9,9 +9,14 @@ const instance = wretch(import.meta.env.VITE_API_URL)
   .middlewares([normalizeUrlMiddleware])
   .addon(QueryStringAddon);
 
-const useApi = ({ prependGuildId }: { prependGuildId: boolean }) => {
-  const user = useContext(UserContext);
-  const guildId = useGuildId();
+const useApi = ({
+  prependGuildId,
+  guildId,
+}: {
+  prependGuildId: boolean;
+  guildId?: string;
+}) => {
+  const user = useContext(SelfContext);
 
   return useMemo(() => {
     const authenticated = () => {
@@ -44,4 +49,7 @@ const useApi = ({ prependGuildId }: { prependGuildId: boolean }) => {
 };
 
 export const useGlobalApi = () => useApi({ prependGuildId: false });
-export const useGuildApi = () => useApi({ prependGuildId: true });
+export const useGuildApi = () => {
+  const guildId = useGuildId();
+  return useApi({ prependGuildId: true, guildId });
+};

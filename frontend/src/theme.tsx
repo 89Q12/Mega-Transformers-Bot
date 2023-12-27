@@ -3,6 +3,7 @@ import {
   ThemeConfig,
   extendTheme,
   withDefaultColorScheme,
+  defineStyleConfig,
 } from '@chakra-ui/react';
 
 const config: ThemeConfig = {
@@ -33,6 +34,13 @@ export const theme = extendTheme(
   {
     config,
     colors,
+    components: {
+      Link: defineStyleConfig({
+        baseStyle: {
+          color: 'primary.300',
+        },
+      }),
+    },
   },
   withDefaultColorScheme({ colorScheme: 'primary' }),
 );

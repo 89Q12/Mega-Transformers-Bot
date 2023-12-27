@@ -1,26 +1,26 @@
 import { createContext, FC, PropsWithChildren, useState } from 'react';
 import Cookies from 'js-cookie';
-import { User } from '../hooks/api/use-fetch-self.tsx';
+import { Self } from '../hooks/api/use-fetch-self.tsx';
 
-interface UserContextType {
+interface SelfContextType {
   token: string | undefined;
-  user: User | undefined;
-  set: (token: string, user: User) => void;
+  user: Self | undefined;
+  set: (token: string, user: Self) => void;
   clear: () => void;
   initializing: boolean;
 }
 
-export const UserContext = createContext<UserContextType>(null!);
+export const SelfContext = createContext<SelfContextType>(null!);
 
-export const ProvideUserContext: FC<PropsWithChildren> = ({ children }) => {
+export const ProvideSelfContext: FC<PropsWithChildren> = ({ children }) => {
   const key = 'cardinalAuthToken';
   const [token, setToken] = useState<string | undefined>(
     Cookies.get(key) ?? undefined,
   );
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<Self | undefined>();
 
   return (
-    <UserContext.Provider
+    <SelfContext.Provider
       value={{
         token,
         user,
@@ -38,6 +38,6 @@ export const ProvideUserContext: FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </SelfContext.Provider>
   );
 };

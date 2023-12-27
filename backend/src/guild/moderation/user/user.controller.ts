@@ -1,20 +1,19 @@
 import {
   Controller,
   Get,
-  Post,
-  Param,
-  UseGuards,
-  NotFoundException,
-  Req,
   Inject,
   Logger,
+  NotFoundException,
+  Param,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChannelType, Client, User } from 'discord.js';
 import {
   DiscordUser,
-  usersResponseSchema,
   userResponseSchema,
+  usersResponseSchema,
 } from '../dto/user';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
@@ -27,6 +26,7 @@ import {
   UserPurgeEvent,
   UserTimeOutEvent,
 } from '../events/user.events';
+
 @Controller('/user')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
