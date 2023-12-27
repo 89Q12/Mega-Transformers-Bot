@@ -1,4 +1,4 @@
-import { useGuildApi } from '../../../hooks/api/use-api.tsx';
+import { useGuildApi } from '../../../../hooks/api/use-api.tsx';
 import { Settings } from '../domain/settings.tsx';
 import { useEffect, useState } from 'react';
 

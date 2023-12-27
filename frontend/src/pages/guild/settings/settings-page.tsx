@@ -1,5 +1,3 @@
-import { useGetChannels } from '../../hooks/api/use-get-channels.tsx';
-import { PageSpinner } from '../../components/page-spinner.tsx';
 import { Container, Icon } from '@chakra-ui/react';
 import { OpenIntroChannel } from './components/open-intro-channel.tsx';
 import { useGetSettings } from './hooks/use-get-settings.tsx';
@@ -7,7 +5,6 @@ import { Form, FormikProvider, useFormik } from 'formik';
 import { Settings } from './domain/settings.tsx';
 import { usePutSettings } from './hooks/use-put-settings.tsx';
 import { IntroChannel } from './components/intro-channel.tsx';
-import { useGetRoles } from '../../hooks/api/use-get-roles.tsx';
 import { UnverifiedMemberRole } from './components/unverified-member-role.tsx';
 import { VerifiedMemberRole } from './components/verified-member-role.tsx';
 import { ModRole } from './components/mod-role.tsx';
@@ -25,6 +22,9 @@ import { Prefix } from './components/prefix.tsx';
 import { WelcomeMessageFormat } from './components/welcome-message-format.tsx';
 import { LeaveMessageFormat } from './components/leave-message-format.tsx';
 import { equals } from 'rambda';
+import { PageSpinner } from '../../../components/page-spinner.tsx';
+import { useGetChannels } from '../../../hooks/api/use-get-channels.tsx';
+import { useGetRoles } from '../../../hooks/api/use-get-roles.tsx';
 
 const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
   icon,

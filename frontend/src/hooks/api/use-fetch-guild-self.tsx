@@ -13,7 +13,5 @@ export interface GuildSelf {
 export const useFetchGuildSelf = () => {
   const api = useGuildApi();
 
-  return (token?: string) => {
-    return api.auth(`Bearer ${token}`).get(`/user/self`).json<GuildSelf>();
-  };
+  return () => api.get(`/user/self`).json<GuildSelf>();
 };

@@ -1,16 +1,16 @@
 import { useTheme } from '@emotion/react';
-import { BarChart } from '../../components/bar-chart';
-import { LineChart } from '../../components/line-chart';
-import { PageSpinner } from '../../components/page-spinner';
-import { useGetAverageMessagesPerChannelPer30Days } from '../../hooks/api/use-get-avg-msg-per-chan';
-import { useGetMessagesPerDay } from '../../hooks/api/use-get-avg-msg-per-day';
+import { BarChart } from '../../../components/bar-chart';
+import { LineChart } from '../../../components/line-chart';
+import { PageSpinner } from '../../../components/page-spinner';
+import { useGetAverageMessagesPerChannelPer30Days } from '../../../hooks/api/use-get-avg-msg-per-chan';
+import { useGetMessagesPerDay } from '../../../hooks/api/use-get-avg-msg-per-day';
 
 const DashboardPage = () => {
   const averageMessagesPerChannelPer30Days =
     useGetAverageMessagesPerChannelPer30Days();
   const averageMessagesPerDay = useGetMessagesPerDay();
   const theme: any = useTheme();
-  if (!useGetAverageMessagesPerChannelPer30Days || !averageMessagesPerDay) {
+  if (!averageMessagesPerChannelPer30Days || !averageMessagesPerDay) {
     return <PageSpinner />;
   }
   return (
