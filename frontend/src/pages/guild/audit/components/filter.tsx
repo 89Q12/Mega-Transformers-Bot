@@ -73,6 +73,7 @@ export const Filter: FC<{
     const values = removeUndefined(form.values);
     setSearchParams((searchParams) => ({ ...searchParams, ...values }));
     onChange(values);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.values, onChange]);
 
   return (

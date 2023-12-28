@@ -26,18 +26,21 @@ export const useGetAuditLogs = ({
   }>();
   const [refreshing, setRefreshing] = useState(0);
 
-  useEffect(() => {
-    setRefreshing((it) => it + 1);
-    api
-      .query({
-        ...filter,
-        ...pagination,
-      })
-      .get(`/auditlog`)
-      .json<{ data: LogEntry[]; total: number }>()
-      .then((auditLogs) => setAuditLogs(auditLogs))
-      .finally(() => setRefreshing((it) => it - 1));
-  }, [api, filter, pagination.offset, pagination.limit]);
+  useEffect(
+    () => {
+      setRefreshing((it) => it + 1);
+      api
+        .query({
+          ...filter,
+          ...pagination,
+        })
+        .get(`/auditlog`)
+        .json<{ data: LogEntry[]; total: number }>()
+        .then((auditLogs) => setAuditLogs(auditLogs))
+        .finally(() => setRefreshing((it) => it - 1));
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    [api, filter, pagination.offset, pagination.limit],
+  );
 
   const isRefreshing = useMemo(
     () => refreshing > 0 && !!auditLogs,

@@ -6,7 +6,7 @@ import { FC, useState } from 'react';
 import { PageSpinner } from '../../../components/page-spinner.tsx';
 import { LogEntry } from './domain/log-entry.tsx';
 import { LogEntriesTable } from './components/log-entries-table.tsx';
-import { Flex } from '@chakra-ui/layout';
+import { Box } from '@chakra-ui/layout';
 import { useConditionalToast } from '../../../hooks/ui/use-conditional-toast.tsx';
 import { Filter } from './components/filter.tsx';
 import { usePagination } from '../../../hooks/ui/use-pagination.tsx';
@@ -33,12 +33,12 @@ const AuditPage = () => {
   });
 
   return (
-    <Flex flexDirection="column" gap={6} justifyContent="center">
+    <Box flexDirection="column" gap={6} justifyContent="center">
       <Filter onChange={setFilter} />
       <Paginator total={auditLogs?.total} />
       <Content auditLogs={auditLogs?.data} />
       <Paginator total={auditLogs?.total} />
-    </Flex>
+    </Box>
   );
 };
 

@@ -4,6 +4,7 @@ import { LineChart } from '../../../components/line-chart';
 import { PageSpinner } from '../../../components/page-spinner';
 import { useGetAverageMessagesPerChannelPer30Days } from '../../../hooks/api/use-get-avg-msg-per-chan';
 import { useGetMessagesPerDay } from '../../../hooks/api/use-get-avg-msg-per-day';
+import { Box } from '@chakra-ui/layout';
 
 const DashboardPage = () => {
   const averageMessagesPerChannelPer30Days =
@@ -14,7 +15,7 @@ const DashboardPage = () => {
     return <PageSpinner />;
   }
   return (
-    <div>
+    <Box>
       <BarChart
         data={averageMessagesPerChannelPer30Days!.values}
         title="Average messages per channel in the last 30 days"
@@ -27,7 +28,7 @@ const DashboardPage = () => {
         labels={averageMessagesPerDay!.labels}
         color={theme.colors.primary[300]}
       />
-    </div>
+    </Box>
   );
 };
 

@@ -2,10 +2,9 @@ import { FC } from 'react';
 import { Box, VStack } from '@chakra-ui/layout';
 import { useSelf } from '../../hooks/state/use-self.tsx';
 import { Tile, UserTile } from './tile.tsx';
-import { Divider, Spacer, StyleProps } from '@chakra-ui/react';
+import { Divider, StyleProps } from '@chakra-ui/react';
 import cheapLogo from './cheaplogo.png';
 import { useLogout } from '../../hooks/state/use-logout.tsx';
-import { repeat } from 'rambda';
 
 export const Sidebar: FC<StyleProps> = (props) => {
   const self = useSelf();

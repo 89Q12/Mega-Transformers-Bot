@@ -23,9 +23,15 @@ const GuildRoot: FC = () => {
   }, [clear, set, guildId, fetchGuildSelf]);
   return (
     <ProvideGuildSelfContext>
-      <Box display="flex" flexDirection="column">
-        <Header />
-        <Box flexGrow={1} flexShrink={0}>
+      <Box display="flex" flexDirection="column" height="100%" width="100%">
+        <Header flexGrow={0} flexShrink={0} />
+        <Box
+          flexGrow={1}
+          overflowY="auto"
+          width="100%"
+          overflowX="auto"
+          padding={10}
+        >
           <Outlet />
         </Box>
       </Box>

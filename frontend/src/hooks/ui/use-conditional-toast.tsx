@@ -20,5 +20,6 @@ export const useConditionalToast = (
       toast.close(toastId.current);
       toastId.current = undefined;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [condition, toast, toastId]);
 };

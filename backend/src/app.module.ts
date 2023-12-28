@@ -61,7 +61,6 @@ import { RouterModule } from '@nestjs/core';
         },
         registerCommandOptions: [
           {
-            forGuild: '1011511871297302608',
             removeCommandsBefore: true,
           },
         ],
