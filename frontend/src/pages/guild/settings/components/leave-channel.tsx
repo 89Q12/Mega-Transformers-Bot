@@ -1,5 +1,5 @@
-import { withFormControl } from '../../../components/with-form-control.tsx';
-import { ChannelField } from '../../../components/channel-field.tsx';
+import { withFormControl } from '../../../../components/with-form-control.tsx';
+import { ChannelField } from '../../../../components/channel-field.tsx';
 import { Settings } from '../domain/settings.tsx';
 
 export const LeaveChannel = withFormControl(

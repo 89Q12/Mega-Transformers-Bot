@@ -13,7 +13,15 @@ export const AuthenticatedRoot: FC = () => {
   return (
     <>
       <Sidebar flexGrow={0} flexShrink={0} />
-      <Box flexGrow={1} flexShrink={1} height="100%" minWidth={0}>
+      <Box
+        flexGrow={1}
+        flexShrink={1}
+        height="100%"
+        minWidth={0}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+      >
         <Outlet />
       </Box>
     </>

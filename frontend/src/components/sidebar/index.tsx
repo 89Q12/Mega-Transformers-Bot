@@ -5,6 +5,7 @@ import { Tile, UserTile } from './tile.tsx';
 import { Divider, StyleProps } from '@chakra-ui/react';
 import cheapLogo from './cheaplogo.png';
 import { useLogout } from '../../hooks/state/use-logout.tsx';
+import { gapChildrenVertically } from '../../util/gap-children-vertically.tsx';
 
 export const Sidebar: FC<StyleProps> = (props) => {
   const self = useSelf();
@@ -25,9 +26,9 @@ export const Sidebar: FC<StyleProps> = (props) => {
       <Box
         flexGrow={1}
         overflowY="auto"
-        gap={2}
         display="flex"
         flexDirection="column"
+        css={gapChildrenVertically(2)}
       >
         {self.guilds.map(({ image, name, guildId }) => (
           <Tile

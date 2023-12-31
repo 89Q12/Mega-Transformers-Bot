@@ -20,22 +20,20 @@ const GuildRoot: FC = () => {
     }
     fetchGuildSelf().then((it) => set(it));
     return () => clear();
-  }, [clear, set, guildId, fetchGuildSelf]);
+  }, [set, guildId, clear, fetchGuildSelf]);
   return (
-    <ProvideGuildSelfContext>
-      <Box display="flex" flexDirection="column" height="100%" width="100%">
-        <Header flexGrow={0} flexShrink={0} />
-        <Box
-          flexGrow={1}
-          overflowY="auto"
-          width="100%"
-          overflowX="auto"
-          padding={10}
-        >
-          <Outlet />
-        </Box>
+    <Box display="flex" flexDirection="column" height="100%" width="100%">
+      <Header flexGrow={0} flexShrink={0} />
+      <Box
+        flexGrow={1}
+        overflowY="auto"
+        width="100%"
+        overflowX="auto"
+        padding={10}
+      >
+        <Outlet />
       </Box>
-    </ProvideGuildSelfContext>
+    </Box>
   );
 };
 

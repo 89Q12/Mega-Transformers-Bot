@@ -1,4 +1,5 @@
 import { useGuildApi } from './use-api.tsx';
+import { useCallback } from 'react';
 
 export type Rank = 'NEW' | 'MEMBER' | 'MOD' | 'ADMIN' | 'OWNER';
 
@@ -12,6 +13,5 @@ export interface GuildSelf {
 
 export const useFetchGuildSelf = () => {
   const api = useGuildApi();
-
-  return () => api.get(`/user/self`).json<GuildSelf>();
+  return useCallback(() => api.get(`/user/self`).json<GuildSelf>(), []);
 };

@@ -1,12 +1,8 @@
 import { useContext } from 'react';
-import { SelfContext } from '../../state/self.context.tsx';
+import { GuildSelfContext } from '../../state/guild-self.context.tsx';
 
 export const useIsMod = () => {
-  const { user } = useContext(SelfContext);
-  if (!user) return false;
-  return (
-    (user && user.rank === 'MOD') ||
-    user.rank === 'ADMIN' ||
-    user.rank === 'OWNER'
-  );
+  const { self } = useContext(GuildSelfContext);
+  if (!self) return false;
+  return self.rank === 'MOD' || self.rank === 'ADMIN' || self.rank === 'OWNER';
 };

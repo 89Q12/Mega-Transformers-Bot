@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -25,7 +26,6 @@ export class IsModGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest<Request>();
-    console.log(req.query);
     const userId = (req.user as any)?.userId;
     if (!userId) {
       this.logger.warn(
@@ -34,9 +34,9 @@ export class IsModGuard implements CanActivate {
       throw new InternalServerErrorException();
     }
     const requestUser = await this.prismaService.guildUser.findUnique({
-      where: { guildId_userId: { guildId: '1011511871297302608', userId } },
+      where: { guildId_userId: { guildId: req.params.guildId, userId } },
     });
-    if (!requestUser) throw new UnauthorizedException();
+    if (!requestUser) throw new ForbiddenException();
     return IsModGuard.ALLOWED_ROLES.includes(requestUser.rank);
   }
 }

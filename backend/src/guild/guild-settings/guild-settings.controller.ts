@@ -14,18 +14,18 @@ import { GuildSettingsService } from './guild-settings.service';
 import { plainToInstance } from '../../util/functions/plain-to-instance';
 import { HttpStatusCode } from 'axios';
 
-@Controller('settings')
+@Controller()
 @UseGuards(JwtAuthGuard, IsModGuard)
 export class GuildSettingsController {
   constructor(private readonly settingsService: GuildSettingsService) {}
 
-  @Get('/')
+  @Get()
   async getSettings(@Param('guildId') guildId: string): Promise<SettingsDto> {
     const settings = await this.settingsService.getSettings(guildId);
     return plainToInstance(SettingsDto, settings);
   }
 
-  @Put('/')
+  @Put()
   @HttpCode(HttpStatusCode.Accepted)
   async putSettings(
     @Param('guildId') guildId: string,

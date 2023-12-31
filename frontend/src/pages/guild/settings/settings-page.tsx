@@ -25,6 +25,7 @@ import { equals } from 'rambda';
 import { PageSpinner } from '../../../components/page-spinner.tsx';
 import { useGetChannels } from '../../../hooks/api/use-get-channels.tsx';
 import { useGetRoles } from '../../../hooks/api/use-get-roles.tsx';
+import { gapChildrenVertically } from '../../../util/gap-children-vertically.tsx';
 
 const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
   icon,
@@ -69,7 +70,12 @@ const SettingsPage = () => {
   }
   return (
     <FormikProvider value={{ ...form, isSubmitting: submitting }}>
-      <Container as={Form} display="flex" flexDirection="column" gap={6}>
+      <Container
+        as={Form}
+        display="flex"
+        flexDirection="column"
+        css={gapChildrenVertically(6)}
+      >
         <SectionHeading icon={HiHashtag}>Channels</SectionHeading>
         <OpenIntroChannel channels={channels} />
         <IntroChannel channels={channels} />

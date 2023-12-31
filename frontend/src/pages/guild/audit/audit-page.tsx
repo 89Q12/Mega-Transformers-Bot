@@ -11,6 +11,8 @@ import { useConditionalToast } from '../../../hooks/ui/use-conditional-toast.tsx
 import { Filter } from './components/filter.tsx';
 import { usePagination } from '../../../hooks/ui/use-pagination.tsx';
 import { Empty } from '../../../components/empty.tsx';
+import { css } from '@emotion/react';
+import { gapChildrenVertically } from '../../../util/gap-children-vertically.tsx';
 
 const Content: FC<{ auditLogs: LogEntry[] | undefined }> = ({ auditLogs }) => {
   if (!auditLogs) {
@@ -33,7 +35,11 @@ const AuditPage = () => {
   });
 
   return (
-    <Box flexDirection="column" gap={6} justifyContent="center">
+    <Box
+      flexDirection="column"
+      justifyContent="center"
+      css={gapChildrenVertically(6)}
+    >
       <Filter onChange={setFilter} />
       <Paginator total={auditLogs?.total} />
       <Content auditLogs={auditLogs?.data} />
