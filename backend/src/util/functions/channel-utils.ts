@@ -8,17 +8,22 @@ export default async function cleanTextChannel(
   let stop = false;
   let pointer: string;
   while (!stop) {
-    const messages = await channel.messages.fetch({
-      limit: 100,
-      before: pointer,
-    });
-    pointer = messages.last() === undefined ? '0' : messages.last().id;
-    stop = stopCb(messages);
-    messages
-      .filter((msg) => filterCb(msg))
-      .forEach((msg) => {
-        console.log('deleting message: ' + msg.id);
-        msg.delete().catch((err) => console.error(err));
+    try {
+      const messages = await channel.messages.fetch({
+        limit: 100,
+        before: pointer,
       });
+      pointer = messages.last() === undefined ? '0' : messages.last().id;
+      stop = stopCb(messages);
+      messages
+        .filter((msg) => filterCb(msg))
+        .forEach((msg) => {
+          console.log('deleting message: ' + msg.id);
+          msg.delete().catch((err) => console.error(err));
+        });
+    } catch {
+      console.log(`Missing access: ${channel.id}`);
+      stop = true;
+    }
   }
 }
