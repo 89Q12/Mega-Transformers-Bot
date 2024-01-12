@@ -51,25 +51,37 @@ export class TasksService {
     this.client.guilds.cache.forEach(async (guild) => {
       (await this.userService.findAll(guild.id)).forEach(
         async (dbUser: GuildUser) => {
-          const member = await this.client.guilds.cache
-            .get(guild.id)
-            .members.fetch(dbUser.userId.toString());
-          if (member.communicationDisabledUntilTimestamp == null) {
-            return;
-          } else if (member.communicationDisabledUntilTimestamp > Date.now()) {
-            logger.log(
-              `User ${dbUser.userId} is still timed out, until ${new Date(
-                member.communicationDisabledUntilTimestamp,
-              ).toLocaleString()}`,
-            );
-            return;
-          } else if (member.communicationDisabledUntilTimestamp < Date.now()) {
-            logger.log(`User ${dbUser.userId} timeout expired.`);
-            await this.eventEmitter.emitAsync(
-              'user.timeout.expired',
-              new UserTimeOutEvent(member.id, guild.id, 'Timeout expired', 0),
-            );
-            await member.disableCommunicationUntil(null); // Be sure to really remove the timeout because its already expired
+          try {
+            const member = await this.client.guilds.cache
+              .get(guild.id)
+              .members.fetch(dbUser.userId.toString());
+            if (member.communicationDisabledUntilTimestamp == null) {
+              return;
+            } else if (
+              member.communicationDisabledUntilTimestamp > Date.now()
+            ) {
+              logger.log(
+                `User ${dbUser.userId} is still timed out, until ${new Date(
+                  member.communicationDisabledUntilTimestamp,
+                ).toLocaleString()}`,
+              );
+              return;
+            } else if (
+              member.communicationDisabledUntilTimestamp < Date.now()
+            ) {
+              logger.log(`User ${dbUser.userId} timeout expired.`);
+              await this.eventEmitter.emitAsync(
+                'user.timeout.expired',
+                new UserTimeOutEvent(member.id, guild.id, 'Timeout expired', 0),
+              );
+              await member.disableCommunicationUntil(null); // Be sure to really remove the timeout because its already expired
+            }
+          } catch (err) {
+            await this.eventEmitter.emit('error', {
+              toFormattedLog() {
+                return err.message();
+              },
+            });
           }
         },
       );
