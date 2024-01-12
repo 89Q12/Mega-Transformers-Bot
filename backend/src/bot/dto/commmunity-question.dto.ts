@@ -1,5 +1,5 @@
 import { Param, ParamType } from '@discord-nestjs/core';
-import { IsOptional, IsString } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CommunityQuestionDto {
   @Param({
