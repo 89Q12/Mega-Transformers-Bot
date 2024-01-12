@@ -40,15 +40,16 @@ model User {
 model GuildUser {
   guildId            String
   userId             String
-  lastMessageSent    DateTime? @default(now())
-  lastOnline         DateTime  @default(now())
-  messageCountBucket Int       @default(30)
-  firstMessageId     String    @default("")
-  unlocked           Boolean   @default(false)
-  deactivated        Boolean   @default(false)
-  rank               Rank      @default(NEW)
-  user               User      @relation(fields: [userId], references: [userId])
-  guild              Guild     @relation(fields: [guildId], references: [id])
+  lastMessageSent    DateTime?        @default(now())
+  lastOnline         DateTime         @default(now())
+  messageCountBucket Int              @default(30)
+  firstMessageId     String           @default("")
+  unlocked           Boolean          @default(false)
+  deactivated        Boolean          @default(false)
+  rank               Rank             @default(NEW)
+  user               User             @relation(fields: [userId], references: [userId])
+  guild              Guild            @relation(fields: [guildId], references: [id])
+  GuildUserLimit     GuildUserLimit[]
 
   @@id([guildId, userId])
 }
@@ -108,12 +109,13 @@ model AuditLog {
 }
 
 model Limits {
-  id         Int       @id @default(autoincrement())
-  guildId    String
-  limitType  LimitType
-  limitValue Int
-  period     Int       @default(86400) // in seconds (1 day = 86400)
-  guild      Guild     @relation(fields: [guildId], references: [id])
+  id             Int              @id @default(autoincrement())
+  guildId        String
+  limitType      LimitType
+  limitValue     Int
+  period         Int              @default(86400) // in seconds (1 day = 86400)
+  guild          Guild            @relation(fields: [guildId], references: [id])
+  GuildUserLimit GuildUserLimit[]
 }
 
 model Guild {
@@ -126,6 +128,8 @@ model Guild {
   Limits             Limits[]
   Messages           Messages[]
   GuildUser          GuildUser[]
+  initialised        Boolean              @default(false)
+  GuildQuestion      GuildQuestion[]
 }
 
 model MessageMetadata {
@@ -150,4 +154,23 @@ model Attachment {
   url             String
   type            AttachmentType
   MessageMetadata MessageMetadata @relation(fields: [messageId], references: [messageId])
+}
+
+model GuildUserLimit {
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now())
+  Limits           Limits    @relation(fields: [limitsId], references: [id])
+  limitsId         Int
+  GuildUser        GuildUser @relation(fields: [guildUserGuildId, guildUserUserId], references: [guildId, userId])
+  guildUserGuildId String
+  guildUserUserId  String
+}
+
+model GuildQuestion {
+  id        Int      @id @default(autoincrement())
+  guildId   String
+  question  String
+  answers   Int      @default(0)
+  createdAt DateTime @default(now())
+  guild     Guild    @relation(fields: [guildId], references: [id])
 }
