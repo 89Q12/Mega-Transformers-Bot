@@ -29,10 +29,14 @@ import {
   SlowmodeEnabled,
 } from '../events/channel.event';
 import { ChannelNotTextBasedException } from 'src/util/exception/channel-not-text-based-exception';
+import { HasRequiredRank } from 'src/util/guards/has-required-rank.guard';
+import { RequiredRank } from 'src/util/decorators/requires-rank.decorator';
+import { Rank } from '@prisma/client';
 
 @ApiTags('/channel')
 @Controller('/channel')
-@UseGuards(JwtAuthGuard)
+@RequiredRank(Rank.MOD)
+@UseGuards(JwtAuthGuard, HasRequiredRank)
 export class ChannelController {
   logger = new Logger(ChannelController.name);
   constructor(

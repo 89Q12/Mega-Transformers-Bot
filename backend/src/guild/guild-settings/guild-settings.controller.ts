@@ -16,7 +16,7 @@ import { RequiredRank } from 'src/util/decorators/requires-rank.decorator';
 import { Rank } from '@prisma/client';
 import { HasRequiredRank } from 'src/util/guards/has-required-rank.guard';
 
-@Controller('settings')
+@Controller()
 @RequiredRank(Rank.MOD)
 @UseGuards(JwtAuthGuard, HasRequiredRank)
 export class GuildSettingsController {

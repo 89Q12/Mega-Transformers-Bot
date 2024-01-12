@@ -30,11 +30,14 @@ import {
 import { DiscordGuildMember } from '../dto/guild-member';
 import { plainToInstance } from '../../../util/functions/plain-to-instance';
 import { Request } from 'express';
-import { GuildUser } from '@prisma/client';
+import { GuildUser, Rank } from '@prisma/client';
+import { RequiredRank } from 'src/util/decorators/requires-rank.decorator';
+import { HasRequiredRank } from 'src/util/guards/has-required-rank.guard';
 
 @Controller('/user')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@RequiredRank(Rank.MOD)
+@UseGuards(JwtAuthGuard, HasRequiredRank)
 export class UserController {
   logger = new Logger(UserController.name);
 

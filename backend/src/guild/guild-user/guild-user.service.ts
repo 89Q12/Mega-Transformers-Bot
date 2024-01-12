@@ -1,4 +1,4 @@
-import { InjectDiscordClient } from '@discord-nestjs/core';
+import { InjectDiscordClient, Once } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { GuildUser, Rank } from '@prisma/client';
 import { Client, GuildMember } from 'discord.js';
@@ -14,6 +14,15 @@ export class GuildUserService {
     @InjectDiscordClient() private client: Client,
     @Inject(GuildSettingsService) private settings: GuildSettingsService,
   ) {}
+
+  @Once('ready')
+  async onReady() {
+    const guilds = await this.client.guilds.fetch();
+    guilds.forEach(async (guild) => {
+      await this.addMembers(guild.id);
+    });
+  }
+
   async getGuildUser(
     userId: string,
     guildId: string,

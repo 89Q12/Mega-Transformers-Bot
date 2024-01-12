@@ -26,11 +26,15 @@ import {
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Rank } from '@prisma/client';
+import { RequiredRank } from 'src/util/decorators/requires-rank.decorator';
+import { HasRequiredRank } from 'src/util/guards/has-required-rank.guard';
 
 const logger = new Logger('RoleController');
 @ApiTags('/role')
 @Controller('/role')
-@UseGuards(JwtAuthGuard)
+@RequiredRank(Rank.MOD)
+@UseGuards(JwtAuthGuard, HasRequiredRank)
 @ApiBearerAuth()
 export class RoleController {
   constructor(
