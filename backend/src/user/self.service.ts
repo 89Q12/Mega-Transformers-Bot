@@ -22,7 +22,7 @@ export class SelfService {
     return plainToInstance(SelfDto, {
       userId: discordUser.id,
       avatarUrl: discordUser.avatarURL({ size: 128 }),
-      name: discordUser.username,
+      name: discordUser.globalName,
       guilds: guilds.map((guild) => ({
         guildId: guild.id,
         name: guild.name,

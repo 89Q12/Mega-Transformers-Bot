@@ -25,7 +25,7 @@ import { equals } from 'rambda';
 import { PageSpinner } from '../../../components/page-spinner.tsx';
 import { useGetChannels } from '../../../hooks/api/use-get-channels.tsx';
 import { useGetRoles } from '../../../hooks/api/use-get-roles.tsx';
-import { gapChildrenVertically } from '../../../util/gap-children-vertically.tsx';
+import { gapChildrenVertically } from '../../../util/gap-children.tsx';
 
 const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
   icon,
@@ -74,7 +74,7 @@ const SettingsPage = () => {
         as={Form}
         display="flex"
         flexDirection="column"
-        css={gapChildrenVertically(6)}
+        css={gapChildrenVertically()}
       >
         <SectionHeading icon={HiHashtag}>Channels</SectionHeading>
         <OpenIntroChannel channels={channels} />

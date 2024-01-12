@@ -20,7 +20,7 @@ export class GuildUserController {
     @RequestUser() userId: string,
     @Param('guildId') guildId: string,
   ): Promise<SelfDto> {
-    const [{ rank }, { avatarUrl, name }] = await Promise.all([
+    const [{ rank }, { avatarUrl, name, guildName }] = await Promise.all([
       this.userService.getGuildUser(userId, guildId),
       this.client.guilds
         .fetch(guildId)
@@ -28,6 +28,7 @@ export class GuildUserController {
         .then((it) => ({
           avatarUrl: it.avatarURL({ size: 128 }),
           name: it.displayName,
+          guildName: it.guild.name,
         })),
     ]);
     return plainToInstance(SelfDto, {
@@ -36,6 +37,7 @@ export class GuildUserController {
       avatarUrl,
       name,
       rank,
+      guildName,
     });
   }
 }

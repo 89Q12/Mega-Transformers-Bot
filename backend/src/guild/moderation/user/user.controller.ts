@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ChannelType, Client, User } from 'discord.js';
+import { ChannelType, Client, GuildMember, User } from 'discord.js';
 import {
   DiscordUser,
   userResponseSchema,
@@ -26,30 +26,47 @@ import {
   UserPurgeEvent,
   UserTimeOutEvent,
 } from '../events/user.events';
+import { DiscordGuildMember } from '../dto/guild-member';
+import { plainToInstance } from '../../../util/functions/plain-to-instance';
 
 @Controller('/user')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class UserController {
   logger = new Logger(UserController.name);
+
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
+
   @Get('/')
   @ApiOperation({ summary: 'Get all users for a guild' })
   @ApiResponse({
     status: 200,
-    type: [DiscordUser],
     schema: usersResponseSchema,
+    type: DiscordGuildMember,
     description: 'Users were successfully fetched',
   })
-  async getGuildUsers(@Param('guildId') guildId: string): Promise<User[]> {
+  async getGuildUsers(
+    @Param('guildId') guildId: string,
+  ): Promise<DiscordGuildMember[]> {
     const guild = await this.client.guilds.fetch(guildId);
     const members = await guild.members.fetch();
-    this.logger.log(`Found ${members.size} members in guild ${guildId}`);
-    return members.map((member) => member.user);
+    this.logger.debug(`Found ${members.size} members in guild ${guildId}`);
+    return members.map((member) =>
+      plainToInstance(DiscordGuildMember, {
+        avatarUrl: member.displayAvatarURL(),
+        guildId: member.guild.id,
+        bot: member.user.bot,
+        userId: member.user.id,
+        communicationDisabledUntil:
+          member?.communicationDisabledUntil?.toJSON() ?? undefined,
+        displayName: member.displayName ?? member.user.globalName,
+        username: member.user.username,
+      }),
+    );
   }
 
   @Get(':userId')
@@ -69,6 +86,7 @@ export class UserController {
     this.logger.log(`Found member ${member.user.username} in guild ${guildId}`);
     return member.user;
   }
+
   @Post(':userId/ban')
   @ApiOperation({ summary: 'Ban a user from a guild' })
   @ApiResponse({

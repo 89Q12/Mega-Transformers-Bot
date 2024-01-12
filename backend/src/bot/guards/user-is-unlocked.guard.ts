@@ -13,7 +13,8 @@ interface DiscordExecutionContext extends ExecutionContext {
 @Injectable()
 export class IsUserUnlockedGuard implements CanActivate {
   constructor(
-    @Inject(GuildSettingsService) private readonly settingsService: GuildSettingsService,
+    @Inject(GuildSettingsService)
+    private readonly settingsService: GuildSettingsService,
   ) {}
   async canActivate(context: DiscordExecutionContext): Promise<boolean> {
     const message: Message = context.getArgByIndex(0);

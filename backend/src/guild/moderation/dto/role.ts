@@ -1,22 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
-  IsEnum,
   IsIn,
-  IsInstance,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
   IsUrl,
 } from 'class-validator';
 import {
-  Colors,
+  Base64Resolvable,
   ColorResolvable,
+  Colors,
+  EmojiResolvable,
   PermissionFlagsBits,
   PermissionResolvable,
-  Base64Resolvable,
-  EmojiResolvable,
 } from 'discord.js';
 
 class RoleResponse {

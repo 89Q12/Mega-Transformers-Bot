@@ -5,7 +5,7 @@ import { Tile, UserTile } from './tile.tsx';
 import { Divider, StyleProps } from '@chakra-ui/react';
 import cheapLogo from './cheaplogo.png';
 import { useLogout } from '../../hooks/state/use-logout.tsx';
-import { gapChildrenVertically } from '../../util/gap-children-vertically.tsx';
+import { gapChildrenVertically } from '../../util/gap-children.tsx';
 
 export const Sidebar: FC<StyleProps> = (props) => {
   const self = useSelf();

@@ -9,7 +9,9 @@ describe('GuildRestrictedChannelService', () => {
       providers: [GuildRestrictedChannelService],
     }).compile();
 
-    service = module.get<GuildRestrictedChannelService>(GuildRestrictedChannelService);
+    service = module.get<GuildRestrictedChannelService>(
+      GuildRestrictedChannelService,
+    );
   });
 
   it('should be defined', () => {
