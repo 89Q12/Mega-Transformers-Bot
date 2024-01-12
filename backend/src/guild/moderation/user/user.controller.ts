@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ChannelType, Client, GuildMember, User } from 'discord.js';
+import { ChannelType, Client, User } from 'discord.js';
 import {
   DiscordUser,
   userResponseSchema,

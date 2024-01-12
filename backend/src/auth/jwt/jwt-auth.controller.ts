@@ -6,17 +6,13 @@ import {
   Post,
   Query,
   Req,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthService } from './jwt-auth.service';
 import { RefreshJwtGuard } from './guards/refresh-auth.guard';
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
-import { catchError, firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { OAuthErrorData } from 'discord.js';
 
 @Controller('auth')
 @ApiTags('auth/jwt')
