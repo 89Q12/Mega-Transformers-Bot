@@ -33,6 +33,7 @@ import { needHelpButton } from 'src/util/functions/menu-helper';
     'en-US': 'Timeouts a user',
     de: 'Nutzer:in muten (Timeout)',
   },
+  dmPermission: false,
 })
 export class TimeOutCommand {
   constructor(

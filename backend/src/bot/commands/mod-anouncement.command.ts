@@ -8,6 +8,7 @@ import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
   description: 'Sends your message using the bot',
   defaultMemberPermissions: ['ModerateMembers'],
   type: ApplicationCommandType.ChatInput,
+  dmPermission: false,
 })
 export class MumVoiceCommand {
   @Handler()
