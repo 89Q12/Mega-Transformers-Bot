@@ -1,6 +1,5 @@
-import { Flex } from '@chakra-ui/layout';
+import { Flex, Text } from '@chakra-ui/layout';
 import { FC, PropsWithChildren } from 'react';
-import { Text } from '@chakra-ui/react';
 
 export const Empty: FC<PropsWithChildren> = ({ children }) => (
   <Flex alignItems="center" justifyContent="center" height="100%" width="100%">

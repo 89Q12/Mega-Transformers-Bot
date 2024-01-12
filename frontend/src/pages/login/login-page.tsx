@@ -1,4 +1,6 @@
-import { Button, Flex, Icon } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/button';
+import { Icon } from '@chakra-ui/icon';
+import { Flex } from '@chakra-ui/layout';
 import { FC } from 'react';
 import { FaDiscord } from 'react-icons/fa6';
 import { useLocation } from 'react-router-dom';

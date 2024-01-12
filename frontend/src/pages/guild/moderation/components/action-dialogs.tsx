@@ -1,4 +1,7 @@
-import { FC, ReactNode, useCallback, useRef, useState } from 'react';
+import { Button } from '@chakra-ui/button';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { Icon } from '@chakra-ui/icon';
+import { Text } from '@chakra-ui/layout';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -7,14 +10,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button,
-  FormControl,
-  FormLabel,
-  Icon,
-  Text,
-  useToast,
-} from '@chakra-ui/react';
-import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
+} from '@chakra-ui/modal';
+import { useToast } from '@chakra-ui/toast';
+import { FC, ReactNode, useCallback, useRef, useState } from 'react';
 import {
   HiCheck,
   HiClock,
@@ -22,13 +20,15 @@ import {
   HiUserMinus,
   HiXMark,
 } from 'react-icons/hi2';
+import { withProps } from '../../../../components/with-props.tsx';
+
+import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
 import {
   gapChildrenHorizontally,
   gapChildrenVertically,
 } from '../../../../util/gap-children.tsx';
 import { useModerationActions } from '../hooks/use-moderation-actions.tsx';
 import { SelectMember } from './select-member.tsx';
-import { withProps } from '../../../../components/with-props.tsx';
 import { TimeoutDurationField } from './timeout-duration-field.tsx';
 
 type ActionDialogProps<T> = {

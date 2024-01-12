@@ -1,7 +1,8 @@
+import { Avatar } from '@chakra-ui/avatar';
+import { Text } from '@chakra-ui/layout';
 import { FC } from 'react';
-import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
 import { AutocompleteField } from '../../../../components/autocomplete-field.tsx';
-import { Avatar, Text } from '@chakra-ui/react';
+import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
 
 export const SelectMember: FC<{
   value: DiscordGuildMember | null;

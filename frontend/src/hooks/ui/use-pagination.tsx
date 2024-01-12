@@ -1,5 +1,6 @@
+import { IconButton } from '@chakra-ui/button';
+import { HStack } from '@chakra-ui/layout';
 import { useMemo } from 'react';
-import { HStack, IconButton } from '@chakra-ui/react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 import { useSearchParams } from 'react-router-dom';
 

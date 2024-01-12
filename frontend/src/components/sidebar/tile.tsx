@@ -1,17 +1,12 @@
-import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Image } from '@chakra-ui/image';
 import { Box } from '@chakra-ui/layout';
-import {
-  Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Tooltip,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { useBreakpointValue } from '@chakra-ui/media-query';
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu';
+import { Tooltip } from '@chakra-ui/tooltip';
 import { css } from '@emotion/react';
+import { FC } from 'react';
 import { HiArrowLeftOnRectangle } from 'react-icons/hi2';
+import { NavLink } from 'react-router-dom';
 
 const styles = css`
   flex-shrink: 0;

@@ -1,9 +1,9 @@
+import { Flex, Link } from '@chakra-ui/layout';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Link as RouterLink, useSearchParams } from 'react-router-dom';
 import { PageSpinner } from '../../components/page-spinner';
 import { useGlobalApi } from '../../hooks/api/use-api.tsx';
-import { Flex, Link } from '@chakra-ui/react';
 import { useFetchToken } from './use-fetch-token';
 
 const OauthCallbackPage = () => {

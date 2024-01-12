@@ -1,6 +1,8 @@
 import { FC, useEffect } from 'react';
 import { AuditLogFilter } from '../hooks/use-get-audit-logs.tsx';
-import { Card, CardBody, Select, Wrap, WrapItem } from '@chakra-ui/react';
+import { Card, CardBody } from '@chakra-ui/card';
+import { Select } from '@chakra-ui/select';
+import { Wrap, WrapItem } from '@chakra-ui/layout';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { withFormControl } from '../../../../components/with-form-control.tsx';
 import { DateField } from '../../../../components/date-field.tsx';

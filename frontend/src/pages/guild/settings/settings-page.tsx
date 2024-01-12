@@ -1,31 +1,31 @@
-import { Container, Icon } from '@chakra-ui/react';
-import { OpenIntroChannel } from './components/open-intro-channel.tsx';
-import { useGetSettings } from './hooks/use-get-settings.tsx';
+import { Icon } from '@chakra-ui/icon';
+import { Container, Heading } from '@chakra-ui/layout';
 import { Form, FormikProvider, useFormik } from 'formik';
-import { Settings } from './domain/settings.tsx';
-import { usePutSettings } from './hooks/use-put-settings.tsx';
-import { IntroChannel } from './components/intro-channel.tsx';
-import { UnverifiedMemberRole } from './components/unverified-member-role.tsx';
-import { VerifiedMemberRole } from './components/verified-member-role.tsx';
-import { ModRole } from './components/mod-role.tsx';
-import { AdminRole } from './components/admin-role.tsx';
+import { equals } from 'rambda';
+import { ElementType, FC, PropsWithChildren, useEffect, useState } from 'react';
 import {
   HiChatBubbleBottomCenterText,
   HiHashtag,
   HiOutlineEllipsisVertical,
   HiUserGroup,
 } from 'react-icons/hi2';
-import { Heading } from '@chakra-ui/layout';
-import { ElementType, FC, PropsWithChildren, useEffect, useState } from 'react';
-import { LeaveChannel } from './components/leave-channel.tsx';
-import { Prefix } from './components/prefix.tsx';
-import { WelcomeMessageFormat } from './components/welcome-message-format.tsx';
-import { LeaveMessageFormat } from './components/leave-message-format.tsx';
-import { equals } from 'rambda';
 import { PageSpinner } from '../../../components/page-spinner.tsx';
 import { useGetChannels } from '../../../hooks/api/use-get-channels.tsx';
 import { useGetRoles } from '../../../hooks/api/use-get-roles.tsx';
 import { gapChildrenVertically } from '../../../util/gap-children.tsx';
+import { AdminRole } from './components/admin-role.tsx';
+import { IntroChannel } from './components/intro-channel.tsx';
+import { LeaveChannel } from './components/leave-channel.tsx';
+import { LeaveMessageFormat } from './components/leave-message-format.tsx';
+import { ModRole } from './components/mod-role.tsx';
+import { OpenIntroChannel } from './components/open-intro-channel.tsx';
+import { Prefix } from './components/prefix.tsx';
+import { UnverifiedMemberRole } from './components/unverified-member-role.tsx';
+import { VerifiedMemberRole } from './components/verified-member-role.tsx';
+import { WelcomeMessageFormat } from './components/welcome-message-format.tsx';
+import { Settings } from './domain/settings.tsx';
+import { useGetSettings } from './hooks/use-get-settings.tsx';
+import { usePutSettings } from './hooks/use-put-settings.tsx';
 
 const SectionHeading: FC<PropsWithChildren<{ icon: ElementType }>> = ({
   icon,

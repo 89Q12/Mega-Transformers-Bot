@@ -1,14 +1,14 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
+import AuthenticatedRoot from '../../pages';
+import { ErrorHandler } from '../../pages/error-handler.tsx';
+import GuildRoot from '../../pages/guild';
 import Audit from '../../pages/guild/audit';
 import Dashboard from '../../pages/guild/dashboard';
-import { ErrorHandler } from '../../pages/error-handler.tsx';
 import Moderation from '../../pages/guild/moderation';
+import Settings from '../../pages/guild/settings';
 import OauthCallback from '../../pages/oauth-callback';
 import { Root } from '../../pages/root.tsx';
-import Settings from '../../pages/guild/settings';
 import SelectGuild from '../../pages/select-guild';
-import GuildRoot from '../../pages/guild';
-import { AuthenticatedRoot } from '../../pages/authenticated-root.tsx';
 
 export const useRouter = () => {
   return createBrowserRouter([

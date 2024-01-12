@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { FieldProps } from './with-form-control.tsx';
 import { Channel } from '../hooks/api/use-get-channels.tsx';
-import { Select } from '@chakra-ui/react';
+import { Select } from '@chakra-ui/select';
 
 export const ChannelField: FC<FieldProps<string, { channels: Channel[] }>> = ({
   channels,

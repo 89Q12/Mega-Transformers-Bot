@@ -1,9 +1,11 @@
-import { Heading } from '@chakra-ui/layout';
-import { Button, Grid, Icon } from '@chakra-ui/react';
-import { HiClock, HiFire, HiMegaphone, HiUserMinus } from 'react-icons/hi2';
+import { Button } from '@chakra-ui/button';
+import { Icon } from '@chakra-ui/icon';
+import { Container, Grid, Heading } from '@chakra-ui/layout';
 import { FC, useContext, useState } from 'react';
-import { GuildSelfContext } from '../../../../state/guild-self.context.tsx';
+import { HiClock, HiFire, HiMegaphone, HiUserMinus } from 'react-icons/hi2';
 import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
+import { GuildSelfContext } from '../../../../state/guild-self.context.tsx';
+import { gapChildrenVertically } from '../../../../util/gap-children.tsx';
 import { ActionDialogs } from './action-dialogs.tsx';
 
 export const Actions: FC<{ members: DiscordGuildMember[] }> = ({ members }) => {
@@ -14,7 +16,7 @@ export const Actions: FC<{ members: DiscordGuildMember[] }> = ({ members }) => {
   const guildName = self?.guildName;
 
   return (
-    <>
+    <Container css={gapChildrenVertically()}>
       <ActionDialogs
         shownDialog={shownDialog}
         onClose={() => setShownDialog(undefined)}
@@ -55,6 +57,6 @@ export const Actions: FC<{ members: DiscordGuildMember[] }> = ({ members }) => {
           Completely purge a member from {guildName}
         </Button>
       </Grid>
-    </>
+    </Container>
   );
 };

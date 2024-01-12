@@ -5,7 +5,7 @@ import { Outlet } from 'react-router';
 import Login from './login';
 import { useIsAuthenticated } from '../hooks/state/use-is-authenticated.tsx';
 
-export const AuthenticatedRoot: FC = () => {
+const AuthenticatedRoot: FC = () => {
   const authenticated = useIsAuthenticated();
   if (!authenticated) {
     return <Login />;
@@ -27,3 +27,5 @@ export const AuthenticatedRoot: FC = () => {
     </>
   );
 };
+
+export default AuthenticatedRoot;

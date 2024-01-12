@@ -1,10 +1,8 @@
-import {
-  Button,
-  chakra,
-  Icon,
-  StyleProps,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { StyleProps } from '@chakra-ui/styled-system';
+import { chakra } from '@chakra-ui/system';
+import { Button } from '@chakra-ui/button';
+import { Icon } from '@chakra-ui/icon';
+import { useBreakpointValue } from '@chakra-ui/media-query';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import { HiCog, HiFlag, HiHome, HiQueueList } from 'react-icons/hi2';
 import {

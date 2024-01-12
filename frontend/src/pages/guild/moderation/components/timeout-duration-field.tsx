@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import {
-  FormControl,
-  FormLabel,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-} from '@chakra-ui/react';
+} from '@chakra-ui/number-input';
+import { FC } from 'react';
 
 const milliSecondsInAMinute = 60 * 1000;
 

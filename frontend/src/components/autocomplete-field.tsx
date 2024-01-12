@@ -1,3 +1,13 @@
+import { IconButton } from '@chakra-ui/button';
+import { Icon } from '@chakra-ui/icon';
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input';
+import { Box } from '@chakra-ui/layout';
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+} from '@chakra-ui/popover';
 import {
   FC,
   Key,
@@ -7,19 +17,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import {
-  Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-} from '@chakra-ui/react';
 import { HiXMark } from 'react-icons/hi2';
-import { Box } from '@chakra-ui/layout';
 
 export type AutocompleteProps<T, ID> = {
   items: T[];

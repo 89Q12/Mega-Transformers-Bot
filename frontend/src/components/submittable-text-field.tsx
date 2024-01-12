@@ -1,13 +1,13 @@
-import { FieldProps } from './with-form-control.tsx';
-import { FC, forwardRef, ReactNode, useState } from 'react';
+import { IconButton } from '@chakra-ui/button';
 import {
   Editable,
   EditableInput,
   EditablePreview,
-  IconButton,
   useEditableControls,
-} from '@chakra-ui/react';
+} from '@chakra-ui/editable';
+import { FC, forwardRef, ReactNode, useState } from 'react';
 import { HiCheck, HiPencil } from 'react-icons/hi2';
+import { FieldProps } from './with-form-control.tsx';
 
 const ControlButton: FC<{ label: string; icon: ReactNode } & any> = forwardRef(
   ({ label, icon, ...props }, ref) => {

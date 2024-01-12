@@ -1,4 +1,5 @@
-import { Icon, Link, Text } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/icon';
+import { Link, Text } from '@chakra-ui/layout';
 import { FC } from 'react';
 import { HiExternalLink } from 'react-icons/hi';
 

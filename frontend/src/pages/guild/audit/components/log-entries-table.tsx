@@ -1,4 +1,3 @@
-import { LogEntry } from '../domain/log-entry.tsx';
 import {
   Table,
   TableContainer,
@@ -7,8 +6,9 @@ import {
   Th,
   Thead,
   Tr,
-} from '@chakra-ui/react';
+} from '@chakra-ui/table';
 import { FC } from 'react';
+import { LogEntry } from '../domain/log-entry.tsx';
 
 export const LogEntriesTable: FC<{ auditLogs: LogEntry[] }> = ({
   auditLogs,

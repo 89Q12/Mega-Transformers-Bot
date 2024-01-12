@@ -1,4 +1,5 @@
-import { Container, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Container, Text } from '@chakra-ui/layout';
+import { useBreakpointValue } from '@chakra-ui/media-query';
 import { useSelf } from '../../hooks/state/use-self.tsx';
 import { useCallback, useState } from 'react';
 import { AdditionalWrapper } from './additional-wrapper.tsx';

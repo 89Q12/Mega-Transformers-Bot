@@ -1,18 +1,16 @@
-import { FC } from 'react';
-import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
+import { Badge, Heading, Text } from '@chakra-ui/layout';
 import {
-  Avatar,
-  Badge,
   Table,
   TableContainer,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
-} from '@chakra-ui/react';
-import { Heading } from '@chakra-ui/layout';
+} from '@chakra-ui/table';
+import { Avatar } from '@chakra-ui/avatar';
+import { FC } from 'react';
+import { DiscordGuildMember } from '../../../../hooks/api/moderation/use-fetch-moderation-users.tsx';
 import { useDateTimeFormatter } from '../../../../hooks/ui/use-date-time-formatter.tsx';
 
 export const TimeoutedUsersTable: FC<{ users: DiscordGuildMember[] }> = ({

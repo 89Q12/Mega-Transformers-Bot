@@ -1,4 +1,4 @@
-import { ToastId, useToast, UseToastOptions } from '@chakra-ui/react';
+import { ToastId, useToast, UseToastOptions } from '@chakra-ui/toast';
 import { useEffect, useRef } from 'react';
 
 export const useConditionalToast = (

@@ -1,16 +1,16 @@
-import { ComponentType, ReactNode } from 'react';
+import {
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+} from '@chakra-ui/form-control';
 import {
   FieldHelperProps,
   FieldInputProps,
   useField,
   useFormikContext,
 } from 'formik';
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
-} from '@chakra-ui/react';
+import { ComponentType, ReactNode } from 'react';
 
 export function withFormControl<
   Val,
