@@ -1,8 +1,5 @@
 import { FC, useContext, useEffect } from 'react';
-import {
-  GuildSelfContext,
-  ProvideGuildSelfContext,
-} from '../../state/guild-self.context.tsx';
+import { GuildSelfContext } from '../../state/guild-self.context.tsx';
 import { useFetchGuildSelf } from '../../hooks/api/use-fetch-guild-self.tsx';
 import { useGuildId } from '../../hooks/state/use-guild-id.tsx';
 import { Box } from '@chakra-ui/layout';

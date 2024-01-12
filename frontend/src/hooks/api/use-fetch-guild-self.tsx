@@ -14,5 +14,6 @@ export interface GuildSelf {
 
 export const useFetchGuildSelf = () => {
   const api = useGuildApi();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback(() => api.get(`/user/self`).json<GuildSelf>(), []);
 };
