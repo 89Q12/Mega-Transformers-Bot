@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from '@chakra-ui/modal';
-import { useToast } from '@chakra-ui/toast';
+import { useToast, ToastOptions } from '@chakra-ui/toast';
 import { FC, ReactNode, useCallback, useRef, useState } from 'react';
 import {
   HiCheck,
@@ -30,6 +30,11 @@ import {
 import { useModerationActions } from '../hooks/use-moderation-actions.tsx';
 import { SelectMember } from './select-member.tsx';
 import { TimeoutDurationField } from './timeout-duration-field.tsx';
+
+const commonToastOptions = {
+  duration: 5000,
+  status: 'success',
+} as const satisfies Partial<ToastOptions>;
 
 type ActionDialogProps<T> = {
   isOpen: boolean;
@@ -66,7 +71,7 @@ function ActionDialog<T = null>({
     onConfirm(member, additionalValue!)
       .then(() => {
         if (toastMessage)
-          toast({ status: 'success', title: toastMessage(member) });
+          toast({ ...commonToastOptions, title: toastMessage(member) });
       })
       .then(() => {
         if (toastMessage) onClose();
@@ -204,7 +209,7 @@ const ConfirmPurgeDialog: FC<{
     onConfirm(member)
       .then(() => {
         toast({
-          status: 'success',
+          ...commonToastOptions,
           title: `${member.username} is now being purged.`,
         });
       })
