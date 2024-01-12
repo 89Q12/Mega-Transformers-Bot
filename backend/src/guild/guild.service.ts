@@ -1,4 +1,4 @@
-import { InjectDiscordClient } from '@discord-nestjs/core';
+import { InjectDiscordClient, Once } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { Guild, GuildUser } from '@prisma/client';
 import { Client, BaseGuildTextChannel } from 'discord.js';
@@ -179,5 +179,14 @@ export class GuildService {
     await (
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.delete(user_id);
+  }
+  @Once('ready')
+  async onReady() {
+    const guilds = await this.client.guilds.fetch();
+    guilds.forEach(async (guild) => {
+      this.upsertGuild(guild.id, {
+        name: guild.name,
+      });
+    });
   }
 }

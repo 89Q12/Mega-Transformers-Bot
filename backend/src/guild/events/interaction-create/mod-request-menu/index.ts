@@ -33,15 +33,15 @@ export class ModRequestFlow {
 
   @On('interactionCreate')
   async onModalSubmit(interaction: ModalSubmitInteraction) {
-    if (!(interaction instanceof ModalSubmitInteraction)) return;
-    await interaction.deferReply();
+    if (!interaction.isModalSubmit()) return;
     const [modal, guildId, categoryId] = interaction.customId.split('-');
     console.log(modal, guildId, categoryId);
     if (modal != 'modRequestModal') return;
+    await interaction.deferReply();
     const guild = await this.client.guilds.fetch(guildId);
     const channel = (await guild.channels.fetch(
       // await this.settingsService.getModChannelId(guildId),
-      '1187816730731499651',
+      '1023931328787386492',
     )) as GuildTextBasedChannel;
     channel.send({
       embeds: [
@@ -70,7 +70,7 @@ export class ModRequestFlow {
 
   @On('interactionCreate')
   async onMenuSelect(interaction: StringSelectMenuInteraction) {
-    if (!(interaction instanceof StringSelectMenuInteraction)) return;
+    if (!interaction.isStringSelectMenu()) return;
     if (interaction.customId != 'modRequestMenu') return;
     const modRequestModal = new ModalBuilder()
       .setCustomId(
@@ -96,7 +96,8 @@ export class ModRequestFlow {
 
   @On('interactionCreate')
   async onButton(interaction: ButtonInteraction) {
-    if (!(interaction instanceof ButtonInteraction)) return;
+    if (!interaction.isButton()) return;
+    if (interaction.customId != 'needHelp') return;
     enum knownButtons {
       'needHelp',
     }

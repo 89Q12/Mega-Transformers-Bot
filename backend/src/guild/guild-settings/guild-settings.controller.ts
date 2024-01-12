@@ -8,14 +8,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
-import { IsModGuard } from '../../util/guards/is-mod.guard';
 import { SettingsDto } from './dto/settings.dto';
 import { GuildSettingsService } from './guild-settings.service';
 import { plainToInstance } from '../../util/functions/plain-to-instance';
 import { HttpStatusCode } from 'axios';
+import { RequiredRank } from 'src/util/decorators/requires-rank.decorator';
+import { Rank } from '@prisma/client';
+import { HasRequiredRank } from 'src/util/guards/has-required-rank.guard';
 
-@Controller()
-@UseGuards(JwtAuthGuard, IsModGuard)
+@Controller('settings')
+@RequiredRank(Rank.MOD)
+@UseGuards(JwtAuthGuard, HasRequiredRank)
 export class GuildSettingsController {
   constructor(private readonly settingsService: GuildSettingsService) {}
 

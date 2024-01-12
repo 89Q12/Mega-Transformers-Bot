@@ -1,6 +1,6 @@
 import { On } from '@discord-nestjs/core';
 import { Inject, Injectable, UseGuards } from '@nestjs/common';
-import { Message } from 'discord.js';
+import { Attachment, Message } from 'discord.js';
 import { MessageFromUserGuard } from 'src/bot/guards/message-from-user.guard';
 import { ChannelIdGuard } from 'src/bot/guards/message-in-channel.guard';
 import { IsUserUnlockedGuard } from 'src/bot/guards/user-is-unlocked.guard';
@@ -29,7 +29,7 @@ export default class GuildMessageHandler {
 
   @On('messageCreate')
   @UseGuards(MessageFromUserGuard, ChannelIdGuard('1121822614374060175'))
-  async postIntroductionFromUser(message: Message): Promise<void> {
+  async post_IntroductionFromUser(message: Message): Promise<void> {
     // Get first message from user in the introduction channel and post it to the open introduction channel
     const messages = await message.channel.messages.fetch({ limit: 1 });
     const firstMessage = messages.first();
@@ -47,5 +47,20 @@ export default class GuildMessageHandler {
     if (message.author.id === '1132244079242133555') {
       message.react('🐦');
     }
+  }
+
+  @On('messageCreate')
+  @UseGuards(MessageFromUserGuard)
+  async checkLimits(message: Message) {
+    const guildUser = this.guildUserService.getGuildUser(
+      message.author.id,
+      message.guildId,
+    );
+    const hasAttachments = message.attachments.size > 0;
+    const typeOfAttachments = message.attachments.map(
+      (attachment: Attachment) => {
+        return ({}[attachment.contentType] = attachment);
+      },
+    );
   }
 }
