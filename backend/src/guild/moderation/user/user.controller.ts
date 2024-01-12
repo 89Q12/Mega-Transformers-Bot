@@ -6,6 +6,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -28,6 +29,8 @@ import {
 } from '../events/user.events';
 import { DiscordGuildMember } from '../dto/guild-member';
 import { plainToInstance } from '../../../util/functions/plain-to-instance';
+import { Request } from 'express';
+import { GuildUser } from '@prisma/client';
 
 @Controller('/user')
 @ApiBearerAuth()
@@ -69,7 +72,7 @@ export class UserController {
     );
   }
 
-  @Get(':userId')
+  @Get('/')
   @ApiOperation({ summary: 'Get a user for a guild' })
   @ApiResponse({
     status: 200,
@@ -78,12 +81,14 @@ export class UserController {
     description: 'User was successfully fetched',
   })
   async getGuildUser(
-    @Param('guildId') guildId: string,
-    @Param('userId') userId: string,
+    @Req() request: Request & { user: GuildUser },
   ): Promise<User> {
-    const guild = await this.client.guilds.fetch(guildId);
-    const member = await guild.members.fetch(userId);
-    this.logger.log(`Found member ${member.user.username} in guild ${guildId}`);
+    console.log(request.user);
+    const guild = await this.client.guilds.fetch(request.user.guildId);
+    const member = await guild.members.fetch(request.user.userId);
+    this.logger.log(
+      `Found member ${member.user.username} in guild ${request.user.guildId}`,
+    );
     return member.user;
   }
 
@@ -181,19 +186,23 @@ export class UserController {
     }
     guild.channels.fetch();
     guild.channels.cache.forEach(async (channel) => {
-      if (
-        channel.type === ChannelType.GuildText ||
-        channel.type === ChannelType.PublicThread ||
-        channel.type === ChannelType.PrivateThread
-      ) {
-        this.logger.log(`Purging user ${userId} from channel ${channel.id}`);
-        cleanTextChannel(
-          channel,
-          () => true,
-          (msg) => msg.author.id === userId,
-        );
-        // sleep for 500ms to avoid rate limit
-        await new Promise((resolve) => setTimeout(resolve, 500));
+      try {
+        if (
+          channel.type === ChannelType.GuildText ||
+          channel.type === ChannelType.PublicThread ||
+          channel.type === ChannelType.PrivateThread
+        ) {
+          this.logger.log(`Purging user ${userId} from channel ${channel.id}`);
+          await cleanTextChannel(
+            channel,
+            () => false,
+            (msg) => msg.author.id === userId,
+          );
+          // sleep for 500ms to avoid rate limit
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      } catch {
+        console.log('ERROR');
       }
     });
     await this.eventEmitter.emitAsync(
