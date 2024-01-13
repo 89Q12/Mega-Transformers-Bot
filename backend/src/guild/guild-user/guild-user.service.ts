@@ -1,6 +1,13 @@
 import { InjectDiscordClient, Once } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { GuildUser, Rank } from '@prisma/client';
+import {
+  Attachment,
+  GuildUser,
+  MessageMetadata,
+  Messages,
+  Rank,
+  Reaction,
+} from '@prisma/client';
 import { Client, GuildMember } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { GuildSettingsService } from '../guild-settings/guild-settings.service';
@@ -45,18 +52,25 @@ export class GuildUserService {
   }
 
   async insertMessage(
-    userId: string,
-    messageId: string,
-    channelId: string,
-    guildId: string,
-  ) {
+    data: Messages,
+    metadata: MessageMetadata,
+    attachments: Omit<Attachment, 'id'>[],
+    reactions: Omit<Reaction, 'id'>[],
+  ): Promise<void> {
+    await this.database.messageMetadata.create({
+      data: {
+        ...metadata,
+      },
+    });
+    await this.database.attachment.createMany({
+      data: attachments,
+    });
+    await this.database.reaction.createMany({
+      data: reactions,
+    });
     await this.database.messages.create({
       data: {
-        userId,
-        guildId,
-        messageId,
-        createdAt: new Date(),
-        channelId,
+        ...data,
       },
     });
   }

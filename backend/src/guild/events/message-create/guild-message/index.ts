@@ -5,6 +5,7 @@ import { MessageFromUserGuard } from 'src/bot/guards/message-from-user.guard';
 import { ChannelIdGuard } from 'src/bot/guards/message-in-channel.guard';
 import { IsUserUnlockedGuard } from 'src/bot/guards/user-is-unlocked.guard';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import getAttachmentType from 'src/util/functions/get-attachtment-type';
 
 @Injectable()
 export default class GuildMessageHandler {
@@ -16,10 +17,32 @@ export default class GuildMessageHandler {
   @UseGuards(MessageFromUserGuard, IsUserUnlockedGuard)
   async onMessage(message: Message): Promise<void> {
     await this.guildUserService.insertMessage(
-      message.author.id,
-      message.id,
-      message.channelId,
-      message.guildId,
+      {
+        userId: message.author.id,
+        messageId: message.id,
+        channelId: message.channelId,
+        guildId: message.guildId,
+        createdAt: new Date(message.createdTimestamp),
+      },
+      {
+        messageId: message.id,
+        length: message.content.length,
+      },
+      message.attachments.map((attachment: Attachment) => {
+        return {
+          type: getAttachmentType(attachment.contentType),
+          name: attachment.name,
+          url: attachment.url,
+          messageId: message.id,
+        };
+      }),
+      message.reactions.cache.map((reaction) => {
+        return {
+          messageId: message.id,
+          emoji: reaction.emoji.toString(),
+          count: reaction.count,
+        };
+      }),
     );
     await this.guildUserService.updateMessageCountBucket(
       message.author.id,
