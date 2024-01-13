@@ -141,6 +141,13 @@ export class CommunityQuestionCommand {
         answers: question.answers + 1,
       },
     });
+    await this.prismaService.guildQuestionAnswer.create({
+      data: {
+        answer: answer.value,
+        createdAt: new Date(),
+        guildQuestionId: parseInt(questionId),
+      },
+    });
     if (answer.value != '')
       (
         (await (

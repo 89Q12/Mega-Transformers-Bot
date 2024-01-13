@@ -167,10 +167,19 @@ model GuildUserLimit {
 }
 
 model GuildQuestion {
-  id        Int      @id @default(autoincrement())
-  guildId   String
-  question  String
-  answers   Int      @default(0)
-  createdAt DateTime @default(now())
-  guild     Guild    @relation(fields: [guildId], references: [id])
+  id                  Int                   @id @default(autoincrement())
+  guildId             String
+  question            String
+  answers             Int                   @default(0)
+  createdAt           DateTime              @default(now())
+  guild               Guild                 @relation(fields: [guildId], references: [id])
+  GuildQuestionAnswer GuildQuestionAnswer[]
+}
+
+model GuildQuestionAnswer {
+  id              Int           @id @default(autoincrement())
+  guildQuestion   GuildQuestion @relation(fields: [guildQuestionId], references: [id])
+  guildQuestionId Int
+  answer          String
+  createdAt       DateTime      @default(now())
 }
