@@ -86,7 +86,6 @@ export class UserController {
   async getGuildUser(
     @Req() request: Request & { user: GuildUser },
   ): Promise<User> {
-    console.log(request.user);
     const guild = await this.client.guilds.fetch(request.user.guildId);
     const member = await guild.members.fetch(request.user.userId);
     this.logger.log(
@@ -200,12 +199,15 @@ export class UserController {
             channel,
             () => false,
             (msg) => msg.author.id === userId,
+            this.logger,
           );
           // sleep for 500ms to avoid rate limit
           await new Promise((resolve) => setTimeout(resolve, 500));
         }
       } catch {
-        console.log('ERROR');
+        this.logger.error(
+          `Failed to purge user ${userId} from channel ${channel.id}`,
+        );
       }
     });
     await this.eventEmitter.emitAsync(

@@ -35,7 +35,6 @@ export class ModRequestFlow {
   async onModalSubmit(interaction: ModalSubmitInteraction) {
     if (!interaction.isModalSubmit()) return;
     const [modal, guildId, categoryId] = interaction.customId.split('-');
-    console.log(modal, guildId, categoryId);
     if (modal != 'modRequestModal') return;
     await interaction.deferReply();
     const guild = await this.client.guilds.fetch(guildId);
@@ -112,7 +111,7 @@ export class ModRequestFlow {
     try {
       callback[interaction.customId as keyof typeof knownButtons](interaction);
     } catch (e) {
-      console.log(e);
+      this.logger.error(e);
     }
   }
 

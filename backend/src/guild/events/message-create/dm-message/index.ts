@@ -26,7 +26,6 @@ export class DmMessageHandler {
       });
     } catch (e: unknown) {
       this.logger.error((e as DiscordAPIError).message);
-      console.log(e);
     }
   }
 }

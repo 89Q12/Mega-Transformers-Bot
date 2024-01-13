@@ -28,7 +28,6 @@ export default class UserTimeOutDto {
 
   // Hacky way to both transform the value and validate it, in one step :D
   @Transform(({ value }) => {
-    console.log(value);
     if (
       !/\b(\d{1,}[d])(\d{1,}[h])\b|\b(\d{1,}[h])(\d{1,}[m])\b|\b(\d{1,}[d])(\d{1,}[m])\b|\b(\d{1,}[dhm])\b|\b(\d{1,}[d])(\d{1,}[h])(\d{1,}[m])/.test(
         value.trim(),

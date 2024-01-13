@@ -1,9 +1,11 @@
+import { Logger } from '@nestjs/common';
 import { Collection, GuildTextBasedChannel, Message } from 'discord.js';
 
 export default async function cleanTextChannel(
   channel: GuildTextBasedChannel,
   stopCb: (messages: Collection<string, Message<true>>) => boolean,
   filterCb: (message: Message<true>) => boolean,
+  logger: Logger,
 ): Promise<void> {
   let stop = false;
   let pointer: string;
@@ -18,11 +20,11 @@ export default async function cleanTextChannel(
       messages
         .filter((msg) => filterCb(msg))
         .forEach((msg) => {
-          console.log('deleting message: ' + msg.id);
-          msg.delete().catch((err) => console.error(err));
+          logger.log(`Deleting message ${msg.id}`);
+          msg.delete().catch((err) => logger.error(err));
         });
     } catch {
-      console.log(`Missing access: ${channel.id}`);
+      logger.log(`Failed to fetch messages before ${pointer}`);
       stop = true;
     }
   }

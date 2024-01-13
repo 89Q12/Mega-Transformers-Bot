@@ -88,7 +88,6 @@ export class GuildMemberEvents {
       ).rank === 'NEW' &&
       reaction.emoji.name === '✅'
     ) {
-      console.log('unlocking user');
       await this.guildUserService.upsert(user.id, reaction.message.guildId, {
         unlocked: true,
       });

@@ -9,7 +9,6 @@ export class CommandValidationFilter implements ExceptionFilter {
     host: ArgumentsHost,
   ): Promise<void> {
     const interaction = host.getArgByIndex(0);
-    console.log(exceptionList.getError());
     const embeds = exceptionList.getError().map((exception) =>
       new EmbedBuilder()
         .setDescription(`For input: ${exception.property}`)
