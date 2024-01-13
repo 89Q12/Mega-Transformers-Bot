@@ -31,7 +31,6 @@ export default class GuildMessageHandler {
       message.attachments.map((attachment: Attachment) => {
         return {
           type: getAttachmentType(attachment.contentType),
-          name: attachment.name,
           url: attachment.url,
           messageId: message.id,
         };
