@@ -31,6 +31,7 @@
   "devDependencies": {
     "@types/js-cookie": "3.0.6",
     "@types/react": "18.2.48",
+    "@types/react-datepicker": "4.19.5",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "6.19.1",
     "@typescript-eslint/parser": "6.19.1",
@@ -44,5 +45,8 @@
     "typescript": "5.3.3",
     "vite": "5.0.12",
     "vitest": "1.2.1"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.0"
   }
 }
