@@ -152,6 +152,7 @@ export class ChannelController {
         channel as GuildTextBasedChannel,
         (messages) => messages.last().createdTimestamp < before,
         (msg) => msg.deletable && msg.createdTimestamp > before,
+        this.logger,
       );
     } else {
       throw new ChannelNotTextBasedException(channel.name);
