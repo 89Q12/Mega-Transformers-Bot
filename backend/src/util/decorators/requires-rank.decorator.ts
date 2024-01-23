@@ -3,7 +3,7 @@ import { Rank } from '@prisma/client';
 export const REQUIRED_RANK_KEY = '__rank__';
 /**
  * Sets the required rank(s) for a route or controller
- * @param ranks Rank(s) that are required to access the route or controller
+ * @param rank Rank that is required to access the route or controller. Lower ranks are automatically inherited
  */
-export const RequiredRank = (...ranks: Array<Rank>) =>
-  SetMetadata(REQUIRED_RANK_KEY, ranks);
+export const RequiredRank = (rank: Rank) =>
+  SetMetadata(REQUIRED_RANK_KEY, rank);

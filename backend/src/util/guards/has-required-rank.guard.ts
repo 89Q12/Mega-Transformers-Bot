@@ -24,7 +24,7 @@ export class HasRequiredRank implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
-    const requiredRanks = this.reflector.getAllAndOverride<Rank[]>(
+    const requiredRank = this.reflector.getAllAndOverride<Rank>(
       REQUIRED_RANK_KEY,
       [context.getHandler(), context.getClass()],
     );
@@ -37,10 +37,19 @@ export class HasRequiredRank implements CanActivate {
       where: { guildId_userId: { userId, guildId: req.params.guildId } },
     });
     if (!user) throw new ForbiddenException();
-    if (!requiredRanks) {
+    if (!requiredRank) {
       return true;
     }
 
-    return requiredRanks.includes(user.rank);
+    const ownedRanks = [user.rank, ...InheritedRanks[user.rank]];
+    return ownedRanks.includes(requiredRank);
   }
 }
+
+const InheritedRanks: Record<Rank, Rank[]> = {
+  OWNER: ['ADMIN', 'MOD', 'MEMBER'],
+  ADMIN: ['MOD', 'MEMBER'],
+  MOD: ['MEMBER'],
+  MEMBER: [],
+  NEW: [],
+};
