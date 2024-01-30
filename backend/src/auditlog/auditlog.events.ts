@@ -30,7 +30,7 @@ export default class AuditEvents {
   error(error: Error) {
     const logEntry: LogEntry = {
       action: 'ERROR',
-      guildId: '0',
+      guildId: this.client.guilds.cache.first().id,
       invokerId: this.client.user.id,
       targetId: '0',
       targetType: 'ERROR',
@@ -45,7 +45,7 @@ export default class AuditEvents {
   warn(info: string) {
     const logEntry: LogEntry = {
       action: 'WARN',
-      guildId: '0',
+      guildId: this.client.guilds.cache.first().id,
       invokerId: this.client.user.id,
       targetId: '0',
       targetType: 'WARN',
@@ -179,7 +179,7 @@ export default class AuditEvents {
     try {
       const logEntry: LogEntry = {
         action: 'INVALID_REQUEST',
-        guildId: '0',
+        guildId: this.client.guilds.cache.first().id,
         invokerId: this.client.user.id,
         targetId: '0',
         targetType: 'INVALID_REQUEST',
