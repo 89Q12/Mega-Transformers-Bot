@@ -67,7 +67,7 @@ export default class GuildMessageHandler {
   @UseGuards(MessageFromUserGuard)
   async toniMsgsToBird(message: Message): Promise<void> {
     if (message.author.id === '1132244079242133555') {
-      message.react('🐦');
+      message.react('1194715694948946030');
     }
   }
 
@@ -81,7 +81,7 @@ export default class GuildMessageHandler {
     const hasAttachments = message.attachments.size > 0;
     const typeOfAttachments = message.attachments.map(
       (attachment: Attachment) => {
-        return ({}[attachment.contentType] = attachment);
+        return ({}[getAttachmentType(attachment.contentType)] = attachment);
       },
     );
   }
