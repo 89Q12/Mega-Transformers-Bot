@@ -2,7 +2,7 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { GuildUser } from '@prisma/client';
-import { Client } from 'discord.js';
+import { Client, DiscordAPIError } from 'discord.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
@@ -77,9 +77,9 @@ export class TasksService {
               await member.disableCommunicationUntil(null); // Be sure to really remove the timeout because its already expired
             }
           } catch (err) {
-            await this.eventEmitter.emit('error', {
+            this.eventEmitter.emit('error', {
               toFormattedLog() {
-                return err.message();
+                return err.toString();
               },
             });
           }
