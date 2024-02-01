@@ -32,7 +32,6 @@ Wir verarbeiten personenbezogene Daten, um unsere Dienste zu betreiben, zu verbe
 # Wie und an wen geben wir Ihre Daten weiter?
 
 Wir geben Ihre persönlichen Daten nicht an Dritte weiter, es sei denn, wir halten dies für notwendig, um geltende Gesetze einzuhalten.
-Wie verwenden wir Ihre persönlichen Daten?
 
 # Wie lange bewahren wir Ihre persönlichen Daten auf?
 
@@ -42,6 +41,6 @@ Wir bewahren Ihre persönlichen Daten so lange auf, wie Sie ein offenes Konto be
 
 Wir setzen wirtschaftlich angemessene Mittel ein, um Ihre persönlichen Daten zu schützen.
 
-## Persönliche Daten von Kindern:
+# Persönliche Daten von Kindern:
 
-Wie in den Nutzungsbedingungen angegeben, sammeln wir nicht wissentlich personenbezogene Daten von Personen unter 16 Jahren und fordern diese auch nicht an. Wenn Sie unter 16 Jahre alt sind, versuchen Sie bitte nicht, sich für die Dienste zu registrieren oder persönliche Daten über sich an uns zu senden. Wenn wir erfahren, dass wir dass wir persönliche Daten von einem Kind unter 16 Jahren gesammelt haben, werden wir diese Informationen so schnell wie möglich löschen. Wenn Sie glauben, dass ein Kind unter 16 Jahren uns persönliche Daten zur Verfügung gestellt haben könnte, kontaktieren Sie uns bitte unter <EMAIL>
+Wie in den Nutzungsbedingungen angegeben, sammeln wir nicht wissentlich personenbezogene Daten von Personen unter 16 Jahren und fordern diese auch nicht an. Wenn Sie unter 16 Jahre alt sind, versuchen Sie bitte nicht, sich für die Dienste zu registrieren oder persönliche Daten über sich an uns zu senden. Wenn wir erfahren, dass wir dass wir persönliche Daten von einem Kind unter 16 Jahren gesammelt haben, werden wir diese Informationen so schnell wie möglich löschen. Wenn Sie glauben, dass ein Kind unter 16 Jahren uns persönliche Daten zur Verfügung gestellt haben könnte, kontaktieren Sie uns bitte unter info@transruhr.de
