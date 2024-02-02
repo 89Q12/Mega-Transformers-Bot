@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: cardinal
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cardinal
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  bot:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+      #uncomment below on first run
+#    command: yarn run prisma db push
+    depends_on:
+      - database
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    ports:
+      - "1300:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - bot
+
