@@ -12,6 +12,7 @@ import { GuildRestrictedChannelService } from './guild-restricted-channel/guild-
 import GuildMessageHandler from './events/message-create/guild-message';
 import { DmMessageHandler } from './events/message-create/dm-message';
 import { ModRequestFlow } from './events/interaction-create/mod-request-menu';
+import { GuildMemberEvents } from './events/guild-members';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ModRequestFlow } from './events/interaction-create/mod-request-menu';
     GuildMessageHandler,
     DmMessageHandler,
     ModRequestFlow,
+    GuildMemberEvents,
   ],
   exports: [GuildService],
 })
