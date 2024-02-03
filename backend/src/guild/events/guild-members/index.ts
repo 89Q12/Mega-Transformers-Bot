@@ -55,9 +55,13 @@ export class GuildMemberEvents {
 
   @On('messageReactionAdd')
   async unlockUser(reaction: MessageReaction, userReacted: User) {
-    if (reaction.message.channelId != '1121822614374060175') return;
     if (
-      ['MOD', 'ADMIN', 'OWNER'].includes(
+      reaction.message.channelId ==
+      (await this.settingsService.getIntroChannelId(reaction.message.guildId))
+    )
+      return;
+    if (
+      !['MOD', 'ADMIN', 'OWNER'].includes(
         (
           await this.guildUserService.getGuildUser(
             userReacted.id,
@@ -76,10 +80,6 @@ export class GuildMemberEvents {
     }
     const user = reaction.message.author;
     if (
-      reaction.message.channelId ==
-        (await this.settingsService.getIntroChannelId(
-          reaction.message.guildId,
-        )) &&
       (
         await this.guildUserService.getGuildUser(
           reaction.message.author.id,
@@ -95,7 +95,7 @@ export class GuildMemberEvents {
         await this.client.guilds.fetch(reaction.message.guildId)
       ).members.fetch(user.id);
       try {
-        member.roles.add(
+        await member.roles.add(
           await this.settingsService.getVerifiedMemberRoleId(
             reaction.message.guildId,
           ),
@@ -103,13 +103,14 @@ export class GuildMemberEvents {
         // Wait 500ms to make sure the role is added before removing the unverified role
         //https://github.com/discordjs/discord.js/issues/4930#issuecomment-1042351896
         await new Promise((resolve) => setTimeout(resolve, 500));
-        member.roles.remove(
+        await member.roles.remove(
           await this.settingsService.getUnverifiedMemberRoleId(
             reaction.message.guildId,
           ),
         );
       } catch (e) {
         this.logger.error(e);
+        return;
       }
       const channel = (await reaction.message.guild.channels.fetch(
         await this.settingsService.getOpenIntroChannelId(
