@@ -1406,7 +1406,7 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-datepicker@^4.19.5":
+"@types/react-datepicker@4.19.5":
   version "4.19.5"
   resolved "https://registry.yarnpkg.com/@types/react-datepicker/-/react-datepicker-4.19.5.tgz#bab0751c5c227e3fbea5979c20b0da4c0fe3a373"
   integrity sha512-tKpuj19p9T4sBQm3Bw13CPuhalo4CFOe/LcSUGJ5z6DmHoiBX3uq33iMKePeSEq7OxyU8O1rh5emAm92nyXZLg==
