@@ -57,7 +57,7 @@ export class GuildMemberEvents {
   async unlockUser(reaction: MessageReaction, userReacted: User) {
     if (reaction.message.channelId != '1121822614374060175') return;
     if (
-      !['MOD', 'ADMIN', 'OWNER'].includes(
+      ['MOD', 'ADMIN', 'OWNER'].includes(
         (
           await this.guildUserService.getGuildUser(
             userReacted.id,
