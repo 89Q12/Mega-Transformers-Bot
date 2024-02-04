@@ -1,9 +1,11 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Controller, Get, Inject, Param, UseGuards } from '@nestjs/common';
 import { GuildService } from './guild.service';
 import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Client } from 'discord.js';
+import { JwtAuthGuard } from 'src/auth/jwt/guards/jwt-auth.guard';
 
 @Controller('/')
+@UseGuards(JwtAuthGuard)
 export class GuildController {
   constructor(
     @Inject(GuildService) private guildService: GuildService,
