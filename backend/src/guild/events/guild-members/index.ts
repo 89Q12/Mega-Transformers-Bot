@@ -1,5 +1,5 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, UseGuards } from '@nestjs/common';
 import { Rank } from '@prisma/client';
 import {
   Client,
@@ -9,6 +9,9 @@ import {
   GuildTextBasedChannel,
   Message,
 } from 'discord.js';
+import { ReactedMemberIsModOrHigherGuard } from 'src/bot/guards/member-is-mod-or-higher.guard';
+import { ReactionChannelIdGuard } from 'src/bot/guards/reaction-in-channel.guard';
+import { ReactionEmoteGuard } from 'src/bot/guards/reaction-emote.guard';
 import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 import { GuildService } from 'src/guild/guild.service';
@@ -54,7 +57,12 @@ export class GuildMemberEvents {
   }
 
   @On('messageReactionAdd')
-  async unlockUser(reaction: MessageReaction, userReacted: User) {
+  @UseGuards(
+    ReactionChannelIdGuard('1121822614374060175'),
+    ReactionEmoteGuard('✅'),
+    ReactedMemberIsModOrHigherGuard,
+  )
+  async unlockUser(reaction: MessageReaction) {
     if (reaction.partial) {
       try {
         await reaction.fetch();
@@ -65,29 +73,12 @@ export class GuildMemberEvents {
     }
     const user = reaction.message.author;
     if (
-      reaction.message.channelId !=
-        (await this.settingsService.getIntroChannelId(
+      (
+        await this.guildUserService.getGuildUser(
+          user.id,
           reaction.message.guildId,
-        )) &&
-      !['MOD', 'ADMIN', 'OWNER'].includes(
-        (
-          await this.guildUserService.getGuildUser(
-            userReacted.id,
-            reaction.message.guildId,
-          )
-        ).rank,
-      )
-    )
-      return;
-    if (
-      !(
-        (
-          await this.guildUserService.getGuildUser(
-            user.id,
-            reaction.message.guildId,
-          )
-        ).rank == Rank.NEW && reaction.emoji.name == '✅'
-      )
+        )
+      ).rank !== Rank.NEW
     )
       return;
     await this.guildUserService.upsert(user.id, reaction.message.guildId, {

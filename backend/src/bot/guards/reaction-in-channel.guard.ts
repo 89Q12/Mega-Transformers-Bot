@@ -1,12 +1,14 @@
 import { CanActivate, ExecutionContext, mixin } from '@nestjs/common';
 import { Message } from 'discord.js';
 
-export const ChannelIdGuard = (channelId: string) => {
+export const ReactionChannelIdGuard = (channelId: string) => {
   class ChannelIdGuardMixin implements CanActivate {
     async canActivate(context: ExecutionContext) {
-      const message = context.getArgByIndex(0);
+      const reaction = context.getArgByIndex(0);
+      if (reaction.partial) await reaction.fetch();
+      const message = reaction.message;
       if (
-        !(message.message instanceof Message) ||
+        message.message instanceof Message &&
         !(message.message as Message).inGuild()
       ) {
         return false;
