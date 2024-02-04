@@ -5,7 +5,6 @@ import {
   Client,
   GuildMember,
   MessageReaction,
-  User,
   GuildTextBasedChannel,
   Message,
 } from 'discord.js';
@@ -59,7 +58,8 @@ export class GuildMemberEvents {
   @On('messageReactionAdd')
   @UseGuards(
     ReactionChannelIdGuard('1121822614374060175'),
-    ReactionEmoteGuard('✅'),
+
+    ReactionEmoteGuard(['✅', '☑️']),
     ReactedMemberIsModOrHigherGuard,
   )
   async unlockUser(reaction: MessageReaction) {
@@ -92,6 +92,8 @@ export class GuildMemberEvents {
         reaction.message.guildId,
       );
       await member.roles.add(verifiedRoleId);
+      if (reaction.emoji.name === '☑️')
+        await member.roles.add('1014066383912439809');
       // Wait 500ms to make sure the role is added before removing the unverified role
       //https://github.com/discordjs/discord.js/issues/4930#issuecomment-1042351896
       await new Promise((resolve) => setTimeout(resolve, 500));
