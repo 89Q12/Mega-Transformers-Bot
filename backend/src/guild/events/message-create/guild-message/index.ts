@@ -1,6 +1,6 @@
 import { On } from '@discord-nestjs/core';
 import { Inject, Injectable, UseGuards } from '@nestjs/common';
-import { Attachment, Message } from 'discord.js';
+import { Attachment, GuildTextBasedChannel, Message } from 'discord.js';
 import { MessageFromUserGuard } from 'src/bot/guards/message-from-user.guard';
 import { ChannelIdGuard } from 'src/bot/guards/message-in-channel.guard';
 import { IsUserUnlockedGuard } from 'src/bot/guards/user-is-unlocked.guard';
@@ -66,7 +66,12 @@ export default class GuildMessageHandler {
   @On('messageCreate')
   @UseGuards(MessageFromUserGuard)
   async toniMsgsToBird(message: Message): Promise<void> {
-    if (message.author.id === '1132244079242133555') {
+    const channel = message.channel as GuildTextBasedChannel;
+    if (
+      message.author.id === '1132244079242133555' &&
+      channel.parentId !== '1011529685357838376' &&
+      channel.parentId !== '1051979218164125826'
+    ) {
       message.react('1194715694948946030');
     }
   }
