@@ -24,7 +24,7 @@ export class UserInfoUiCommand {
   @Handler()
   async onShowInfo(interaction: ContextMenuCommandInteraction) {
     if (!interaction.isContextMenuCommand()) return;
-    interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: true });
     const guildUser = await this.prismaService.guildUser.findUnique({
       where: {
         guildId_userId: {

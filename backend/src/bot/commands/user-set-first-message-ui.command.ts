@@ -23,7 +23,7 @@ export class SetFirstMessageUICommand {
   @Handler()
   async onShowInfo(interaction: ContextMenuCommandInteraction) {
     if (!interaction.isContextMenuCommand()) return;
-    interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ ephemeral: true });
     const message = await interaction.channel.messages.fetch(
       interaction.targetId,
     );
