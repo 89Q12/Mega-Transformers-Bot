@@ -9,6 +9,7 @@ import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channe
 import { CommunityQuestionCommand } from './commands/community-question.command';
 import { initGuildCommand } from './commands/init-guild.command';
 import { UserInfoUiCommand } from './commands/user-info-ui.command';
+import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -22,6 +23,7 @@ import { UserInfoUiCommand } from './commands/user-info-ui.command';
     GuildSettingsService,
     GuildRestrictedChannelService,
     UserInfoUiCommand,
+    SetFirstMessageUICommand,
   ],
   exports: [DiscordModule],
 })

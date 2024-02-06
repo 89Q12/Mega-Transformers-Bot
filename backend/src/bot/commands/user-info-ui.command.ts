@@ -5,13 +5,12 @@ import {
   Client,
   ContextMenuCommandInteraction,
   EmbedBuilder,
-  GuildTextBasedChannel,
   userMention,
 } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 
 @Command({
-  name: 'show-info',
+  name: 'Show user info',
   defaultMemberPermissions: ['ModerateMembers'],
   type: ApplicationCommandType.User,
 })
@@ -35,8 +34,16 @@ export class UserInfoUiCommand {
       },
     });
     if (!guildUser) {
-      return interaction.reply({
+      return interaction.followUp({
         content: 'User not found in database.',
+        ephemeral: true,
+      });
+    }
+    const firstMessageId = guildUser.firstMessageId;
+    if (!firstMessageId) {
+      return interaction.followUp({
+        content:
+          'Cannot find the first message for user in the database. \n Please add it manually, using /set-first-message command.',
         ephemeral: true,
       });
     }
@@ -57,12 +64,7 @@ export class UserInfoUiCommand {
       .addFields([
         {
           name: 'Link to introduction message',
-          value: `[Click here](https://discord.com/channels/${
-            interaction.guildId
-          }/1121822614374060175/${
-            guildUser.firstMessageId ||
-            (await this.getFirstMessageId(interaction))
-          })`,
+          value: `[Click here](https://discord.com/channels/${interaction.guildId}/1121822614374060175/${firstMessageId})`,
         },
         {
           name: 'Number of messages sent',
@@ -77,42 +79,5 @@ export class UserInfoUiCommand {
       embeds: [embed],
       ephemeral: true,
     });
-  }
-  async getFirstMessageId(interaction: ContextMenuCommandInteraction) {
-    const channel = (await this.client.channels.fetch(
-      '1121822614374060175',
-    )) as GuildTextBasedChannel;
-    let stop = false;
-    let pointer: string;
-    while (!stop) {
-      try {
-        const messages = await channel.messages.fetch({
-          limit: 100,
-          before: pointer,
-        });
-        pointer = messages.last() === undefined ? '0' : messages.last().id;
-        stop = messages.size < 100;
-        const filterd = messages.filter(
-          (msg) => msg.author.id === interaction.targetId,
-        );
-        if (filterd.size > 0) {
-          stop = true;
-          this.prismaService.guildUser.update({
-            where: {
-              guildId_userId: {
-                guildId: interaction.guildId,
-                userId: interaction.targetId,
-              },
-            },
-            data: {
-              firstMessageId: filterd.last().id,
-            },
-          });
-          return filterd.last().id;
-        }
-      } catch {
-        stop = true;
-      }
-    }
   }
 }
