@@ -8,6 +8,7 @@ import { MumVoiceCommand } from './commands/mod-anouncement.command';
 import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channel/guild-restricted-channel.service';
 import { CommunityQuestionCommand } from './commands/community-question.command';
 import { initGuildCommand } from './commands/init-guild.command';
+import { UserInfoUiCommand } from './commands/user-info-ui.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -20,6 +21,7 @@ import { initGuildCommand } from './commands/init-guild.command';
     PrismaService,
     GuildSettingsService,
     GuildRestrictedChannelService,
+    UserInfoUiCommand,
   ],
   exports: [DiscordModule],
 })
