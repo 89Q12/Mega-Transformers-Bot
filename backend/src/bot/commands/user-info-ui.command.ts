@@ -56,7 +56,7 @@ export class UserInfoUiCommand {
       where: {
         invokerId: interaction.targetId,
         guildId: interaction.guildId,
-        action: 'REACTION_ADD',
+        action: 'REACTION_ADDED',
       },
     });
 
