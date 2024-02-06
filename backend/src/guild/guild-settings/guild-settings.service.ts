@@ -74,8 +74,12 @@ export class GuildSettingsService {
     // Usable variables:
     // ${user} - username
     // ${message} - message content
+    const quotedMessage = message.content
+      .split('\n')
+      .map((it) => quote(it))
+      .join('\n');
     return template
       .replace('{user}', userMention(message.author.id))
-      .replace('{message}', `\n\n${quote(message.content)}`);
+      .replace('{message}', `\n\n${quotedMessage}`);
   }
 }
