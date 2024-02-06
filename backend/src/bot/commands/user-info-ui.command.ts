@@ -5,6 +5,7 @@ import {
   Client,
   ContextMenuCommandInteraction,
   EmbedBuilder,
+  Message,
   userMention,
 } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
@@ -40,7 +41,8 @@ export class UserInfoUiCommand {
       });
     }
     const firstMessageId = guildUser.firstMessageId;
-    if (!firstMessageId) {
+    const message = await this._getMessage(firstMessageId, interaction.guildId);
+    if (!message) {
       return interaction.followUp({
         content:
           'Cannot find the first message for user in the database. \n Please add it manually, using /set-first-message command.',
@@ -64,7 +66,7 @@ export class UserInfoUiCommand {
       .addFields([
         {
           name: 'Link to introduction message',
-          value: `[Click here](https://discord.com/channels/${interaction.guildId}/1121822614374060175/${firstMessageId})`,
+          value: `[Click here](${message.url})`,
         },
         {
           name: 'Number of messages sent',
@@ -79,5 +81,21 @@ export class UserInfoUiCommand {
       embeds: [embed],
       ephemeral: true,
     });
+  }
+  async _getMessage(msgId: string, guildId: string) {
+    if (!msgId) return null;
+    let message: Message<true> = null;
+    await this.client.guilds.fetch(guildId).then(async (guild) => {
+      (await guild.channels.fetch()).forEach(async (channel) => {
+        if (channel.isTextBased()) {
+          try {
+            message = await channel.messages.fetch(msgId);
+          } catch {
+            return;
+          }
+        }
+      });
+    });
+    return message;
   }
 }
