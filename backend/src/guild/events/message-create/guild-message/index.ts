@@ -50,20 +50,6 @@ export default class GuildMessageHandler {
   }
 
   @On('messageCreate')
-  @UseGuards(MessageFromUserGuard, ChannelIdGuard('1121822614374060175'))
-  async post_IntroductionFromUser(message: Message): Promise<void> {
-    // Get first message from user in the introduction channel and post it to the open introduction channel
-    const messages = await message.channel.messages.fetch({ limit: 1 });
-    const firstMessage = messages.first();
-    await this.guildUserService.upsert(
-      firstMessage.author.id,
-      message.guildId,
-      {
-        firstMessageId: firstMessage.id,
-      },
-    );
-  }
-  @On('messageCreate')
   @UseGuards(MessageFromUserGuard)
   async toniMsgsToBird(message: Message): Promise<void> {
     const channel = message.channel as GuildTextBasedChannel;

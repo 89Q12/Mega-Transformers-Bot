@@ -71,22 +71,18 @@ export class GuildMemberEvents {
         return;
       }
     }
-    const user = reaction.message.author;
-    if (
-      (
-        await this.guildUserService.getGuildUser(
-          user.id,
-          reaction.message.guildId,
-        )
-      ).rank !== Rank.NEW
-    )
-      return;
-    await this.guildUserService.upsert(user.id, reaction.message.guildId, {
+    const user = await this.guildUserService.getGuildUser(
+      reaction.message.author.id,
+      reaction.message.guildId,
+    );
+    if (!user && user.rank !== Rank.NEW) return;
+    await this.guildUserService.upsert(user.userId, reaction.message.guildId, {
       unlocked: true,
+      firstMessageId: reaction.message.id,
     });
     const member = await (
       await this.client.guilds.fetch(reaction.message.guildId)
-    ).members.fetch(user.id);
+    ).members.fetch(user.userId);
     try {
       const verifiedRoleId = await this.settingsService.getVerifiedMemberRoleId(
         reaction.message.guildId,
