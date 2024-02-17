@@ -54,11 +54,15 @@ export default class GuildMessageHandler {
   async toniMsgsToBird(message: Message): Promise<void> {
     const channel = message.channel as GuildTextBasedChannel;
     if (
-      message.author.id === '1132244079242133555' &&
       channel.parentId !== '1011529685357838376' &&
       channel.parentId !== '1051979218164125826'
     ) {
-      message.react('1194715694948946030');
+      if (message.author.id === '1132244079242133555')
+        message.react('1194715694948946030');
+      if (message.author.id === '521340388947263499')
+        message.react('1208121971926106183');
+      if (message.author.id === '698934599564132392') message.react('🤠');
+      if (message.author.id === '899543066745122816') message.react('🐔');
     }
   }
 
