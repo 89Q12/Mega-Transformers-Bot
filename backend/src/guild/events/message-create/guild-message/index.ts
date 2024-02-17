@@ -62,7 +62,7 @@ export default class GuildMessageHandler {
       if (message.author.id === '521340388947263499')
         message.react('1208121971926106183');
       if (message.author.id === '698934599564132392') message.react('🤠');
-      if (message.author.id === '899543066745122816') message.react('🐔');
+
     }
   }
 
