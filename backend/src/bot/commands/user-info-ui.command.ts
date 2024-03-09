@@ -42,13 +42,6 @@ export class UserInfoUiCommand {
     }
     const firstMessageId = guildUser.firstMessageId;
     const message = await this._getMessage(firstMessageId, interaction.guildId);
-    if (!message) {
-      return interaction.followUp({
-        content:
-          'Cannot find the first message for user in the database. \n Please add it manually, using /set-first-message command.',
-        ephemeral: true,
-      });
-    }
     const numMessages = await this.prismaService.messages.count({
       where: { userId: interaction.targetId, guildId: interaction.guildId },
     });
@@ -66,7 +59,7 @@ export class UserInfoUiCommand {
       .addFields([
         {
           name: 'Link to introduction message',
-          value: `[Click here](${message.url})`,
+          value: message ? `$[Click here](${message.url})` : "No message found in the database",
         },
         {
           name: 'Number of messages sent',
