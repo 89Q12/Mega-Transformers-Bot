@@ -14,7 +14,6 @@ import { Prisma } from '@prisma/client';
 
 @Command({
   name: 'lift-lockdown',
-  description: 'Add a role to all members(Excluding team member)',
   defaultMemberPermissions: ['ModerateMembers'],
   dmPermission: false,
 })
@@ -27,6 +26,11 @@ export class AddRoleCommand {
   async onRoleAdd(@InteractionEvent() interaction: CommandInteraction) {
     interaction.guild.members.fetch().then((members) =>
       members.forEach(async (member) => {
+        if (
+          member.roles.cache.has('1011563978956226560') ||
+          member.roles.cache.has('1011513775054143632')
+        )
+          return;
         if (member.roles.cache.has('1121823930085285938')) {
           const roles = (
             await this.database.lockdownRoleBackup.findUnique({
