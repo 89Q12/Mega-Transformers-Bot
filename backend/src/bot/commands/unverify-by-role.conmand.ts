@@ -10,7 +10,7 @@ import { Client, CommandInteraction } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 
 @Command({
-  name: 'activate-agb',
+  name: 'enter-lockdown',
   dmPermission: false,
 })
 export class UnverifyByRoleCommand {
@@ -22,7 +22,7 @@ export class UnverifyByRoleCommand {
   onUnverifybyRole(@IA() baseInteraction: CommandInteraction) {
     this.client.guilds.fetch(baseInteraction.guildId).then((guild) =>
       guild.members.fetch().then((members) =>
-        members.forEach((member) => {
+        members.forEach(async (member) => {
           if (!member.roles.cache.has('1226585753253843014')) {
             const roles = [];
             member.roles.cache.forEach((role) => roles.push({ id: role.id }));
@@ -40,6 +40,7 @@ export class UnverifyByRoleCommand {
                     await member.roles.remove(role.id),
                 ),
               );
+              await member.roles.add('1121823930085285938')
           }
         }),
       ),
