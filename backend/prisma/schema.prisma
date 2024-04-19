@@ -183,3 +183,11 @@ model GuildQuestionAnswer {
   answer          String
   createdAt       DateTime      @default(now())
 }
+
+model LockdownRoleBackup {
+  guildId String
+  userId  String
+  roles   Json
+
+  @@id([guildId, userId])
+}
