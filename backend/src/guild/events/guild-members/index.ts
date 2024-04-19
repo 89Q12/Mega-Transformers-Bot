@@ -29,7 +29,7 @@ export class GuildMemberEvents {
     @Inject(GuildSettingsService)
     private readonly settingsService: GuildSettingsService,
     @Inject(GuildService) private readonly guildService: GuildService,
-    @Inject(PrismaService) private database: PrismaService
+    @Inject(PrismaService) private database: PrismaService,
   ) {}
 
   // Runs whenever the discordjs websocket gets recreated
@@ -79,7 +79,7 @@ export class GuildMemberEvents {
       reaction.message.author.id,
       reaction.message.guildId,
     );
-    if (!user && user.rank !== Rank.NEW) return
+    if (!user && user.rank !== Rank.NEW) return;
     await this.guildUserService.upsert(user.userId, reaction.message.guildId, {
       unlocked: true,
       firstMessageId: reaction.message.id,
@@ -88,7 +88,8 @@ export class GuildMemberEvents {
       await this.client.guilds.fetch(reaction.message.guildId)
     ).members.fetch(user.userId);
     try {
-      if (!member.roles.cache.has("1226585753253843014")) throw "Has not accepted AGB"
+      if (!member.roles.cache.has('1226585753253843014'))
+        throw 'Has not accepted AGB';
       const verifiedRoleId = await this.settingsService.getVerifiedMemberRoleId(
         reaction.message.guildId,
       );
@@ -137,7 +138,7 @@ export class GuildMemberEvents {
   @On('messageReactionAdd')
   @UseGuards(
     ReactionChannelIdGuard('1226574989147508746'),
-    ReactionEmoteGuard(['👍',])
+    ReactionEmoteGuard(['👍']),
   )
   async checkIfPersonWasVerifiedBefore(reaction: MessageReaction, user: User) {
     if (reaction.partial) {
@@ -150,16 +151,29 @@ export class GuildMemberEvents {
     }
     const dbUser = await this.database.guildUser.findUnique({
       where: {
-        guildId_userId: { guildId: reaction.message.guildId, userId: user.id}
+        guildId_userId: { guildId: reaction.message.guildId, userId: user.id },
       },
-    })
-    const discordUser = (await this.client.guilds.cache.get(dbUser.guildId).members.fetch(user.id))
-    if (!dbUser&& discordUser.roles.cache.has("1121823930085285938")) {
-      const roles  = (await this.database.lockdownRoleBackup.findUnique({where: { guildId_userId: {guildId: dbUser.guildId, userId: user.id}}})).roles as JsonArray
-      if (!roles) return
+    });
+    const discordUser = await this.client.guilds.cache
+      .get(dbUser.guildId)
+      .members.fetch(user.id);
+    if (!dbUser && discordUser.roles.cache.has('1121823930085285938')) {
+      const roles = (
+        await this.database.lockdownRoleBackup.findUnique({
+          where: {
+            guildId_userId: { guildId: dbUser.guildId, userId: user.id },
+          },
+        })
+      ).roles as JsonArray;
+      if (!roles) return;
       // Tyep system gets a bit iffy here :/
-      roles.forEach(async (role: {id: string }) => await discordUser.roles.add(role.id))
-      discordUser.roles.remove("1121823930085285938")
+      roles.forEach(
+        async (role: { id: string }) => await discordUser.roles.add(role.id),
+      );
+      await discordUser.roles.remove('1121823930085285938');
+      await this.database.lockdownRoleBackup.delete({
+        where: { guildId_userId: { userId: user.id, guildId: dbUser.guildId } },
+      });
     }
   }
 }
