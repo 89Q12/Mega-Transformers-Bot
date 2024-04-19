@@ -6,7 +6,7 @@ import { Client, DiscordAPIError } from 'discord.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
-import { CronJob, CronJobParameters } from 'cron';
+import { CronJob, CronJobParams } from 'cron';
 import { GuildService } from 'src/guild/guild.service';
 
 const logger = new Logger('TaskService');
@@ -21,8 +21,8 @@ export class TasksService {
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  createDynamicScheduledJob(jobOptions: CronJobParameters) {
-    return new CronJob(jobOptions);
+  createDynamicScheduledJob(jobOptions: CronJobParams) {
+    return new CronJob(jobOptions.cronTime,jobOptions.onTick, jobOptions.onComplete,jobOptions.start,jobOptions.timeZone);
   }
 
   @Cron('0 0 * * *', {
