@@ -10,6 +10,7 @@ import { CommunityQuestionCommand } from './commands/community-question.command'
 import { initGuildCommand } from './commands/init-guild.command';
 import { UserInfoUiCommand } from './commands/user-info-ui.command';
 import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.command';
+import { CleanWfpMember } from './commands/clean-wfp.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -24,6 +25,7 @@ import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.c
     GuildRestrictedChannelService,
     UserInfoUiCommand,
     SetFirstMessageUICommand,
+    CleanWfpMember,
   ],
   exports: [DiscordModule],
 })
