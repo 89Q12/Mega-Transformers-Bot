@@ -24,7 +24,8 @@ export class CleanWfpMember {
       // 1209600000 = ((3600 * 24) * 14) * 1000  =14 days in ms
       if (
         member.joinedTimestamp < new Date().getTime() - 1209600000 &&
-        member.kickable
+        member.kickable &&
+        member.roles.cache.has('1070116538083975309')
       )
         try {
           await member.kick(
