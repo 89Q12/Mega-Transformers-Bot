@@ -1,14 +1,11 @@
-import { SlashCommandPipe } from '@discord-nestjs/common';
 import {
   Command,
   Handler,
-  IA,
   InjectDiscordClient,
   InteractionEvent,
 } from '@discord-nestjs/core';
-import { Inject, ValidationPipe } from '@nestjs/common';
-import { AddRoleDto } from '../dto/add-role.dto';
-import { Client, CommandInteraction, EmbedBuilder } from 'discord.js';
+import { Inject } from '@nestjs/common';
+import { Client, CommandInteraction } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 
