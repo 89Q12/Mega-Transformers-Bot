@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsOptional, IsString } from 'class-validator';
 
+/**
+ * All possible actions that can occur
+ */
 export const actions = [
   'USER_JOINED',
   'WARN',
@@ -30,6 +33,9 @@ export const actions = [
 ] as const;
 export type Action = (typeof actions)[number];
 
+/**
+ * List of the targets an event can have
+ */
 export const targetTypes = [
   'ERROR',
   'WARN',
@@ -43,6 +49,9 @@ export const targetTypes = [
 ] as const;
 export type TargetType = (typeof targetTypes)[number];
 
+/**
+ * Data transfer object for LogEntries
+ */
 export default class LogEntry {
   @IsString()
   @ApiProperty({
@@ -71,13 +80,13 @@ export default class LogEntry {
     type: String,
     description:
       'The id of the target, can be one of: \
-                                                                   message id, \
-                                                                   channel id, \
-                                                                   role id, \
-                                                                   guild id, \
-                                                                   user id, \
-                                                                   invite code \
-                                                                   or a webhook id',
+        message id, \
+        channel id, \
+        role id, \
+        guild id, \
+        user id, \
+        invite code \
+        or a webhook id',
   })
   targetId: string;
   @IsString()

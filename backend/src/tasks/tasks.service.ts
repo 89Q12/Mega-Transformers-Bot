@@ -11,6 +11,10 @@ import { GuildService } from 'src/guild/guild.service';
 
 const logger = new Logger('TaskService');
 
+/**
+ * The tasks service is responsible for managing jobs/tasks that run periodically.
+ * It also exposes a way to create tasks but NOT deleting them.
+ */
 @Injectable()
 export class TasksService {
   constructor(
@@ -20,11 +24,26 @@ export class TasksService {
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
   ) {}
-
+  /**
+   * A utility function to create cronjobs on the fly from cronjob parameters
+   * @param jobOptions CronJob parameters such as the time. onComplete etc
+   * @returns a new cronjob
+   */
   createDynamicScheduledJob(jobOptions: CronJobParams) {
-    return new CronJob(jobOptions.cronTime,jobOptions.onTick, jobOptions.onComplete,jobOptions.start,jobOptions.timeZone);
+    return new CronJob(
+      jobOptions.cronTime,
+      jobOptions.onTick,
+      jobOptions.onComplete,
+      jobOptions.start,
+      jobOptions.timeZone,
+    );
   }
 
+  /**
+   * Runs at 00:00:00 every day and
+   * updates the written messages count for all users, of all guilds the bot is in, that have the MEMBER rank
+   * and then updates their permissions on specific channels.
+   */
   @Cron('0 0 * * *', {
     name: 'checkActiveUsers',
     timeZone: 'Europe/Berlin',
@@ -42,7 +61,9 @@ export class TasksService {
     });
   }
 
-  // Run every 5 minutes
+  /**
+   * Runs every 5 minutes and checks if members of each given guild the bot is in are still timeouted
+   */
   @Cron('*/5 * * * *', {
     name: 'timeouts',
     timeZone: 'Europe/Berlin',

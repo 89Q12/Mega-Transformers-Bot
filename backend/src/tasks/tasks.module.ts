@@ -7,6 +7,9 @@ import { PrismaService } from 'src/prisma.service';
 import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
 import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channel/guild-restricted-channel.service';
 
+/**
+ * The Tasks module manages the creation/execution of jobs that run periodically
+ */
 @Module({
   providers: [
     TasksService,

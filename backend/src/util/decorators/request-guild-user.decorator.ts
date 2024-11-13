@@ -9,7 +9,11 @@ import { JwtAuthGuard } from '../../auth/jwt/guards/jwt-auth.guard';
 import { GuildUser } from '@prisma/client';
 
 const logger = new Logger('RequestGuildUser');
-
+/**
+ * A param decorator to check whether a GuildUser is set on a request,
+ * if not the route is not guarded by JWT but should be.
+ * If the route is guarded it returns the user
+ */
 export const RequestGuildUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx

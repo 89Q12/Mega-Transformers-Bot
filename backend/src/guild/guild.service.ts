@@ -39,24 +39,30 @@ export class GuildService {
     });
   }
 
-  // SELECT
-  //   m.channelId,
-  //   m.userId,
-  //   COUNT(m.messageId) AS messageCount,
-  //   AVG(subquery.messageCount) AS avgMessageCount
-  // FROM
-  //   Message m
-  // JOIN
-  //   (SELECT channelId, COUNT(messageId) / 30 AS messageCount
-  //   FROM Message
-  //   WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId = '123'
-  //   GROUP BY channelId) AS subquery ON m.channelId = subquery.channelId
-  // WHERE
-  //   m.createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-  // GROUP BY
-  //   m.channelId, m.userId
-  // ORDER BY
-  //   avgMessageCount DESC;
+  /**
+   * Returns the average written messages per channel for last 30 days for the given guild.
+   * @returns A map that contains each channel ID and the average written messages
+   *
+   * SQL:
+   *  SELECT
+   *   m.channelId,
+   *   m.userId,
+   *   COUNT(m.messageId) AS messageCount,
+   *   AVG(subquery.messageCount) AS avgMessageCount
+   * FROM
+   *   Message m
+   * JOIN
+   *   (SELECT channelId, COUNT(messageId) / 30 AS messageCount
+   *   FROM Message
+   *   WHERE createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId = '123'
+   *   GROUP BY channelId) AS subquery ON m.channelId = subquery.channelId
+   * WHERE
+   *   m.createdAt >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+   * GROUP BY
+   *   m.channelId, m.userId
+   * ORDER BY
+   *  avgMessageCount DESC;
+   */
   async averageMessagesPerChannelLastMonth(
     guildId: string,
   ): Promise<Record<string, number>> {
@@ -110,8 +116,14 @@ export class GuildService {
 
     return avgMessageCounts;
   }
-
-  async averageMessagesPerDayLastMonth(guildId: string) {
+  /**
+   * Returns the average written message per day in the last 30 days per channel
+   * @param guildId string
+   * @returns
+   */
+  async averageMessagesPerDayLastMonth(
+    guildId: string,
+  ): Promise<Record<string, number>> {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const messageStats = await this.database.messages.groupBy({
@@ -180,6 +192,10 @@ export class GuildService {
       (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
     ).permissionOverwrites.delete(user_id);
   }
+  /**
+   * Event handler that listens to the ready event which is fired when the bot websocket has been created.
+   * Sets up all guilds in the database if they dont already exist there or updates them.
+   */
   @Once('ready')
   async onReady() {
     const guilds = await this.client.guilds.fetch();

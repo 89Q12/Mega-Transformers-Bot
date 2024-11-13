@@ -6,6 +6,9 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
+/**
+ * Exception thrown when a Guild isn't found by ID
+ */
 export class GuildDoesNotExistException extends Error {
   constructor(guildId: string) {
     super(
@@ -14,6 +17,9 @@ export class GuildDoesNotExistException extends Error {
   }
 }
 
+/**
+ * Filter used to produce the http response when the exception is thrown in a http context
+ */
 @Catch(GuildDoesNotExistException)
 export class GuildDoesNotExistExceptionFilter implements ExceptionFilter {
   catch(exception: GuildDoesNotExistException, host: ArgumentsHost): any {
