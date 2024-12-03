@@ -9,27 +9,80 @@ defaults:
     working-directory: ./backend
 
 jobs:
-    linting:
-        name: Run linters
-        runs-on: ubuntu-latest
+  format:
+    name: Run Prettier
+    runs-on: ubuntu-latest
 
-        steps:
-          - name: Check out Git repository
-            uses: actions/checkout@v4
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
 
-          - name: Set up Node.js
-            uses: actions/setup-node@v1
-            with:
-              node-version: 22
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 22
 
-          - name: Install Node.js dependencies
-            run: yarn --frozen-lockfile
+      - name: Install Node.js dependencies
+        run: yarn --frozen-lockfile
 
-          - name: Run linters
-            uses: wearerequired/lint-action@v2
-            with:
-              #eslint: true
-              #eslint_dir: backend/
-              prettier: true
-              prettier_dir: backend/
-              auto_fix: true
+      - name: Running Prettier
+        run: yarn run format
+      - name: Setting Github user.email
+        run: git config --global user.email "${{ github.job_workflow_sha }}-ci@puppy.rip"
+      - name: Setting Github user.name
+        run: git config --global user.name "${{ github.action }}"
+      - name: Adding fixes for committing
+        run: git add .
+      - name: Committing Prettier fixes
+        run: git commit -m "Fixed Prettier issues"
+      - name: Pushing changes to repository
+        run: git push
+  linting:
+    name: Run linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 22
+
+      - name: Install Node.js dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Running ESLint
+        run: yarn run lint
+      - name: Setting Github user.email
+        if: always()
+        run: git config --global user.email "${{ github.job_workflow_sha }}-ci@puppy.rip"
+      - name: Setting Github user.name
+        if: always()
+        run: git config --global user.name "${{ github.action }}"
+      - name: Adding fixes for committing
+        if: always()
+        run: git add .
+      - name: Committing ESLint fixes
+        if: always()
+        run: git commit -m "Fixed ESLint issues"
+      - name: Pushing changes to repository
+        if: always()  
+        run: git push
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    needs: [linting, format]
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 22
+
+      - name: Install Node.js dependencies and generate prisma client
+        run: yarn --frozen-lockfile && prisma generate
+      - name: Run tests
+        run: yarn run test
