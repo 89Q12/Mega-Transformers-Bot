@@ -2,7 +2,6 @@ import { On } from '@discord-nestjs/core';
 import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { Attachment, GuildTextBasedChannel, Message } from 'discord.js';
 import { MessageFromUserGuard } from 'src/bot/guards/message-from-user.guard';
-import { ChannelIdGuard } from 'src/bot/guards/message-in-channel.guard';
 import { IsUserUnlockedGuard } from 'src/bot/guards/user-is-unlocked.guard';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 import getAttachmentType from 'src/util/functions/get-attachtment-type';

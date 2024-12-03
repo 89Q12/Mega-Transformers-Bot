@@ -97,11 +97,11 @@ export class ModRequestFlow {
   async onButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     if (interaction.customId != 'needHelp') return;
-    enum knownButtons {
-      'needHelp',
+    type knownButtons = {
+      needHelp: string
     }
     const callback: Record<
-      keyof typeof knownButtons,
+      keyof knownButtons,
       (interaction: ButtonInteraction) => Promise<void>
     > = {
       needHelp: async (i) => {
@@ -109,7 +109,7 @@ export class ModRequestFlow {
       },
     };
     try {
-      callback[interaction.customId as keyof typeof knownButtons](interaction);
+      callback[interaction.customId as keyof knownButtons](interaction);
     } catch (e) {
       this.logger.error(e);
     }

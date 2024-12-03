@@ -1,6 +1,6 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger, UseGuards } from '@nestjs/common';
-import { Prisma, Rank } from '@prisma/client';
+import { Rank } from '@prisma/client';
 import {
   Client,
   GuildMember,
