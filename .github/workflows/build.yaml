@@ -27,16 +27,18 @@ jobs:
 
       - name: Running Prettier
         run: yarn run format
-      - name: Setting Github user.email
-        run: git config --global user.email "${{ github.job_workflow_sha }}-ci@puppy.rip"
-      - name: Setting Github user.name
-        run: git config --global user.name "${{ github.action }}"
-      - name: Adding fixes for committing
-        run: git add .
-      - name: Committing Prettier fixes
-        run: git commit -m "Fixed Prettier issues"
-      - name: Pushing changes to repository
-        run: git push
+
+      - name: Check for changes and push changes to repository
+        if: always()
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --global user.email "${{ github.workflow }}-ci@puppy.rip"
+            git config --global user.name "${{ github.workflow }}-${{ github.job }}"
+            git add .
+            git commit -m "Fixed Prettier issues"
+            git push              
+          fi
   linting:
     name: Run linter
     runs-on: ubuntu-latest
@@ -54,21 +56,20 @@ jobs:
 
       - name: Running ESLint
         run: yarn run lint
-      - name: Setting Github user.email
+
+      - name: Check for changes and push changes to repository
         if: always()
-        run: git config --global user.email "${{ github.job_workflow_sha }}-ci@puppy.rip"
-      - name: Setting Github user.name
-        if: always()
-        run: git config --global user.name "${{ github.action }}"
-      - name: Adding fixes for committing
-        if: always()
-        run: git add .
-      - name: Committing ESLint fixes
-        if: always()
-        run: git commit -m "Fixed ESLint issues"
-      - name: Pushing changes to repository
-        if: always()  
-        run: git push
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --global user.email "${{ github.workflow }}-ci@puppy.rip"
+            git config --global user.name "${{ github.workflow }}-${{ github.job }}"
+            git add .
+            git commit -m "Fixed ESLint issues"
+            git push              
+          fi
+
+
   test:
     name: Run tests
     runs-on: ubuntu-latest

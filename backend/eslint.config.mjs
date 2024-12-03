@@ -33,7 +33,7 @@ export default [{
 
         parserOptions: {
             project: "tsconfig.json",
-            tsconfigRootDir: "/Users/zofia/Documents/Projects/Yuno-Gasai-2/backend",
+            tsconfigRootDir: "./",
         },
     },
 
