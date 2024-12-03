@@ -98,8 +98,8 @@ export class ModRequestFlow {
     if (!interaction.isButton()) return;
     if (interaction.customId != 'needHelp') return;
     type knownButtons = {
-      needHelp: string
-    }
+      needHelp: string;
+    };
     const callback: Record<
       keyof knownButtons,
       (interaction: ButtonInteraction) => Promise<void>
