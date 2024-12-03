@@ -33,8 +33,8 @@ jobs:
         id: check_changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            git config --global user.email "${{ github.workflow }}-ci@puppy.rip"
-            git config --global user.name "${{ github.workflow }}-${{ github.job }}"
+            git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+            git config --global user.name "${GITHUB_ACTOR}"
             git add .
             git commit -m "Fixed Prettier issues"
             git push              
@@ -62,8 +62,8 @@ jobs:
         id: check_changes
         run: |
           if [[ -n $(git status --porcelain) ]]; then
-            git config --global user.email "${{ github.workflow }}-ci@puppy.rip"
-            git config --global user.name "${{ github.workflow }}-${{ github.job }}"
+            git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+            git config --global user.name "${GITHUB_ACTOR}"
             git add .
             git commit -m "Fixed ESLint issues"
             git push              
