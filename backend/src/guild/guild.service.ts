@@ -159,16 +159,17 @@ export class GuildService {
       channels.forEach((channel) =>
         this.restrictedChannelService
           .isChannelAvailableToUser(user, channel)
-          .then((bool) => {
-            bool
-              ? this._removeMemberFromChannelOverwrite(
-                  user.userId.toString(),
-                  channel.channelId,
-                )
-              : this._addMemberToChannelOverwrite(
-                  user.userId.toString(),
-                  channel.channelId,
-                );
+          .then((isAvailable) => {
+            if (isAvailable)
+              this._removeMemberFromChannelOverwrite(
+                user.userId.toString(),
+                channel.channelId,
+              );
+            else
+              this._addMemberToChannelOverwrite(
+                user.userId.toString(),
+                channel.channelId,
+              );
           }),
       ),
     );

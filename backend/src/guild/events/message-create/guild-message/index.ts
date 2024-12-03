@@ -61,18 +61,18 @@ export default class GuildMessageHandler {
     }
   }
 
-  @On('messageCreate')
-  @UseGuards(MessageFromUserGuard)
-  async checkLimits(message: Message) {
-    const guildUser = this.guildUserService.getGuildUser(
-      message.author.id,
-      message.guildId,
-    );
-    const hasAttachments = message.attachments.size > 0;
-    const typeOfAttachments = message.attachments.map(
-      (attachment: Attachment) => {
-        return ({}[getAttachmentType(attachment.contentType)] = attachment);
-      },
-    );
-  }
+  // @On('messageCreate')
+  // @UseGuards(MessageFromUserGuard)
+  // async checkLimits(message: Message) {
+  //   const guildUser = this.guildUserService.getGuildUser(
+  //     message.author.id,
+  //     message.guildId,
+  //   );
+  //   const hasAttachments = message.attachments.size > 0;
+  //   const typeOfAttachments = message.attachments.map(
+  //     (attachment: Attachment) => {
+  //       return ({}[getAttachmentType(attachment.contentType)] = attachment);
+  //     },
+  //   );
+  // }
 }
