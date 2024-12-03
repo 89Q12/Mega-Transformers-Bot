@@ -126,7 +126,7 @@ export class ModRequestFlow {
     const guildId =
       guilds.length > 1
         ? await this._getGuildIdFromSelectMenu(interaction, guilds)
-        : interaction?.guildId ?? guilds[0];
+        : (interaction?.guildId ?? guilds[0]);
     const modRequestMenu = modRequestCategorySelect(guildId);
     const options = {
       content: 'Wähle eine Kategorie aus:',

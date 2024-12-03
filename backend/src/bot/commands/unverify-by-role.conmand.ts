@@ -47,7 +47,7 @@ export class UnverifyByRoleCommand {
             );
           if (!member.roles.cache.has('1226585753253843014')) {
             await member.roles.add('1121823930085285938');
-          }else {
+          } else {
             //await member.roles.add('')
           }
         }),

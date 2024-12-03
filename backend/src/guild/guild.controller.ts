@@ -14,9 +14,8 @@ export class GuildController {
 
   @Get('messages-per-channel-last-month')
   async messagesPerChannelLastMonth(@Param('guildId') guildId: string) {
-    const data = await this.guildService.averageMessagesPerChannelLastMonth(
-      guildId,
-    );
+    const data =
+      await this.guildService.averageMessagesPerChannelLastMonth(guildId);
     const labels = [];
     const values = Object.values(data);
     Object.keys(data).forEach(async (key) => {
@@ -32,9 +31,8 @@ export class GuildController {
   }
   @Get('messages-per-day-last-month')
   async messagesPerDayLastMonth(@Param('guildId') guildId: string) {
-    const data = await this.guildService.averageMessagesPerDayLastMonth(
-      guildId,
-    );
+    const data =
+      await this.guildService.averageMessagesPerDayLastMonth(guildId);
     const labels = [];
     const values = Object.values(data);
     Object.keys(data).forEach((key) => {

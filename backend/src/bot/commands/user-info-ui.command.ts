@@ -59,7 +59,9 @@ export class UserInfoUiCommand {
       .addFields([
         {
           name: 'Link to introduction message',
-          value: message ? `$[Click here](${message.url})` : "No message found in the database",
+          value: message
+            ? `$[Click here](${message.url})`
+            : 'No message found in the database',
         },
         {
           name: 'Number of messages sent',

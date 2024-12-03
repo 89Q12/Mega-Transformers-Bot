@@ -22,9 +22,8 @@ export class GuildAutoDeleteChannelController {
 
   @Get()
   async getAutoDeleteChannel(@Param('guildId') guildId: string) {
-    const autoDeleteChannels = await this.guildAutoDeleteChannelService.get(
-      guildId,
-    );
+    const autoDeleteChannels =
+      await this.guildAutoDeleteChannelService.get(guildId);
     if (!autoDeleteChannels) {
       throw new NotFoundException();
     }
