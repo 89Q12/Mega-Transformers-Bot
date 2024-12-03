@@ -18,7 +18,7 @@ export class CleanWfpMember {
     const membersUnfiltered = (
       await (await interaction.guild.fetch()).roles.fetch('1121823930085285938')
     ).members;
-    let members: Array<GuildMember> = [];
+    const members: Array<GuildMember> = [];
     membersUnfiltered.forEach(async (member) => {
       if (
         twoWeekDate > new Date(member.joinedTimestamp) &&
@@ -32,7 +32,7 @@ export class CleanWfpMember {
       ephemeral: true,
       content: `About to kick ${members.length}/`,
     });
-    let unkickableMemberIds: Array<string> = [];
+    const unkickableMemberIds: Array<string> = [];
     members.forEach(async (member) => {
       try {
         await member.kick(
