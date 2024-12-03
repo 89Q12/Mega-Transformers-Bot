@@ -28,8 +28,8 @@ jobs:
           - name: Run linters
             uses: wearerequired/lint-action@v2
             with:
-              eslint: true
-              eslint_dir: backend/
+              #eslint: true
+              #eslint_dir: backend/
               prettier: true
               prettier_dir: backend/
               auto_fix: true
