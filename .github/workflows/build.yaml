@@ -84,6 +84,6 @@ jobs:
           node-version: 22
 
       - name: Install Node.js dependencies and generate prisma client
-        run: yarn --frozen-lockfile && prisma generate
+        run: yarn --frozen-lockfile && yarn run prisma:generate
       - name: Run tests
         run: yarn run test
