@@ -1,5 +1,5 @@
 import { Command, Handler, InteractionEvent } from '@discord-nestjs/core';
-import { CommandInteraction } from 'discord.js';
+import { CommandInteraction, GuildMember } from 'discord.js';
 
 @Command({
   name: 'clean-wfp',
@@ -14,26 +14,37 @@ export class CleanWfpMember {
     await interaction.deferReply({
       ephemeral: true,
     });
-    const members = (await (await interaction.guild.fetch()).roles.fetch('d'))
-      .members;
+    const twoWeekDate = new Date(new Date().setDate(new Date().getDate() - 15));
+    const membersUnfiltered = (
+      await (await interaction.guild.fetch()).roles.fetch('1121823930085285938')
+    ).members;
+    let members: Array<GuildMember> = [];
+    membersUnfiltered.forEach(async (member) => {
+      if (
+        twoWeekDate > new Date(member.joinedTimestamp) &&
+        // Has not VereinsMitglied
+        !member.roles.cache.has('1070116538083975309')
+      ) {
+        members.push(member);
+      }
+    });
     await interaction.followUp({
       ephemeral: true,
-      content: `About to kick ${members.size}`,
+      content: `About to kick ${members.length}/`,
     });
+    let unkickableMemberIds: Array<string> = [];
     members.forEach(async (member) => {
-      // 1209600000 = ((3600 * 24) * 14) * 1000  =14 days in ms
-      if (
-        member.joinedTimestamp < new Date().getTime() - 1209600000 &&
-        member.kickable &&
-        member.roles.cache.has('1070116538083975309')
-      )
-        try {
-          await member.kick(
-            'Kicked by the bot for being in wfp for more than 2 weeks',
-          );
-        } catch {
-          console.log('Error kicking members');
-        }
+      try {
+        await member.kick(
+          'Kicked by the bot for being in wfp for more than 2 weeks',
+        );
+      } catch {
+        unkickableMemberIds.push(member.id);
+      }
+    });
+    await interaction.followUp({
+      ephemeral: true,
+      content: `Done!, but could not kick ${unkickableMemberIds.length} members`,
     });
   }
 }
