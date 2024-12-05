@@ -1,6 +1,6 @@
 import { Command, Handler, InteractionEvent } from '@discord-nestjs/core';
 import { Inject } from '@nestjs/common';
-import { CommandInteraction, GuildMember } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 import { GuildService } from 'src/guild/guild.service';
 
 @Command({
