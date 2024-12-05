@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CoffeeCommand } from './commands/coffee.command';
+import { CoffeeCommand } from './coffee.command';
 import { ReflectMetadataProvider } from '@discord-nestjs/core';
-import { UserToUser } from './dto/user-to-user.dto';
+import { UserToUser } from '../dto/user-to-user.dto';
 import { CommandInteraction, User } from 'discord.js';
 describe('CoffeeCommand', () => {
   let command: CoffeeCommand;
@@ -19,7 +19,7 @@ describe('CoffeeCommand', () => {
   });
   it('should correctly mention users', () => {
     const dto: UserToUser = {
-      touser: {
+      user: {
         id: '12345678',
       } as User,
     };

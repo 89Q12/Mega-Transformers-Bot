@@ -11,5 +11,5 @@ export class UserToUser {
     type: ParamType.USER,
     required: true,
   })
-  touser: User;
+  user: User;
 }
