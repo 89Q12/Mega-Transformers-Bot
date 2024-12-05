@@ -41,6 +41,6 @@ export class CoffeeCommand {
     @IA(SlashCommandPipe, ValidationPipe)
     dto: UserToUser,
   ): string {
-    return `*${userMention(interaction.user.id)} schiebt ${dto.touser} einen ${coffees[Math.ceil(Math.random() * coffees.length - 1)]} rüber!*`;
+    return `*${userMention(interaction.user.id)} schiebt ${userMention(dto.touser.id)} einen ${coffees[Math.ceil(Math.random() * coffees.length - 1)]} rüber!*`;
   }
 }
