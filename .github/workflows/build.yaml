@@ -7,7 +7,9 @@ defaults:
   run:
     shell: bash
     working-directory: ./backend
-
+env:
+  APP_PATH: /opt/MTB
+  APP_NAME: bot
 jobs:
   format:
     name: Run Prettier
@@ -68,7 +70,6 @@ jobs:
             git commit -m "Fixed ESLint issues"
             git push              
           fi
-
   test:
     name: Run tests
     runs-on: ubuntu-latest
@@ -110,6 +111,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set short git commit SHA
         id: vars
         run: |
@@ -123,3 +125,28 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/89q12/mega-transformers-bot:${{ env.COMMIT_SHORT_SHA }}
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    # Later also tests
+    needs: [ build ] 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH key
+        run: |
+            env
+            mkdir -p ~/.ssh
+            echo "${{ secrets.ARTIFACT_SSH_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -p 22 ${{ secrets.ARTIFACT_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy to server
+        run: |
+            ssh -i ~/.ssh/id_rsa -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.ARTIFACT_HOST }} <<'ENDSSH'
+            cd ${{ env.APP_PATH }}
+            sed -E -i'' "s/(.*mega-transformers-bot:).*/\1${{ env.COMMIT_SHORT_SHA }}/" 'docker-compose.yml' 
+            docker compose pull ${{ env.APP_NAME }}
+            docker compose stop ${{ env.APP_NAME }}
+            docker compose start ${{ env.APP_NAME }}
+            ENDSSH
