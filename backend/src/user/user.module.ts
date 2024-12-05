@@ -13,5 +13,6 @@ import { SelfService } from './self.service';
   imports: [DiscordModule.forFeature()],
   providers: [PrismaService, SelfService],
   controllers: [SelfController],
+  exports: [SelfService],
 })
 export class UserModule {}

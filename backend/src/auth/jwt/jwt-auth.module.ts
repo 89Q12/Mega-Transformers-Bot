@@ -8,6 +8,7 @@ import { RefreshJwtStrategy } from './refresh-token.strategy';
 import { HttpModule } from '@nestjs/axios';
 import { PrismaService } from 'src/prisma.service';
 import { SelfService } from 'src/user/self.service';
+import { DiscordModule } from '@discord-nestjs/core';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SelfService } from 'src/user/self.service';
       secret: 'jwtConstants.secret',
       signOptions: { expiresIn: '900s' },
     }),
+    DiscordModule.forFeature(),
   ],
   controllers: [JwtAuthController],
   providers: [
