@@ -17,13 +17,19 @@ export class CleanWfpMember {
     await interaction.deferReply({
       ephemeral: true,
     });
-    
-    const membersToKick = await this.guildService.cleanWfpMembers(interaction.guildId, true);
+
+    const membersToKick = await this.guildService.cleanWfpMembers(
+      interaction.guildId,
+      true,
+    );
     await interaction.followUp({
       ephemeral: true,
       content: `About to kick ${membersToKick.length} members!`,
     });
-    const unkickableMemberIds = await this.guildService.cleanWfpMembers(interaction.guildId, false);
+    const unkickableMemberIds = await this.guildService.cleanWfpMembers(
+      interaction.guildId,
+      false,
+    );
     await interaction.followUp({
       ephemeral: true,
       content: `Done!, but could not kick ${unkickableMemberIds.length} members`,

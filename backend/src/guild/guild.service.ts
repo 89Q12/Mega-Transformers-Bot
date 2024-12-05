@@ -39,10 +39,15 @@ export class GuildService {
     });
   }
 
-  async cleanWfpMembers(guildID: string, dryRun: boolean = false): Promise<Array<string | GuildMember>> {
+  async cleanWfpMembers(
+    guildID: string,
+    dryRun: boolean = false,
+  ): Promise<Array<string | GuildMember>> {
     const twoWeekDate = new Date(new Date().setDate(new Date().getDate() - 14));
     const membersUnfiltered = (
-      await (await this.client.guilds.fetch(guildID)).roles.fetch('1121823930085285938')
+      await (
+        await this.client.guilds.fetch(guildID)
+      ).roles.fetch('1121823930085285938')
     ).members;
     const members: Array<GuildMember> = [];
     membersUnfiltered.forEach(async (member) => {
@@ -55,7 +60,7 @@ export class GuildService {
       }
     });
     // Return early if we are in a dry fun
-    if (dryRun) return members
+    if (dryRun) return members;
     const unkickableMemberIds: Array<string> = [];
     members.forEach(async (member) => {
       try {
@@ -66,7 +71,7 @@ export class GuildService {
         unkickableMemberIds.push(member.id);
       }
     });
-    return unkickableMemberIds
+    return unkickableMemberIds;
   }
 
   /**
