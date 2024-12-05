@@ -2,7 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CoffeeCommand } from './coffee.command';
 import { ReflectMetadataProvider } from '@discord-nestjs/core';
 import { UserToUser } from '../dto/user-to-user.dto';
-import { CommandInteraction, User } from 'discord.js';
+import {
+  CommandInteraction,
+  Guild,
+  GuildMemberManager,
+  User,
+} from 'discord.js';
 describe('CoffeeCommand', () => {
   let command: CoffeeCommand;
 
@@ -22,6 +27,7 @@ describe('CoffeeCommand', () => {
       user: {
         id: '12345678',
       } as User,
+      category: 'coffee',
     };
     command.coffees = ['Americano'];
     expect(
@@ -30,9 +36,22 @@ describe('CoffeeCommand', () => {
           user: {
             id: '12345678',
           } as User,
+          guild: {
+            members: {
+              fetch: jest.fn().mockImplementation(() => {
+                return {
+                  id: '12345678',
+                };
+              }),
+            } as unknown as GuildMemberManager,
+          } as Guild,
         } as CommandInteraction,
         dto,
       ),
-    ).toEqual('*<@12345678> schiebt <@12345678> einen Americano rüber!*');
+    ).toEqual(
+      Promise.resolve(
+        '*<@12345678> schiebt <@12345678> einen Americano rüber!*',
+      ),
+    );
   });
 });
