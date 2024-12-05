@@ -4,7 +4,7 @@ import { INJECT_DISCORD_CLIENT } from '@discord-nestjs/core';
 import { Rank } from '@prisma/client';
 import { Client } from 'discord.js';
 import { UserController } from 'src/guild/moderation/user/user.controller';
-import { UserService } from 'src/user/user.service';
+import { SelfService } from 'src/user/self.service';
 import { GuildUserService } from './guild-user.service';
 
 describe('GuildUserController', () => {
@@ -22,7 +22,7 @@ describe('GuildUserController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
-        { provide: UserService, useValue: userService },
+        { provide: SelfService, useValue: userService },
         { provide: INJECT_DISCORD_CLIENT, useValue: client },
       ],
     }).compile();

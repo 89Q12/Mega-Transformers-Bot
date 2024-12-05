@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AxiosError } from 'axios';
 import { OAuthErrorData } from 'discord.js';
 import { firstValueFrom, catchError } from 'rxjs';
-import { UserService } from 'src/user/user.service';
+import { SelfService } from 'src/user/self.service';
 
 @Injectable()
 export class JwtAuthService {
@@ -14,7 +14,7 @@ export class JwtAuthService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
-    private readonly usersService: UserService,
+    private readonly usersService: SelfService,
     private http: HttpService,
   ) {}
 
@@ -55,7 +55,7 @@ export class JwtAuthService {
   }
 
   async validateUser(userId: string): Promise<string> {
-    const user = await this.usersService.findOneUser(userId);
+    const user = await this.usersService.fetchSelf(userId);
     if (!user) {
       throw new UnauthorizedException();
     }

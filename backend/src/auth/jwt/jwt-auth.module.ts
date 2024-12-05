@@ -7,7 +7,7 @@ import { JwtAuthController } from './jwt-auth.controller';
 import { RefreshJwtStrategy } from './refresh-token.strategy';
 import { HttpModule } from '@nestjs/axios';
 import { PrismaService } from 'src/prisma.service';
-import { UserService } from 'src/user/user.service';
+import { SelfService } from 'src/user/self.service';
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { UserService } from 'src/user/user.service';
     RefreshJwtStrategy,
     JwtAuthService,
     PrismaService,
-    UserService,
+    SelfService,
   ],
   exports: [JwtAuthService],
 })
