@@ -26,7 +26,8 @@ const coffees = [
 
 @Command({
   name: 'coffee',
-  description: 'Give a user you like a coffe',
+  description: 'Give a user you like a coffee',
+  defaultMemberPermissions: ['SendMessages'],
   dmPermission: false,
 })
 export class CoffeeCommand {
@@ -40,6 +41,6 @@ export class CoffeeCommand {
     @IA(SlashCommandPipe, ValidationPipe)
     dto: UserToUser,
   ): string {
-    return `${userMention(interaction.user.id)} schiebt ${dto.ToUser} einen ${coffees[Math.ceil(Math.random() * coffees.length - 1)]} rüber!`;
+    return `*${userMention(interaction.user.id)} schiebt ${dto.touser} einen ${coffees[Math.ceil(Math.random() * coffees.length - 1)]} rüber!*`;
   }
 }

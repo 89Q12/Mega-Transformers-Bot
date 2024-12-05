@@ -1,4 +1,5 @@
 import { Param, ParamType } from '@discord-nestjs/core';
+import { IsString } from 'class-validator';
 import { User } from 'discord.js';
 
 export class UserToUser {
@@ -11,5 +12,6 @@ export class UserToUser {
     type: ParamType.USER,
     required: true,
   })
-  ToUser: User;
+  @IsString()
+  touser: User;
 }
