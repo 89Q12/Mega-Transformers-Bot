@@ -64,6 +64,7 @@ import { PrismaService } from './prisma.service';
         registerCommandOptions: [
           {
             removeCommandsBefore: true,
+            forGuild: '1011511871297302608',
           },
         ],
 
