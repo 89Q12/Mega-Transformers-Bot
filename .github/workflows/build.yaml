@@ -31,7 +31,7 @@ jobs:
           node-version: 22
 
       - name: Install Node.js dependencies
-        run: yarn --immutable
+        run: yarn --immutable --prefer-offline
 
       - name: Running Prettier
         run: yarn run format
@@ -61,7 +61,7 @@ jobs:
           node-version: 22
 
       - name: Install Node.js dependencies
-        run: yarn --immutable
+        run: yarn --immutable --prefer-offline
 
       - name: Running ESLint
         run: yarn run lint
@@ -94,7 +94,7 @@ jobs:
           node-version: 22
 
       - name: Install Node.js dependencies and generate prisma client
-        run: yarn --frozen-lockfile && yarn run prisma:generate
+        run: yarn --frozen-lockfile --prefer-offline && yarn run prisma:generate
       - name: Run tests
         run: yarn run test
 
