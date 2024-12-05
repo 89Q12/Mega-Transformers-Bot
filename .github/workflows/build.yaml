@@ -110,10 +110,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Set short git commit SHA
+        id: vars
+        run: |
+            calculatedSha=$(git rev-parse --short ${{ github.sha }})
+            echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+        
       - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v3
         with:
           platforms: linux/amd64
           push: true
-          tags: "ghcr.io/89q12/mega-transformers-bot:${GITHUB_SHA}"
+          tags: ghcr.io/89q12/mega-transformers-bot:${{ env.COMMIT_SHORT_SHA }}
