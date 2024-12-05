@@ -1,5 +1,5 @@
 # Base image
-FROM node:19
+FROM node:22
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -7,8 +7,7 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . .
 # Install app dependencies
-RUN yarn install && \
-# Creates a "dist" folder with the production build
+RUN yarn install --immutable && \
     yarn run build && \
     yarn run prisma generate
 EXPOSE 3000
