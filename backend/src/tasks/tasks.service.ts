@@ -108,4 +108,15 @@ export class TasksService {
       );
     });
   }
+
+  /**
+   * Runs everyday at midnight and kicks members that are longer than 14 days on the server and haven't checked in.
+   */
+  @Cron('0 0 * * *', {
+    name: 'cleanWfpMembers',
+    timeZone: 'Europe/Berlin',
+  })
+  async cleanWfpMembers() {
+    await this.guildService.cleanWfpMembers('1011511871297302608', false);
+  }
 }

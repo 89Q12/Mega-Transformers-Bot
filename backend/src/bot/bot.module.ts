@@ -11,6 +11,7 @@ import { initGuildCommand } from './commands/init-guild.command';
 import { UserInfoUiCommand } from './commands/user-info-ui.command';
 import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.command';
 import { CleanWfpMember } from './commands/clean-wfp.command';
+import { GuildService } from 'src/guild/guild.service';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -26,6 +27,7 @@ import { CleanWfpMember } from './commands/clean-wfp.command';
     UserInfoUiCommand,
     SetFirstMessageUICommand,
     CleanWfpMember,
+    GuildService,
   ],
   exports: [DiscordModule],
 })

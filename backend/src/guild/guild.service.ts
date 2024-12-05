@@ -1,7 +1,7 @@
 import { InjectDiscordClient, Once } from '@discord-nestjs/core';
 import { Inject, Injectable } from '@nestjs/common';
 import { Guild, GuildUser } from '@prisma/client';
-import { Client, BaseGuildTextChannel } from 'discord.js';
+import { Client, BaseGuildTextChannel, GuildMember } from 'discord.js';
 import { PrismaService } from 'src/prisma.service';
 import { GuildRestrictedChannelService } from './guild-restricted-channel/guild-restricted-channel.service';
 
@@ -37,6 +37,36 @@ export class GuildService {
         ...data,
       },
     });
+  }
+
+  async cleanWfpMembers(guildID: string, dryRun: boolean = false): Promise<Array<string | GuildMember>> {
+    const twoWeekDate = new Date(new Date().setDate(new Date().getDate() - 14));
+    const membersUnfiltered = (
+      await (await this.client.guilds.fetch(guildID)).roles.fetch('1121823930085285938')
+    ).members;
+    const members: Array<GuildMember> = [];
+    membersUnfiltered.forEach(async (member) => {
+      if (
+        twoWeekDate > new Date(member.joinedTimestamp) &&
+        // Has not VereinsMitglied
+        !member.roles.cache.has('1070116538083975309')
+      ) {
+        members.push(member);
+      }
+    });
+    // Return early if we are in a dry fun
+    if (dryRun) return members
+    const unkickableMemberIds: Array<string> = [];
+    members.forEach(async (member) => {
+      try {
+        await member.kick(
+          'Kicked by the bot for being in wfp for more than 2 weeks',
+        );
+      } catch {
+        unkickableMemberIds.push(member.id);
+      }
+    });
+    return unkickableMemberIds
   }
 
   /**
