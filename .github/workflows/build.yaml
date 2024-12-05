@@ -45,7 +45,8 @@ jobs:
             git config --global user.name "${GITHUB_ACTOR}"
             git add .
             git commit -m "Fixed Prettier issues"
-            git push              
+            git pull origin main --rebase
+            git push
           fi
   linting:
     name: Run linter
@@ -74,7 +75,8 @@ jobs:
             git config --global user.name "${GITHUB_ACTOR}"
             git add .
             git commit -m "Fixed ESLint issues"
-            git push              
+            git pull origin main --rebase
+            git push
           fi
   test:
     name: Run tests
