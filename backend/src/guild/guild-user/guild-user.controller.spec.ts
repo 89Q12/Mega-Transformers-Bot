@@ -3,31 +3,33 @@ import { GuildUserController } from './guild-user.controller';
 import { INJECT_DISCORD_CLIENT } from '@discord-nestjs/core';
 import { Rank } from '@prisma/client';
 import { Client } from 'discord.js';
-import { UserController } from 'src/guild/moderation/user/user.controller';
 import { SelfService } from 'src/user/self.service';
 import { GuildUserService } from './guild-user.service';
+import { PrismaService } from 'src/prisma.service';
+import { GuildSettingsService } from '../guild-settings/guild-settings.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 describe('GuildUserController', () => {
   let userController: GuildUserController;
-
-  it('should be defined', () => {
-    expect(userController).toBeDefined();
-  });
-
   let userService: GuildUserService;
   let client: Client;
+
   beforeEach(async () => {
-    userService = {} as GuildUserService;
     client = {} as Client;
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
+      controllers: [GuildUserController],
       providers: [
-        { provide: SelfService, useValue: userService },
+        PrismaService,
+        GuildUserService,
+        SelfService,
         { provide: INJECT_DISCORD_CLIENT, useValue: client },
+        GuildSettingsService,
+        EventEmitter2,
       ],
     }).compile();
 
     userController = module.get<GuildUserController>(GuildUserController);
+    userService = module.get<GuildUserService>(GuildUserService);
   });
 
   it('should be defined', () => {
@@ -41,6 +43,7 @@ describe('GuildUserController', () => {
       guildId: '616609333832187924',
       rank: Rank.MEMBER,
       avatarUrl: 'https://example.com/avatar.png',
+      guildName: 'Example Guild Name',
     };
     userService.getGuildUser = jest
       .fn()
@@ -53,6 +56,22 @@ describe('GuildUserController', () => {
           .mockImplementation(() =>
             Promise.resolve('https://example.com/avatar.png'),
           ),
+      }),
+    );
+    client.guilds = {} as Client['guilds'];
+    client.guilds.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        members: {
+          fetch: jest.fn().mockImplementation(() => {
+            return {
+              avatarURL: jest
+                .fn()
+                .mockImplementation(() => 'https://example.com/avatar.png'),
+              displayName: result.name,
+              guild: { name: result.guildName },
+            };
+          }),
+        },
       }),
     );
 
