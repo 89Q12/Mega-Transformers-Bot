@@ -26,13 +26,39 @@ export class CoffeeCommand {
     'Mokka',
     'Pharisäer',
   ];
+  possibleAnswers = [
+    '*Y schiebt X einen Z rüber!*',
+    '*Y schenkt X einen ganzen Kuchen!*',
+    '*Y gibt X ein headpat :3*',
+    '*Y umarmt X :3*',
+  ];
   @Handler()
-  chooseRandomCoffee(
+  async chooseRandomCoffee(
     @InteractionEvent() interaction: CommandInteraction,
     @IA(SlashCommandPipe, ValidationPipe)
     dto: UserToUser,
-  ): string {
-    console.log(dto);
-    return `*${userMention(interaction.user.id)} schiebt ${userMention(dto.user.id)} einen ${this.coffees[Math.ceil(Math.random() * this.coffees.length - 1)]} rüber!*`;
+  ): Promise<string> {
+    const toUser = await interaction.guild.members.fetch(dto.user);
+    return this.templateAnswer(dto.category, interaction.user.id, toUser.id);
+  }
+
+  templateAnswer(category: string, fromUserId: string, toUserId: string) {
+    console.log(category);
+    console.log(fromUserId);
+    console.log(toUserId);
+
+    switch (category) {
+      case 'coffee':
+        return this.possibleAnswers[0]
+          .replace('Y', userMention(fromUserId))
+          .replace('X', userMention(toUserId))
+          .replace(
+            'Z',
+            this.coffees[Math.ceil(Math.random() * this.coffees.length - 1)],
+          );
+
+      default:
+        break;
+    }
   }
 }
