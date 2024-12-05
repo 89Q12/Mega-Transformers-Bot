@@ -2,6 +2,12 @@ name: Build and lint Backend
 on:
   push:
     branches: main
+    paths:
+      - "backend/**/*.ts"
+      - "backend/**/*.js"
+      - "backend/**/*.json"
+      - "backend/yarn.lock"
+      - "backend/prisma/schema.prisma"
 
 defaults:
   run:
@@ -115,9 +121,9 @@ jobs:
       - name: Set short git commit SHA
         id: vars
         run: |
-            calculatedSha=$(git rev-parse --short ${{ github.sha }})
-            echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
-        
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+
       - name: Build image and push to GitHub Container Registry
         uses: docker/build-push-action@v3
         with:
@@ -129,7 +135,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     # Later also tests
-    needs: [ build ] 
+    needs: [build]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -137,22 +143,22 @@ jobs:
       - name: Set short git commit SHA
         id: vars
         run: |
-            calculatedSha=$(git rev-parse --short ${{ github.sha }})
-            echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
 
       - name: Set up SSH key
         run: |
-            env
-            mkdir -p ~/.ssh
-            echo "${{ secrets.ARTIFACT_SSH_KEY }}" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan -p 22 ${{ secrets.ARTIFACT_HOST }} >> ~/.ssh/known_hosts
+          env
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ARTIFACT_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p 22 ${{ secrets.ARTIFACT_HOST }} >> ~/.ssh/known_hosts
       - name: Deploy to server
         run: |
-            ssh -i ~/.ssh/id_rsa -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.ARTIFACT_HOST }} <<'ENDSSH'
-            cd ${{ env.APP_PATH }}
-            sed -E -i'' "s/(.*mega-transformers-bot:).*/\1${{ env.COMMIT_SHORT_SHA }}/" 'docker-compose.yml' 
-            docker compose pull ${{ env.APP_NAME }}
-            docker compose stop ${{ env.APP_NAME }}
-            docker compose start ${{ env.APP_NAME }}
-            ENDSSH
+          ssh -i ~/.ssh/id_rsa -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.ARTIFACT_HOST }} <<'ENDSSH'
+          cd ${{ env.APP_PATH }}
+          sed -E -i'' "s/(.*mega-transformers-bot:).*/\1${{ env.COMMIT_SHORT_SHA }}/" 'docker-compose.yml' 
+          docker compose pull ${{ env.APP_NAME }}
+          docker compose stop ${{ env.APP_NAME }}
+          docker compose start ${{ env.APP_NAME }}
+          ENDSSH
