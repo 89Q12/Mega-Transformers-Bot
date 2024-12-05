@@ -12,13 +12,13 @@ import { DiscordModule } from '@discord-nestjs/core';
 
 @Module({
   imports: [
+    DiscordModule.forFeature(),
     PassportModule,
     HttpModule,
     JwtModule.register({
       secret: 'jwtConstants.secret',
       signOptions: { expiresIn: '900s' },
     }),
-    DiscordModule.forFeature(),
   ],
   controllers: [JwtAuthController],
   providers: [
