@@ -1,8 +1,8 @@
 {
-  "name": "nest-app",
+  "name": "mega-transformers-bot",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A discord bot for a community with special needs hence the name Mega-Transformers-Bot. Written in Typescript using Nestjs, discordjs and React. It also features a API that is used by the frontend but can also be used standalone",
+  "author": "89q12",
   "private": true,
   "license": "AGPL-3.0-only",
   "scripts": {

@@ -183,9 +183,6 @@ jobs:
       - name: Generate documentation
         run: yarn run docs
 
-      - name: Run ls
-        run: ls
-
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
