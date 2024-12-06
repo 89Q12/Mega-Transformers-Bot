@@ -180,7 +180,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMessage(interaction: CommandInteraction, message: <a href="../classes/ModAnouncementDto.html" target="_self">ModAnouncementDto</a>)</code>
+                    <code>onMessage(interaction: CommandInteraction, dto: <a href="../classes/ModAnouncementDto.html" target="_self">ModAnouncementDto</a>)</code>
                 </td>
             </tr>
 
@@ -228,7 +228,7 @@
 
                                         </tr>
                                         <tr>
-                                                <td>message</td>
+                                                <td>dto</td>
                                             <td>
                                                             <code><a href="../classes/ModAnouncementDto.html" target="_self" >ModAnouncementDto</a></code>
                                             </td>
@@ -279,10 +279,21 @@ export class MumVoiceCommand {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) message: ModAnouncementDto,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnouncementDto,
   ): Promise&lt;void&gt; {
     try {
-      await interaction.channel.send(message.message);
+      if (dto.replyToMessage !&#x3D; &#x27;&#x27; || dto.replyToMessage !&#x3D; undefined)
+        await interaction.channel.send({
+          content: dto.message,
+          reply: {
+            messageReference: dto.replyToMessage,
+            failIfNotExists: true,
+          },
+        });
+      else
+        await interaction.channel.send({
+          content: dto.message,
+        });
       interaction.reply({
         content: &#x27;Done!&#x27;,
         ephemeral: true,
@@ -290,7 +301,7 @@ export class MumVoiceCommand {
     } catch (err) {
       interaction.reply({
         content: &#x60;Failed to send message in this channel with error: ${err} and message:
-          ${message.message}&#x60;,
+          ${dto.message}&#x60;,
         ephemeral: true,
       });
     }
