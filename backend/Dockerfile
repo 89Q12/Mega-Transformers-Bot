@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . .
 # Install app dependencies
-RUN yarn install --immutable && \
+RUN yarn install --immutable --offline-install && \
     yarn run build && \
     yarn run prisma generate
 EXPOSE 3000
