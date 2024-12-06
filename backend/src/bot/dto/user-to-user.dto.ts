@@ -3,10 +3,10 @@ import { ChoiceOptions } from '@discord-nestjs/core/dist/decorators/option/choic
 import { User } from 'discord.js';
 
 const CommandToExecute: ChoiceOptions = {
-  coffee: 'Einer Person einen Kaffee geben',
-  cake: 'Einer Person einen Kuchen geben',
-  headpat: 'Einer Person ein Headpat geben',
-  hug: 'Eine Person umarmen',
+  'Einer Person einen Kaffee geben': 'coffee',
+  'Einer Person einen Kuchen geben': 'cake',
+  'Einer Person ein Headpat geben': 'headpat',
+  'Eine Person umarmen': 'hug',
 };
 export class UserToUser {
   @Param({
