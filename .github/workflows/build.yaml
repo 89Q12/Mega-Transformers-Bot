@@ -164,3 +164,27 @@ jobs:
           docker compose pull ${{ env.APP_NAME }}
           docker compose up -d
           ENDSSH
+  docs:
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Node.js dependencies
+        run: yarn --immutable --prefer-offline
+
+      - name: Generate documentation
+        run: yarn run docs
+
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ../backend/docs
+          publish_branch: gh-pages
