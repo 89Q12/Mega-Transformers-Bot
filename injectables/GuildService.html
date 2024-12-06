@@ -1,0 +1,1237 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >GuildService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/guild/guild.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#_addMemberToChannelOverwrite" >_addMemberToChannelOverwrite</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#_removeMemberFromChannelOverwrite" >_removeMemberFromChannelOverwrite</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#averageMessagesPerChannelLastMonth" >averageMessagesPerChannelLastMonth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#averageMessagesPerDayLastMonth" >averageMessagesPerDayLastMonth</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#cleanWfpMembers" >cleanWfpMembers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onReady" >onReady</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateChannelPermissions" >updateChannelPermissions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#upsertGuild" >upsertGuild</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(database: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>, restrictedChannelService: <a href="../injectables/GuildRestrictedChannelService.html" target="_self">GuildRestrictedChannelService</a>, client: Client)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/guild/guild.service.ts:9</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>database</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>restrictedChannelService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GuildRestrictedChannelService.html" target="_self" >GuildRestrictedChannelService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>client</td>
+                                                  
+                                                        <td>
+                                                                    <code>Client</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_addMemberToChannelOverwrite"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>_addMemberToChannelOverwrite</b></span>
+                        <a href="#_addMemberToChannelOverwrite"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_addMemberToChannelOverwrite(user_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, channel_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/guild/guild.service.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user_id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>channel_id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_removeMemberFromChannelOverwrite"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>_removeMemberFromChannelOverwrite</b></span>
+                        <a href="#_removeMemberFromChannelOverwrite"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_removeMemberFromChannelOverwrite(user_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, channel_id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">src/guild/guild.service.ts:223</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user_id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>channel_id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="averageMessagesPerChannelLastMonth"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>averageMessagesPerChannelLastMonth</b></span>
+                        <a href="#averageMessagesPerChannelLastMonth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>averageMessagesPerChannelLastMonth(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/guild/guild.service.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns the average written messages per channel for last 30 days for the given guild.</p>
+<p>SQL:
+ SELECT
+  m.channelId,
+  m.userId,
+  COUNT(m.messageId) AS messageCount,
+  AVG(subquery.messageCount) AS avgMessageCount
+FROM
+  Message m
+JOIN
+  (SELECT channelId, COUNT(messageId) / 30 AS messageCount
+  FROM Message
+  WHERE createdAt &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId = &#39;123&#39;
+  GROUP BY channelId) AS subquery ON m.channelId = subquery.channelId
+WHERE
+  m.createdAt &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY)
+GROUP BY
+  m.channelId, m.userId
+ORDER BY
+ avgMessageCount DESC;</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;Record&lt;string, number&gt;&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A map that contains each channel ID and the average written messages</p>
+<p>SQL:
+SELECT
+m.channelId,
+m.userId,
+COUNT(m.messageId) AS messageCount,
+AVG(subquery.messageCount) AS avgMessageCount
+FROM
+Message m
+JOIN
+(SELECT channelId, COUNT(messageId) / 30 AS messageCount
+FROM Message
+WHERE createdAt &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId = &#39;123&#39;
+GROUP BY channelId) AS subquery ON m.channelId = subquery.channelId
+WHERE
+m.createdAt &gt;= DATE_SUB(NOW(), INTERVAL 30 DAY)
+GROUP BY
+m.channelId, m.userId
+ORDER BY
+avgMessageCount DESC;</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="averageMessagesPerDayLastMonth"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>averageMessagesPerDayLastMonth</b></span>
+                        <a href="#averageMessagesPerDayLastMonth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>averageMessagesPerDayLastMonth(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">src/guild/guild.service.ts:159</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns the average written message per day in the last 30 days per channel</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>string</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;Record&lt;string, number&gt;&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanWfpMembers"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>cleanWfpMembers</b></span>
+                        <a href="#cleanWfpMembers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cleanWfpMembers(guildID: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, dryRun: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/guild/guild.service.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildID</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>dryRun</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Guild.html" target="_self" >Promise&lt;Array&lt;string | GuildMember&gt;&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onReady"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onReady</b></span>
+                        <a href="#onReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onReady()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Once(&#x27;ready&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="236"
+                                    class="link-to-prism">src/guild/guild.service.ts:236</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Event handler that listens to the ready event which is fired when the bot websocket has been created.
+Sets up all guilds in the database if they dont already exist there or updates them.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateChannelPermissions"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateChannelPermissions</b></span>
+                        <a href="#updateChannelPermissions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateChannelPermissions(user: <a href="../classes/Guild.html" target="_self">GuildUser</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="192"
+                                    class="link-to-prism">src/guild/guild.service.ts:192</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildUser</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="upsertGuild"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>upsertGuild</b></span>
+                        <a href="#upsertGuild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>upsertGuild(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="../classes/Guild.html" target="_self">Omit&lt;Partial&lt;Guild&gt; | id&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="17"
+                                    class="link-to-prism">src/guild/guild.service.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >Omit&lt;Partial&lt;Guild&gt; | id&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectDiscordClient, Once } from &#x27;@discord-nestjs/core&#x27;;
+import { Inject, Injectable } from &#x27;@nestjs/common&#x27;;
+import { Guild, GuildUser } from &#x27;@prisma/client&#x27;;
+import { Client, BaseGuildTextChannel, GuildMember } from &#x27;discord.js&#x27;;
+import { PrismaService } from &#x27;src/prisma.service&#x27;;
+import { GuildRestrictedChannelService } from &#x27;./guild-restricted-channel/guild-restricted-channel.service&#x27;;
+
+@Injectable()
+export class GuildService {
+  constructor(
+    @Inject(PrismaService) private database: PrismaService,
+    @Inject(GuildRestrictedChannelService)
+    private restrictedChannelService: GuildRestrictedChannelService,
+    @InjectDiscordClient() private client: Client,
+  ) {}
+
+  async upsertGuild(guildId: string, data: Omit&lt;Partial&lt;Guild&gt;, &#x27;id&#x27;&gt;) {
+    return await this.database.guild.upsert({
+      where: {
+        id: guildId,
+      },
+      select: {
+        AuditLog: true,
+        Settings: true,
+        AutoDeleteChannels: true,
+        RestrictedChannels: true,
+        Limits: true,
+      },
+      create: {
+        id: guildId,
+        Settings: {
+          create: {},
+        },
+        ...data,
+      },
+      update: {
+        ...data,
+      },
+    });
+  }
+
+  async cleanWfpMembers(
+    guildID: string,
+    dryRun: boolean &#x3D; false,
+  ): Promise&lt;Array&lt;string | GuildMember&gt;&gt; {
+    const twoWeekDate &#x3D; new Date(new Date().setDate(new Date().getDate() - 14));
+    const membersUnfiltered &#x3D; (
+      await (
+        await this.client.guilds.fetch(guildID)
+      ).roles.fetch(&#x27;1121823930085285938&#x27;)
+    ).members;
+    const members: Array&lt;GuildMember&gt; &#x3D; [];
+    membersUnfiltered.forEach(async (member) &#x3D;&gt; {
+      if (
+        twoWeekDate &gt; new Date(member.joinedTimestamp) &amp;&amp;
+        // Has not VereinsMitglied
+        !member.roles.cache.has(&#x27;1070116538083975309&#x27;)
+      ) {
+        members.push(member);
+      }
+    });
+    // Return early if we are in a dry fun
+    if (dryRun) return members;
+    const unkickableMemberIds: Array&lt;string&gt; &#x3D; [];
+    members.forEach(async (member) &#x3D;&gt; {
+      try {
+        await member.kick(
+          &#x27;Kicked by the bot for being in wfp for more than 2 weeks&#x27;,
+        );
+      } catch {
+        unkickableMemberIds.push(member.id);
+      }
+    });
+    return unkickableMemberIds;
+  }
+
+  /**
+   * Returns the average written messages per channel for last 30 days for the given guild.
+   * @returns A map that contains each channel ID and the average written messages
+   *
+   * SQL:
+   *  SELECT
+   *   m.channelId,
+   *   m.userId,
+   *   COUNT(m.messageId) AS messageCount,
+   *   AVG(subquery.messageCount) AS avgMessageCount
+   * FROM
+   *   Message m
+   * JOIN
+   *   (SELECT channelId, COUNT(messageId) / 30 AS messageCount
+   *   FROM Message
+   *   WHERE createdAt &gt;&#x3D; DATE_SUB(NOW(), INTERVAL 30 DAY) AND guildId &#x3D; &#x27;123&#x27;
+   *   GROUP BY channelId) AS subquery ON m.channelId &#x3D; subquery.channelId
+   * WHERE
+   *   m.createdAt &gt;&#x3D; DATE_SUB(NOW(), INTERVAL 30 DAY)
+   * GROUP BY
+   *   m.channelId, m.userId
+   * ORDER BY
+   *  avgMessageCount DESC;
+   */
+  async averageMessagesPerChannelLastMonth(
+    guildId: string,
+  ): Promise&lt;Record&lt;string, number&gt;&gt; {
+    const thirtyDaysAgo &#x3D; new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const messageStats &#x3D; await this.database.messages.groupBy({
+      by: [&#x27;channelId&#x27;, &#x27;userId&#x27;],
+      where: {
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+        AND: {
+          guildId: guildId,
+        },
+      },
+      _count: {
+        messageId: true,
+      },
+      orderBy: {
+        _count: {
+          messageId: &#x27;desc&#x27;,
+        },
+      },
+    });
+
+    const messageCounts: Record&lt;
+      string,
+      Record&lt;string, number&gt;
+    &gt; &#x3D; messageStats.reduce((acc, curr) &#x3D;&gt; {
+      const channelId &#x3D; curr.channelId.toString();
+      const userId &#x3D; curr.userId.toString();
+      const count &#x3D; curr._count?.messageId ?? 0;
+
+      if (!acc[channelId]) {
+        acc[channelId] &#x3D; {};
+      }
+
+      acc[channelId][userId] &#x3D; count;
+
+      return acc;
+    }, {});
+
+    const avgMessageCounts &#x3D; {};
+
+    for (const channelId in messageCounts) {
+      const userCounts &#x3D; Object.values(messageCounts[channelId]);
+      const avgMessageCount &#x3D;
+        userCounts.reduce((sum, count) &#x3D;&gt; sum + count, 0) / userCounts.length;
+      avgMessageCounts[channelId] &#x3D; avgMessageCount;
+    }
+
+    return avgMessageCounts;
+  }
+  /**
+   * Returns the average written message per day in the last 30 days per channel
+   * @param guildId string
+   * @returns
+   */
+  async averageMessagesPerDayLastMonth(
+    guildId: string,
+  ): Promise&lt;Record&lt;string, number&gt;&gt; {
+    const thirtyDaysAgo &#x3D; new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const messageStats &#x3D; await this.database.messages.groupBy({
+      by: &#x27;createdAt&#x27;,
+      where: {
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+        AND: {
+          guildId,
+        },
+      },
+      _count: {
+        messageId: true,
+      },
+    });
+    const messageCounts: Record&lt;string, number&gt; &#x3D; messageStats.reduce(
+      (acc, curr) &#x3D;&gt; {
+        const date &#x3D; curr.createdAt.toISOString().split(&#x27;T&#x27;)[0];
+        // sum up all the messages for that day and add it to the accumulator
+        acc[date] &#x3D; (acc[date] ?? 0) + (curr._count?.messageId ?? 0);
+
+        return acc;
+      },
+      {},
+    );
+
+    return messageCounts;
+  }
+
+  async updateChannelPermissions(user: GuildUser) {
+    this.restrictedChannelService.getAll(user.guildId).then((channels) &#x3D;&gt;
+      channels.forEach((channel) &#x3D;&gt;
+        this.restrictedChannelService
+          .isChannelAvailableToUser(user, channel)
+          .then((isAvailable) &#x3D;&gt; {
+            if (isAvailable)
+              this._removeMemberFromChannelOverwrite(
+                user.userId.toString(),
+                channel.channelId,
+              );
+            else
+              this._addMemberToChannelOverwrite(
+                user.userId.toString(),
+                channel.channelId,
+              );
+          }),
+      ),
+    );
+  }
+  private async _addMemberToChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
+    await (
+      (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
+    ).permissionOverwrites.create(user_id, {
+      ViewChannel: false,
+      ReadMessageHistory: false,
+    });
+  }
+  private async _removeMemberFromChannelOverwrite(
+    user_id: string,
+    channel_id: string,
+  ) {
+    await (
+      (await this.client.channels.fetch(channel_id)) as BaseGuildTextChannel
+    ).permissionOverwrites.delete(user_id);
+  }
+  /**
+   * Event handler that listens to the ready event which is fired when the bot websocket has been created.
+   * Sets up all guilds in the database if they dont already exist there or updates them.
+   */
+  @Once(&#x27;ready&#x27;)
+  async onReady() {
+    const guilds &#x3D; await this.client.guilds.fetch();
+    guilds.forEach(async (guild) &#x3D;&gt; {
+      this.upsertGuild(guild.id, {
+        name: guild.name,
+      });
+    });
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'GuildService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,922 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >ModRequestFlow</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/guild/events/interaction-create/mod-request-menu/index.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#logger" >logger</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#_getGuildIdFromSelectMenu" >_getGuildIdFromSelectMenu</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#initiateModRequestFlow" >initiateModRequestFlow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onButton" >onButton</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onMenuSelect" >onMenuSelect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onModalSubmit" >onModalSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(client: Client, guildUserService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>client</td>
+                                                  
+                                                        <td>
+                                                                    <code>Client</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>guildUserService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GuildUserService.html" target="_self" >GuildUserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_getGuildIdFromSelectMenu"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>_getGuildIdFromSelectMenu</b></span>
+                        <a href="#_getGuildIdFromSelectMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>_getGuildIdFromSelectMenu(interaction: ButtonInteraction, guilds: string[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="142"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
+                                            <td>
+                                                        <code>ButtonInteraction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>guilds</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initiateModRequestFlow"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>initiateModRequestFlow</b></span>
+                        <a href="#initiateModRequestFlow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initiateModRequestFlow(interaction: ButtonInteraction)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="118"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
+                                            <td>
+                                                        <code>ButtonInteraction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onButton"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onButton</b></span>
+                        <a href="#onButton"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onButton(interaction: ButtonInteraction)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;interactionCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
+                                            <td>
+                                                        <code>ButtonInteraction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMenuSelect"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onMenuSelect</b></span>
+                        <a href="#onMenuSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onMenuSelect(interaction: StringSelectMenuInteraction)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;interactionCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
+                                            <td>
+                                                        <code>StringSelectMenuInteraction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onModalSubmit"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onModalSubmit</b></span>
+                        <a href="#onModalSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onModalSubmit(interaction: ModalSubmitInteraction)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;interactionCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="35"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
+                                            <td>
+                                                        <code>ModalSubmitInteraction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(ModRequestFlow.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectDiscordClient, On } from &#x27;@discord-nestjs/core&#x27;;
+import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import {
+  ModalSubmitInteraction,
+  GuildTextBasedChannel,
+  EmbedBuilder,
+  userMention,
+  StringSelectMenuInteraction,
+  ModalBuilder,
+  ActionRowBuilder,
+  ModalActionRowComponentBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ButtonInteraction,
+  StringSelectMenuBuilder,
+  ComponentType,
+  Client,
+} from &#x27;discord.js&#x27;;
+import { GuildUserService } from &#x27;src/guild/guild-user/guild-user.service&#x27;;
+import {
+  modRequestCategorySelect,
+  selectGuildMenu,
+} from &#x27;src/util/functions/menu-helper&#x27;;
+@Injectable()
+export class ModRequestFlow {
+  logger &#x3D; new Logger(ModRequestFlow.name);
+  constructor(
+    @InjectDiscordClient()
+    private readonly client: Client,
+    @Inject(GuildUserService)
+    private readonly guildUserService: GuildUserService,
+  ) {}
+
+  @On(&#x27;interactionCreate&#x27;)
+  async onModalSubmit(interaction: ModalSubmitInteraction) {
+    if (!interaction.isModalSubmit()) return;
+    const [modal, guildId, categoryId] &#x3D; interaction.customId.split(&#x27;-&#x27;);
+    if (modal !&#x3D; &#x27;modRequestModal&#x27;) return;
+    await interaction.deferReply();
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    const channel &#x3D; (await guild.channels.fetch(
+      // await this.settingsService.getModChannelId(guildId),
+      &#x27;1023931328787386492&#x27;,
+    )) as GuildTextBasedChannel;
+    channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle(&#x27;Mod Anfrage&#x27;)
+          .setDescription(
+            interaction.fields.getTextInputValue(&#x27;modRequestMessage&#x27;),
+          )
+          .addFields(
+            {
+              name: &#x27;Kategorie&#x27;,
+              value: categoryId.replace(&#x27;modRequest&#x27;, &#x27;&#x27;),
+            },
+            {
+              name: &#x27;Von Nutzer:in&#x27;,
+              value: userMention(interaction.user.id),
+            },
+          ),
+      ],
+    });
+    await interaction.editReply(
+      &#x27;Deine Mod Anfrage wurde erfolgreich versendet.&#x27;,
+    );
+    await interaction.deleteReply();
+  }
+
+  @On(&#x27;interactionCreate&#x27;)
+  async onMenuSelect(interaction: StringSelectMenuInteraction) {
+    if (!interaction.isStringSelectMenu()) return;
+    if (interaction.customId !&#x3D; &#x27;modRequestMenu&#x27;) return;
+    const modRequestModal &#x3D; new ModalBuilder()
+      .setCustomId(
+        &#x60;modRequestModal-${
+          interaction.guildId ?? interaction.values[0].split(&#x27;-&#x27;)[1]
+        }-${interaction.values[0].split(&#x27;-&#x27;)[0]}&#x60;,
+      )
+      .setTitle(&#x27;Mod Anfrage&#x27;);
+
+    modRequestModal.addComponents(
+      new ActionRowBuilder&lt;ModalActionRowComponentBuilder&gt;().addComponents(
+        new TextInputBuilder()
+          .setCustomId(&#x27;modRequestMessage&#x27;)
+          .setPlaceholder(&#x27;Schreibe deine Mod Anfrage hier rein.&#x27;)
+          .setRequired(true)
+          .setStyle(TextInputStyle.Paragraph)
+          .setLabel(&#x27;Mod Anfrage&#x27;),
+      ),
+    );
+    await interaction.showModal(modRequestModal);
+    await interaction.deleteReply();
+  }
+
+  @On(&#x27;interactionCreate&#x27;)
+  async onButton(interaction: ButtonInteraction) {
+    if (!interaction.isButton()) return;
+    if (interaction.customId !&#x3D; &#x27;needHelp&#x27;) return;
+    type knownButtons &#x3D; {
+      needHelp: string;
+    };
+    const callback: Record&lt;
+      keyof knownButtons,
+      (interaction: ButtonInteraction) &#x3D;&gt; Promise&lt;void&gt;
+    &gt; &#x3D; {
+      needHelp: async (i) &#x3D;&gt; {
+        this.initiateModRequestFlow(i);
+      },
+    };
+    try {
+      callback[interaction.customId as keyof knownButtons](interaction);
+    } catch (e) {
+      this.logger.error(e);
+    }
+  }
+
+  async initiateModRequestFlow(interaction: ButtonInteraction) {
+    await interaction.deferReply({ ephemeral: true });
+    const guilds &#x3D; (
+      await this.guildUserService.findAll(
+        interaction?.guildId ?? undefined,
+        interaction.user.id,
+      )
+    ).map((user) &#x3D;&gt; user.guildId);
+    const guildId &#x3D;
+      guilds.length &gt; 1
+        ? await this._getGuildIdFromSelectMenu(interaction, guilds)
+        : (interaction?.guildId ?? guilds[0]);
+    const modRequestMenu &#x3D; modRequestCategorySelect(guildId);
+    const options &#x3D; {
+      content: &#x27;Wähle eine Kategorie aus:&#x27;,
+      components: [
+        new ActionRowBuilder&lt;StringSelectMenuBuilder&gt;().addComponents(
+          modRequestMenu,
+        ),
+      ],
+      ephemeral: true,
+    };
+    await interaction.editReply(options);
+  }
+  async _getGuildIdFromSelectMenu(
+    interaction: ButtonInteraction,
+    guilds: string[],
+  ) {
+    const guildMenu &#x3D; selectGuildMenu(guilds);
+    const options &#x3D; {
+      content: &#x27;Wähle einen Server aus:&#x27;,
+      components: [
+        new ActionRowBuilder&lt;StringSelectMenuBuilder&gt;().addComponents(
+          guildMenu,
+        ),
+      ],
+      ephemeral: true,
+    };
+    const selectionInteraction &#x3D; await interaction.editReply(options);
+    const selection &#x3D; await selectionInteraction.awaitMessageComponent({
+      componentType: ComponentType.StringSelect,
+      filter: (i) &#x3D;&gt; i.customId &#x3D;&#x3D;&#x3D; &#x27;selectGuild&#x27;,
+      time: 1000 * 60 * 5,
+    });
+    return selection.values[0];
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ModRequestFlow.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

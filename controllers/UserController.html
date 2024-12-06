@@ -1,0 +1,1043 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content controller">
+                   <div class="content-data">
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Controllers</li>
+  <li class="breadcrumb-item" >UserController</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/guild/moderation/user/user.controller.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Prefix</h3>
+            </p>
+            <p class="comment">
+                <code>/user</code>
+            </p>
+
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#banUser" >banUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getGuildUser" >getGuildUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getGuildUsers" >getGuildUsers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#kickUser" >kickUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#purgeUserFromGuild" >purgeUserFromGuild</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#timeoutUser" >timeoutUser</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="banUser"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>banUser</b></span>
+                        <a href="#banUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>banUser(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(&#x27;:userId/ban&#x27;)<br />@ApiOperation({summary: &#x27;Ban a user from a guild&#x27;})<br />@ApiResponse({status: 200, description: &#x27;User was successfully banned&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGuildUser"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getGuildUser</b></span>
+                        <a href="#getGuildUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getGuildUser(request)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;/&#x27;)<br />@ApiOperation({summary: &#x27;Get a user for a guild&#x27;})<br />@ApiResponse({status: 200, type: DiscordUser, schema: userResponseSchema, description: &#x27;User was successfully fetched&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="86"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>request</td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;User&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGuildUsers"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getGuildUsers</b></span>
+                        <a href="#getGuildUsers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getGuildUsers(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get(&#x27;/&#x27;)<br />@ApiOperation({summary: &#x27;Get all users for a guild&#x27;})<br />@ApiResponse({status: 200, schema: usersResponseSchema, type: DiscordGuildMember, description: &#x27;Users were successfully fetched&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;DiscordGuildMember[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="kickUser"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>kickUser</b></span>
+                        <a href="#kickUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>kickUser(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(&#x27;:userId/kick&#x27;)<br />@ApiOperation({summary: &#x27;Kick a user from a guild&#x27;})<br />@ApiResponse({status: 200, description: &#x27;User was successfully kicked&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="purgeUserFromGuild"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>purgeUserFromGuild</b></span>
+                        <a href="#purgeUserFromGuild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>purgeUserFromGuild(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(&#x27;:userId/purge&#x27;)<br />@ApiOperation({summary: &#x27;Purge a user from a guild VERY EXPENSIVEEEEEE, USE WITH CAUTION&#x27;})<br />@ApiResponse({status: 200, description: &#x27;User was successfully purged&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:180</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timeoutUser"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>timeoutUser</b></span>
+                        <a href="#timeoutUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>timeoutUser(guildId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(&#x27;:userId/timeout/:duration&#x27;)<br />@ApiOperation({summary: &#x27;Timeout a user from a guild&#x27;})<br />@ApiResponse({status: 200, description: &#x27;User was successfully timed outed&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/guild/moderation/user/user.controller.ts:141</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guildId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>duration</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Controller,
+  Get,
+  Inject,
+  Logger,
+  NotFoundException,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from &#x27;@nestjs/common&#x27;;
+import { ApiBearerAuth, ApiOperation, ApiResponse } from &#x27;@nestjs/swagger&#x27;;
+import { ChannelType, Client, User } from &#x27;discord.js&#x27;;
+import {
+  DiscordUser,
+  userResponseSchema,
+  usersResponseSchema,
+} from &#x27;../dto/user&#x27;;
+import { InjectDiscordClient } from &#x27;@discord-nestjs/core&#x27;;
+import { JwtAuthGuard } from &#x27;src/auth/jwt/guards/jwt-auth.guard&#x27;;
+import cleanTextChannel from &#x27;src/util/functions/channel-utils&#x27;;
+import { SendDirectMessageToUserException } from &#x27;src/util/exception/send-direct-message-to-user-exception&#x27;;
+import { EventEmitter2 } from &#x27;@nestjs/event-emitter&#x27;;
+import {
+  UserBanEvent,
+  UserKickEvent,
+  UserPurgeEvent,
+  UserTimeOutEvent,
+} from &#x27;../events/user.events&#x27;;
+import { DiscordGuildMember } from &#x27;../dto/guild-member&#x27;;
+import { plainToInstance } from &#x27;../../../util/functions/plain-to-instance&#x27;;
+import { Request } from &#x27;express&#x27;;
+import { GuildUser, Rank } from &#x27;@prisma/client&#x27;;
+import { RequiredRank } from &#x27;src/util/decorators/requires-rank.decorator&#x27;;
+import { HasRequiredRank } from &#x27;src/util/guards/has-required-rank.guard&#x27;;
+
+@Controller(&#x27;/user&#x27;)
+@ApiBearerAuth()
+@RequiredRank(Rank.MOD)
+@UseGuards(JwtAuthGuard, HasRequiredRank)
+export class UserController {
+  logger &#x3D; new Logger(UserController.name);
+
+  constructor(
+    @InjectDiscordClient()
+    private readonly client: Client,
+    @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
+  ) {}
+
+  @Get(&#x27;/&#x27;)
+  @ApiOperation({ summary: &#x27;Get all users for a guild&#x27; })
+  @ApiResponse({
+    status: 200,
+    schema: usersResponseSchema,
+    type: DiscordGuildMember,
+    description: &#x27;Users were successfully fetched&#x27;,
+  })
+  async getGuildUsers(
+    @Param(&#x27;guildId&#x27;) guildId: string,
+  ): Promise&lt;DiscordGuildMember[]&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    const members &#x3D; await guild.members.fetch();
+    this.logger.debug(&#x60;Found ${members.size} members in guild ${guildId}&#x60;);
+    return members.map((member) &#x3D;&gt;
+      plainToInstance(DiscordGuildMember, {
+        avatarUrl: member.displayAvatarURL(),
+        guildId: member.guild.id,
+        bot: member.user.bot,
+        userId: member.user.id,
+        communicationDisabledUntil:
+          member?.communicationDisabledUntil?.toJSON() ?? undefined,
+        displayName: member.displayName ?? member.user.globalName,
+        username: member.user.username,
+      }),
+    );
+  }
+
+  @Get(&#x27;/&#x27;)
+  @ApiOperation({ summary: &#x27;Get a user for a guild&#x27; })
+  @ApiResponse({
+    status: 200,
+    type: DiscordUser,
+    schema: userResponseSchema,
+    description: &#x27;User was successfully fetched&#x27;,
+  })
+  async getGuildUser(
+    @Req() request: Request &amp; { user: GuildUser },
+  ): Promise&lt;User&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(request.user.guildId);
+    const member &#x3D; await guild.members.fetch(request.user.userId);
+    this.logger.log(
+      &#x60;Found member ${member.user.username} in guild ${request.user.guildId}&#x60;,
+    );
+    return member.user;
+  }
+
+  @Post(&#x27;:userId/ban&#x27;)
+  @ApiOperation({ summary: &#x27;Ban a user from a guild&#x27; })
+  @ApiResponse({
+    status: 200,
+    description: &#x27;User was successfully banned&#x27;,
+  })
+  async banUser(
+    @Param(&#x27;guildId&#x27;) guildId: string,
+    @Param(&#x27;userId&#x27;) userId: string,
+  ): Promise&lt;void&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    await guild.members.ban(userId);
+    this.logger.log(&#x60;Banned user ${userId} from guild ${guildId}&#x60;);
+    await this.eventEmitter.emitAsync(
+      &#x27;user.ban&#x27;,
+      new UserBanEvent(userId, guildId, &#x27;TODO: NOT IMPLEMENTED&#x27;),
+    );
+  }
+
+  @Post(&#x27;:userId/kick&#x27;)
+  @ApiOperation({ summary: &#x27;Kick a user from a guild&#x27; })
+  @ApiResponse({
+    status: 200,
+    description: &#x27;User was successfully kicked&#x27;,
+  })
+  async kickUser(
+    @Param(&#x27;guildId&#x27;) guildId: string,
+    @Param(&#x27;userId&#x27;) userId: string,
+  ): Promise&lt;void&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    await guild.members.kick(userId);
+    this.logger.log(&#x60;Kicked user ${userId} from guild ${guildId}&#x60;);
+    await this.eventEmitter.emitAsync(
+      &#x27;user.kick&#x27;,
+      new UserKickEvent(userId, guildId, &#x27;TODO: NOT IMPLEMENTED&#x27;),
+    );
+  }
+
+  @Post(&#x27;:userId/timeout/:duration&#x27;)
+  @ApiOperation({ summary: &#x27;Timeout a user from a guild&#x27; })
+  @ApiResponse({
+    status: 200,
+    description: &#x27;User was successfully timed outed&#x27;,
+  })
+  async timeoutUser(
+    @Param(&#x27;guildId&#x27;) guildId: string,
+    @Param(&#x27;userId&#x27;) userId: string,
+    @Param(&#x27;duration&#x27;) duration: string,
+  ): Promise&lt;void&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    const member &#x3D; await guild.members.fetch(userId);
+    await member.timeout(parseInt(duration));
+    await member
+      .send(
+        &#x60;Du hast einen Timeout bis ${new Date(
+          new Date().getTime() + duration,
+        ).toISOString()}, bei Fragen wende dich an die Mods.&#x60;,
+      )
+      .catch(() &#x3D;&gt; {
+        throw new SendDirectMessageToUserException(guildId, userId);
+      });
+    await this.eventEmitter.emitAsync(
+      &#x27;user.timeout.created&#x27;,
+      new UserTimeOutEvent(
+        userId,
+        guildId,
+        &#x27;TODO: NOT IMPLEMENTED&#x27;,
+        new Date(new Date().getTime() + duration).getMilliseconds(),
+      ),
+    );
+    this.logger.log(
+      &#x60;Timed out user ${userId} from guild ${guildId} for ${duration}&#x60;,
+    );
+  }
+
+  @Post(&#x27;:userId/purge&#x27;)
+  @ApiOperation({
+    summary: &#x27;Purge a user from a guild VERY EXPENSIVEEEEEE, USE WITH CAUTION&#x27;,
+  })
+  @ApiResponse({
+    status: 200,
+    description: &#x27;User was successfully purged&#x27;,
+  })
+  async purgeUserFromGuild(
+    @Param(&#x27;guildId&#x27;) guildId: string,
+    @Param(&#x27;userId&#x27;) userId: string,
+  ): Promise&lt;void&gt; {
+    const guild &#x3D; await this.client.guilds.fetch(guildId);
+    this.logger.log(&#x60;Purging user ${userId} from guild ${guildId}&#x60;);
+    if (guild &#x3D;&#x3D;&#x3D; undefined) {
+      throw new NotFoundException(&#x27;Guild not found&#x27;);
+    }
+    guild.channels.fetch();
+    guild.channels.cache.forEach(async (channel) &#x3D;&gt; {
+      try {
+        if (
+          channel.type &#x3D;&#x3D;&#x3D; ChannelType.GuildText ||
+          channel.type &#x3D;&#x3D;&#x3D; ChannelType.PublicThread ||
+          channel.type &#x3D;&#x3D;&#x3D; ChannelType.PrivateThread
+        ) {
+          this.logger.log(&#x60;Purging user ${userId} from channel ${channel.id}&#x60;);
+          await cleanTextChannel(
+            channel,
+            () &#x3D;&gt; false,
+            (msg) &#x3D;&gt; msg.author.id &#x3D;&#x3D;&#x3D; userId,
+            this.logger,
+          );
+          // sleep for 500ms to avoid rate limit
+          await new Promise((resolve) &#x3D;&gt; setTimeout(resolve, 500));
+        }
+      } catch {
+        this.logger.error(
+          &#x60;Failed to purge user ${userId} from channel ${channel.id}&#x60;,
+        );
+      }
+    });
+    await this.eventEmitter.emitAsync(
+      &#x27;user.purge&#x27;,
+      new UserPurgeEvent(userId, guildId, &#x27;TODO: NOT IMPLEMENTED&#x27;),
+    );
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserController.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

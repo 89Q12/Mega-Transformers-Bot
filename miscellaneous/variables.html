@@ -1,0 +1,1070 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#actions" title="src/util/dto/log.entry.dto.ts" ><b>actions</b>&nbsp;&nbsp;&nbsp;(src/.../log.entry.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BOT_EVENT_HANDLER_NAME" title="src/bot/decorators/bot-event.decorator.ts" ><b>BOT_EVENT_HANDLER_NAME</b>&nbsp;&nbsp;&nbsp;(src/.../bot-event.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BOT_EVENT_KEY" title="src/bot/decorators/bot-event.decorator.ts" ><b>BOT_EVENT_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../bot-event.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#BotEvent" title="src/bot/decorators/bot-event.decorator.ts" ><b>BotEvent</b>&nbsp;&nbsp;&nbsp;(src/.../bot-event.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ChannelIdGuard" title="src/bot/guards/message-in-channel.guard.ts" ><b>ChannelIdGuard</b>&nbsp;&nbsp;&nbsp;(src/.../message-in-channel.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CommandToExecute" title="src/bot/dto/user-to-user.dto.ts" ><b>CommandToExecute</b>&nbsp;&nbsp;&nbsp;(src/.../user-to-user.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#InheritedRanks" title="src/util/guards/has-required-rank.guard.ts" ><b>InheritedRanks</b>&nbsp;&nbsp;&nbsp;(src/.../has-required-rank.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#logger" title="src/tasks/tasks.service.ts" ><b>logger</b>&nbsp;&nbsp;&nbsp;(src/.../tasks.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#logger" title="src/util/decorators/request-guild-user.decorator.ts" ><b>logger</b>&nbsp;&nbsp;&nbsp;(src/.../request-guild-user.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#logger" title="src/util/decorators/request-user.decorator.ts" ><b>logger</b>&nbsp;&nbsp;&nbsp;(src/.../request-user.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#logger" title="src/guild/moderation/role/role.controller.ts" ><b>logger</b>&nbsp;&nbsp;&nbsp;(src/.../role.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ReactionChannelIdGuard" title="src/bot/guards/reaction-in-channel.guard.ts" ><b>ReactionChannelIdGuard</b>&nbsp;&nbsp;&nbsp;(src/.../reaction-in-channel.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ReactionEmoteGuard" title="src/bot/guards/reaction-emote.guard.ts" ><b>ReactionEmoteGuard</b>&nbsp;&nbsp;&nbsp;(src/.../reaction-emote.guard.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequestGuildUser" title="src/util/decorators/request-guild-user.decorator.ts" ><b>RequestGuildUser</b>&nbsp;&nbsp;&nbsp;(src/.../request-guild-user.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequestUser" title="src/util/decorators/request-user.decorator.ts" ><b>RequestUser</b>&nbsp;&nbsp;&nbsp;(src/.../request-user.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#REQUIRED_RANK_KEY" title="src/util/decorators/requires-rank.decorator.ts" ><b>REQUIRED_RANK_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../requires-rank.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RequiredRank" title="src/util/decorators/requires-rank.decorator.ts" ><b>RequiredRank</b>&nbsp;&nbsp;&nbsp;(src/.../requires-rank.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#roleResponseSchema" title="src/guild/moderation/dto/role.ts" ><b>roleResponseSchema</b>&nbsp;&nbsp;&nbsp;(src/.../role.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#rolesResponseSchema" title="src/guild/moderation/dto/role.ts" ><b>rolesResponseSchema</b>&nbsp;&nbsp;&nbsp;(src/.../role.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#targetTypes" title="src/util/dto/log.entry.dto.ts" ><b>targetTypes</b>&nbsp;&nbsp;&nbsp;(src/.../log.entry.dto.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#userResponseSchema" title="src/guild/moderation/dto/user.ts" ><b>userResponseSchema</b>&nbsp;&nbsp;&nbsp;(src/.../user.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#usersResponseSchema" title="src/guild/moderation/dto/user.ts" ><b>usersResponseSchema</b>&nbsp;&nbsp;&nbsp;(src/.../user.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/util/dto/log.entry.dto.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actions"></a>
+                    <span class="name">
+                        <span ><b>actions</b></span>
+                        <a href="#actions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &#x27;USER_JOINED&#x27;,
+  &#x27;WARN&#x27;,
+  &#x27;ERROR&#x27;,
+  &#x27;USER_LEFT&#x27;,
+  &#x27;USER_BANNED&#x27;,
+  &#x27;USER_UNBANNED&#x27;,
+  &#x27;USER_UPDATED&#x27;,
+  &#x27;GUILD_UPDATED&#x27;,
+  &#x27;INVALID_REQUEST&#x27;,
+  &#x27;INVITE_CREATED&#x27;,
+  &#x27;INVITE_DELETED&#x27;,
+  &#x27;MESSAGE_DELETED&#x27;,
+  &#x27;REACTION_ADDED&#x27;,
+  &#x27;REACTION_REMOVED&#x27;,
+  &#x27;ROLE_CREATED&#x27;,
+  &#x27;ROLE_DELETED&#x27;,
+  &#x27;ROLE_UPDATED&#x27;,
+  &#x27;CHANNEL_CREATED&#x27;,
+  &#x27;CHANNEL_DELETED&#x27;,
+  &#x27;CHANNEL_UPDATED&#x27;,
+  &#x27;WEBHOOKS_UPDATED&#x27;,
+  &#x27;TIMEOUT_EXPIRED&#x27;,
+  &#x27;TIMEOUT&#x27;,
+  &#x27;KICK&#x27;,
+  &#x27;BAN&#x27;,
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>All possible actions that can occur</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="targetTypes"></a>
+                    <span class="name">
+                        <span ><b>targetTypes</b></span>
+                        <a href="#targetTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &#x27;ERROR&#x27;,
+  &#x27;WARN&#x27;,
+  &#x27;USER&#x27;,
+  &#x27;GUILD&#x27;,
+  &#x27;INVALID_REQUEST&#x27;,
+  &#x27;INVITE&#x27;,
+  &#x27;MESSAGE&#x27;,
+  &#x27;ROLE&#x27;,
+  &#x27;CHANNEL&#x27;,
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of the targets an event can have</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/bot/decorators/bot-event.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BOT_EVENT_HANDLER_NAME"></a>
+                    <span class="name">
+                        <span ><b>BOT_EVENT_HANDLER_NAME</b></span>
+                        <a href="#BOT_EVENT_HANDLER_NAME"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;__bot_event_handler__&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BOT_EVENT_KEY"></a>
+                    <span class="name">
+                        <span ><b>BOT_EVENT_KEY</b></span>
+                        <a href="#BOT_EVENT_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;__bot_event__&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="BotEvent"></a>
+                    <span class="name">
+                        <span ><b>BotEvent</b></span>
+                        <a href="#BotEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(...event: Array&lt;keyof ClientEvents&gt;) &#x3D;&gt;
+  SetMetadata(BOT_EVENT_KEY, event)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/bot/guards/message-in-channel.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ChannelIdGuard"></a>
+                    <span class="name">
+                        <span ><b>ChannelIdGuard</b></span>
+                        <a href="#ChannelIdGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(channelId: string) &#x3D;&gt; {
+  class ChannelIdGuardMixin implements CanActivate {
+    async canActivate(context: ExecutionContext) {
+      const message &#x3D; context.getArgByIndex(0);
+      if (
+        !(message.message instanceof Message) ||
+        !(message.message as Message).inGuild()
+      ) {
+        return false;
+      }
+      return message.channelId &#x3D;&#x3D;&#x3D; channelId;
+    }
+  }
+
+  const guard &#x3D; mixin(ChannelIdGuardMixin);
+  return guard;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/bot/dto/user-to-user.dto.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CommandToExecute"></a>
+                    <span class="name">
+                        <span ><b>CommandToExecute</b></span>
+                        <a href="#CommandToExecute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ChoiceOptions</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  &#x27;Einer Person einen Kaffee geben&#x27;: &#x27;coffee&#x27;,
+  &#x27;Einer Person einen Kuchen geben&#x27;: &#x27;cake&#x27;,
+  &#x27;Einer Person ein Headpat geben&#x27;: &#x27;headpat&#x27;,
+  &#x27;Eine Person umarmen&#x27;: &#x27;hug&#x27;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/util/guards/has-required-rank.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="InheritedRanks"></a>
+                    <span class="name">
+                        <span ><b>InheritedRanks</b></span>
+                        <a href="#InheritedRanks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Record&lt;Rank, Rank[]&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  OWNER: [&#x27;ADMIN&#x27;, &#x27;MOD&#x27;, &#x27;MEMBER&#x27;],
+  ADMIN: [&#x27;MOD&#x27;, &#x27;MEMBER&#x27;],
+  MOD: [&#x27;MEMBER&#x27;],
+  MEMBER: [],
+  NEW: [],
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Map of ranks that are inherited by any given rank,
+meaning their lower ranks e.g MOD has MEMBER.
+But MEMBER has 0 since its the lowest rank a member can have.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/tasks/tasks.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(&#x27;TaskService&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/util/decorators/request-guild-user.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(&#x27;RequestGuildUser&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequestGuildUser"></a>
+                    <span class="name">
+                        <span ><b>RequestGuildUser</b></span>
+                        <a href="#RequestGuildUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) &#x3D;&gt; {
+    const request &#x3D; ctx
+      .switchToHttp()
+      .getRequest&lt;Request &amp; { user: GuildUser }&gt;();
+    const user &#x3D; request.user;
+
+    if (!user) {
+      logger.error(&#x60;${ctx.getHandler().toString()} has a parameter with
+      annotation RequestGuildUser but is NOT guarded by ${
+        JwtAuthGuard.name
+      } AND the request path ${
+        request.path
+      } is not prefixed by &quot;/guild/:guildId/
+        Please use ${JwtAuthGuard.name} if you want to access a UserId&#x60;);
+      throw new InternalServerErrorException();
+    }
+    return user;
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A param decorator to check whether a GuildUser is set on a request,
+if not the route is not guarded by JWT but should be.
+If the route is guarded it returns the user</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/util/decorators/request-user.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(&#x27;RequestUser&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequestUser"></a>
+                    <span class="name">
+                        <span ><b>RequestUser</b></span>
+                        <a href="#RequestUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>createParamDecorator&lt;string&gt;(
+  (data: unknown, ctx: ExecutionContext) &#x3D;&gt; {
+    const userId &#x3D; ctx.switchToHttp().getRequest&lt;Request &amp; { user: User }&gt;()
+      .user.userId;
+
+    if (!userId) {
+      logger.error(&#x60;${ctx.getHandler().toString()} has a parameter with
+    annotation RequestUser but is NOT guarded by ${JwtAuthGuard.name}.
+      Please use ${JwtAuthGuard.name} if you want to access a UserId&#x60;);
+      throw new InternalServerErrorException();
+    }
+    return userId;
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A param decorator to check whether a user is set on a request,
+if not the route is not guarded by JWT but should be.
+It returns the userID.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/guild/moderation/role/role.controller.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(&#x27;RoleController&#x27;)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/bot/guards/reaction-in-channel.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ReactionChannelIdGuard"></a>
+                    <span class="name">
+                        <span ><b>ReactionChannelIdGuard</b></span>
+                        <a href="#ReactionChannelIdGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(channelId: string) &#x3D;&gt; {
+  class ChannelIdGuardMixin implements CanActivate {
+    async canActivate(context: ExecutionContext) {
+      const reaction &#x3D; context.getArgByIndex(0);
+      if (reaction.partial) await reaction.fetch();
+      const message &#x3D; reaction.message;
+      if (
+        message.message instanceof Message &amp;&amp;
+        !(message.message as Message).inGuild()
+      ) {
+        return false;
+      }
+      return message.channelId &#x3D;&#x3D;&#x3D; channelId;
+    }
+  }
+
+  const guard &#x3D; mixin(ChannelIdGuardMixin);
+  return guard;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/bot/guards/reaction-emote.guard.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ReactionEmoteGuard"></a>
+                    <span class="name">
+                        <span ><b>ReactionEmoteGuard</b></span>
+                        <a href="#ReactionEmoteGuard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(emotes: string[]) &#x3D;&gt; {
+  class ReactionEmote implements CanActivate {
+    canActivate(context: ExecutionContext): boolean {
+      const reaction &#x3D; context.getArgByIndex(0);
+      if (
+        reaction instanceof MessageReaction &amp;&amp;
+        emotes.includes((reaction as MessageReaction).emoji.name)
+      ) {
+        return true;
+      }
+      return false;
+    }
+  }
+
+  const guard &#x3D; mixin(ReactionEmote);
+  return guard;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/util/decorators/requires-rank.decorator.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="REQUIRED_RANK_KEY"></a>
+                    <span class="name">
+                        <span ><b>REQUIRED_RANK_KEY</b></span>
+                        <a href="#REQUIRED_RANK_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;__rank__&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The constant used in the RequiredRank decorator to store the rank for a function/object</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="RequiredRank"></a>
+                    <span class="name">
+                        <span ><b>RequiredRank</b></span>
+                        <a href="#RequiredRank"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(rank: Rank) &#x3D;&gt;
+  SetMetadata(REQUIRED_RANK_KEY, rank)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the required rank for a route or controller</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/guild/moderation/dto/role.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="roleResponseSchema"></a>
+                    <span class="name">
+                        <span ><b>roleResponseSchema</b></span>
+                        <a href="#roleResponseSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  type: &#x27;object&#x27;,
+  properties: {
+    guild: {
+      type: &#x27;string&#x27;,
+      example: &#x27;123456789012345678&#x27;,
+    },
+    icon: {
+      type: &#x27;string&#x27;,
+      example: &#x27;https://cdn.discordapp.com/emojis/859111454677139476.webp&#x27;,
+    },
+    unicodeEmoji: {
+      type: &#x27;string&#x27;,
+      example: &#x27;👑&#x27;,
+    },
+    id: {
+      type: &#x27;string&#x27;,
+      example: &#x27;123456789012345678&#x27;,
+    },
+    name: {
+      type: &#x27;string&#x27;,
+      example: &#x27;Admin&#x27;,
+    },
+    color: {
+      type: &#x27;number&#x27;,
+      example: 0,
+    },
+    hoist: {
+      type: &#x27;boolean&#x27;,
+      example: false,
+    },
+    rawPosition: {
+      type: &#x27;number&#x27;,
+      example: 0,
+    },
+    permissions: {
+      type: &#x27;string&#x27;,
+      example: &#x27;0&#x27;,
+    },
+    managed: {
+      type: &#x27;boolean&#x27;,
+      example: false,
+    },
+    mentionable: {
+      type: &#x27;boolean&#x27;,
+      example: false,
+    },
+    tags: {
+      type: &#x27;string&#x27;,
+      example: null,
+    },
+    createdTimestamp: {
+      type: &#x27;number&#x27;,
+      example: 1600000000000,
+    },
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rolesResponseSchema"></a>
+                    <span class="name">
+                        <span ><b>rolesResponseSchema</b></span>
+                        <a href="#rolesResponseSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  type: &#x27;array&#x27;,
+  items: roleResponseSchema,
+  example: [
+    {
+      guild: &#x27;616609333832187924&#x27;,
+      icon: null,
+      unicodeEmoji: null,
+      id: &#x27;616609333832187924&#x27;,
+      name: &#x27;@everyone&#x27;,
+      color: 0,
+      hoist: false,
+      rawPosition: 0,
+      permissions: &#x27;559623534870528&#x27;,
+      managed: false,
+      mentionable: false,
+      tags: null,
+      createdTimestamp: 1567081521233,
+    },
+  ],
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/guild/moderation/dto/user.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userResponseSchema"></a>
+                    <span class="name">
+                        <span ><b>userResponseSchema</b></span>
+                        <a href="#userResponseSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  type: &#x27;object&#x27;,
+  properties: {
+    id: { type: &#x27;string&#x27; },
+    username: { type: &#x27;string&#x27; },
+    discriminator: { type: &#x27;string&#x27; },
+    avatarURL: { type: &#x27;string&#x27; },
+    displayAvatarURL: { type: &#x27;string&#x27; },
+    bannerURL: { type: &#x27;string&#x27; },
+    bot: { type: &#x27;boolean&#x27; },
+    system: { type: &#x27;boolean&#x27; },
+    flags: { type: &#x27;number&#x27; },
+    createdTimestamp: { type: &#x27;number&#x27; },
+    accentColor: { type: &#x27;number&#x27; },
+    hexAccentColor: { type: &#x27;string&#x27; },
+  },
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usersResponseSchema"></a>
+                    <span class="name">
+                        <span ><b>usersResponseSchema</b></span>
+                        <a href="#usersResponseSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  type: &#x27;array&#x27;,
+  items: userResponseSchema,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

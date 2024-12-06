@@ -1,0 +1,2953 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >AuditEvents</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/auditlog/auditlog.events.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#addMember" >addMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#banMember" >banMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#channelCreate" >channelCreate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#channelDelete" >channelDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#channelUpdate" >channelUpdate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#invalidRequestWarning" >invalidRequestWarning</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#inviteCreate" >inviteCreate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#inviteDelete" >inviteDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#messageDelete" >messageDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onUserBan" >onUserBan</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onUserKick" >onUserKick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onUserTimeoutCreated" >onUserTimeoutCreated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onUserTimeoutExpired" >onUserTimeoutExpired</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#reactionAdd" >reactionAdd</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#reactionRemove" >reactionRemove</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#removeMember" >removeMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#roleCreate" >roleCreate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#roleDelete" >roleDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#roleUpdate" >roleUpdate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#unbanMember" >unbanMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateGuild" >updateGuild</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateMember" >updateMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#warn" >warn</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#webhooksUpdate" >webhooksUpdate</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(client: Client, auditLogService: <a href="../injectables/AuditLogService.html" target="_self">AuditLogService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/auditlog/auditlog.events.ts:24</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>client</td>
+                                                  
+                                                        <td>
+                                                                    <code>Client</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>auditLogService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuditLogService.html" target="_self" >AuditLogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>addMember</b></span>
+                        <a href="#addMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addMember(member: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberAdd&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="banMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>banMember</b></span>
+                        <a href="#banMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>banMember(guild: <a href="../classes/Guild.html" target="_self">Guild</a>, user: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildBanAdd&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guild</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >Guild</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelCreate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>channelCreate</b></span>
+                        <a href="#channelCreate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>channelCreate(channel: GuildBasedChannel)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;channelCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="352"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:352</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                        <code>GuildBasedChannel</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelDelete"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>channelDelete</b></span>
+                        <a href="#channelDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>channelDelete(channel: GuildBasedChannel | DMChannel)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;channelDelete&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="371"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:371</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                        <code>GuildBasedChannel | DMChannel</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelUpdate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>channelUpdate</b></span>
+                        <a href="#channelUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>channelUpdate(oldChannel: GuildBasedChannel | DMChannel, newChannel: GuildBasedChannel | DMChannel)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;channelUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="390"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:390</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>oldChannel</td>
+                                            <td>
+                                                        <code>GuildBasedChannel | DMChannel</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newChannel</td>
+                                            <td>
+                                                        <code>GuildBasedChannel | DMChannel</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>error(error: Error)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;error&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="30"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>error</td>
+                                            <td>
+                                                        <code>Error</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="invalidRequestWarning"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>invalidRequestWarning</b></span>
+                        <a href="#invalidRequestWarning"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>invalidRequestWarning(data: InvalidRequestWarningData)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;invalidRequestWarning&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:178</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>InvalidRequestWarningData</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inviteCreate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>inviteCreate</b></span>
+                        <a href="#inviteCreate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>inviteCreate(invite: Invite)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;inviteCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="197"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:197</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>invite</td>
+                                            <td>
+                                                        <code>Invite</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inviteDelete"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>inviteDelete</b></span>
+                        <a href="#inviteDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>inviteDelete(invite: Invite)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;inviteDelete&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="216"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:216</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>invite</td>
+                                            <td>
+                                                        <code>Invite</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageDelete"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>messageDelete</b></span>
+                        <a href="#messageDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>messageDelete(message: Message)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;messageDelete&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                        <code>Message</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUserBan"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onUserBan</b></span>
+                        <a href="#onUserBan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onUserBan(payload: <a href="../classes/UserBanEvent.html" target="_self">UserBanEvent</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@OnEvent(&#x27;user.ban&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="486"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:486</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../classes/UserBanEvent.html" target="_self" >UserBanEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUserKick"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onUserKick</b></span>
+                        <a href="#onUserKick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onUserKick(payload: <a href="../classes/UserKickEvent.html" target="_self">UserKickEvent</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@OnEvent(&#x27;user.kick&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="468"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:468</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../classes/UserKickEvent.html" target="_self" >UserKickEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUserTimeoutCreated"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onUserTimeoutCreated</b></span>
+                        <a href="#onUserTimeoutCreated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onUserTimeoutCreated(payload: <a href="../classes/UserTimeOutEvent.html" target="_self">UserTimeOutEvent</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@OnEvent(&#x27;user.timeout.created&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="432"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:432</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../classes/UserTimeOutEvent.html" target="_self" >UserTimeOutEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onUserTimeoutExpired"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onUserTimeoutExpired</b></span>
+                        <a href="#onUserTimeoutExpired"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onUserTimeoutExpired(payload: <a href="../classes/UserTimeOutEvent.html" target="_self">UserTimeOutEvent</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@OnEvent(&#x27;user.timeout.expired&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="450"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:450</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../classes/UserTimeOutEvent.html" target="_self" >UserTimeOutEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reactionAdd"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>reactionAdd</b></span>
+                        <a href="#reactionAdd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reactionAdd(message: MessageReaction, user: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;messageReactionAdd&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="254"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:254</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                        <code>MessageReaction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reactionRemove"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>reactionRemove</b></span>
+                        <a href="#reactionRemove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reactionRemove(message: MessageReaction, user: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;messageReactionRemove&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="273"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:273</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                        <code>MessageReaction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>removeMember</b></span>
+                        <a href="#removeMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeMember(member: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberRemove&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="roleCreate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>roleCreate</b></span>
+                        <a href="#roleCreate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>roleCreate(role: Role)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;roleCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>role</td>
+                                            <td>
+                                                        <code>Role</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="roleDelete"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>roleDelete</b></span>
+                        <a href="#roleDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>roleDelete(role: Role)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;roleDelete&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>role</td>
+                                            <td>
+                                                        <code>Role</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="roleUpdate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>roleUpdate</b></span>
+                        <a href="#roleUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>roleUpdate(oldRole: Role, newRole: Role)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;roleUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:330</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>oldRole</td>
+                                            <td>
+                                                        <code>Role</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newRole</td>
+                                            <td>
+                                                        <code>Role</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unbanMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>unbanMember</b></span>
+                        <a href="#unbanMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>unbanMember(guild: <a href="../classes/Guild.html" target="_self">Guild</a>, user: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildBanRemove&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="116"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>guild</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >Guild</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateGuild"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>updateGuild</b></span>
+                        <a href="#updateGuild"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateGuild(oldGuild: <a href="../classes/Guild.html" target="_self">Guild</a>, newGuild: <a href="../classes/Guild.html" target="_self">Guild</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:157</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>oldGuild</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >Guild</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newGuild</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >Guild</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>updateMember</b></span>
+                        <a href="#updateMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateMember(oldMember: <a href="../classes/Guild.html" target="_self">GuildMember</a>, newMember: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="135"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>oldMember</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newMember</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="warn"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>warn</b></span>
+                        <a href="#warn"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>warn(info: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;warn&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>info</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="webhooksUpdate"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>webhooksUpdate</b></span>
+                        <a href="#webhooksUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>webhooksUpdate(channel: GuildBasedChannel)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;webhooksUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="414"
+                                    class="link-to-prism">src/auditlog/auditlog.events.ts:414</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                        <code>GuildBasedChannel</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectDiscordClient, On } from &#x27;@discord-nestjs/core&#x27;;
+import { Inject, Injectable } from &#x27;@nestjs/common&#x27;;
+import {
+  GuildMember,
+  Guild,
+  InvalidRequestWarningData,
+  Invite,
+  Message,
+  MessageReaction,
+  Role,
+  GuildBasedChannel,
+  DMChannel,
+  Client,
+} from &#x27;discord.js&#x27;;
+import LogEntry from &#x27;src/util/dto/log.entry.dto&#x27;;
+import { AuditLogService } from &#x27;./auditlog.service&#x27;;
+import { OnEvent } from &#x27;@nestjs/event-emitter&#x27;;
+import {
+  UserBanEvent,
+  UserKickEvent,
+  UserTimeOutEvent,
+} from &#x27;src/guild/moderation/events/user.events&#x27;;
+@Injectable()
+export default class AuditEvents {
+  constructor(
+    @InjectDiscordClient() private readonly client: Client,
+    @Inject(AuditLogService) private readonly auditLogService: AuditLogService,
+  ) {}
+  @On(&#x27;error&#x27;)
+  error(error: Error) {
+    const logEntry: LogEntry &#x3D; {
+      action: &#x27;ERROR&#x27;,
+      guildId: this.client.guilds.cache.first().id,
+      invokerId: this.client.user.id,
+      targetId: &#x27;0&#x27;,
+      targetType: &#x27;ERROR&#x27;,
+      extraInfo: JSON.stringify({ error: error }),
+      reason: error.message,
+      createdAt: new Date(),
+    };
+    Promise.resolve(this.auditLogService.create(logEntry));
+  }
+
+  @On(&#x27;warn&#x27;)
+  warn(info: string) {
+    const logEntry: LogEntry &#x3D; {
+      action: &#x27;WARN&#x27;,
+      guildId: this.client.guilds.cache.first().id,
+      invokerId: this.client.user.id,
+      targetId: &#x27;0&#x27;,
+      targetType: &#x27;WARN&#x27;,
+      extraInfo: JSON.stringify({ info: info }),
+      reason: info,
+      createdAt: new Date(),
+    };
+    Promise.resolve(this.auditLogService.create(logEntry));
+  }
+
+  @On(&#x27;guildMemberAdd&#x27;)
+  async addMember(member: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;USER_JOINED&#x27;,
+        guildId: member.guild.id,
+        invokerId: this.client.user.id,
+        targetId: member.id,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({ user: member.toJSON() }),
+        reason: &#x27;User joined&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+  @On(&#x27;guildMemberRemove&#x27;)
+  async removeMember(member: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;USER_LEFT&#x27;,
+        guildId: member.guild.id,
+        invokerId: this.client.user.id,
+        targetId: member.id,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({ user: member.toJSON() }),
+        reason: &#x27;User left&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;guildBanAdd&#x27;)
+  async banMember(guild: Guild, user: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;USER_BANNED&#x27;,
+        guildId: guild.id,
+        invokerId: this.client.user.id,
+        targetId: user.id,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({ user: user.toJSON() }),
+        reason: &#x27;User banned&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;guildBanRemove&#x27;)
+  async unbanMember(guild: Guild, user: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;USER_UNBANNED&#x27;,
+        guildId: guild.id,
+        invokerId: this.client.user.id,
+        targetId: user.id,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({ user: user.toJSON() }),
+        reason: &#x27;User unbanned&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;guildMemberUpdate&#x27;)
+  async updateMember(oldMember: GuildMember, newMember: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;USER_UPDATED&#x27;,
+        guildId: oldMember.guild.id,
+        invokerId: this.client.user.id,
+        targetId: oldMember.id,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({
+          old: oldMember.toJSON(),
+          new: newMember.toJSON(),
+        }),
+        reason: &#x27;User updated&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;guildUpdate&#x27;)
+  async updateGuild(oldGuild: Guild, newGuild: Guild) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;GUILD_UPDATED&#x27;,
+        guildId: oldGuild.id,
+        invokerId: this.client.user.id,
+        targetId: oldGuild.id,
+        targetType: &#x27;GUILD&#x27;,
+        extraInfo: JSON.stringify({
+          old: oldGuild.toJSON(),
+          new: newGuild.toJSON(),
+        }),
+        reason: &#x27;Guild updated&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+  @On(&#x27;invalidRequestWarning&#x27;)
+  async invalidRequestWarning(data: InvalidRequestWarningData) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;INVALID_REQUEST&#x27;,
+        guildId: this.client.guilds.cache.first().id,
+        invokerId: this.client.user.id,
+        targetId: &#x27;0&#x27;,
+        targetType: &#x27;INVALID_REQUEST&#x27;,
+        extraInfo: JSON.stringify({ data: data }),
+        reason: &#x60;${data.count} invalid requests. Reaming time: ${data.remainingTime}&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;inviteCreate&#x27;)
+  async inviteCreate(invite: Invite) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;INVITE_CREATED&#x27;,
+        guildId: invite.guild.id,
+        invokerId: invite.inviter.id,
+        targetId: invite.code,
+        targetType: &#x27;INVITE&#x27;,
+        extraInfo: JSON.stringify({ invite: invite.toJSON() }),
+        reason: &#x60;Invite created with code ${invite.code}&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;inviteDelete&#x27;)
+  async inviteDelete(invite: Invite) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;INVITE_DELETED&#x27;,
+        guildId: invite.guild.id,
+        invokerId: invite.inviter.id,
+        targetId: invite.code,
+        targetType: &#x27;INVITE&#x27;,
+        extraInfo: JSON.stringify({ invite: invite.toJSON() }),
+        reason: &#x60;Invite deleted with code ${invite.code}&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;messageDelete&#x27;)
+  async messageDelete(message: Message) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;MESSAGE_DELETED&#x27;,
+        guildId: message.guild.id || &#x27;0&#x27;,
+        invokerId: message.author.id || &#x27;0&#x27;,
+        targetId: message.id || &#x27;0&#x27;,
+        targetType: &#x27;MESSAGE&#x27;,
+        extraInfo: JSON.stringify({ message: message.toJSON() }),
+        reason: &#x60;Message deleted&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;messageReactionAdd&#x27;)
+  async reactionAdd(message: MessageReaction, user: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;REACTION_ADDED&#x27;,
+        guildId: message.message.guild.id || &#x27;0&#x27;,
+        invokerId: user.id,
+        targetId: message.message.id,
+        targetType: &#x27;MESSAGE&#x27;,
+        extraInfo: JSON.stringify({ reaction: message.toJSON() }),
+        reason: &#x60;Reaction added&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;messageReactionRemove&#x27;)
+  async reactionRemove(message: MessageReaction, user: GuildMember) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;REACTION_REMOVED&#x27;,
+        guildId: message.message.guild.id || &#x27;0&#x27;,
+        invokerId: user.id,
+        targetId: message.message.id,
+        targetType: &#x27;MESSAGE&#x27;,
+        extraInfo: JSON.stringify({ reaction: message.toJSON() }),
+        reason: &#x60;Reaction removed&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;roleCreate&#x27;)
+  async roleCreate(role: Role) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;ROLE_CREATED&#x27;,
+        guildId: role.guild.id,
+        invokerId: this.client.user.id,
+        targetId: role.id,
+        targetType: &#x27;ROLE&#x27;,
+        extraInfo: JSON.stringify({ role: role.toJSON() }),
+        reason: &#x60;Role created&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;roleDelete&#x27;)
+  async roleDelete(role: Role) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;ROLE_DELETED&#x27;,
+        guildId: role.guild.id,
+        invokerId: this.client.user.id,
+        targetId: role.id,
+        targetType: &#x27;ROLE&#x27;,
+        extraInfo: JSON.stringify({ role: role.toJSON() }),
+        reason: &#x60;Role deleted&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;roleUpdate&#x27;)
+  async roleUpdate(oldRole: Role, newRole: Role) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;ROLE_UPDATED&#x27;,
+        guildId: oldRole.guild.id,
+        invokerId: this.client.user.id,
+        targetId: oldRole.id,
+        targetType: &#x27;ROLE&#x27;,
+        extraInfo: JSON.stringify({
+          old: oldRole.toJSON(),
+          new: newRole.toJSON(),
+        }),
+        reason: &#x27;Role updated&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;channelCreate&#x27;)
+  async channelCreate(channel: GuildBasedChannel) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;CHANNEL_CREATED&#x27;,
+        guildId: channel.guild.id,
+        invokerId: this.client.user.id,
+        targetId: channel.id,
+        targetType: &#x27;CHANNEL&#x27;,
+        extraInfo: JSON.stringify({ channel: channel.toJSON() }),
+        reason: &#x60;Channel created&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;channelDelete&#x27;)
+  async channelDelete(channel: GuildBasedChannel | DMChannel) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;CHANNEL_DELETED&#x27;,
+        guildId: channel.isDMBased() ? &#x27;0&#x27; : channel.guild.id,
+        invokerId: this.client.user.id,
+        targetId: channel.id,
+        targetType: &#x27;CHANNEL&#x27;,
+        extraInfo: JSON.stringify({ channel: channel.toJSON() }),
+        reason: &#x60;Channel deleted&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @On(&#x27;channelUpdate&#x27;)
+  async channelUpdate(
+    oldChannel: GuildBasedChannel | DMChannel,
+    newChannel: GuildBasedChannel | DMChannel,
+  ) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;CHANNEL_UPDATED&#x27;,
+        guildId: oldChannel.isDMBased() ? &#x27;0&#x27; : oldChannel.guild.id,
+        invokerId: this.client.user.id,
+        targetId: oldChannel.id,
+        targetType: &#x27;CHANNEL&#x27;,
+        extraInfo: JSON.stringify({
+          old: oldChannel.toJSON(),
+          new: newChannel.toJSON(),
+        }),
+        reason: &#x27;Channel updated&#x27;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+  @On(&#x27;webhooksUpdate&#x27;)
+  async webhooksUpdate(channel: GuildBasedChannel) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;WEBHOOKS_UPDATED&#x27;,
+        guildId: channel.guild.id,
+        invokerId: this.client.user.id,
+        targetId: channel.id,
+        targetType: &#x27;CHANNEL&#x27;,
+        extraInfo: JSON.stringify({ channel: channel.toJSON() }),
+        reason: &#x60;Webhooks updated&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+  @OnEvent(&#x27;user.timeout.created&#x27;)
+  async onUserTimeoutCreated(payload: UserTimeOutEvent) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;TIMEOUT&#x27;,
+        guildId: payload.guildId,
+        invokerId: this.client.user.id,
+        targetId: payload.userId,
+        targetType: &#x27;USER&#x27;,
+        extraInfo: JSON.stringify({ timeout: payload }),
+        reason: &#x60;User timeout created&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+  @OnEvent(&#x27;user.timeout.expired&#x27;)
+  async onUserTimeoutExpired(payload: UserTimeOutEvent) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;TIMEOUT_EXPIRED&#x27;,
+        guildId: payload.guildId,
+        invokerId: this.client.user.id,
+        targetId: payload.userId,
+        targetType: &#x27;USER&#x27;,
+        reason: &#x60;User timeout expired&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @OnEvent(&#x27;user.kick&#x27;)
+  async onUserKick(payload: UserKickEvent) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;KICK&#x27;,
+        guildId: payload.guildId,
+        invokerId: this.client.user.id,
+        targetId: payload.userId,
+        targetType: &#x27;USER&#x27;,
+        reason: &#x60;User kicked&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+
+  @OnEvent(&#x27;user.ban&#x27;)
+  async onUserBan(payload: UserBanEvent) {
+    try {
+      const logEntry: LogEntry &#x3D; {
+        action: &#x27;BAN&#x27;,
+        guildId: payload.guildId,
+        invokerId: this.client.user.id,
+        targetId: payload.userId,
+        targetType: &#x27;USER&#x27;,
+        reason: &#x60;User banned&#x60;,
+        createdAt: new Date(),
+      };
+      await this.auditLogService.create(logEntry);
+    } catch (error) {
+      this.error(error);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuditEvents.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

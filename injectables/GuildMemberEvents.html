@@ -1,0 +1,1059 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>nest-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">nest-app documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >GuildMemberEvents</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/guild/events/guild-members/index.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#logger" >logger</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#addMember" >addMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkIfPersonWasVerifiedBefore" >checkIfPersonWasVerifiedBefore</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onReady" >onReady</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#removeMember" >removeMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#unlockUser" >unlockUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateRank" >updateRank</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(client: Client, guildUserService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>, settingsService: <a href="../injectables/GuildSettingsService.html" target="_self">GuildSettingsService</a>, guildService: <a href="../injectables/GuildService.html" target="_self">GuildService</a>, database: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/guild/events/guild-members/index.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>client</td>
+                                                  
+                                                        <td>
+                                                                    <code>Client</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>guildUserService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GuildUserService.html" target="_self" >GuildUserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>settingsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GuildSettingsService.html" target="_self" >GuildSettingsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>guildService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GuildService.html" target="_self" >GuildService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>database</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>addMember</b></span>
+                        <a href="#addMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addMember(member: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberAdd&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkIfPersonWasVerifiedBefore"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>checkIfPersonWasVerifiedBefore</b></span>
+                        <a href="#checkIfPersonWasVerifiedBefore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkIfPersonWasVerifiedBefore(reaction: MessageReaction, user: User)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;messageReactionAdd&#x27;)<br />@UseGuards(undefined, undefined)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>reaction</td>
+                                            <td>
+                                                        <code>MessageReaction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                        <code>User</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onReady"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onReady</b></span>
+                        <a href="#onReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onReady()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;ready&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void | Error&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeMember"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>removeMember</b></span>
+                        <a href="#removeMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeMember(member: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberRemove&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unlockUser"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>unlockUser</b></span>
+                        <a href="#unlockUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>unlockUser(reaction: MessageReaction)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;messageReactionAdd&#x27;)<br />@UseGuards(undefined, undefined, ReactedMemberIsModOrHigherGuard)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>reaction</td>
+                                            <td>
+                                                        <code>MessageReaction</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateRank"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>updateRank</b></span>
+                        <a href="#updateRank"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateRank(oldMember: <a href="../classes/Guild.html" target="_self">GuildMember</a>, newMember: <a href="../classes/Guild.html" target="_self">GuildMember</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;guildMemberUpdate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:125</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>oldMember</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>newMember</td>
+                                            <td>
+                                                            <code><a href="../classes/Guild.html" target="_self" >GuildMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logger"></a>
+                    <span class="name">
+                        <span ><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(GuildMemberEvents.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/guild/events/guild-members/index.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectDiscordClient, On } from &#x27;@discord-nestjs/core&#x27;;
+import { Inject, Injectable, Logger, UseGuards } from &#x27;@nestjs/common&#x27;;
+import { Rank } from &#x27;@prisma/client&#x27;;
+import {
+  Client,
+  GuildMember,
+  MessageReaction,
+  GuildTextBasedChannel,
+  Message,
+  User,
+} from &#x27;discord.js&#x27;;
+import { ReactedMemberIsModOrHigherGuard } from &#x27;src/bot/guards/member-is-mod-or-higher.guard&#x27;;
+import { ReactionChannelIdGuard } from &#x27;src/bot/guards/reaction-in-channel.guard&#x27;;
+import { ReactionEmoteGuard } from &#x27;src/bot/guards/reaction-emote.guard&#x27;;
+import { GuildSettingsService } from &#x27;src/guild/guild-settings/guild-settings.service&#x27;;
+import { GuildUserService } from &#x27;src/guild/guild-user/guild-user.service&#x27;;
+import { GuildService } from &#x27;src/guild/guild.service&#x27;;
+import { PrismaService } from &#x27;src/prisma.service&#x27;;
+import { JsonArray } from &#x27;type-fest&#x27;;
+
+@Injectable()
+export class GuildMemberEvents {
+  logger &#x3D; new Logger(GuildMemberEvents.name);
+  constructor(
+    @InjectDiscordClient()
+    private readonly client: Client,
+    @Inject(GuildUserService)
+    private readonly guildUserService: GuildUserService,
+    @Inject(GuildSettingsService)
+    private readonly settingsService: GuildSettingsService,
+    @Inject(GuildService) private readonly guildService: GuildService,
+    @Inject(PrismaService) private database: PrismaService,
+  ) {}
+
+  // Runs whenever the discordjs websocket gets recreated
+  @On(&#x27;ready&#x27;)
+  async onReady(): Promise&lt;void | Error&gt; {
+    await this.client.guilds.fetch();
+    this.client.guilds.cache.forEach(async (guild) &#x3D;&gt; {
+      await this.guildService.upsertGuild(guild.id, {
+        name: guild.name,
+      });
+      this.guildUserService.addMembers(guild.id);
+    });
+  }
+
+  @On(&#x27;guildMemberAdd&#x27;)
+  async addMember(member: GuildMember) {
+    this.logger.log(&#x60;Adding member ${member.user.username} to database.&#x60;);
+    if (member.user.bot) return;
+    await this.guildUserService.addMember(member.id, member.guild.id, {
+      rank: Rank.NEW,
+      unlocked: false,
+    });
+  }
+
+  @On(&#x27;guildMemberRemove&#x27;)
+  async removeMember(member: GuildMember) {
+    await this.guildUserService.deleteOne(member.id, member.guild.id);
+  }
+
+  @On(&#x27;messageReactionAdd&#x27;)
+  @UseGuards(
+    ReactionChannelIdGuard(&#x27;1121822614374060175&#x27;),
+
+    ReactionEmoteGuard([&#x27;✅&#x27;, &#x27;☑️&#x27;]),
+    ReactedMemberIsModOrHigherGuard,
+  )
+  async unlockUser(reaction: MessageReaction) {
+    if (reaction.partial) {
+      try {
+        await reaction.fetch();
+      } catch (e) {
+        this.logger.error(e);
+        return;
+      }
+    }
+    const user &#x3D; await this.guildUserService.getGuildUser(
+      reaction.message.author.id,
+      reaction.message.guildId,
+    );
+    if (!user &amp;&amp; user.rank !&#x3D;&#x3D; Rank.NEW) return;
+    await this.guildUserService.upsert(user.userId, reaction.message.guildId, {
+      unlocked: true,
+      firstMessageId: reaction.message.id,
+    });
+    const member &#x3D; await (
+      await this.client.guilds.fetch(reaction.message.guildId)
+    ).members.fetch(user.userId);
+    try {
+      if (!member.roles.cache.has(&#x27;1226585753253843014&#x27;))
+        throw &#x27;Has not accepted AGB&#x27;;
+      const verifiedRoleId &#x3D; await this.settingsService.getVerifiedMemberRoleId(
+        reaction.message.guildId,
+      );
+      await member.roles.add(verifiedRoleId);
+      if (reaction.emoji.name &#x3D;&#x3D;&#x3D; &#x27;☑️&#x27;)
+        await member.roles.add(&#x27;1014066383912439809&#x27;);
+      // Wait 500ms to make sure the role is added before removing the unverified role
+      //https://github.com/discordjs/discord.js/issues/4930#issuecomment-1042351896
+      await new Promise((resolve) &#x3D;&gt; setTimeout(resolve, 500));
+      await member.roles.remove(
+        await this.settingsService.getUnverifiedMemberRoleId(
+          reaction.message.guildId,
+        ),
+      );
+    } catch (e) {
+      this.logger.error(e);
+      return;
+    }
+    const channel &#x3D; (await reaction.message.guild.channels.fetch(
+      await this.settingsService.getOpenIntroChannelId(
+        reaction.message.guildId,
+      ),
+    )) as GuildTextBasedChannel;
+    await channel.send(
+      await this.settingsService.templateMessage(
+        reaction.message as Message&lt;true&gt;,
+      ),
+    );
+    await reaction.remove();
+  }
+
+  @On(&#x27;guildMemberUpdate&#x27;)
+  async updateRank(oldMember: GuildMember, newMember: GuildMember) {
+    // check if user has been promoted to mod or admin
+    const oldRank &#x3D; await this.guildUserService.getRank(oldMember);
+    const newRank &#x3D; await this.guildUserService.getRank(newMember);
+    if (oldRank &#x3D;&#x3D;&#x3D; newRank) return;
+    this.logger.log(
+      &#x60;User ${newMember.user.username} has been promoted from ${oldRank} to ${newRank}&#x60;,
+    );
+    await this.guildUserService.upsert(newMember.id, newMember.guild.id, {
+      rank: newRank,
+    });
+  }
+
+  @On(&#x27;messageReactionAdd&#x27;)
+  @UseGuards(
+    ReactionChannelIdGuard(&#x27;1226574989147508746&#x27;),
+    ReactionEmoteGuard([&#x27;👍&#x27;]),
+  )
+  async checkIfPersonWasVerifiedBefore(reaction: MessageReaction, user: User) {
+    if (reaction.partial) {
+      try {
+        await reaction.fetch();
+      } catch (e) {
+        this.logger.error(e);
+        return;
+      }
+    }
+    const dbUser &#x3D; await this.database.guildUser.findUnique({
+      where: {
+        guildId_userId: { guildId: reaction.message.guildId, userId: user.id },
+      },
+    });
+    const discordUser &#x3D; await this.client.guilds.cache
+      .get(dbUser.guildId)
+      .members.fetch(user.id);
+    if (!dbUser &amp;&amp; discordUser.roles.cache.has(&#x27;1121823930085285938&#x27;)) {
+      const roles &#x3D; (
+        await this.database.lockdownRoleBackup.findUnique({
+          where: {
+            guildId_userId: { guildId: dbUser.guildId, userId: user.id },
+          },
+        })
+      ).roles as JsonArray;
+      if (!roles) return;
+      // Tyep system gets a bit iffy here :/
+      roles.forEach(
+        async (role: { id: string }) &#x3D;&gt; await discordUser.roles.add(role.id),
+      );
+      await discordUser.roles.remove(&#x27;1121823930085285938&#x27;);
+      await this.database.lockdownRoleBackup.delete({
+        where: { guildId_userId: { userId: user.id, guildId: dbUser.guildId } },
+      });
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'GuildMemberEvents.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
