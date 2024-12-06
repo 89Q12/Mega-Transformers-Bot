@@ -162,6 +162,5 @@ jobs:
           cd ${{ env.APP_PATH }}
           sed -E -i'' "s/(.*mega-transformers-bot:).*/\1${{ env.COMMIT_SHORT_SHA }}/" 'docker-compose.yml' 
           docker compose pull ${{ env.APP_NAME }}
-          docker compose stop ${{ env.APP_NAME }}
-          docker compose start ${{ env.APP_NAME }}
+          docker compose up -d
           ENDSSH
