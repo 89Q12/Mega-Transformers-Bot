@@ -13,4 +13,13 @@ export class ModAnouncementDto {
   })
   @IsString()
   message: string;
+
+  @Param({
+    name: 'replyto',
+    description: 'Message ID to which the bot should reply(optional)',
+    type: ParamType.STRING,
+    required: false,
+  })
+  @IsString()
+  replyToMessage: string;
 }

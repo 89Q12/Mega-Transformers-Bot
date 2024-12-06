@@ -14,10 +14,21 @@ export class MumVoiceCommand {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) message: ModAnouncementDto,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnouncementDto,
   ): Promise<void> {
     try {
-      await interaction.channel.send(message.message);
+      if (dto.replyToMessage != '' || dto.replyToMessage != undefined)
+        await interaction.channel.send({
+          content: dto.message,
+          reply: {
+            messageReference: dto.replyToMessage,
+            failIfNotExists: true,
+          },
+        });
+      else
+        await interaction.channel.send({
+          content: dto.message,
+        });
       interaction.reply({
         content: 'Done!',
         ephemeral: true,
@@ -25,7 +36,7 @@ export class MumVoiceCommand {
     } catch (err) {
       interaction.reply({
         content: `Failed to send message in this channel with error: ${err} and message:
-          ${message.message}`,
+          ${dto.message}`,
         ephemeral: true,
       });
     }
