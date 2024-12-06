@@ -9,7 +9,6 @@ import { CommandValidationFilter } from '../filters/command-validation';
   name: 'special',
   description:
     'Give a user you like a coffee, a cake or a headpat or maybe just a hug?',
-  defaultMemberPermissions: ['SendMessages'],
   dmPermission: false,
 })
 @UseFilters(CommandValidationFilter)
