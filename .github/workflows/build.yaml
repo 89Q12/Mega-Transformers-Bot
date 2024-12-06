@@ -183,9 +183,12 @@ jobs:
       - name: Generate documentation
         run: yarn run docs
 
+      - name: Run ls
+        run: ls
+
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ../backend/docs
+          publish_dir: ./backend/docs
           publish_branch: gh-pages
