@@ -15,7 +15,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
         <nav>
             <ul class="list">
                 <li class="title">
-                    <a href="index.html" data-type="index-link">nest-app documentation</a>
+                    <a href="index.html" data-type="index-link">mega-transformers-bot documentation</a>
                 </li>
 
                 <li class="divider"></li>
