@@ -95,7 +95,7 @@
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >CoffeeCommand</li>
+  <li class="breadcrumb-item" >SpecialCommand</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -119,7 +119,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/bot/commands/coffee.command.ts</code>
+            <code>src/bot/commands/special.command.ts</code>
         </p>
 
 
@@ -139,6 +139,9 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                <a href="#cakes" >cakes</a>
+                            </li>
                             <li>
                                 <a href="#coffees" >coffees</a>
                             </li>
@@ -187,6 +190,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="cakes"></a>
+                    <span class="name">
+                        <span ><b>cakes</b></span>
+                        <a href="#cakes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    &#x27;Käsekuchen&#x27;,
+    &#x27;Apfelkuchen&#x27;,
+    &#x27;Bienenstich&#x27;,
+    &#x27;Streuselkuchen&#x27;,
+    &#x27;Kuchen&#x27;,
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/bot/commands/special.command.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="coffees"></a>
                     <span class="name">
                         <span ><b>coffees</b></span>
@@ -219,7 +259,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/bot/commands/coffee.command.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/bot/commands/special.command.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -247,7 +287,7 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>[
     &#x27;*Y schiebt X einen Z rüber!*&#x27;,
-    &#x27;*Y schenkt X einen ganzen Kuchen!*&#x27;,
+    &#x27;*Y schenkt X einen ganzen Z!*&#x27;,
     &#x27;*Y gibt X ein headpat :3*&#x27;,
     &#x27;*Y gibt X eine Umarmung :3*&#x27;,
   ]</code>
@@ -255,7 +295,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/bot/commands/coffee.command.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/bot/commands/special.command.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -299,8 +339,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="36"
-                                    class="link-to-prism">src/bot/commands/coffee.command.ts:36</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/bot/commands/special.command.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -378,8 +418,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/bot/commands/coffee.command.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="52"
+                                    class="link-to-prism">src/bot/commands/special.command.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -473,7 +513,7 @@ import { CommandValidationFilter } from &#x27;../filters/command-validation&#x27
   dmPermission: false,
 })
 @UseFilters(CommandValidationFilter)
-export class CoffeeCommand {
+export class SpecialCommand {
   coffees &#x3D; [
     &#x27;Americano&#x27;,
     &#x27;Cappuccino&#x27;,
@@ -489,9 +529,16 @@ export class CoffeeCommand {
   ];
   possibleAnswers &#x3D; [
     &#x27;*Y schiebt X einen Z rüber!*&#x27;,
-    &#x27;*Y schenkt X einen ganzen Kuchen!*&#x27;,
+    &#x27;*Y schenkt X einen ganzen Z!*&#x27;,
     &#x27;*Y gibt X ein headpat :3*&#x27;,
     &#x27;*Y gibt X eine Umarmung :3*&#x27;,
+  ];
+  cakes &#x3D; [
+    &#x27;Käsekuchen&#x27;,
+    &#x27;Apfelkuchen&#x27;,
+    &#x27;Bienenstich&#x27;,
+    &#x27;Streuselkuchen&#x27;,
+    &#x27;Kuchen&#x27;,
   ];
   @Handler()
   async chooseRandomCoffee(
@@ -520,7 +567,11 @@ export class CoffeeCommand {
       case &#x27;cake&#x27;:
         return this.possibleAnswers[1]
           .replace(&#x27;Y&#x27;, userMention(fromUserId))
-          .replace(&#x27;X&#x27;, userMention(toUserId));
+          .replace(&#x27;X&#x27;, userMention(toUserId))
+          .replace(
+            &#x27;Z&#x27;,
+            this.cakes[Math.ceil(Math.random() * this.cakes.length - 1)],
+          );
       case &#x27;headpat&#x27;:
         return this.possibleAnswers[2]
           .replace(&#x27;Y&#x27;, userMention(fromUserId))
@@ -572,7 +623,7 @@ export class CoffeeCommand {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'CoffeeCommand.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'SpecialCommand.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
