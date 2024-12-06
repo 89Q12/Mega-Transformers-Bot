@@ -12,7 +12,7 @@ import { UserInfoUiCommand } from './commands/user-info-ui.command';
 import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.command';
 import { CleanWfpMember } from './commands/clean-wfp.command';
 import { GuildService } from 'src/guild/guild.service';
-import { CoffeeCommand } from './commands/coffee.command';
+import { SpecialCommand } from './commands/special.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -29,7 +29,7 @@ import { CoffeeCommand } from './commands/coffee.command';
     SetFirstMessageUICommand,
     CleanWfpMember,
     GuildService,
-    CoffeeCommand,
+    SpecialCommand,
   ],
   exports: [DiscordModule],
 })

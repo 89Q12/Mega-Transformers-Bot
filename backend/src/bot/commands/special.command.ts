@@ -12,7 +12,7 @@ import { CommandValidationFilter } from '../filters/command-validation';
   dmPermission: false,
 })
 @UseFilters(CommandValidationFilter)
-export class CoffeeCommand {
+export class SpecialCommand {
   coffees = [
     'Americano',
     'Cappuccino',
@@ -28,9 +28,16 @@ export class CoffeeCommand {
   ];
   possibleAnswers = [
     '*Y schiebt X einen Z rüber!*',
-    '*Y schenkt X einen ganzen Kuchen!*',
+    '*Y schenkt X einen ganzen Z!*',
     '*Y gibt X ein headpat :3*',
     '*Y gibt X eine Umarmung :3*',
+  ];
+  cakes = [
+    'Käsekuchen',
+    'Apfelkuchen',
+    'Bienenstich',
+    'Streuselkuchen',
+    'Kuchen',
   ];
   @Handler()
   async chooseRandomCoffee(
@@ -59,7 +66,11 @@ export class CoffeeCommand {
       case 'cake':
         return this.possibleAnswers[1]
           .replace('Y', userMention(fromUserId))
-          .replace('X', userMention(toUserId));
+          .replace('X', userMention(toUserId))
+          .replace(
+            'Z',
+            this.cakes[Math.ceil(Math.random() * this.cakes.length - 1)],
+          );
       case 'headpat':
         return this.possibleAnswers[2]
           .replace('Y', userMention(fromUserId))

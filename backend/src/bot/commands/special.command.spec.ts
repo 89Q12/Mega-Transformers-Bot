@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CoffeeCommand } from './coffee.command';
 import { ReflectMetadataProvider } from '@discord-nestjs/core';
 import { UserToUser } from '../dto/user-to-user.dto';
 import {
@@ -8,21 +7,23 @@ import {
   GuildMemberManager,
   User,
 } from 'discord.js';
-describe('CoffeeCommand', () => {
-  let command: CoffeeCommand;
+import { SpecialCommand } from './special.command';
+
+describe('SpecialCommand', () => {
+  let command: SpecialCommand;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [CoffeeCommand, ReflectMetadataProvider],
+      providers: [SpecialCommand, ReflectMetadataProvider],
     }).compile();
 
-    command = module.get<CoffeeCommand>(CoffeeCommand);
+    command = module.get<SpecialCommand>(SpecialCommand);
   });
 
   it('should be defined', () => {
     expect(command).toBeDefined();
   });
-  it('should correctly mention users', () => {
+  it('should correctly mention users and return a correct string for the category', () => {
     const dto: UserToUser = {
       user: {
         id: '12345678',
