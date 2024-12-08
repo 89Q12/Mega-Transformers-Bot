@@ -36,23 +36,25 @@ export class CleanWfpMember {
       .addFields([
         {
           name: 'Kicked members count',
-          value: outCome['membersToKick'].length.toString(),
+          value: outCome['membersToKick'].length.toString() || '0',
         },
         {
           name: 'Kicked members names',
-          value: outCome['membersToKick']
-            .map((member) => userMention(member.id))
-            .join('\n'),
+          value:
+            outCome['membersToKick']
+              .map((member) => userMention(member.id))
+              .join('\n') || '',
         },
         {
           name: "Couldn't kick members count",
-          value: outCome['unkickableMembers'].length.toString(),
+          value: outCome['unkickableMembers'].length.toString() || '0',
         },
         {
           name: "Couldn't kick members names",
-          value: outCome['unkickableMembers']
-            .map((member) => userMention(member.id))
-            .join('\n'),
+          value:
+            outCome['unkickableMembers']
+              .map((member) => userMention(member.id))
+              .join('\n') || '',
         },
       ]);
     await interaction.followUp({
