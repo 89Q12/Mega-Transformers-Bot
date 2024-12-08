@@ -180,7 +180,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMessage(interaction: CommandInteraction, dto: <a href="../classes/ModAnouncementDto.html" target="_self">ModAnouncementDto</a>)</code>
+                    <code>onMessage(interaction: CommandInteraction, dto: <a href="../classes/ModAnnouncementDto.html" target="_self">ModAnnouncementDto</a>)</code>
                 </td>
             </tr>
 
@@ -230,7 +230,7 @@
                                         <tr>
                                                 <td>dto</td>
                                             <td>
-                                                            <code><a href="../classes/ModAnouncementDto.html" target="_self" >ModAnouncementDto</a></code>
+                                                            <code><a href="../classes/ModAnnouncementDto.html" target="_self" >ModAnnouncementDto</a></code>
                                             </td>
 
                                             <td>
@@ -265,7 +265,7 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Command, Handler, IA, InteractionEvent } from &#x27;@discord-nestjs/core&#x27;;
 import { ApplicationCommandType, CommandInteraction } from &#x27;discord.js&#x27;;
-import { ModAnouncementDto } from &#x27;../dto/mod-anouncement.dto&#x27;;
+import { ModAnnouncementDto } from &#x27;../dto/mod-anouncement.dto&#x27;;
 import { SlashCommandPipe, ValidationPipe } from &#x27;@discord-nestjs/common&#x27;;
 
 @Command({
@@ -279,7 +279,7 @@ export class MumVoiceCommand {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnouncementDto,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
   ): Promise&lt;void&gt; {
     try {
       if (dto.replyToMessage !&#x3D; &#x27;&#x27; || dto.replyToMessage !&#x3D; undefined)

@@ -586,7 +586,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/LogEntryDto.html" data-type="entity-link" >LogEntryDto</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ModAnouncementDto.html" data-type="entity-link" >ModAnouncementDto</a>
+                                <a href="classes/ModAnnouncementDto.html" data-type="entity-link" >ModAnnouncementDto</a>
                             </li>
                             <li class="link">
                                 <a href="classes/MumVoiceCommand.html" data-type="entity-link" >MumVoiceCommand</a>
