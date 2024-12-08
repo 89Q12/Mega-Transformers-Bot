@@ -26,6 +26,7 @@ export class CleanWfpMember {
       interaction.guildId,
       false,
     );
+    console.log(outCome);
     const embed = new EmbedBuilder()
       .setTitle('wfp kick member report :3')
       .setColor(Colors.Blue)
