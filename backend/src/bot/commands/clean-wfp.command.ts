@@ -1,6 +1,11 @@
 import { Command, Handler, InteractionEvent } from '@discord-nestjs/core';
 import { Inject } from '@nestjs/common';
-import { CommandInteraction } from 'discord.js';
+import {
+  Colors,
+  CommandInteraction,
+  EmbedBuilder,
+  userMention,
+} from 'discord.js';
 import { GuildService } from 'src/guild/guild.service';
 
 @Command({
@@ -17,22 +22,41 @@ export class CleanWfpMember {
     await interaction.deferReply({
       ephemeral: true,
     });
-
-    const membersToKick = await this.guildService.cleanWfpMembers(
-      interaction.guildId,
-      true,
-    );
-    await interaction.followUp({
-      ephemeral: true,
-      content: `About to kick ${membersToKick.length} members!`,
-    });
-    const unkickableMemberIds = await this.guildService.cleanWfpMembers(
+    const outCome = await this.guildService.cleanWfpMembers(
       interaction.guildId,
       false,
     );
+    const embed = new EmbedBuilder()
+      .setTitle('wfp kick member report :3')
+      .setColor(Colors.Blue)
+      .setDescription(
+        'Member die kicked wurden bzw. nicht kicked werden konnten',
+      )
+      .addFields([
+        {
+          name: 'Kicked members count',
+          value: outCome['membersToKick'].length.toString(),
+        },
+        {
+          name: 'Kicked members names',
+          value: outCome['membersToKick']
+            .map((member) => userMention(member.id))
+            .join('\n'),
+        },
+        {
+          name: "Couldn't kick members count",
+          value: outCome['unkickableMembers'].length.toString(),
+        },
+        {
+          name: "Couldn't kick members names",
+          value: outCome['unkickableMembers']
+            .map((member) => userMention(member.id))
+            .join('\n'),
+        },
+      ]);
     await interaction.followUp({
       ephemeral: true,
-      content: `Done!, but could not kick ${unkickableMemberIds.length} members`,
+      embeds: [embed],
     });
   }
 }

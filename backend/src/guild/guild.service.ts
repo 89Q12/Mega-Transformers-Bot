@@ -42,7 +42,7 @@ export class GuildService {
   async cleanWfpMembers(
     guildID: string,
     dryRun: boolean = false,
-  ): Promise<Array<string | GuildMember>> {
+  ): Promise<Record<string, Array<GuildMember>>> {
     const twoWeekDate = new Date(new Date().setDate(new Date().getDate() - 14));
     const membersUnfiltered = (
       await (
@@ -60,18 +60,24 @@ export class GuildService {
       }
     });
     // Return early if we are in a dry fun
-    if (dryRun) return members;
-    const unkickableMemberIds: Array<string> = [];
+    if (dryRun)
+      return {
+        membersToKick: members,
+      };
+    const unkickableMembers: Array<GuildMember> = [];
     members.forEach(async (member) => {
       try {
         await member.kick(
           'Kicked by the bot for being in wfp for more than 2 weeks',
         );
       } catch {
-        unkickableMemberIds.push(member.id);
+        unkickableMembers.push(member);
       }
     });
-    return unkickableMemberIds;
+    return {
+      membersToKick: members,
+      unkickableMembers: unkickableMembers,
+    };
   }
 
   /**

@@ -2,7 +2,13 @@ import { InjectDiscordClient } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { GuildUser } from '@prisma/client';
-import { Client } from 'discord.js';
+import {
+  Client,
+  Colors,
+  EmbedBuilder,
+  GuildTextBasedChannel,
+  userMention,
+} from 'discord.js';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
@@ -117,6 +123,43 @@ export class TasksService {
     timeZone: 'Europe/Berlin',
   })
   async cleanWfpMembers() {
-    await this.guildService.cleanWfpMembers('1011511871297302608', false);
+    const outCome = await this.guildService.cleanWfpMembers(
+      '1011511871297302608',
+      false,
+    );
+    const logChannel = (await this.client.channels.fetch(
+      '1195024829544411168',
+    )) as GuildTextBasedChannel;
+    const embed = new EmbedBuilder()
+      .setTitle('Daily wfp kick member report')
+      .setColor(Colors.Blue)
+      .setDescription(
+        'Member die kicked wurden bzw. nicht kicked werden konnten',
+      )
+      .addFields([
+        {
+          name: 'Kicked members count',
+          value: outCome['membersToKick'].length.toString(),
+        },
+        {
+          name: 'Kicked members names',
+          value: outCome['membersToKick']
+            .map((member) => userMention(member.id))
+            .join('\n'),
+        },
+        {
+          name: "Couldn't kick members count",
+          value: outCome['unkickableMembers'].length.toString(),
+        },
+        {
+          name: "Couldn't kick members names",
+          value: outCome['unkickableMembers']
+            .map((member) => userMention(member.id))
+            .join('\n'),
+        },
+      ]);
+    await logChannel.send({
+      embeds: [embed],
+    });
   }
 }
