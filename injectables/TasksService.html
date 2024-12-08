@@ -184,7 +184,7 @@ It also exposes a way to create tasks but NOT deleting them.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/tasks/tasks.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/tasks/tasks.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -293,8 +293,8 @@ It also exposes a way to create tasks but NOT deleting them.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="51"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:51</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -344,8 +344,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="71"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:71</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="77"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -393,8 +393,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="119"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:119</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="125"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -432,8 +432,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -497,7 +497,13 @@ and then updates their permissions on specific channels.</p>
 import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
 import { Cron } from &#x27;@nestjs/schedule&#x27;;
 import { GuildUser } from &#x27;@prisma/client&#x27;;
-import { Client } from &#x27;discord.js&#x27;;
+import {
+  Client,
+  Colors,
+  EmbedBuilder,
+  GuildTextBasedChannel,
+  userMention,
+} from &#x27;discord.js&#x27;;
 import { EventEmitter2 } from &#x27;@nestjs/event-emitter&#x27;;
 import { UserTimeOutEvent } from &#x27;src/guild/moderation/events/user.events&#x27;;
 import { GuildUserService } from &#x27;src/guild/guild-user/guild-user.service&#x27;;
@@ -612,7 +618,44 @@ export class TasksService {
     timeZone: &#x27;Europe/Berlin&#x27;,
   })
   async cleanWfpMembers() {
-    await this.guildService.cleanWfpMembers(&#x27;1011511871297302608&#x27;, false);
+    const outCome &#x3D; await this.guildService.cleanWfpMembers(
+      &#x27;1011511871297302608&#x27;,
+      false,
+    );
+    const logChannel &#x3D; (await this.client.channels.fetch(
+      &#x27;1195024829544411168&#x27;,
+    )) as GuildTextBasedChannel;
+    const embed &#x3D; new EmbedBuilder()
+      .setTitle(&#x27;Daily wfp kick member report&#x27;)
+      .setColor(Colors.Blue)
+      .setDescription(
+        &#x27;Member die kicked wurden bzw. nicht kicked werden konnten&#x27;,
+      )
+      .addFields([
+        {
+          name: &#x27;Kicked members count&#x27;,
+          value: outCome[&#x27;membersToKick&#x27;].length.toString(),
+        },
+        {
+          name: &#x27;Kicked members names&#x27;,
+          value: outCome[&#x27;membersToKick&#x27;]
+            .map((member) &#x3D;&gt; userMention(member.id))
+            .join(&#x27;\n&#x27;),
+        },
+        {
+          name: &quot;Couldn&#x27;t kick members count&quot;,
+          value: outCome[&#x27;unkickableMembers&#x27;].length.toString(),
+        },
+        {
+          name: &quot;Couldn&#x27;t kick members names&quot;,
+          value: outCome[&#x27;unkickableMembers&#x27;]
+            .map((member) &#x3D;&gt; userMention(member.id))
+            .join(&#x27;\n&#x27;),
+        },
+      ]);
+    await logChannel.send({
+      embeds: [embed],
+    });
   }
 }
 </code></pre>

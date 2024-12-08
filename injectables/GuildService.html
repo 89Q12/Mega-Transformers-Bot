@@ -283,8 +283,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="212"
-                                    class="link-to-prism">src/guild/guild.service.ts:212</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="218"
+                                    class="link-to-prism">src/guild/guild.service.ts:218</a></div>
                         </td>
                     </tr>
 
@@ -365,8 +365,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="223"
-                                    class="link-to-prism">src/guild/guild.service.ts:223</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">src/guild/guild.service.ts:229</a></div>
                         </td>
                     </tr>
 
@@ -446,8 +446,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="101"
-                                    class="link-to-prism">src/guild/guild.service.ts:101</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">src/guild/guild.service.ts:107</a></div>
                         </td>
                     </tr>
 
@@ -556,8 +556,8 @@ avgMessageCount DESC;</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="159"
-                                    class="link-to-prism">src/guild/guild.service.ts:159</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/guild/guild.service.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -687,7 +687,7 @@ avgMessageCount DESC;</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/Guild.html" target="_self" >Promise&lt;Array&lt;string | GuildMember&gt;&gt;</a></code>
+                            <b>Returns : </b>        <code><a href="../classes/Guild.html" target="_self" >Promise&lt;Record&lt;string, Array&lt;GuildMember&gt;&gt;&gt;</a></code>
 
                         </div>
                             <div class="io-description">
@@ -727,8 +727,8 @@ avgMessageCount DESC;</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="236"
-                                    class="link-to-prism">src/guild/guild.service.ts:236</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="242"
+                                    class="link-to-prism">src/guild/guild.service.ts:242</a></div>
                         </td>
                     </tr>
 
@@ -769,8 +769,8 @@ Sets up all guilds in the database if they dont already exist there or updates t
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="192"
-                                    class="link-to-prism">src/guild/guild.service.ts:192</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/guild/guild.service.ts:198</a></div>
                         </td>
                     </tr>
 
@@ -947,7 +947,7 @@ export class GuildService {
   async cleanWfpMembers(
     guildID: string,
     dryRun: boolean &#x3D; false,
-  ): Promise&lt;Array&lt;string | GuildMember&gt;&gt; {
+  ): Promise&lt;Record&lt;string, Array&lt;GuildMember&gt;&gt;&gt; {
     const twoWeekDate &#x3D; new Date(new Date().setDate(new Date().getDate() - 14));
     const membersUnfiltered &#x3D; (
       await (
@@ -965,18 +965,24 @@ export class GuildService {
       }
     });
     // Return early if we are in a dry fun
-    if (dryRun) return members;
-    const unkickableMemberIds: Array&lt;string&gt; &#x3D; [];
+    if (dryRun)
+      return {
+        membersToKick: members,
+      };
+    const unkickableMembers: Array&lt;GuildMember&gt; &#x3D; [];
     members.forEach(async (member) &#x3D;&gt; {
       try {
         await member.kick(
           &#x27;Kicked by the bot for being in wfp for more than 2 weeks&#x27;,
         );
       } catch {
-        unkickableMemberIds.push(member.id);
+        unkickableMembers.push(member);
       }
     });
-    return unkickableMemberIds;
+    return {
+      membersToKick: members,
+      unkickableMembers: unkickableMembers,
+    };
   }
 
   /**
