@@ -20,11 +20,9 @@ export class SpecialCommand {
     'Einspänner',
     'Eiskaffee',
     'Espresso',
-    'Irish Coffee',
     'Kaffee Konsul',
     'Latte Macchiato',
     'Mokka',
-    'Pharisäer',
   ];
   possibleAnswers = [
     '*Y schiebt X einen Z rüber!*',
