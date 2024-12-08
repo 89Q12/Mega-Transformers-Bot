@@ -337,23 +337,25 @@ export class CleanWfpMember {
       .addFields([
         {
           name: &#x27;Kicked members count&#x27;,
-          value: outCome[&#x27;membersToKick&#x27;].length.toString(),
+          value: outCome[&#x27;membersToKick&#x27;].length.toString() || &#x27;0&#x27;,
         },
         {
           name: &#x27;Kicked members names&#x27;,
-          value: outCome[&#x27;membersToKick&#x27;]
-            .map((member) &#x3D;&gt; userMention(member.id))
-            .join(&#x27;\n&#x27;),
+          value:
+            outCome[&#x27;membersToKick&#x27;]
+              .map((member) &#x3D;&gt; userMention(member.id))
+              .join(&#x27;\n&#x27;) || &#x27;&#x27;,
         },
         {
           name: &quot;Couldn&#x27;t kick members count&quot;,
-          value: outCome[&#x27;unkickableMembers&#x27;].length.toString(),
+          value: outCome[&#x27;unkickableMembers&#x27;].length.toString() || &#x27;0&#x27;,
         },
         {
           name: &quot;Couldn&#x27;t kick members names&quot;,
-          value: outCome[&#x27;unkickableMembers&#x27;]
-            .map((member) &#x3D;&gt; userMention(member.id))
-            .join(&#x27;\n&#x27;),
+          value:
+            outCome[&#x27;unkickableMembers&#x27;]
+              .map((member) &#x3D;&gt; userMention(member.id))
+              .join(&#x27;\n&#x27;) || &#x27;&#x27;,
         },
       ]);
     await interaction.followUp({
