@@ -1,6 +1,6 @@
 import { Command, Handler, IA, InteractionEvent } from '@discord-nestjs/core';
 import { ApplicationCommandType, CommandInteraction } from 'discord.js';
-import { ModAnouncementDto } from '../dto/mod-anouncement.dto';
+import { ModAnnouncementDto } from '../dto/mod-anouncement.dto';
 import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
 
 @Command({
@@ -14,7 +14,7 @@ export class MumVoiceCommand {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnouncementDto,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
   ): Promise<void> {
     try {
       if (dto.replyToMessage != '' || dto.replyToMessage != undefined)

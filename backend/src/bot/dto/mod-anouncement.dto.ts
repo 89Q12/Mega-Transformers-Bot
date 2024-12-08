@@ -1,7 +1,7 @@
 import { Param, ParamType } from '@discord-nestjs/core';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
-export class ModAnouncementDto {
+export class ModAnnouncementDto {
   @Param({
     description: 'The message to send',
     descriptionLocalizations: {
@@ -20,6 +20,7 @@ export class ModAnouncementDto {
     type: ParamType.STRING,
     required: false,
   })
+  @IsOptional()
   @IsString()
   replyToMessage: string;
 }
