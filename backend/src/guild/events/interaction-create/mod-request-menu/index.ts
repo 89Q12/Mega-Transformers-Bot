@@ -40,7 +40,7 @@ export class ModRequestFlow {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = (await guild.channels.fetch(
       // await this.settingsService.getModChannelId(guildId),
-      '1023931328787386492',
+      '1339184705353941092',
     )) as GuildTextBasedChannel;
     channel.send({
       embeds: [
