@@ -137,13 +137,13 @@ export class ModRequestFlow {
     if (!interaction.isButton()) return;
     if (interaction.customId != needHelpButtonId) return;
     type knownButtons = {
-      needHelp: string;
+      createTicket: string;
     };
     const callback: Record<
       keyof knownButtons,
       (interaction: ButtonInteraction) => Promise<void>
     > = {
-      needHelp: async (i) => {
+      createTicket: async (i) => {
         this.initiateModRequestFlow(i);
       },
     };

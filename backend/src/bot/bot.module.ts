@@ -13,6 +13,7 @@ import { SetFirstMessageUICommand } from './commands/user-set-first-message-ui.c
 import { CleanWfpMember } from './commands/clean-wfp.command';
 import { GuildService } from 'src/guild/guild.service';
 import { SpecialCommand } from './commands/special.command';
+import { TicketSystemSetupCommand } from './commands/ticket-system.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -30,6 +31,7 @@ import { SpecialCommand } from './commands/special.command';
     CleanWfpMember,
     GuildService,
     SpecialCommand,
+    TicketSystemSetupCommand,
   ],
   exports: [DiscordModule],
 })

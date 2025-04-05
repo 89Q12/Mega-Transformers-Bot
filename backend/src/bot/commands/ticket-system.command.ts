@@ -18,7 +18,7 @@ import { needHelpButton } from 'src/util/functions/menu-helper';
   defaultMemberPermissions: ['Administrator'],
   dmPermission: false,
 })
-export class PingCommand {
+export class TicketSystemSetupCommand {
   constructor(
     @InjectDiscordClient()
     private readonly client: Client,
