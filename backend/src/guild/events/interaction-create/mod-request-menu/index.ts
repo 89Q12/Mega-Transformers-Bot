@@ -50,8 +50,14 @@ export class ModRequestFlow {
     const guild = await this.client.guilds.fetch(guildId);
     const channel = await guild.channels.create({
       name: `Ticket-${createHash('sha256')
-        .update(JSON.stringify(interaction.user.displayName), 'utf8')
-        .digest('hex' as BinaryToTextEncoding)}`,
+        .update(
+          JSON.stringify(
+            interaction.user.displayName + new Date().getUTCDate(),
+          ),
+          'utf8',
+        )
+        .digest('hex' as BinaryToTextEncoding)
+        .slice(0, 63)}`,
       reason: `${userMention(interaction.user.id)} created a ticket`,
       type: ChannelType.GuildText,
       parent: '1011532621412577350',
