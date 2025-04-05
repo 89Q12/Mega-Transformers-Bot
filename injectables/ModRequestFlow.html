@@ -819,13 +819,13 @@ export class ModRequestFlow {
     if (!interaction.isButton()) return;
     if (interaction.customId !&#x3D; needHelpButtonId) return;
     type knownButtons &#x3D; {
-      needHelp: string;
+      createTicket: string;
     };
     const callback: Record&lt;
       keyof knownButtons,
       (interaction: ButtonInteraction) &#x3D;&gt; Promise&lt;void&gt;
     &gt; &#x3D; {
-      needHelp: async (i) &#x3D;&gt; {
+      createTicket: async (i) &#x3D;&gt; {
         this.initiateModRequestFlow(i);
       },
     };

@@ -135,13 +135,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BotModule.html" data-type="entity-link" >BotModule</a>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ?
-                                        'data-bs-target="#injectables-links-module-BotModule-c4d89ba56d8629d618c0c8677eea33476ae6aae1b7e841e049846be4c14bf32f9251a3d7a49f6ac026568bf6b8b07a1a5dcc8c1b58af2cbd0db58bef3852620f"' : 'data-bs-target="#xs-injectables-links-module-BotModule-c4d89ba56d8629d618c0c8677eea33476ae6aae1b7e841e049846be4c14bf32f9251a3d7a49f6ac026568bf6b8b07a1a5dcc8c1b58af2cbd0db58bef3852620f"' }>
+                                        'data-bs-target="#injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' : 'data-bs-target="#xs-injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-c4d89ba56d8629d618c0c8677eea33476ae6aae1b7e841e049846be4c14bf32f9251a3d7a49f6ac026568bf6b8b07a1a5dcc8c1b58af2cbd0db58bef3852620f"' :
-                                        'id="xs-injectables-links-module-BotModule-c4d89ba56d8629d618c0c8677eea33476ae6aae1b7e841e049846be4c14bf32f9251a3d7a49f6ac026568bf6b8b07a1a5dcc8c1b58af2cbd0db58bef3852620f"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' :
+                                        'id="xs-injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' }>
                                         <li class="link">
                                             <a href="injectables/GuildRestrictedChannelService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >GuildRestrictedChannelService</a>
                                         </li>
@@ -598,9 +598,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/PingCommand.html" data-type="entity-link" >PingCommand</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PingCommand-1.html" data-type="entity-link" >PingCommand</a>
-                            </li>
-                            <li class="link">
                                 <a href="classes/RestrictedChannelDto.html" data-type="entity-link" >RestrictedChannelDto</a>
                             </li>
                             <li class="link">
@@ -635,6 +632,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/SpecialCommand.html" data-type="entity-link" >SpecialCommand</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TicketSystemSetupCommand.html" data-type="entity-link" >TicketSystemSetupCommand</a>
                             </li>
                             <li class="link">
                                 <a href="classes/TimeOutCommand.html" data-type="entity-link" >TimeOutCommand</a>
