@@ -57,6 +57,10 @@ export class ModRequestFlow {
       parent: '1011532621412577350',
       permissionOverwrites: [
         {
+          id: '1011511871297302608',
+          deny: [PermissionFlagsBits.ViewChannel],
+        },
+        {
           id: interaction.user.id,
           allow: [
             PermissionFlagsBits.ViewChannel,
