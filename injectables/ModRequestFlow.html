@@ -284,8 +284,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="181"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:181</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="191"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:191</a></div>
                         </td>
                     </tr>
 
@@ -365,8 +365,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:167</a></div>
                         </td>
                     </tr>
 
@@ -442,8 +442,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="136"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:136</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:146</a></div>
                         </td>
                     </tr>
 
@@ -519,8 +519,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="110"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:110</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -732,12 +732,22 @@ export class ModRequestFlow {
     const guild &#x3D; await this.client.guilds.fetch(guildId);
     const channel &#x3D; await guild.channels.create({
       name: &#x60;Ticket-${createHash(&#x27;sha256&#x27;)
-        .update(JSON.stringify(interaction.user.displayName), &#x27;utf8&#x27;)
-        .digest(&#x27;hex&#x27; as BinaryToTextEncoding)}&#x60;,
+        .update(
+          JSON.stringify(
+            interaction.user.displayName + new Date().getUTCDate(),
+          ),
+          &#x27;utf8&#x27;,
+        )
+        .digest(&#x27;hex&#x27; as BinaryToTextEncoding)
+        .slice(0, 63)}&#x60;,
       reason: &#x60;${userMention(interaction.user.id)} created a ticket&#x60;,
       type: ChannelType.GuildText,
       parent: &#x27;1011532621412577350&#x27;,
       permissionOverwrites: [
+        {
+          id: &#x27;1011511871297302608&#x27;,
+          deny: [PermissionFlagsBits.ViewChannel],
+        },
         {
           id: interaction.user.id,
           allow: [
