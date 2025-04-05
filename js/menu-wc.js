@@ -598,6 +598,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/PingCommand.html" data-type="entity-link" >PingCommand</a>
                             </li>
                             <li class="link">
+                                <a href="classes/PingCommand-1.html" data-type="entity-link" >PingCommand</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/RestrictedChannelDto.html" data-type="entity-link" >RestrictedChannelDto</a>
                             </li>
                             <li class="link">

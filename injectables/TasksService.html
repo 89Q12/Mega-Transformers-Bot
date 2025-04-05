@@ -159,6 +159,11 @@ It also exposes a way to create tasks but NOT deleting them.</p>
                                 <a href="#cleanWfpMembers" >cleanWfpMembers</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#closeStaleTickets" >closeStaleTickets</a>
+                            </li>
+                            <li>
                                 <a href="#createDynamicScheduledJob" >createDynamicScheduledJob</a>
                             </li>
                         </ul>
@@ -179,12 +184,12 @@ It also exposes a way to create tasks but NOT deleting them.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(guildService: <a href="../injectables/GuildService.html" target="_self">GuildService</a>, userService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>, client: Client, eventEmitter: EventEmitter2)</code>
+<code>constructor(guildService: <a href="../injectables/GuildService.html" target="_self">GuildService</a>, userService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>, client: Client, eventEmitter: EventEmitter2, prismaService: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/tasks/tasks.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/tasks/tasks.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -249,6 +254,18 @@ It also exposes a way to create tasks but NOT deleting them.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>prismaService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -293,8 +310,8 @@ It also exposes a way to create tasks but NOT deleting them.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="57"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:57</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -344,8 +361,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="77"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:77</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:80</a></div>
                         </td>
                     </tr>
 
@@ -393,8 +410,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="125"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:125</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="128"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:128</a></div>
                         </td>
                     </tr>
 
@@ -403,6 +420,53 @@ and then updates their permissions on specific channels.</p>
                 <td class="col-md-4">
                         <div class="io-description"><p>Runs everyday at midnight and kicks members that are longer than 14 days on the server and haven&#39;t checked in.</p>
 </div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeStaleTickets"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>closeStaleTickets</b></span>
+                        <a href="#closeStaleTickets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>closeStaleTickets()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Cron(&#x27;0 0 * * *&#x27;, {name: &#x27;closeStaleTickets&#x27;, timeZone: &#x27;Europe/Berlin&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="173"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:173</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                         <div class="io-description">
                             <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
@@ -432,8 +496,8 @@ and then updates their permissions on specific channels.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/tasks/tasks.service.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="41"
+                                    class="link-to-prism">src/tasks/tasks.service.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -498,6 +562,7 @@ import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
 import { Cron } from &#x27;@nestjs/schedule&#x27;;
 import { GuildUser } from &#x27;@prisma/client&#x27;;
 import {
+  BaseGuildTextChannel,
   Client,
   Colors,
   EmbedBuilder,
@@ -509,6 +574,7 @@ import { UserTimeOutEvent } from &#x27;src/guild/moderation/events/user.events&#
 import { GuildUserService } from &#x27;src/guild/guild-user/guild-user.service&#x27;;
 import { CronJob, CronJobParams } from &#x27;cron&#x27;;
 import { GuildService } from &#x27;src/guild/guild.service&#x27;;
+import { PrismaService } from &#x27;src/prisma.service&#x27;;
 
 const logger &#x3D; new Logger(&#x27;TaskService&#x27;);
 
@@ -524,6 +590,7 @@ export class TasksService {
     @InjectDiscordClient()
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
+    @Inject(PrismaService) private readonly prismaService: PrismaService,
   ) {}
   /**
    * A utility function to create cronjobs on the fly from cronjob parameters
@@ -655,6 +722,43 @@ export class TasksService {
       ]);
     await logChannel.send({
       embeds: [embed],
+    });
+  }
+
+  @Cron(&#x27;0 0 * * *&#x27;, {
+    name: &#x27;closeStaleTickets&#x27;,
+    timeZone: &#x27;Europe/Berlin&#x27;,
+  })
+  async closeStaleTickets() {
+    const tickets &#x3D; await this.prismaService.tickets.findMany();
+    tickets.forEach(async (ticket) &#x3D;&gt; {
+      try {
+        const channel &#x3D; (await (
+          await this.client.guilds.fetch(ticket.guildId)
+        ).channels.fetch(ticket.ticketId)) as GuildTextBasedChannel;
+        if (
+          new Date(new Date().setDate(new Date().getDate() - 7)) &gt;
+          new Date(channel.lastMessage.createdTimestamp)
+        ) {
+          try {
+            await (channel as BaseGuildTextChannel).permissionOverwrites.delete(
+              ticket.userId,
+            );
+            await this.prismaService.tickets.update({
+              where: {
+                ticketId: ticket.ticketId,
+              },
+              data: {
+                closed: true,
+              },
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     });
   }
 }

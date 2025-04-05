@@ -190,12 +190,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(client: Client, guildUserService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>)</code>
+<code>constructor(client: Client, guildUserService: <a href="../injectables/GuildUserService.html" target="_self">GuildUserService</a>, prismaService: <a href="../injectables/PrismaService.html" target="_self">PrismaService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -229,6 +229,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/GuildUserService.html" target="_self" >GuildUserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>prismaService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PrismaService.html" target="_self" >PrismaService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -272,8 +284,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="142"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:142</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:181</a></div>
                         </td>
                     </tr>
 
@@ -353,8 +365,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="118"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:118</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -430,8 +442,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="97"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:97</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:136</a></div>
                         </td>
                     </tr>
 
@@ -507,8 +519,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="71"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:71</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:110</a></div>
                         </td>
                     </tr>
 
@@ -584,8 +596,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="35"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:35</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -655,7 +667,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -670,9 +682,9 @@
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectDiscordClient, On } from &#x27;@discord-nestjs/core&#x27;;
 import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
+import { BinaryToTextEncoding, createHash } from &#x27;crypto&#x27;;
 import {
   ModalSubmitInteraction,
-  GuildTextBasedChannel,
   EmbedBuilder,
   userMention,
   StringSelectMenuInteraction,
@@ -685,10 +697,17 @@ import {
   StringSelectMenuBuilder,
   ComponentType,
   Client,
+  ChannelType,
+  PermissionFlagsBits,
+  ButtonBuilder,
+  ButtonStyle,
 } from &#x27;discord.js&#x27;;
 import { GuildUserService } from &#x27;src/guild/guild-user/guild-user.service&#x27;;
+import { PrismaService } from &#x27;src/prisma.service&#x27;;
 import {
   modRequestCategorySelect,
+  modRequestMenuId,
+  needHelpButtonId,
   selectGuildMenu,
 } from &#x27;src/util/functions/menu-helper&#x27;;
 @Injectable()
@@ -699,6 +718,7 @@ export class ModRequestFlow {
     private readonly client: Client,
     @Inject(GuildUserService)
     private readonly guildUserService: GuildUserService,
+    @Inject(PrismaService) readonly prismaService: PrismaService,
   ) {}
 
   @On(&#x27;interactionCreate&#x27;)
@@ -706,13 +726,36 @@ export class ModRequestFlow {
     if (!interaction.isModalSubmit()) return;
     const [modal, guildId, categoryId] &#x3D; interaction.customId.split(&#x27;-&#x27;);
     if (modal !&#x3D; &#x27;modRequestModal&#x27;) return;
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
     const guild &#x3D; await this.client.guilds.fetch(guildId);
-    const channel &#x3D; (await guild.channels.fetch(
-      // await this.settingsService.getModChannelId(guildId),
-      &#x27;1339184705353941092&#x27;,
-    )) as GuildTextBasedChannel;
-    channel.send({
+    const channel &#x3D; await guild.channels.create({
+      name: &#x60;Ticket-${createHash(&#x27;sha256&#x27;)
+        .update(JSON.stringify(interaction.user.displayName), &#x27;utf8&#x27;)
+        .digest(&#x27;hex&#x27; as BinaryToTextEncoding)}&#x60;,
+      reason: &#x60;${userMention(interaction.user.id)} created a ticket&#x60;,
+      type: ChannelType.GuildText,
+      parent: &#x27;1011532621412577350&#x27;,
+      permissionOverwrites: [
+        {
+          id: interaction.user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+          ],
+        },
+      ],
+    });
+    const ticket &#x3D; await this.prismaService.tickets.create({
+      data: {
+        userId: interaction.user.id,
+        guildId,
+        ticketId: channel.id,
+      },
+    });
+    await channel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle(&#x27;Mod Anfrage&#x27;)
@@ -730,17 +773,25 @@ export class ModRequestFlow {
             },
           ),
       ],
+      components: [
+        new ActionRowBuilder&lt;ButtonBuilder&gt;().addComponents(
+          new ButtonBuilder()
+            .setCustomId(&#x60;closeTicket-${ticket.ticketId}&#x60;)
+            .setLabel(&#x27;Ticket schließen&#x27;)
+            .setStyle(ButtonStyle.Primary),
+        ),
+      ],
     });
-    await interaction.editReply(
-      &#x27;Deine Mod Anfrage wurde erfolgreich versendet.&#x27;,
-    );
-    await interaction.deleteReply();
+    await channel.send(userMention(interaction.user.id));
+    await interaction.editReply({
+      content: &#x27;Deine Mod Anfrage wurde erfolgreich versendet.&#x27;,
+    });
   }
 
   @On(&#x27;interactionCreate&#x27;)
   async onMenuSelect(interaction: StringSelectMenuInteraction) {
     if (!interaction.isStringSelectMenu()) return;
-    if (interaction.customId !&#x3D; &#x27;modRequestMenu&#x27;) return;
+    if (interaction.customId !&#x3D; modRequestMenuId) return;
     const modRequestModal &#x3D; new ModalBuilder()
       .setCustomId(
         &#x60;modRequestModal-${
@@ -766,7 +817,7 @@ export class ModRequestFlow {
   @On(&#x27;interactionCreate&#x27;)
   async onButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
-    if (interaction.customId !&#x3D; &#x27;needHelp&#x27;) return;
+    if (interaction.customId !&#x3D; needHelpButtonId) return;
     type knownButtons &#x3D; {
       needHelp: string;
     };
