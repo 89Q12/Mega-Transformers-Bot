@@ -3,6 +3,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { GuildUser } from '@prisma/client';
 import {
+  BaseGuildTextChannel,
   Client,
   Colors,
   EmbedBuilder,
@@ -14,6 +15,7 @@ import { UserTimeOutEvent } from 'src/guild/moderation/events/user.events';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 import { CronJob, CronJobParams } from 'cron';
 import { GuildService } from 'src/guild/guild.service';
+import { PrismaService } from 'src/prisma.service';
 
 const logger = new Logger('TaskService');
 
@@ -29,6 +31,7 @@ export class TasksService {
     @InjectDiscordClient()
     private readonly client: Client,
     @Inject(EventEmitter2) private readonly eventEmitter: EventEmitter2,
+    @Inject(PrismaService) private readonly prismaService: PrismaService,
   ) {}
   /**
    * A utility function to create cronjobs on the fly from cronjob parameters
@@ -160,6 +163,43 @@ export class TasksService {
       ]);
     await logChannel.send({
       embeds: [embed],
+    });
+  }
+
+  @Cron('0 0 * * *', {
+    name: 'closeStaleTickets',
+    timeZone: 'Europe/Berlin',
+  })
+  async closeStaleTickets() {
+    const tickets = await this.prismaService.tickets.findMany();
+    tickets.forEach(async (ticket) => {
+      try {
+        const channel = (await (
+          await this.client.guilds.fetch(ticket.guildId)
+        ).channels.fetch(ticket.ticketId)) as GuildTextBasedChannel;
+        if (
+          new Date(new Date().setDate(new Date().getDate() - 7)) >
+          new Date(channel.lastMessage.createdTimestamp)
+        ) {
+          try {
+            await (channel as BaseGuildTextChannel).permissionOverwrites.delete(
+              ticket.userId,
+            );
+            await this.prismaService.tickets.update({
+              where: {
+                ticketId: ticket.ticketId,
+              },
+              data: {
+                closed: true,
+              },
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     });
   }
 }

@@ -50,6 +50,7 @@ model GuildUser {
   user               User             @relation(fields: [userId], references: [userId])
   guild              Guild            @relation(fields: [guildId], references: [id])
   GuildUserLimit     GuildUserLimit[]
+  Tickets            Tickets[]
 
   @@id([guildId, userId])
 }
@@ -190,4 +191,13 @@ model LockdownRoleBackup {
   roles   Json
 
   @@id([guildId, userId])
+}
+
+model Tickets {
+  guildId      String
+  userId       String
+  closed       Boolean   @default(false)
+  ticketId     String    @id
+  ticketNumber Int       @default(autoincrement())
+  GuildUser    GuildUser @relation(fields: [guildId, userId], references: [guildId, userId])
 }

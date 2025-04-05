@@ -1,8 +1,8 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
 import { Inject, Injectable, Logger } from '@nestjs/common';
+import { BinaryToTextEncoding, createHash } from 'crypto';
 import {
   ModalSubmitInteraction,
-  GuildTextBasedChannel,
   EmbedBuilder,
   userMention,
   StringSelectMenuInteraction,
@@ -15,10 +15,17 @@ import {
   StringSelectMenuBuilder,
   ComponentType,
   Client,
+  ChannelType,
+  PermissionFlagsBits,
+  ButtonBuilder,
+  ButtonStyle,
 } from 'discord.js';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
+import { PrismaService } from 'src/prisma.service';
 import {
   modRequestCategorySelect,
+  modRequestMenuId,
+  needHelpButtonId,
   selectGuildMenu,
 } from 'src/util/functions/menu-helper';
 @Injectable()
@@ -29,6 +36,7 @@ export class ModRequestFlow {
     private readonly client: Client,
     @Inject(GuildUserService)
     private readonly guildUserService: GuildUserService,
+    @Inject(PrismaService) readonly prismaService: PrismaService,
   ) {}
 
   @On('interactionCreate')
@@ -36,13 +44,36 @@ export class ModRequestFlow {
     if (!interaction.isModalSubmit()) return;
     const [modal, guildId, categoryId] = interaction.customId.split('-');
     if (modal != 'modRequestModal') return;
-    await interaction.deferReply();
+    await interaction.deferReply({
+      ephemeral: true,
+    });
     const guild = await this.client.guilds.fetch(guildId);
-    const channel = (await guild.channels.fetch(
-      // await this.settingsService.getModChannelId(guildId),
-      '1339184705353941092',
-    )) as GuildTextBasedChannel;
-    channel.send({
+    const channel = await guild.channels.create({
+      name: `Ticket-${createHash('sha256')
+        .update(JSON.stringify(interaction.user.displayName), 'utf8')
+        .digest('hex' as BinaryToTextEncoding)}`,
+      reason: `${userMention(interaction.user.id)} created a ticket`,
+      type: ChannelType.GuildText,
+      parent: '1011532621412577350',
+      permissionOverwrites: [
+        {
+          id: interaction.user.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+          ],
+        },
+      ],
+    });
+    const ticket = await this.prismaService.tickets.create({
+      data: {
+        userId: interaction.user.id,
+        guildId,
+        ticketId: channel.id,
+      },
+    });
+    await channel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle('Mod Anfrage')
@@ -60,17 +91,25 @@ export class ModRequestFlow {
             },
           ),
       ],
+      components: [
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setCustomId(`closeTicket-${ticket.ticketId}`)
+            .setLabel('Ticket schließen')
+            .setStyle(ButtonStyle.Primary),
+        ),
+      ],
     });
-    await interaction.editReply(
-      'Deine Mod Anfrage wurde erfolgreich versendet.',
-    );
-    await interaction.deleteReply();
+    await channel.send(userMention(interaction.user.id));
+    await interaction.editReply({
+      content: 'Deine Mod Anfrage wurde erfolgreich versendet.',
+    });
   }
 
   @On('interactionCreate')
   async onMenuSelect(interaction: StringSelectMenuInteraction) {
     if (!interaction.isStringSelectMenu()) return;
-    if (interaction.customId != 'modRequestMenu') return;
+    if (interaction.customId != modRequestMenuId) return;
     const modRequestModal = new ModalBuilder()
       .setCustomId(
         `modRequestModal-${
@@ -96,7 +135,7 @@ export class ModRequestFlow {
   @On('interactionCreate')
   async onButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
-    if (interaction.customId != 'needHelp') return;
+    if (interaction.customId != needHelpButtonId) return;
     type knownButtons = {
       needHelp: string;
     };

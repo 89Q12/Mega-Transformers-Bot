@@ -4,16 +4,16 @@ import {
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
-
+export const needHelpButtonId = 'createTicket';
+export const modRequestMenuId = 'modRequestMenu';
 /**
  * Utility function that returns a button builder named "Hilfe benötigt"
  * @returns ButtonBuilder object that can directly be used with discord.js
  */
 export function needHelpButton(): ButtonBuilder {
   return new ButtonBuilder()
-    .setCustomId('needHelp')
-    .setLabel('Hilfe benötigt')
-    .setEmoji('🆘')
+    .setCustomId(needHelpButtonId)
+    .setLabel('Ticket mit dem Mods erstellen.')
     .setStyle(ButtonStyle.Primary);
 }
 
@@ -45,7 +45,7 @@ export function modRequestCategorySelect(
   suffix: string,
 ): StringSelectMenuBuilder {
   return new StringSelectMenuBuilder()
-    .setCustomId('modRequestMenu')
+    .setCustomId(modRequestMenuId)
     .setPlaceholder('Wähle die kategorie deiner Mod Anfrage aus:')
     .addOptions([
       new StringSelectMenuOptionBuilder()
