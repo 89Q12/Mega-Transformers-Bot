@@ -159,6 +159,7 @@ export class ModRequestFlow {
     if (!interaction.customId.startsWith('closeTicket')) return;
     const ticketId = interaction.customId.split('-')[1];
     try {
+      interaction.deferReply();
       const ticket = await this.prismaService.tickets.findUnique({
         where: {
           ticketId,
@@ -176,6 +177,9 @@ export class ModRequestFlow {
         .get(ticket.guildId)
         .channels.fetch(ticketId)) as BaseGuildTextChannel;
       channel.permissionOverwrites.delete(ticket.userId);
+      interaction.followUp({
+        content: 'Ticket geschlossen',
+      });
       await channel.setParent('1014456370860404756');
     } catch (e) {
       this.logger.error(e);
