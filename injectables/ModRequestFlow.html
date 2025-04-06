@@ -289,8 +289,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:218</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="222"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:222</a></div>
                         </td>
                     </tr>
 
@@ -370,8 +370,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="194"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:194</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="198"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:198</a></div>
                         </td>
                     </tr>
 
@@ -447,8 +447,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="185"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:185</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:189</a></div>
                         </td>
                     </tr>
 
@@ -923,6 +923,7 @@ export class ModRequestFlow {
     if (!interaction.customId.startsWith(&#x27;closeTicket&#x27;)) return;
     const ticketId &#x3D; interaction.customId.split(&#x27;-&#x27;)[1];
     try {
+      interaction.deferReply();
       const ticket &#x3D; await this.prismaService.tickets.findUnique({
         where: {
           ticketId,
@@ -940,6 +941,9 @@ export class ModRequestFlow {
         .get(ticket.guildId)
         .channels.fetch(ticketId)) as BaseGuildTextChannel;
       channel.permissionOverwrites.delete(ticket.userId);
+      interaction.followUp({
+        content: &#x27;Ticket geschlossen&#x27;,
+      });
       await channel.setParent(&#x27;1014456370860404756&#x27;);
     } catch (e) {
       this.logger.error(e);
