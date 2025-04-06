@@ -159,14 +159,13 @@ export class ModRequestFlow {
     if (!interaction.customId.startsWith('closeTicket')) return;
     const ticketId = interaction.customId.split('-')[1];
     try {
-      await interaction.deferReply();
       const ticket = await this.prismaService.tickets.findUnique({
         where: {
           ticketId,
         },
       });
       if (ticket.closed) {
-        return interaction.followUp('Das Ticket ist schon geschlossen!');
+        return interaction.reply('Das Ticket ist schon geschlossen!');
       }
       await this.prismaService.tickets.update({
         where: {
@@ -182,7 +181,7 @@ export class ModRequestFlow {
       await channel.permissionOverwrites.delete(ticket.userId);
       await channel.permissionOverwrites.delete('1011513775054143632');
       await channel.setParent('1014456370860404756');
-      return interaction.followUp({
+      return interaction.reply({
         content: 'Ticket geschlossen',
       });
     } catch (e) {
