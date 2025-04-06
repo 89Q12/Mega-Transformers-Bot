@@ -201,16 +201,18 @@ export class ModRequestFlow {
   }
   async initiateModRequestFlow(interaction: ButtonInteraction) {
     await interaction.deferReply({ ephemeral: true });
-    const guilds = (
-      await this.guildUserService.findAll(
-        interaction?.guildId ?? undefined,
-        interaction.user.id,
-      )
-    ).map((user) => user.guildId);
-    const guildId =
-      guilds.length > 1
-        ? await this._getGuildIdFromSelectMenu(interaction, guilds)
-        : (interaction?.guildId ?? guilds[0]);
+    let guildId = '';
+    if (!interaction.guildId) {
+      const guilds = (
+        await this.guildUserService.findAll(undefined, interaction.user.id)
+      ).map((user) => user.guildId);
+      guildId =
+        guilds.length > 1
+          ? await this._getGuildIdFromSelectMenu(interaction, guilds)
+          : guilds[0];
+    } else {
+      guildId = interaction.guildId;
+    }
     const modRequestMenu = modRequestCategorySelect(guildId);
     const options = {
       content: 'Wähle eine Kategorie aus:',
@@ -237,6 +239,7 @@ export class ModRequestFlow {
       ],
       ephemeral: true,
     };
+
     const selectionInteraction = await interaction.editReply(options);
     const selection = await selectionInteraction.awaitMessageComponent({
       componentType: ComponentType.StringSelect,
