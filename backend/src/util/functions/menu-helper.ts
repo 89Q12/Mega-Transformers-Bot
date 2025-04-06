@@ -1,6 +1,7 @@
 import {
   ButtonBuilder,
   ButtonStyle,
+  Client,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
@@ -20,18 +21,22 @@ export function needHelpButton(): ButtonBuilder {
 /**
  * Utility function that returns a SelectMenu to choose a guild.
  * @param guilds Array<string> of guildIDs
+ * @param client Discord Client
  * @returns  StringSelectMenuBuilder object that can directly be used with discord.js
  */
-export function selectGuildMenu(guilds: string[]): StringSelectMenuBuilder {
+export function selectGuildMenu(
+  guilds: string[],
+  client: Client,
+): StringSelectMenuBuilder {
   return new StringSelectMenuBuilder()
     .setCustomId('selectGuild')
     .setPlaceholder('Wähle einen Server aus:')
     .addOptions(
       guilds.map((guildId) => {
         return new StringSelectMenuOptionBuilder()
-          .setLabel((this.client.guilds.cache.get(guildId) as any).name)
+          .setLabel((client.guilds.cache.get(guildId) as any).name)
           .setValue(guildId)
-          .setDescription((this.client.guilds.cache.get(guildId) as any).name);
+          .setDescription((client.guilds.cache.get(guildId) as any).name);
       }),
     );
 }

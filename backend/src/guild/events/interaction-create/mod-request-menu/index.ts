@@ -227,7 +227,7 @@ export class ModRequestFlow {
     interaction: ButtonInteraction,
     guilds: string[],
   ) {
-    const guildMenu = selectGuildMenu(guilds);
+    const guildMenu = selectGuildMenu(guilds, this.client);
     const options = {
       content: 'Wähle einen Server aus:',
       components: [
