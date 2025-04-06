@@ -19,6 +19,7 @@ import {
   PermissionFlagsBits,
   ButtonBuilder,
   ButtonStyle,
+  BaseGuildTextChannel,
 } from 'discord.js';
 import { GuildUserService } from 'src/guild/guild-user/guild-user.service';
 import { PrismaService } from 'src/prisma.service';
@@ -72,6 +73,16 @@ export class ModRequestFlow {
             PermissionFlagsBits.ViewChannel,
             PermissionFlagsBits.SendMessages,
             PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.AddReactions,
+          ],
+        },
+        {
+          id: '1011513775054143632',
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory,
+            PermissionFlagsBits.AddReactions,
           ],
         },
       ],
@@ -143,27 +154,43 @@ export class ModRequestFlow {
   }
 
   @On('interactionCreate')
-  async onButton(interaction: ButtonInteraction) {
+  async onButtonNeedHelpButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
-    if (interaction.customId != needHelpButtonId) return;
-    type knownButtons = {
-      createTicket: string;
-    };
-    const callback: Record<
-      keyof knownButtons,
-      (interaction: ButtonInteraction) => Promise<void>
-    > = {
-      createTicket: async (i) => {
-        this.initiateModRequestFlow(i);
-      },
-    };
+    if (!interaction.customId.startsWith('closeTicket')) return;
+    const ticketId = interaction.customId.split('-')[1];
     try {
-      callback[interaction.customId as keyof knownButtons](interaction);
+      const ticket = await this.prismaService.tickets.findUnique({
+        where: {
+          ticketId,
+        },
+      });
+      await this.prismaService.tickets.update({
+        where: {
+          ticketId,
+        },
+        data: {
+          closed: true,
+        },
+      });
+      const channel = (await this.client.guilds.cache
+        .get(ticket.guildId)
+        .channels.fetch(ticketId)) as BaseGuildTextChannel;
+      channel.permissionOverwrites.delete(ticket.userId);
+      await channel.setParent('1014456370860404756');
     } catch (e) {
       this.logger.error(e);
     }
   }
-
+  @On('interactionCreate')
+  async onButtonCloseTicket(interaction: ButtonInteraction) {
+    if (!interaction.isButton()) return;
+    if (interaction.customId != needHelpButtonId) return;
+    try {
+      this.initiateModRequestFlow(interaction);
+    } catch (e) {
+      this.logger.error(e);
+    }
+  }
   async initiateModRequestFlow(interaction: ButtonInteraction) {
     await interaction.deferReply({ ephemeral: true });
     const guilds = (
