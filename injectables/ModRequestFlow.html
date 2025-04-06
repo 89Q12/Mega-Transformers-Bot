@@ -289,8 +289,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:228</a></div>
                         </td>
                     </tr>
 
@@ -965,16 +965,18 @@ export class ModRequestFlow {
   }
   async initiateModRequestFlow(interaction: ButtonInteraction) {
     await interaction.deferReply({ ephemeral: true });
-    const guilds &#x3D; (
-      await this.guildUserService.findAll(
-        interaction?.guildId ?? undefined,
-        interaction.user.id,
-      )
-    ).map((user) &#x3D;&gt; user.guildId);
-    const guildId &#x3D;
-      guilds.length &gt; 1
-        ? await this._getGuildIdFromSelectMenu(interaction, guilds)
-        : (interaction?.guildId ?? guilds[0]);
+    let guildId &#x3D; &#x27;&#x27;;
+    if (!interaction.guildId) {
+      const guilds &#x3D; (
+        await this.guildUserService.findAll(undefined, interaction.user.id)
+      ).map((user) &#x3D;&gt; user.guildId);
+      guildId &#x3D;
+        guilds.length &gt; 1
+          ? await this._getGuildIdFromSelectMenu(interaction, guilds)
+          : guilds[0];
+    } else {
+      guildId &#x3D; interaction.guildId;
+    }
     const modRequestMenu &#x3D; modRequestCategorySelect(guildId);
     const options &#x3D; {
       content: &#x27;Wähle eine Kategorie aus:&#x27;,
@@ -1001,6 +1003,7 @@ export class ModRequestFlow {
       ],
       ephemeral: true,
     };
+
     const selectionInteraction &#x3D; await interaction.editReply(options);
     const selection &#x3D; await selectionInteraction.awaitMessageComponent({
       componentType: ComponentType.StringSelect,
