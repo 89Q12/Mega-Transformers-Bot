@@ -289,8 +289,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="222"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:222</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:226</a></div>
                         </td>
                     </tr>
 
@@ -370,8 +370,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="198"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:198</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:202</a></div>
                         </td>
                     </tr>
 
@@ -447,8 +447,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="189"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:189</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="193"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:193</a></div>
                         </td>
                     </tr>
 
@@ -561,7 +561,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -923,12 +923,15 @@ export class ModRequestFlow {
     if (!interaction.customId.startsWith(&#x27;closeTicket&#x27;)) return;
     const ticketId &#x3D; interaction.customId.split(&#x27;-&#x27;)[1];
     try {
-      interaction.deferReply();
+      await interaction.deferReply();
       const ticket &#x3D; await this.prismaService.tickets.findUnique({
         where: {
           ticketId,
         },
       });
+      if (ticket.closed) {
+        return interaction.followUp(&#x27;Das Ticket ist schon geschlossen!&#x27;);
+      }
       await this.prismaService.tickets.update({
         where: {
           ticketId,
@@ -940,11 +943,12 @@ export class ModRequestFlow {
       const channel &#x3D; (await this.client.guilds.cache
         .get(ticket.guildId)
         .channels.fetch(ticketId)) as BaseGuildTextChannel;
-      channel.permissionOverwrites.delete(ticket.userId);
-      interaction.followUp({
+      await channel.permissionOverwrites.delete(ticket.userId);
+      await channel.permissionOverwrites.delete(&#x27;1011513775054143632&#x27;);
+      await channel.setParent(&#x27;1014456370860404756&#x27;);
+      return interaction.followUp({
         content: &#x27;Ticket geschlossen&#x27;,
       });
-      await channel.setParent(&#x27;1014456370860404756&#x27;);
     } catch (e) {
       this.logger.error(e);
     }
