@@ -538,7 +538,7 @@ used to check the type of a attachment of a message.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>selectGuildMenu(guilds)</code>
+<code>selectGuildMenu(guilds, client: Client)</code>
                 </td>
             </tr>
 
@@ -557,6 +557,7 @@ used to check the type of a attachment of a message.</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Description</td>
                                         </tr>
@@ -564,6 +565,8 @@ used to check the type of a attachment of a message.</p>
                                     <tbody>
                                         <tr>
                                                 <td>guilds</td>
+                                            <td>
+                                            </td>
 
                                             <td>
                                                     No
@@ -572,6 +575,22 @@ used to check the type of a attachment of a message.</p>
 
                                             <td>
                                                     <p>Array<string> of guildIDs</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>client</td>
+                                            <td>
+                                                        <code>Client</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Discord Client</p>
 
                                             </td>
                                         </tr>
