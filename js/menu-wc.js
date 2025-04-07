@@ -135,13 +135,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BotModule.html" data-type="entity-link" >BotModule</a>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ?
-                                        'data-bs-target="#injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' : 'data-bs-target="#xs-injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' }>
+                                        'data-bs-target="#injectables-links-module-BotModule-c6816a23a7695d8b321deff28d7812beee295d571d73a4542fa0fa1d4940641ce19f8322c7303a19e3013034ba012dfe3fd9bf48b492f24173d91d37fd42ab92"' : 'data-bs-target="#xs-injectables-links-module-BotModule-c6816a23a7695d8b321deff28d7812beee295d571d73a4542fa0fa1d4940641ce19f8322c7303a19e3013034ba012dfe3fd9bf48b492f24173d91d37fd42ab92"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' :
-                                        'id="xs-injectables-links-module-BotModule-2931af9a9f21f9975a479c43f0f9f90e00ac50bfdf281a730b90e4e24294815e132ca62b027cca0145875aff39490e027c1239053c66961750f51999164dac01"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-c6816a23a7695d8b321deff28d7812beee295d571d73a4542fa0fa1d4940641ce19f8322c7303a19e3013034ba012dfe3fd9bf48b492f24173d91d37fd42ab92"' :
+                                        'id="xs-injectables-links-module-BotModule-c6816a23a7695d8b321deff28d7812beee295d571d73a4542fa0fa1d4940641ce19f8322c7303a19e3013034ba012dfe3fd9bf48b492f24173d91d37fd42ab92"' }>
                                         <li class="link">
                                             <a href="injectables/GuildRestrictedChannelService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >GuildRestrictedChannelService</a>
                                         </li>
@@ -589,7 +589,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ModAnnouncementDto.html" data-type="entity-link" >ModAnnouncementDto</a>
                             </li>
                             <li class="link">
-                                <a href="classes/MumVoiceCommand.html" data-type="entity-link" >MumVoiceCommand</a>
+                                <a href="classes/MumVoiceCommandChatInput.html" data-type="entity-link" >MumVoiceCommandChatInput</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/MumVoiceCommandUi.html" data-type="entity-link" >MumVoiceCommandUi</a>
                             </li>
                             <li class="link">
                                 <a href="classes/PermissionOverwrite.html" data-type="entity-link" >PermissionOverwrite</a>

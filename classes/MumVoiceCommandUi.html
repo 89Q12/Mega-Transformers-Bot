@@ -95,7 +95,7 @@
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >MumVoiceCommand</li>
+  <li class="breadcrumb-item" >MumVoiceCommandUi</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -180,7 +180,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMessage(interaction: CommandInteraction, dto: <a href="../classes/ModAnnouncementDto.html" target="_self">ModAnnouncementDto</a>)</code>
+                    <code>onMessage(interaction: MessageContextMenuCommandInteraction, dto: <a href="../classes/ModAnnouncementDto.html" target="_self">ModAnnouncementDto</a>)</code>
                 </td>
             </tr>
 
@@ -194,8 +194,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="15"
-                                    class="link-to-prism">src/bot/commands/mod-anouncement.command.ts:15</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="57"
+                                    class="link-to-prism">src/bot/commands/mod-anouncement.command.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -218,7 +218,7 @@
                                         <tr>
                                                 <td>interaction</td>
                                             <td>
-                                                        <code>CommandInteraction</code>
+                                                        <code>MessageContextMenuCommandInteraction</code>
                                             </td>
 
                                             <td>
@@ -264,7 +264,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Command, Handler, IA, InteractionEvent } from &#x27;@discord-nestjs/core&#x27;;
-import { ApplicationCommandType, CommandInteraction } from &#x27;discord.js&#x27;;
+import {
+  ApplicationCommandType,
+  CommandInteraction,
+  MessageContextMenuCommandInteraction,
+} from &#x27;discord.js&#x27;;
 import { ModAnnouncementDto } from &#x27;../dto/mod-anouncement.dto&#x27;;
 import { SlashCommandPipe, ValidationPipe } from &#x27;@discord-nestjs/common&#x27;;
 
@@ -275,7 +279,7 @@ import { SlashCommandPipe, ValidationPipe } from &#x27;@discord-nestjs/common&#x
   type: ApplicationCommandType.ChatInput,
   dmPermission: false,
 })
-export class MumVoiceCommand {
+export class MumVoiceCommandChatInput {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
@@ -297,6 +301,35 @@ export class MumVoiceCommand {
       interaction.reply({
         content: &#x27;Done!&#x27;,
         ephemeral: true,
+      });
+    } catch (err) {
+      interaction.reply({
+        content: &#x60;Failed to send message in this channel with error: ${err} and message:
+          ${dto.message}&#x60;,
+        ephemeral: true,
+      });
+    }
+  }
+}
+
+@Command({
+  name: &#x27;mumvoiceui&#x27;,
+  defaultMemberPermissions: [&#x27;ModerateMembers&#x27;],
+  type: ApplicationCommandType.Message,
+})
+export class MumVoiceCommandUi {
+  @Handler()
+  async onMessage(
+    @InteractionEvent() interaction: MessageContextMenuCommandInteraction,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
+  ): Promise&lt;void&gt; {
+    try {
+      await interaction.channel.send({
+        content: dto.message,
+        reply: {
+          messageReference: interaction.targetMessage.id,
+          failIfNotExists: true,
+        },
       });
     } catch (err) {
       interaction.reply({
@@ -345,7 +378,7 @@ export class MumVoiceCommand {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'MumVoiceCommand.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'MumVoiceCommandUi.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

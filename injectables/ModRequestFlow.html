@@ -289,8 +289,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="228"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:228</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:227</a></div>
                         </td>
                     </tr>
 
@@ -370,8 +370,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="202"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:202</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:201</a></div>
                         </td>
                     </tr>
 
@@ -447,8 +447,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="193"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:193</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -484,7 +484,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -524,8 +524,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="192"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:192</a></div>
                         </td>
                     </tr>
 
@@ -561,7 +561,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>unknown</code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
                             <div class="io-description">
@@ -918,19 +918,18 @@ export class ModRequestFlow {
   }
 
   @On(&#x27;interactionCreate&#x27;)
-  async onButtonNeedHelpButton(interaction: ButtonInteraction) {
+  async onButtonCloseTicket(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     if (!interaction.customId.startsWith(&#x27;closeTicket&#x27;)) return;
     const ticketId &#x3D; interaction.customId.split(&#x27;-&#x27;)[1];
     try {
-      await interaction.deferReply();
       const ticket &#x3D; await this.prismaService.tickets.findUnique({
         where: {
           ticketId,
         },
       });
       if (ticket.closed) {
-        return interaction.followUp(&#x27;Das Ticket ist schon geschlossen!&#x27;);
+        return interaction.reply(&#x27;Das Ticket ist schon geschlossen!&#x27;);
       }
       await this.prismaService.tickets.update({
         where: {
@@ -946,7 +945,7 @@ export class ModRequestFlow {
       await channel.permissionOverwrites.delete(ticket.userId);
       await channel.permissionOverwrites.delete(&#x27;1011513775054143632&#x27;);
       await channel.setParent(&#x27;1014456370860404756&#x27;);
-      return interaction.followUp({
+      return interaction.reply({
         content: &#x27;Ticket geschlossen&#x27;,
       });
     } catch (e) {
@@ -954,7 +953,7 @@ export class ModRequestFlow {
     }
   }
   @On(&#x27;interactionCreate&#x27;)
-  async onButtonCloseTicket(interaction: ButtonInteraction) {
+  async onButtonNeedHelpButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     if (interaction.customId !&#x3D; needHelpButtonId) return;
     try {
