@@ -4,7 +4,10 @@ import { PingCommand } from './commands/ping.command';
 import { PrismaService } from 'src/prisma.service';
 import { GuildSettingsService } from 'src/guild/guild-settings/guild-settings.service';
 import { TimeOutCommand } from './commands/timeout.command';
-import { MumVoiceCommandChatInput } from './commands/mod-anouncement.command';
+import {
+  MumVoiceCommandChatInput,
+  MumVoiceCommandUi,
+} from './commands/mod-anouncement.command';
 import { GuildRestrictedChannelService } from 'src/guild/guild-restricted-channel/guild-restricted-channel.service';
 import { CommunityQuestionCommand } from './commands/community-question.command';
 import { initGuildCommand } from './commands/init-guild.command';
@@ -32,6 +35,7 @@ import { TicketSystemSetupCommand } from './commands/ticket-system.command';
     GuildService,
     SpecialCommand,
     TicketSystemSetupCommand,
+    MumVoiceCommandUi,
   ],
   exports: [DiscordModule],
 })
