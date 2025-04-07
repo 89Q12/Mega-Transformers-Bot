@@ -1,5 +1,9 @@
 import { Command, Handler, IA, InteractionEvent } from '@discord-nestjs/core';
-import { ApplicationCommandType, CommandInteraction } from 'discord.js';
+import {
+  ApplicationCommandType,
+  CommandInteraction,
+  MessageContextMenuCommandInteraction,
+} from 'discord.js';
 import { ModAnnouncementDto } from '../dto/mod-anouncement.dto';
 import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
 
@@ -10,7 +14,7 @@ import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
   type: ApplicationCommandType.ChatInput,
   dmPermission: false,
 })
-export class MumVoiceCommand {
+export class MumVoiceCommandChatInput {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: CommandInteraction,
@@ -32,6 +36,35 @@ export class MumVoiceCommand {
       interaction.reply({
         content: 'Done!',
         ephemeral: true,
+      });
+    } catch (err) {
+      interaction.reply({
+        content: `Failed to send message in this channel with error: ${err} and message:
+          ${dto.message}`,
+        ephemeral: true,
+      });
+    }
+  }
+}
+
+@Command({
+  name: 'mumvoiceui',
+  defaultMemberPermissions: ['ModerateMembers'],
+  type: ApplicationCommandType.Message,
+})
+export class MumVoiceCommandUi {
+  @Handler()
+  async onMessage(
+    @InteractionEvent() interaction: MessageContextMenuCommandInteraction,
+    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
+  ): Promise<void> {
+    try {
+      await interaction.channel.send({
+        content: dto.message,
+        reply: {
+          messageReference: interaction.targetMessage.id,
+          failIfNotExists: true,
+        },
       });
     } catch (err) {
       interaction.reply({

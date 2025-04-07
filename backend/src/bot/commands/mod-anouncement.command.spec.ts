@@ -1,16 +1,16 @@
 import { ReflectMetadataProvider } from '@discord-nestjs/core';
 import { TestingModule, Test } from '@nestjs/testing';
-import { MumVoiceCommand } from './mod-anouncement.command';
+import { MumVoiceCommandChatInput } from './mod-anouncement.command';
 
 describe('MumVoiceCommand', () => {
-  let command: MumVoiceCommand;
+  let command: MumVoiceCommandChatInput;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MumVoiceCommand, ReflectMetadataProvider],
+      providers: [MumVoiceCommandChatInput, ReflectMetadataProvider],
     }).compile();
 
-    command = module.get<MumVoiceCommand>(MumVoiceCommand);
+    command = module.get<MumVoiceCommandChatInput>(MumVoiceCommandChatInput);
   });
 
   it('should be defined', () => {
