@@ -154,7 +154,7 @@ export class ModRequestFlow {
   }
 
   @On('interactionCreate')
-  async onButtonNeedHelpButton(interaction: ButtonInteraction) {
+  async onButtonCloseTicket(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     if (!interaction.customId.startsWith('closeTicket')) return;
     const ticketId = interaction.customId.split('-')[1];
@@ -189,7 +189,7 @@ export class ModRequestFlow {
     }
   }
   @On('interactionCreate')
-  async onButtonCloseTicket(interaction: ButtonInteraction) {
+  async onButtonNeedHelpButton(interaction: ButtonInteraction) {
     if (!interaction.isButton()) return;
     if (interaction.customId != needHelpButtonId) return;
     try {
