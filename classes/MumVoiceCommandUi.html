@@ -380,7 +380,7 @@ export class MumVoiceCommandChatInput {
         await interaction.channel.send({
           content: dto.message,
         });
-      interaction.followUp({
+      await interaction.followUp({
         content: &#x27;Done!&#x27;,
         ephemeral: true,
       });
