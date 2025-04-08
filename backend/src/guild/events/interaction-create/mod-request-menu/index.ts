@@ -1,5 +1,5 @@
 import { InjectDiscordClient, On } from '@discord-nestjs/core';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { BinaryToTextEncoding, createHash } from 'crypto';
 import {
   ModalSubmitInteraction,
@@ -29,7 +29,6 @@ import {
   needHelpButtonId,
   selectGuildMenu,
 } from 'src/util/functions/menu-helper';
-@Injectable()
 export class ModRequestFlow {
   logger = new Logger(ModRequestFlow.name);
   constructor(
