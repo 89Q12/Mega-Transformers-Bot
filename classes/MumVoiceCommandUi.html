@@ -145,6 +145,11 @@
                                     <span class="modifier">Async</span>
                                 <a href="#onMessage" >onMessage</a>
                             </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#onModalSubmit" >onModalSubmit</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -180,7 +185,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onMessage(interaction: MessageContextMenuCommandInteraction, dto: <a href="../classes/ModAnnouncementDto.html" target="_self">ModAnnouncementDto</a>)</code>
+                    <code>onMessage(interaction: MessageContextMenuCommandInteraction)</code>
                 </td>
             </tr>
 
@@ -194,8 +199,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="57"
-                                    class="link-to-prism">src/bot/commands/mod-anouncement.command.ts:57</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">src/bot/commands/mod-anouncement.command.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -227,10 +232,75 @@
 
 
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onModalSubmit"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>onModalSubmit</b></span>
+                        <a href="#onModalSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onModalSubmit(interaction: ModalSubmitInteraction)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@On(&#x27;interactionCreate&#x27;)<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/bot/commands/mod-anouncement.command.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
                                         <tr>
-                                                <td>dto</td>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>interaction</td>
                                             <td>
-                                                            <code><a href="../classes/ModAnnouncementDto.html" target="_self" >ModAnnouncementDto</a></code>
+                                                        <code>ModalSubmitInteraction</code>
                                             </td>
 
                                             <td>
@@ -243,7 +313,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </div>
                             <div class="io-description">
@@ -263,11 +333,23 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Command, Handler, IA, InteractionEvent } from &#x27;@discord-nestjs/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Command,
+  Handler,
+  IA,
+  InteractionEvent,
+  On,
+} from &#x27;@discord-nestjs/core&#x27;;
 import {
+  ActionRowBuilder,
   ApplicationCommandType,
   CommandInteraction,
   MessageContextMenuCommandInteraction,
+  ModalActionRowComponentBuilder,
+  ModalBuilder,
+  ModalSubmitInteraction,
+  TextInputBuilder,
+  TextInputStyle,
 } from &#x27;discord.js&#x27;;
 import { ModAnnouncementDto } from &#x27;../dto/mod-anouncement.dto&#x27;;
 import { SlashCommandPipe, ValidationPipe } from &#x27;@discord-nestjs/common&#x27;;
@@ -321,20 +403,49 @@ export class MumVoiceCommandUi {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: MessageContextMenuCommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
   ): Promise&lt;void&gt; {
     try {
+      const modAnnouncementModal &#x3D; new ModalBuilder()
+        .setCustomId(&#x60;mumvoiceui-${interaction.targetMessage.id}&#x60;)
+        .setTitle(&#x27;Nutze Mumvoice die ausgewählte Nachricht&#x27;)
+        .addComponents(
+          new ActionRowBuilder&lt;ModalActionRowComponentBuilder&gt;().addComponents(
+            new TextInputBuilder()
+              .setCustomId(&#x27;modMessage&#x27;)
+              .setPlaceholder(
+                &#x27;Schreibe hier rein warum du diese Nachricht &quot;Mumvoicen&quot; willst.&#x27;,
+              )
+              .setRequired(true)
+              .setStyle(TextInputStyle.Paragraph)
+              .setLabel(&#x27;Mod Ansage :3&#x27;),
+          ),
+        );
+      await interaction.showModal(modAnnouncementModal);
+    } catch (err) {
+      interaction.reply({
+        content: &#x60;Failed to show Dialog: ${err}&#x60;,
+        ephemeral: true,
+      });
+    }
+  }
+  @On(&#x27;interactionCreate&#x27;)
+  async onModalSubmit(interaction: ModalSubmitInteraction) {
+    if (!interaction.isModalSubmit()) return;
+    const [modal, messageId] &#x3D; interaction.customId.split(&#x27;-&#x27;);
+    if (modal !&#x3D; &#x27;mumvoiceui&#x27;) return;
+    const modMessage &#x3D; interaction.fields.getTextInputValue(&#x27;modMessage&#x27;);
+    try {
       await interaction.channel.send({
-        content: dto.message,
+        content: modMessage,
         reply: {
-          messageReference: interaction.targetMessage.id,
+          messageReference: messageId,
           failIfNotExists: true,
         },
       });
     } catch (err) {
       interaction.reply({
         content: &#x60;Failed to send message in this channel with error: ${err} and message:
-          ${dto.message}&#x60;,
+          ${modMessage}&#x60;,
         ephemeral: true,
       });
     }

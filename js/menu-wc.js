@@ -247,9 +247,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <a href="injectables/GuildService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >GuildService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/ModRequestFlow.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ModRequestFlow</a>
-                                        </li>
-                                        <li class="link">
                                             <a href="injectables/PrismaService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PrismaService</a>
                                         </li>
                                     </ul>
@@ -589,6 +586,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ModAnnouncementDto.html" data-type="entity-link" >ModAnnouncementDto</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ModRequestFlow.html" data-type="entity-link" >ModRequestFlow</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/MumVoiceCommandChatInput.html" data-type="entity-link" >MumVoiceCommandChatInput</a>
                             </li>
                             <li class="link">
@@ -696,9 +696,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/JwtAuthGuard.html" data-type="entity-link" >JwtAuthGuard</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/ModRequestFlow.html" data-type="entity-link" >ModRequestFlow</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/RefreshJwtGuard.html" data-type="entity-link" >RefreshJwtGuard</a>
