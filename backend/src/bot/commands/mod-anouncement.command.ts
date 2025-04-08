@@ -45,7 +45,7 @@ export class MumVoiceCommandChatInput {
         await interaction.channel.send({
           content: dto.message,
         });
-      interaction.followUp({
+      await interaction.followUp({
         content: 'Done!',
         ephemeral: true,
       });
