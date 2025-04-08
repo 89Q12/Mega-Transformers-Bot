@@ -310,12 +310,12 @@ export class MumVoiceCommandChatInput {
         await interaction.channel.send({
           content: dto.message,
         });
-      interaction.reply({
+      interaction.followUp({
         content: &#x27;Done!&#x27;,
         ephemeral: true,
       });
     } catch (err) {
-      interaction.reply({
+      interaction.followUp({
         content: &#x60;Failed to send message in this channel with error: ${err} and message:
           ${dto.message}&#x60;,
         ephemeral: true,
@@ -337,7 +337,7 @@ export class MumVoiceCommandUi {
     try {
       const modAnnouncementModal &#x3D; new ModalBuilder()
         .setCustomId(&#x60;mumvoiceui-${interaction.targetMessage.id}&#x60;)
-        .setTitle(&#x27;Nutze Mumvoice die ausgewählte Nachricht&#x27;)
+        .setTitle(&#x27;Nutze Mumvoice auf die ausgewählte Nachricht!&#x27;)
         .addComponents(
           new ActionRowBuilder&lt;ModalActionRowComponentBuilder&gt;().addComponents(
             new TextInputBuilder()
@@ -363,6 +363,9 @@ export class MumVoiceCommandUi {
     if (!interaction.isModalSubmit()) return;
     const [modal, messageId] &#x3D; interaction.customId.split(&#x27;-&#x27;);
     if (modal !&#x3D; &#x27;mumvoiceui&#x27;) return;
+    await interaction.deferReply({
+      ephemeral: true,
+    });
     const modMessage &#x3D; interaction.fields.getTextInputValue(&#x27;modMessage&#x27;);
     try {
       await interaction.channel.send({
@@ -372,6 +375,7 @@ export class MumVoiceCommandUi {
           failIfNotExists: true,
         },
       });
+      interaction.reply(&#x27;Done&#x27;);
     } catch (err) {
       interaction.reply({
         content: &#x60;Failed to send message in this channel with error: ${err} and message:

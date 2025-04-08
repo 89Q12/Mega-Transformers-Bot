@@ -24,13 +24,13 @@
 <title>cluster_GuildAutoDeleteChannelModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 1421,-268 1421,-70 8,-70"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_GuildAutoDeleteChannelModule_exports</title>
-<polygon fill="none" stroke="black" points="480,-208 480,-260 700,-260 700,-208 480,-208"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_GuildAutoDeleteChannelModule_providers</title>
 <polygon fill="none" stroke="black" points="16,-78 16,-130 1413,-130 1413,-78 16,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_GuildAutoDeleteChannelModule_exports</title>
+<polygon fill="none" stroke="black" points="480,-208 480,-260 700,-260 700,-208 480,-208"/>
 </g>
 <!-- GuildAutoDeleteChannelService  -->
 <g id="node1" class="node">

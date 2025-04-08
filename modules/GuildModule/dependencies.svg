@@ -24,167 +24,167 @@
 <title>cluster_GuildModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 2086,-268 2086,-70 8,-70"/>
 </g>
+<g id="clust3" class="cluster">
+<title>cluster_GuildModule_imports</title>
+<polygon fill="none" stroke="black" points="1214,-78 1214,-130 2078,-130 2078,-78 1214,-78"/>
+</g>
 <g id="clust4" class="cluster">
 <title>cluster_GuildModule_exports</title>
-<polygon fill="none" stroke="black" points="908,-208 908,-260 1018,-260 1018,-208 908,-208"/>
+<polygon fill="none" stroke="black" points="1053,-208 1053,-260 1163,-260 1163,-208 1053,-208"/>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_GuildModule_providers</title>
-<polygon fill="none" stroke="black" points="888,-78 888,-130 2078,-130 2078,-78 888,-78"/>
-</g>
-<g id="clust3" class="cluster">
-<title>cluster_GuildModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 880,-130 880,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 1206,-130 1206,-78 16,-78"/>
 </g>
 <!-- GuildAutoDeleteChannelModule -->
 <g id="node1" class="node">
 <title>GuildAutoDeleteChannelModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="872.12,-122 869.12,-126 848.12,-126 845.12,-122 669.88,-122 669.88,-86 872.12,-86 872.12,-122"/>
-<text text-anchor="middle" x="771" y="-99.8" font-family="Times,serif" font-size="14.00">GuildAutoDeleteChannelModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="2070.12,-122 2067.12,-126 2046.12,-126 2043.12,-122 1867.88,-122 1867.88,-86 2070.12,-86 2070.12,-122"/>
+<text text-anchor="middle" x="1969" y="-99.8" font-family="Times,serif" font-size="14.00">GuildAutoDeleteChannelModule</text>
 </g>
 <!-- GuildModule -->
 <g id="node6" class="node">
 <title>GuildModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="1008.94,-187 1005.94,-191 984.94,-191 981.94,-187 917.06,-187 917.06,-151 1008.94,-151 1008.94,-187"/>
-<text text-anchor="middle" x="963" y="-164.8" font-family="Times,serif" font-size="14.00">GuildModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1153.94,-187 1150.94,-191 1129.94,-191 1126.94,-187 1062.06,-187 1062.06,-151 1153.94,-151 1153.94,-187"/>
+<text text-anchor="middle" x="1108" y="-164.8" font-family="Times,serif" font-size="14.00">GuildModule</text>
 </g>
 <!-- GuildAutoDeleteChannelModule&#45;&gt;GuildModule -->
 <g id="edge1" class="edge">
 <title>GuildAutoDeleteChannelModule&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M771,-122.24C771,-137.57 771,-157 771,-157 771,-157 907.01,-157 907.01,-157"/>
-<polygon fill="black" stroke="black" points="907.01,-160.5 917.01,-157 907.01,-153.5 907.01,-160.5"/>
+<path fill="none" stroke="black" d="M1969,-122.25C1969,-145.02 1969,-181 1969,-181 1969,-181 1163.99,-181 1163.99,-181"/>
+<polygon fill="black" stroke="black" points="1163.99,-177.5 1153.99,-181 1163.99,-184.5 1163.99,-177.5"/>
 </g>
 <!-- GuildRestrictedChannelModule -->
 <g id="node2" class="node">
 <title>GuildRestrictedChannelModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="651.35,-122 648.35,-126 627.35,-126 624.35,-122 456.65,-122 456.65,-86 651.35,-86 651.35,-122"/>
-<text text-anchor="middle" x="554" y="-99.8" font-family="Times,serif" font-size="14.00">GuildRestrictedChannelModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1849.35,-122 1846.35,-126 1825.35,-126 1822.35,-122 1654.65,-122 1654.65,-86 1849.35,-86 1849.35,-122"/>
+<text text-anchor="middle" x="1752" y="-99.8" font-family="Times,serif" font-size="14.00">GuildRestrictedChannelModule</text>
 </g>
 <!-- GuildRestrictedChannelModule&#45;&gt;GuildModule -->
 <g id="edge2" class="edge">
 <title>GuildRestrictedChannelModule&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M554,-122.02C554,-139.37 554,-163 554,-163 554,-163 907.27,-163 907.27,-163"/>
-<polygon fill="black" stroke="black" points="907.27,-166.5 917.27,-163 907.27,-159.5 907.27,-166.5"/>
+<path fill="none" stroke="black" d="M1752,-122.28C1752,-143.32 1752,-175 1752,-175 1752,-175 1163.8,-175 1163.8,-175"/>
+<polygon fill="black" stroke="black" points="1163.8,-171.5 1153.8,-175 1163.8,-178.5 1163.8,-171.5"/>
 </g>
 <!-- GuildSettingsModule -->
 <g id="node3" class="node">
 <title>GuildSettingsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="438.05,-122 435.05,-126 414.05,-126 411.05,-122 301.95,-122 301.95,-86 438.05,-86 438.05,-122"/>
-<text text-anchor="middle" x="370" y="-99.8" font-family="Times,serif" font-size="14.00">GuildSettingsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1636.05,-122 1633.05,-126 1612.05,-126 1609.05,-122 1499.95,-122 1499.95,-86 1636.05,-86 1636.05,-122"/>
+<text text-anchor="middle" x="1568" y="-99.8" font-family="Times,serif" font-size="14.00">GuildSettingsModule</text>
 </g>
 <!-- GuildSettingsModule&#45;&gt;GuildModule -->
 <g id="edge3" class="edge">
 <title>GuildSettingsModule&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M370,-122.11C370,-141.34 370,-169 370,-169 370,-169 906.96,-169 906.96,-169"/>
-<polygon fill="black" stroke="black" points="906.96,-172.5 916.96,-169 906.96,-165.5 906.96,-172.5"/>
+<path fill="none" stroke="black" d="M1568,-122.11C1568,-141.34 1568,-169 1568,-169 1568,-169 1163.79,-169 1163.79,-169"/>
+<polygon fill="black" stroke="black" points="1163.79,-165.5 1153.79,-169 1163.79,-172.5 1163.79,-165.5"/>
 </g>
 <!-- GuildUserModule -->
 <g id="node4" class="node">
 <title>GuildUserModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="283.86,-122 280.86,-126 259.86,-126 256.86,-122 166.14,-122 166.14,-86 283.86,-86 283.86,-122"/>
-<text text-anchor="middle" x="225" y="-99.8" font-family="Times,serif" font-size="14.00">GuildUserModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1481.86,-122 1478.86,-126 1457.86,-126 1454.86,-122 1364.14,-122 1364.14,-86 1481.86,-86 1481.86,-122"/>
+<text text-anchor="middle" x="1423" y="-99.8" font-family="Times,serif" font-size="14.00">GuildUserModule</text>
 </g>
 <!-- GuildUserModule&#45;&gt;GuildModule -->
 <g id="edge4" class="edge">
 <title>GuildUserModule&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M225,-122.28C225,-143.32 225,-175 225,-175 225,-175 907.11,-175 907.11,-175"/>
-<polygon fill="black" stroke="black" points="907.11,-178.5 917.11,-175 907.11,-171.5 907.11,-178.5"/>
+<path fill="none" stroke="black" d="M1423,-122.02C1423,-139.37 1423,-163 1423,-163 1423,-163 1163.8,-163 1163.8,-163"/>
+<polygon fill="black" stroke="black" points="1163.8,-159.5 1153.8,-163 1163.8,-166.5 1163.8,-159.5"/>
 </g>
 <!-- ModerationModule -->
 <g id="node5" class="node">
 <title>ModerationModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="148.37,-122 145.37,-126 124.37,-126 121.37,-122 23.63,-122 23.63,-86 148.37,-86 148.37,-122"/>
-<text text-anchor="middle" x="86" y="-99.8" font-family="Times,serif" font-size="14.00">ModerationModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1346.37,-122 1343.37,-126 1322.37,-126 1319.37,-122 1221.63,-122 1221.63,-86 1346.37,-86 1346.37,-122"/>
+<text text-anchor="middle" x="1284" y="-99.8" font-family="Times,serif" font-size="14.00">ModerationModule</text>
 </g>
 <!-- ModerationModule&#45;&gt;GuildModule -->
 <g id="edge5" class="edge">
 <title>ModerationModule&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M86,-122.25C86,-145.02 86,-181 86,-181 86,-181 907.08,-181 907.08,-181"/>
-<polygon fill="black" stroke="black" points="907.08,-184.5 917.08,-181 907.08,-177.5 907.08,-184.5"/>
+<path fill="none" stroke="black" d="M1284,-122.24C1284,-137.57 1284,-157 1284,-157 1284,-157 1163.78,-157 1163.78,-157"/>
+<polygon fill="black" stroke="black" points="1163.78,-153.5 1153.78,-157 1163.78,-160.5 1163.78,-153.5"/>
 </g>
 <!-- GuildService  -->
 <g id="node7" class="node">
 <title>GuildService </title>
-<polygon fill="#fb8072" stroke="black" points="1009.87,-252 916.13,-252 916.13,-216 1009.87,-216 1009.87,-252"/>
-<text text-anchor="middle" x="963" y="-229.8" font-family="Times,serif" font-size="14.00">GuildService </text>
+<polygon fill="#fb8072" stroke="black" points="1154.87,-252 1061.13,-252 1061.13,-216 1154.87,-216 1154.87,-252"/>
+<text text-anchor="middle" x="1108" y="-229.8" font-family="Times,serif" font-size="14.00">GuildService </text>
 </g>
 <!-- GuildModule&#45;&gt;GuildService  -->
 <g id="edge6" class="edge">
 <title>GuildModule&#45;&gt;GuildService </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M963,-187.11C963,-187.11 963,-205.99 963,-205.99"/>
-<polygon fill="black" stroke="black" points="959.5,-205.99 963,-215.99 966.5,-205.99 959.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M1108,-187.11C1108,-187.11 1108,-205.99 1108,-205.99"/>
+<polygon fill="black" stroke="black" points="1104.5,-205.99 1108,-215.99 1111.5,-205.99 1104.5,-205.99"/>
 </g>
 <!-- DmMessageHandler -->
 <g id="node8" class="node">
 <title>DmMessageHandler</title>
-<ellipse fill="#fdb462" stroke="black" cx="1980" cy="-104" rx="90.31" ry="18"/>
-<text text-anchor="middle" x="1980" y="-99.8" font-family="Times,serif" font-size="14.00">DmMessageHandler</text>
+<ellipse fill="#fdb462" stroke="black" cx="1108" cy="-104" rx="90.31" ry="18"/>
+<text text-anchor="middle" x="1108" y="-99.8" font-family="Times,serif" font-size="14.00">DmMessageHandler</text>
 </g>
 <!-- DmMessageHandler&#45;&gt;GuildModule -->
 <g id="edge7" class="edge">
 <title>DmMessageHandler&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M1980,-122.25C1980,-145.02 1980,-181 1980,-181 1980,-181 1019.01,-181 1019.01,-181"/>
-<polygon fill="black" stroke="black" points="1019.01,-177.5 1009.01,-181 1019.01,-184.5 1019.01,-177.5"/>
+<path fill="none" stroke="black" d="M1108,-122.11C1108,-122.11 1108,-140.99 1108,-140.99"/>
+<polygon fill="black" stroke="black" points="1104.5,-140.99 1108,-150.99 1111.5,-140.99 1104.5,-140.99"/>
 </g>
 <!-- GuildMemberEvents -->
 <g id="node9" class="node">
 <title>GuildMemberEvents</title>
-<ellipse fill="#fdb462" stroke="black" cx="1780" cy="-104" rx="92.05" ry="18"/>
-<text text-anchor="middle" x="1780" y="-99.8" font-family="Times,serif" font-size="14.00">GuildMemberEvents</text>
+<ellipse fill="#fdb462" stroke="black" cx="908" cy="-104" rx="92.05" ry="18"/>
+<text text-anchor="middle" x="908" y="-99.8" font-family="Times,serif" font-size="14.00">GuildMemberEvents</text>
 </g>
 <!-- GuildMemberEvents&#45;&gt;GuildModule -->
 <g id="edge8" class="edge">
 <title>GuildMemberEvents&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M1780,-122.28C1780,-143.32 1780,-175 1780,-175 1780,-175 1018.97,-175 1018.97,-175"/>
-<polygon fill="black" stroke="black" points="1018.97,-171.5 1008.97,-175 1018.97,-178.5 1018.97,-171.5"/>
+<path fill="none" stroke="black" d="M908,-122.24C908,-137.57 908,-157 908,-157 908,-157 1052.12,-157 1052.12,-157"/>
+<polygon fill="black" stroke="black" points="1052.12,-160.5 1062.12,-157 1052.12,-153.5 1052.12,-160.5"/>
 </g>
 <!-- GuildMessageHandler -->
 <g id="node10" class="node">
 <title>GuildMessageHandler</title>
-<ellipse fill="#fdb462" stroke="black" cx="1572" cy="-104" rx="97.83" ry="18"/>
-<text text-anchor="middle" x="1572" y="-99.8" font-family="Times,serif" font-size="14.00">GuildMessageHandler</text>
+<ellipse fill="#fdb462" stroke="black" cx="700" cy="-104" rx="97.83" ry="18"/>
+<text text-anchor="middle" x="700" y="-99.8" font-family="Times,serif" font-size="14.00">GuildMessageHandler</text>
 </g>
 <!-- GuildMessageHandler&#45;&gt;GuildModule -->
 <g id="edge9" class="edge">
 <title>GuildMessageHandler&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M1572,-122.11C1572,-141.34 1572,-169 1572,-169 1572,-169 1018.77,-169 1018.77,-169"/>
-<polygon fill="black" stroke="black" points="1018.77,-165.5 1008.77,-169 1018.77,-172.5 1018.77,-165.5"/>
+<path fill="none" stroke="black" d="M700,-122.02C700,-139.37 700,-163 700,-163 700,-163 1051.99,-163 1051.99,-163"/>
+<polygon fill="black" stroke="black" points="1051.99,-166.5 1061.99,-163 1051.99,-159.5 1051.99,-166.5"/>
 </g>
 <!-- GuildRestrictedChannelService -->
 <g id="node11" class="node">
 <title>GuildRestrictedChannelService</title>
-<ellipse fill="#fdb462" stroke="black" cx="1323" cy="-104" rx="133.14" ry="18"/>
-<text text-anchor="middle" x="1323" y="-99.8" font-family="Times,serif" font-size="14.00">GuildRestrictedChannelService</text>
+<ellipse fill="#fdb462" stroke="black" cx="451" cy="-104" rx="133.14" ry="18"/>
+<text text-anchor="middle" x="451" y="-99.8" font-family="Times,serif" font-size="14.00">GuildRestrictedChannelService</text>
 </g>
 <!-- GuildRestrictedChannelService&#45;&gt;GuildModule -->
 <g id="edge10" class="edge">
 <title>GuildRestrictedChannelService&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M1323,-122.02C1323,-139.37 1323,-163 1323,-163 1323,-163 1018.96,-163 1018.96,-163"/>
-<polygon fill="black" stroke="black" points="1018.96,-159.5 1008.96,-163 1018.96,-166.5 1018.96,-159.5"/>
+<path fill="none" stroke="black" d="M451,-122.11C451,-141.34 451,-169 451,-169 451,-169 1052.06,-169 1052.06,-169"/>
+<polygon fill="black" stroke="black" points="1052.06,-172.5 1062.06,-169 1052.06,-165.5 1052.06,-172.5"/>
 </g>
 <!-- GuildService -->
 <g id="node12" class="node">
 <title>GuildService</title>
-<ellipse fill="#fdb462" stroke="black" cx="1110" cy="-104" rx="61.98" ry="18"/>
-<text text-anchor="middle" x="1110" y="-99.8" font-family="Times,serif" font-size="14.00">GuildService</text>
+<ellipse fill="#fdb462" stroke="black" cx="238" cy="-104" rx="61.98" ry="18"/>
+<text text-anchor="middle" x="238" y="-99.8" font-family="Times,serif" font-size="14.00">GuildService</text>
 </g>
 <!-- GuildService&#45;&gt;GuildModule -->
 <g id="edge11" class="edge">
 <title>GuildService&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M1110,-122.24C1110,-137.57 1110,-157 1110,-157 1110,-157 1019.11,-157 1019.11,-157"/>
-<polygon fill="black" stroke="black" points="1019.11,-153.5 1009.11,-157 1019.11,-160.5 1019.11,-153.5"/>
+<path fill="none" stroke="black" d="M238,-122.28C238,-143.32 238,-175 238,-175 238,-175 1052.15,-175 1052.15,-175"/>
+<polygon fill="black" stroke="black" points="1052.15,-178.5 1062.15,-175 1052.15,-171.5 1052.15,-178.5"/>
 </g>
 <!-- PrismaService -->
 <g id="node13" class="node">
 <title>PrismaService</title>
-<ellipse fill="#fdb462" stroke="black" cx="963" cy="-104" rx="66.63" ry="18"/>
-<text text-anchor="middle" x="963" y="-99.8" font-family="Times,serif" font-size="14.00">PrismaService</text>
+<ellipse fill="#fdb462" stroke="black" cx="91" cy="-104" rx="66.63" ry="18"/>
+<text text-anchor="middle" x="91" y="-99.8" font-family="Times,serif" font-size="14.00">PrismaService</text>
 </g>
 <!-- PrismaService&#45;&gt;GuildModule -->
 <g id="edge12" class="edge">
 <title>PrismaService&#45;&gt;GuildModule</title>
-<path fill="none" stroke="black" d="M963,-122.11C963,-122.11 963,-140.99 963,-140.99"/>
-<polygon fill="black" stroke="black" points="959.5,-140.99 963,-150.99 966.5,-140.99 959.5,-140.99"/>
+<path fill="none" stroke="black" d="M91,-122.25C91,-145.02 91,-181 91,-181 91,-181 1051.99,-181 1051.99,-181"/>
+<polygon fill="black" stroke="black" points="1051.99,-184.5 1061.99,-181 1051.99,-177.5 1051.99,-184.5"/>
 </g>
 </g>
 </svg>
