@@ -1,8 +1,20 @@
-import { Command, Handler, IA, InteractionEvent } from '@discord-nestjs/core';
 import {
+  Command,
+  Handler,
+  IA,
+  InteractionEvent,
+  On,
+} from '@discord-nestjs/core';
+import {
+  ActionRowBuilder,
   ApplicationCommandType,
   CommandInteraction,
   MessageContextMenuCommandInteraction,
+  ModalActionRowComponentBuilder,
+  ModalBuilder,
+  ModalSubmitInteraction,
+  TextInputBuilder,
+  TextInputStyle,
 } from 'discord.js';
 import { ModAnnouncementDto } from '../dto/mod-anouncement.dto';
 import { SlashCommandPipe, ValidationPipe } from '@discord-nestjs/common';
@@ -56,20 +68,49 @@ export class MumVoiceCommandUi {
   @Handler()
   async onMessage(
     @InteractionEvent() interaction: MessageContextMenuCommandInteraction,
-    @IA(SlashCommandPipe, ValidationPipe) dto: ModAnnouncementDto,
   ): Promise<void> {
     try {
+      const modAnnouncementModal = new ModalBuilder()
+        .setCustomId(`mumvoiceui-${interaction.targetMessage.id}`)
+        .setTitle('Nutze Mumvoice die ausgewählte Nachricht')
+        .addComponents(
+          new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(
+            new TextInputBuilder()
+              .setCustomId('modMessage')
+              .setPlaceholder(
+                'Schreibe hier rein warum du diese Nachricht "Mumvoicen" willst.',
+              )
+              .setRequired(true)
+              .setStyle(TextInputStyle.Paragraph)
+              .setLabel('Mod Ansage :3'),
+          ),
+        );
+      await interaction.showModal(modAnnouncementModal);
+    } catch (err) {
+      interaction.reply({
+        content: `Failed to show Dialog: ${err}`,
+        ephemeral: true,
+      });
+    }
+  }
+  @On('interactionCreate')
+  async onModalSubmit(interaction: ModalSubmitInteraction) {
+    if (!interaction.isModalSubmit()) return;
+    const [modal, messageId] = interaction.customId.split('-');
+    if (modal != 'mumvoiceui') return;
+    const modMessage = interaction.fields.getTextInputValue('modMessage');
+    try {
       await interaction.channel.send({
-        content: dto.message,
+        content: modMessage,
         reply: {
-          messageReference: interaction.targetMessage.id,
+          messageReference: messageId,
           failIfNotExists: true,
         },
       });
     } catch (err) {
       interaction.reply({
         content: `Failed to send message in this channel with error: ${err} and message:
-          ${dto.message}`,
+          ${modMessage}`,
         ephemeral: true,
       });
     }
