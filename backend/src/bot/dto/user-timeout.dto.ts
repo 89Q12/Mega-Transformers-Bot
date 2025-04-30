@@ -29,7 +29,7 @@ export default class UserTimeOutDto {
   // Hacky way to both transform the value and validate it, in one step :D
   @Transform(({ value }) => {
     if (
-      !/\b(\d{1,}[d])(\d{1,}[h])\b|\b(\d{1,}[h])(\d{1,}[m])\b|\b(\d{1,}[d])(\d{1,}[m])\b|\b(\d{1,}[dhm])\b|\b(\d{1,}[d])(\d{1,}[h])(\d{1,}[m])/.test(
+      !/\b(\d+d)(\d+h)\b|\b(\d+h)(\d+m)\b|\b(\d+d)(\d+m)\b|\b(\d+[dhm])\b|\b(\d+d)(\d+h)(\d+m)/.test(
         value.trim(),
       )
     )
@@ -39,7 +39,7 @@ export default class UserTimeOutDto {
     let _minutes = '0';
     (value as string)
       .match(
-        /\b(\d{1,}[d])(\d{1,}[h])\b|\b(\d{1,}[h])(\d{1,}[m])\b|\b(\d{1,}[d])(\d{1,}[m])\b|\b(\d{1,}[dhm])\b|\b(\d{1,}[d])(\d{1,}[h])(\d{1,}[m])/g,
+        /\b(\d+d)(\d+h)\b|\b(\d+h)(\d+m)\b|\b(\d+d)(\d+m)\b|\b(\d+[dhm])\b|\b(\d+d)(\d+h)(\d+m)/g,
       )
       .forEach((match) => {
         if (match.endsWith('d')) _days = match.replace('d', '');
