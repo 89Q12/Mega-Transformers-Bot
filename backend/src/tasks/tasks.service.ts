@@ -177,9 +177,10 @@ export class TasksService {
         const channel = (await (
           await this.client.guilds.fetch(ticket.guildId)
         ).channels.fetch(ticket.ticketId)) as GuildTextBasedChannel;
+
         if (
           new Date(new Date().setDate(new Date().getDate() - 7)) >
-          new Date(channel.lastMessage.createdTimestamp)
+          new Date((await channel.lastMessage.fetch()).createdTimestamp)
         ) {
           try {
             await (channel as BaseGuildTextChannel).permissionOverwrites.delete(

@@ -73,6 +73,7 @@ export class ModRequestFlow {
             PermissionFlagsBits.SendMessages,
             PermissionFlagsBits.ReadMessageHistory,
             PermissionFlagsBits.AddReactions,
+            PermissionFlagsBits.AttachFiles,
           ],
         },
         {

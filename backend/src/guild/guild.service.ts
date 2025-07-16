@@ -63,6 +63,7 @@ export class GuildService {
     if (dryRun)
       return {
         membersToKick: members,
+        unkickableMembers: [],
       };
     const unkickableMembers: Array<GuildMember> = [];
     members.forEach(async (member) => {
