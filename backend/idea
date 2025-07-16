@@ -1,0 +1,8 @@
+- Display button in new "an die mods" channel
+- Button press -> Modal like the current one in dm chat
+- instead of current behavior, open a new channel between user <> mod team
+- create a ticket in the db, for tracking the lifecycle of a message 
+- post modal content to channel
+- add to button to close the ticket attached to the above message
+- Background job that closes ticket after a week without replies
+- when closed, archive the channel in a separate ticketsystem archive category
