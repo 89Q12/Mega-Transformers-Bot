@@ -283,8 +283,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="219"
-                                    class="link-to-prism">src/guild/guild.service.ts:219</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="223"
+                                    class="link-to-prism">src/guild/guild.service.ts:223</a></div>
                         </td>
                     </tr>
 
@@ -365,8 +365,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="230"
-                                    class="link-to-prism">src/guild/guild.service.ts:230</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">src/guild/guild.service.ts:234</a></div>
                         </td>
                     </tr>
 
@@ -446,8 +446,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="108"
-                                    class="link-to-prism">src/guild/guild.service.ts:108</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/guild/guild.service.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -556,8 +556,8 @@ avgMessageCount DESC;</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="166"
-                                    class="link-to-prism">src/guild/guild.service.ts:166</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="170"
+                                    class="link-to-prism">src/guild/guild.service.ts:170</a></div>
                         </td>
                     </tr>
 
@@ -632,8 +632,8 @@ avgMessageCount DESC;</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="42"
-                                    class="link-to-prism">src/guild/guild.service.ts:42</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">src/guild/guild.service.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -727,8 +727,8 @@ avgMessageCount DESC;</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="243"
-                                    class="link-to-prism">src/guild/guild.service.ts:243</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">src/guild/guild.service.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -769,8 +769,8 @@ Sets up all guilds in the database if they dont already exist there or updates t
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="199"
-                                    class="link-to-prism">src/guild/guild.service.ts:199</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/guild/guild.service.ts:203</a></div>
                         </td>
                     </tr>
 
@@ -920,28 +920,32 @@ export class GuildService {
   ) {}
 
   async upsertGuild(guildId: string, data: Omit&lt;Partial&lt;Guild&gt;, &#x27;id&#x27;&gt;) {
-    return await this.database.guild.upsert({
-      where: {
-        id: guildId,
-      },
-      select: {
-        AuditLog: true,
-        Settings: true,
-        AutoDeleteChannels: true,
-        RestrictedChannels: true,
-        Limits: true,
-      },
-      create: {
-        id: guildId,
-        Settings: {
-          create: {},
+    try {
+      return await this.database.guild.upsert({
+        where: {
+          id: guildId,
         },
-        ...data,
-      },
-      update: {
-        ...data,
-      },
-    });
+        select: {
+          AuditLog: true,
+          Settings: true,
+          AutoDeleteChannels: true,
+          RestrictedChannels: true,
+          Limits: true,
+        },
+        create: {
+          id: guildId,
+          Settings: {
+            create: {},
+          },
+          ...data,
+        },
+        update: {
+          ...data,
+        },
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   async cleanWfpMembers(
