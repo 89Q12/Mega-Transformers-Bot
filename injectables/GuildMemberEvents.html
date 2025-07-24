@@ -325,8 +325,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="48"
-                                    class="link-to-prism">src/guild/events/guild-members/index.ts:48</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="55"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -403,8 +403,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="143"
-                                    class="link-to-prism">src/guild/events/guild-members/index.ts:143</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="150"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:150</a></div>
                         </td>
                     </tr>
 
@@ -539,8 +539,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="58"
-                                    class="link-to-prism">src/guild/events/guild-members/index.ts:58</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -617,8 +617,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="69"
-                                    class="link-to-prism">src/guild/events/guild-members/index.ts:69</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="76"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -694,8 +694,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="125"
-                                    class="link-to-prism">src/guild/events/guild-members/index.ts:125</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/guild/events/guild-members/index.ts:132</a></div>
                         </td>
                     </tr>
 
@@ -824,16 +824,23 @@ export class GuildMemberEvents {
     @Inject(PrismaService) private database: PrismaService,
   ) {}
 
-  // Runs whenever the discordjs websocket gets recreated
+  // Runs whenever the discordjs websocket gets (re)created
   @On(&#x27;ready&#x27;)
   async onReady(): Promise&lt;void | Error&gt; {
-    await this.client.guilds.fetch();
-    this.client.guilds.cache.forEach(async (guild) &#x3D;&gt; {
-      await this.guildService.upsertGuild(guild.id, {
-        name: guild.name,
+    // This will always fail, why? IDK FUCKING KNOW and I&#x27;m fed up with this project
+    // return await this.database.guild.upsert(
+    // Failed to convert rust &#x60;String&#x60; into napi &#x60;string&#x60;
+    try {
+      await this.client.guilds.fetch();
+      this.client.guilds.cache.forEach(async (guild) &#x3D;&gt; {
+        await this.guildService.upsertGuild(guild.id, {
+          name: guild.name,
+        });
+        this.guildUserService.addMembers(guild.id);
       });
-      this.guildUserService.addMembers(guild.id);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @On(&#x27;guildMemberAdd&#x27;)
