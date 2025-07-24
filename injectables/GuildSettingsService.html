@@ -1038,7 +1038,7 @@
 import { PrismaService } from &#x27;src/prisma.service&#x27;;
 import { Settings } from &#x27;@prisma/client&#x27;;
 import { GuildDoesNotExistException } from &#x27;../../util/exception/guild-does-not-exist-exception&#x27;;
-import { omit } from &#x27;rambda/immutable&#x27;;
+import { omit, pipe } from &#x27;rambda&#x27;;
 import { EventEmitter2 } from &#x27;@nestjs/event-emitter&#x27;;
 import { SettingsChanged } from &#x27;./events/settings-role-id-changed.event&#x27;;
 import { Message, userMention, quote } from &#x27;discord.js&#x27;;
@@ -1071,7 +1071,7 @@ export class GuildSettingsService {
     if (!settings) {
       throw new GuildDoesNotExistException(guildId);
     }
-    return omit([&#x27;guildId&#x27;], settings);
+    return pipe(settings, omit([&#x27;guildId&#x27;]));
   }
 
   async getVerifiedMemberRoleId(guildId: string) {
