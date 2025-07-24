@@ -32,16 +32,23 @@ export class GuildMemberEvents {
     @Inject(PrismaService) private database: PrismaService,
   ) {}
 
-  // Runs whenever the discordjs websocket gets recreated
+  // Runs whenever the discordjs websocket gets (re)created
   @On('ready')
   async onReady(): Promise<void | Error> {
-    await this.client.guilds.fetch();
-    this.client.guilds.cache.forEach(async (guild) => {
-      await this.guildService.upsertGuild(guild.id, {
-        name: guild.name,
+    // This will always fail, why? IDK FUCKING KNOW and I'm fed up with this project
+    // return await this.database.guild.upsert(
+    // Failed to convert rust `String` into napi `string`
+    try {
+      await this.client.guilds.fetch();
+      this.client.guilds.cache.forEach(async (guild) => {
+        await this.guildService.upsertGuild(guild.id, {
+          name: guild.name,
+        });
+        this.guildUserService.addMembers(guild.id);
       });
-      this.guildUserService.addMembers(guild.id);
-    });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   @On('guildMemberAdd')
