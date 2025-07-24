@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Settings } from '@prisma/client';
 import { GuildDoesNotExistException } from '../../util/exception/guild-does-not-exist-exception';
-import { omit } from 'rambda/immutable';
+import { omit, pipe } from 'rambda';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SettingsChanged } from './events/settings-role-id-changed.event';
 import { Message, userMention, quote } from 'discord.js';
@@ -35,7 +35,7 @@ export class GuildSettingsService {
     if (!settings) {
       throw new GuildDoesNotExistException(guildId);
     }
-    return omit(['guildId'], settings);
+    return pipe(settings, omit(['guildId']));
   }
 
   async getVerifiedMemberRoleId(guildId: string) {
