@@ -15,28 +15,32 @@ export class GuildService {
   ) {}
 
   async upsertGuild(guildId: string, data: Omit<Partial<Guild>, 'id'>) {
-    return await this.database.guild.upsert({
-      where: {
-        id: guildId,
-      },
-      select: {
-        AuditLog: true,
-        Settings: true,
-        AutoDeleteChannels: true,
-        RestrictedChannels: true,
-        Limits: true,
-      },
-      create: {
-        id: guildId,
-        Settings: {
-          create: {},
+    try {
+      return await this.database.guild.upsert({
+        where: {
+          id: guildId,
         },
-        ...data,
-      },
-      update: {
-        ...data,
-      },
-    });
+        select: {
+          AuditLog: true,
+          Settings: true,
+          AutoDeleteChannels: true,
+          RestrictedChannels: true,
+          Limits: true,
+        },
+        create: {
+          id: guildId,
+          Settings: {
+            create: {},
+          },
+          ...data,
+        },
+        update: {
+          ...data,
+        },
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   async cleanWfpMembers(
