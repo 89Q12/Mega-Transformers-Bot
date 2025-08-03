@@ -265,6 +265,7 @@ import { CleanWfpMember } from &#x27;./commands/clean-wfp.command&#x27;;
 import { GuildService } from &#x27;src/guild/guild.service&#x27;;
 import { SpecialCommand } from &#x27;./commands/special.command&#x27;;
 import { TicketSystemSetupCommand } from &#x27;./commands/ticket-system.command&#x27;;
+import { PurgeCommand } from &#x27;./commands/purge-user.command&#x27;;
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -284,6 +285,7 @@ import { TicketSystemSetupCommand } from &#x27;./commands/ticket-system.command&
     SpecialCommand,
     TicketSystemSetupCommand,
     MumVoiceCommandUi,
+    PurgeCommand,
   ],
   exports: [DiscordModule],
 })

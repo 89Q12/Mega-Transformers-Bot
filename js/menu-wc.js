@@ -135,13 +135,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BotModule.html" data-type="entity-link" >BotModule</a>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-bs-toggle="collapse" ${ isNormalMode ?
-                                        'data-bs-target="#injectables-links-module-BotModule-f7e1f23b9fac3b77172cc86f278c13ce78d2176b7ab98b5eac0e7720a4cb03c3b065b70a0246b26c4ab3ad1bdaaa7d2133f0e3f6db3a6c2b272accc075957e81"' : 'data-bs-target="#xs-injectables-links-module-BotModule-f7e1f23b9fac3b77172cc86f278c13ce78d2176b7ab98b5eac0e7720a4cb03c3b065b70a0246b26c4ab3ad1bdaaa7d2133f0e3f6db3a6c2b272accc075957e81"' }>
+                                        'data-bs-target="#injectables-links-module-BotModule-27312940c20b96d0bc602e6203f42991ae0c2f1869f790615163bfd28c9c5aa1c0cb2efbf22270d04ee2d714c9aa1c902da99613f2ef4fce0061246c8942f4b2"' : 'data-bs-target="#xs-injectables-links-module-BotModule-27312940c20b96d0bc602e6203f42991ae0c2f1869f790615163bfd28c9c5aa1c0cb2efbf22270d04ee2d714c9aa1c902da99613f2ef4fce0061246c8942f4b2"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-f7e1f23b9fac3b77172cc86f278c13ce78d2176b7ab98b5eac0e7720a4cb03c3b065b70a0246b26c4ab3ad1bdaaa7d2133f0e3f6db3a6c2b272accc075957e81"' :
-                                        'id="xs-injectables-links-module-BotModule-f7e1f23b9fac3b77172cc86f278c13ce78d2176b7ab98b5eac0e7720a4cb03c3b065b70a0246b26c4ab3ad1bdaaa7d2133f0e3f6db3a6c2b272accc075957e81"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-BotModule-27312940c20b96d0bc602e6203f42991ae0c2f1869f790615163bfd28c9c5aa1c0cb2efbf22270d04ee2d714c9aa1c902da99613f2ef4fce0061246c8942f4b2"' :
+                                        'id="xs-injectables-links-module-BotModule-27312940c20b96d0bc602e6203f42991ae0c2f1869f790615163bfd28c9c5aa1c0cb2efbf22270d04ee2d714c9aa1c902da99613f2ef4fce0061246c8942f4b2"' }>
                                         <li class="link">
                                             <a href="injectables/GuildRestrictedChannelService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >GuildRestrictedChannelService</a>
                                         </li>
@@ -601,6 +601,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/PingCommand.html" data-type="entity-link" >PingCommand</a>
                             </li>
                             <li class="link">
+                                <a href="classes/PurgeCommand.html" data-type="entity-link" >PurgeCommand</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/RestrictedChannelDto.html" data-type="entity-link" >RestrictedChannelDto</a>
                             </li>
                             <li class="link">
@@ -635,6 +638,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/SpecialCommand.html" data-type="entity-link" >SpecialCommand</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TargetUser.html" data-type="entity-link" >TargetUser</a>
                             </li>
                             <li class="link">
                                 <a href="classes/TicketSystemSetupCommand.html" data-type="entity-link" >TicketSystemSetupCommand</a>
