@@ -17,6 +17,7 @@ import { CleanWfpMember } from './commands/clean-wfp.command';
 import { GuildService } from 'src/guild/guild.service';
 import { SpecialCommand } from './commands/special.command';
 import { TicketSystemSetupCommand } from './commands/ticket-system.command';
+import { PurgeCommand } from './commands/purge-user.command';
 
 @Module({
   imports: [DiscordModule.forFeature()],
@@ -36,6 +37,7 @@ import { TicketSystemSetupCommand } from './commands/ticket-system.command';
     SpecialCommand,
     TicketSystemSetupCommand,
     MumVoiceCommandUi,
+    PurgeCommand,
   ],
   exports: [DiscordModule],
 })

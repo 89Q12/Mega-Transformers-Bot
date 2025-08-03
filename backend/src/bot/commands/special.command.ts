@@ -48,10 +48,6 @@ export class SpecialCommand {
   }
 
   templateAnswer(category: string, fromUserId: string, toUserId: string) {
-    console.log(category);
-    console.log(fromUserId);
-    console.log(toUserId);
-
     switch (category) {
       case 'coffee':
         return this.possibleAnswers[0]
