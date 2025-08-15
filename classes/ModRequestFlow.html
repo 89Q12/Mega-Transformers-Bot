@@ -205,7 +205,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -290,7 +290,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -326,8 +326,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="227"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:227</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="228"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:228</a></div>
                         </td>
                     </tr>
 
@@ -407,8 +407,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="201"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:201</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="202"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:202</a></div>
                         </td>
                     </tr>
 
@@ -484,8 +484,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="157"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:157</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:158</a></div>
                         </td>
                     </tr>
 
@@ -561,8 +561,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="192"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:192</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="193"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:193</a></div>
                         </td>
                     </tr>
 
@@ -638,8 +638,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="131"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:131</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:132</a></div>
                         </td>
                     </tr>
 
@@ -715,8 +715,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">src/guild/events/interaction-create/mod-request-menu/index.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -779,6 +779,7 @@ import {
   ModalSubmitInteraction,
   EmbedBuilder,
   userMention,
+  roleMention,
   StringSelectMenuInteraction,
   ModalBuilder,
   ActionRowBuilder,
@@ -895,7 +896,7 @@ export class ModRequestFlow {
         ),
       ],
     });
-    await channel.send(userMention(interaction.user.id));
+    await channel.send(&#x60;${userMention(interaction.user.id)} ${roleMention(&#x27;1405801201316003891&#x27;)}&#x60;);
     await interaction.editReply({
       content: &#x27;Deine Mod Anfrage wurde erfolgreich versendet.&#x27;,
     });
