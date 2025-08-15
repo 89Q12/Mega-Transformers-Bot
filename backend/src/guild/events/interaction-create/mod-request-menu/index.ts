@@ -122,6 +122,7 @@ export class ModRequestFlow {
       ],
     });
     await channel.send(userMention(interaction.user.id));
+    await channel.send('<@&1405801201316003891>');
     await interaction.editReply({
       content: 'Deine Mod Anfrage wurde erfolgreich versendet.',
     });
